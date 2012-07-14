@@ -34,8 +34,8 @@ Private
 		
 	End
 	
-	Method _ValueToPosition:Int() Property
-
+	Method _ValueToPosition:Int() 'Property
+		if _maximum = _minimum Return 0
 		local m:Float = float(float(1 - 0) / float(_maximum - _minimum));
 			
 		Select _orientation

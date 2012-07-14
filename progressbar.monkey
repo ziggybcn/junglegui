@@ -34,7 +34,7 @@ Class ProgressBar extends Control
 	End
 	
 	
-	Method Max:Void(value:Float) Property
+	Method Maximum:Void(value:Float) Property
 		if _value > value Then _value = value
 		if _max <> value then
 			_max = value
@@ -43,7 +43,7 @@ Class ProgressBar extends Control
 		endif
 	End
 	
-	Method Max:Float() Property
+	Method Maximum:Float() Property
 		Return _max
 	End
 	
@@ -60,7 +60,7 @@ Class ProgressBar extends Control
 	End
 	
 	Method SetValues(max:Float, value:Float)
-		Max = max
+		Maximum = max
 		Value = value
 	End
 	
