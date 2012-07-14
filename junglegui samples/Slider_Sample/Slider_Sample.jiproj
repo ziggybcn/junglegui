@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<JiProj xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryPoint=".\slidersample.monkey" Name="Slider_Sample" OriginalLocation="C:\Monkey Compiler\MonkeyPro60\modules\junglegui\junglegui samples\Slider_Sample\">
+  <Files>
+    <Document Filename=".\slidersample.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
+  </Files>
+  <CompilerConfig Configuration="debug" BuildMode="run" Target="html5" />
+</JiProj>

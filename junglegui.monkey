@@ -14,6 +14,7 @@ Import guiinterfaces
 Import label
 Import checkbox
 Import radiobutton
+Import slider
 
 #IF TARGET="html5"
 	Import "resizecanvas/resizecanvas.js"
@@ -22,7 +23,8 @@ Import radiobutton
 #print ""
 #print "           ----------------------------------------------------------------------"
 #print "ATTENTION: This application uses the JungleGui module wich is ©Manel Ibáñez 2012"
-#print "           Unauthorized use is forbiden."
+#print "           Jungle Gui has been released as an open source project."
+#print "           Use at your own risk."
 #print "           ----------------------------------------------------------------------"
 #print ""
 

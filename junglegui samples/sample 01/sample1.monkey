@@ -1,3 +1,13 @@
+'HELLO NEWCOMER
+'READ THIS BEFORE TAKING A LOOK TO THIS SAMPLE:
+'
+'	This is a sort of complex sample we'r using for regular junglegui development.
+'	Refer to other samples for easier getting started.
+'
+'
+
+
+
 'We import the module, otherwise nothing will work:  
 Import junglegui
 'It's important to set a reflection filter to avoid this application getting way too big: (I would love this to be more elegant)
@@ -22,6 +32,7 @@ Class Sample extends App
 		
 		'We create a SampleForm, and we attach it to the gui component:
 		MyForm = New SampleForm
+		Try
 		MyForm.InitForm(gui)
 		For Local i:int = 0 until 3
 			Const Margin:Int = 15
@@ -29,6 +40,10 @@ Class Sample extends App
 			sm.InitForm(gui)
 			sm.Position.X = Margin + i * (sm.Size.X + Margin)
 		Next
+		Catch jge:JungleGuiException
+			Print "Form could not be initialized becouse of an exception:"
+			Print jge.ToString()
+		End try
 		background =  LoadImage("background.jpg")
 	End
 	

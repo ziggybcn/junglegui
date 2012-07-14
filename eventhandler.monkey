@@ -46,7 +46,22 @@ Class EventHandler Final
 	'methodName: This is a string that contains the method name that will be called whenever the event is hanlded. JungleGui will internaly use reflection to convert this to the actual method call.
 	Method Add:Bool(control:Control, signature:Int, methodName:String)
 		Local delegate:=New EventDelegate(_form,control,signature,methodName)
-		if delegate.callBack = null Then Throw New JungleGuiException("Could not generate event with the given signature (methodname = '" + methodName + "'. Maybe the reflection filter is not properly set, or the Method is not properly writted.", _form)
+		if delegate.callBack = null Then
+			Local exceptionText:String =
+				"Could not generate event with the given signature (methodname = '" + methodName + "').~n" +
+				"Maybe the reflection filter is not properly set, or the Method is not properly written."
+			if control.Name <> "" Then
+				exceptionText += "~n~tThe control that caused the exception is named: ~q" + control.Name + "~q"
+			Else
+				exceptionText += "~n~tThe control that caused the exception has no name."
+			EndIf
+			if _form.Name <> "" Then
+				exceptionText += "~n~tThe TopLevelControl that was trying to register the event signature is named: ~q" + _form.Name + "~q"
+			Else
+				exceptionText += "~n~tThe TopLevelControl that was trying to register the event signature has no name."
+			EndIf
+			Throw New JungleGuiException(exceptionText, _form)
+		EndIf
 		list.AddLast(delegate)
 	end
 	

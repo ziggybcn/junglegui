@@ -1,7 +1,7 @@
 'This is a very small minimal sample
 
 Import junglegui
-#REFLECTION_FILTER="sample2*|junglegui*"
+#REFLECTION_FILTER="slidersample*|junglegui*"
 
 Function Main()
 	New Sample2
@@ -46,29 +46,25 @@ Class Sample2 extends App
 	End
 End
 
-
 Class MyForm extends Form
 
-	Field button:Button
+	Field slider:Slider
 
 	Method OnInit()
 		'''
 		''' MyForm
 		'''
 		Events.Add(Self, eEventKinds.MOVED, "MyForm_Moved")
+		Self.Name = "MyForm"
 		
 		'''
 		''' button
 		'''
-		button = New Button
-		button.Position.SetValues(10, 10)
-		button.Text = "Sample button!"
-		button.Parent = Self
-		Self.Events.Add(button, eEventKinds.CLICK, "Button_Clicked")
-	End
-
-	Method Button_Clicked(sender:Control, e:EventArgs)
-		Self.Text = "Button was clicked in millisecond: " + Millisecs()
+		slider = New Slider
+		slider.Position.SetValues(10, 10)
+		slider.Parent = Self
+		slider.Name = "slider"
+		Events.Add(slider, eEventKinds.CLICK, "hello_world")
 	End
 
 	Method MyForm_Moved(sender:Control, e:EventArgs)

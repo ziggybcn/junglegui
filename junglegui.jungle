@@ -3,4 +3,5 @@
   <Project>.\junglegui samples\sample 01\sample1.jiproj</Project>
   <Project>.\junglegui.jiproj</Project>
   <Project>.\junglegui samples\sample02\Sample2.jiproj</Project>
+  <Project>.\junglegui samples\Slider_Sample\Slider_Sample.jiproj</Project>
 </JungleSolution>

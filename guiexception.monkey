@@ -5,7 +5,15 @@ Class JungleGuiException extends Throwable
 		Self.description = description 
 		Self.control= control
 		
-	end 
+	end
+	
+	Method ToString:String()
+		Return Self.description
+	End
+	
+	Method TargetControl:Control()
+		Return control
+	End
 	Private
 	Field description:String
 	Field control:Control
