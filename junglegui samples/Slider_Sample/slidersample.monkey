@@ -93,14 +93,25 @@ Class MyForm extends Form
 	End
 	
 	Method SetSliderValues(slider:Slider, Index:Int, name:String)
-		slider.Position.SetValues(10, 10 + Index * 20)
+		slider.Position.SetValues(70, 10 + Index * 20)
 		slider.Parent = Self
 		slider.Name = name
 		slider.Max = 100
-		slider.Size.SetValues(280, 10)
+		slider.Size.SetValues(230, 10)
 		slider.Max = 255
 		slider.Value = 255
 		Events.Add(slider, eEventKinds.SLIDING_VALUE_CHANGED, "Slider_Value_Changed")
+		Local label:= New Label
+		label.Parent = self
+		label.Text = name
+		label.Position.SetValues(10, 10 + Index * 20)
+		
+		'We align the label:
+		
+		label.Position.Y = slider.Position.Y - (label.Size.Y - slider.Size.Y) / 2
+		
+		'label.Size.Y = 10
+		
 		
 	End
 

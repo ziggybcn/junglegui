@@ -13,7 +13,6 @@ Class Slider extends Control
 		Return _orientation
 	End
 		
-	
 	Method Render:Void()
 		Local renderPos:= CalculateRenderPosition()
 		BackgroundColor.Activate()
@@ -26,14 +25,14 @@ Class Slider extends Control
 		Select _orientation
 			Case eSliderOrientation.HORIZONTAL
 				SystemColors.FocusColor.Activate()
-				Local yPos:Int = pos.Y + Size.Y / 2 - 1
+				Local yPos:Int = pos.Y + Size.Y / 2
 				For Local i:Int = pos.X to pos.X + Size.X step 6
 					DrawPoint(i, yPos)
 				Next
 			Case eSliderOrientation.VERTICAL
 				SystemColors.FocusColor.Activate()
 				'DrawBox(int(pos.X + Size.X / 2 - 1), Int(pos.Y), 1, int(Size.Y))
-				Local xPos:Int = pos.X + Size.X / 2 - 1
+				Local xPos:Int = pos.X + Size.X / 2
 				For Local i:Int = pos.Y to pos.Y + Size.Y step 4
 					DrawPoint(xPos, i)
 				Next
@@ -89,7 +88,6 @@ Class Slider extends Control
 		if _max <> value then
 			_max = value
 			Msg(Self, New EventArgs(eEventKinds.SLIDING_MAXIMUM_CHANGED))
-			_value = value			
 		endif
 	End
 	
@@ -104,8 +102,8 @@ Class Slider extends Control
 	Method Value:Void(value:Int) Property
 		if value > _max Then value = _max
 		if _value <> value then
-			Msg(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED))
 			_value = value
+			Msg(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED))
 		endif
 	End
 	
