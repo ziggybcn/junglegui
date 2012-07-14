@@ -51,7 +51,7 @@ Class MyForm extends Form
 	Field red:Slider
 	Field green:Slider
 	Field blue:Slider
-	
+
 	Field panel:Panel
 	
 	Method OnInit()

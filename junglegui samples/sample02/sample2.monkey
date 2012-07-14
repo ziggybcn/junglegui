@@ -65,11 +65,34 @@ Class MyForm extends Form
 		button.Text = "Sample button!"
 		button.Parent = Self
 		Self.Events.Add(button, eEventKinds.CLICK, "Button_Clicked")
-				
+		
+		'''
+		''' trackbar
+		'''
+		local trackbar:= New TrackBar
+		trackbar.Parent = Self
+		trackbar.Position.SetValues(100, 100)
+		Self.Events.Add(trackbar, eEventKinds.SLIDING_VALUE_CHANGED, "Trackbar1_ValueChanged")
+		
+		trackbar = New TrackBar
+		trackbar.Parent = Self
+		trackbar.Position.SetValues(100, 150)
+		trackbar.Minimum = -100
+		trackbar.Maximum = 200
+		trackbar.Tickfrequency = 10
+		Self.Events.Add(trackbar, eEventKinds.SLIDING_VALUE_CHANGED, "Trackbar2_ValueChanged")
 	End
 
 	Method Button_Clicked(sender:Control, e:EventArgs)
 		Self.Text = "Button was clicked in millisecond: " + Millisecs()
+	End
+	
+	Method Trackbar1_ValueChanged(sender:Control, e:EventArgs)
+		Self.Text = "trackbar1 value changed: " + TrackBar(sender).Value
+	End
+	
+	Method Trackbar2_ValueChanged(sender:Control, e:EventArgs)
+		Self.Text = "trackbar2 value changed: " + TrackBar(sender).Value
 	End
 
 	Method MyForm_Moved(sender:Control, e:EventArgs)
