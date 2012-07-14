@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<JiProj xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryPoint=".\sample1.monkey" Name="sample1" OriginalLocation="F:\MonkeyPro60\modules\junglegui\junglegui samples\sample 01\">
+<JiProj xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryPoint=".\sample1.monkey" Name="sample1" OriginalLocation="C:\Monkey Compiler\MonkeyPro60\modules\junglegui\junglegui samples\sample 01\">
   <Files>
     <Document Filename=".\sample1.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />

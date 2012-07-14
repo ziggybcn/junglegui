@@ -96,9 +96,9 @@ Class MyForm extends Form
 		slider.Position.SetValues(70, 10 + Index * 20)
 		slider.Parent = Self
 		slider.Name = name
-		slider.Max = 100
+		slider.Maximum = 100
 		slider.Size.SetValues(230, 10)
-		slider.Max = 255
+		slider.Maximum = 255
 		slider.Value = 255
 		Events.Add(slider, eEventKinds.SLIDING_VALUE_CHANGED, "Slider_Value_Changed")
 		Local label:= New Label

@@ -57,14 +57,14 @@ Class Slider extends Control
 		Select _orientation
 		
 			Case eSliderOrientation.HORIZONTAL
-				if Max > 0 Then distance = FaderSize + (Size.X - FaderSize * 2) * Value / Max Else distance = FaderSize
+				if Maximum > 0 Then distance = FaderSize + (Size.X - FaderSize * 2) * Value / Maximum Else distance = FaderSize
 				SystemColors.FocusColor.Activate()
 				posX = pos.X + distance
 				posY = pos.Y + Size.Y / 2
 				'DrawCircle(pos.X + distance, pos.Y + Size.Y / 2, FADERSIZE)
 				
 			Case eSliderOrientation.VERTICAL
-				if Max > 0 Then distance = FaderSize + (Size.Y - FaderSize * 2) * Value / Max Else distance = FaderSize
+				if Maximum > 0 Then distance = FaderSize + (Size.Y - FaderSize * 2) * Value / Maximum Else distance = FaderSize
 				posX = pos.X + Size.X / 2
 				posY = pos.Y + distance
 				'DrawCircle(pos.X + Size.X / 2, pos.Y + distance, FADERSIZE)
@@ -82,7 +82,7 @@ Class Slider extends Control
 		endif
 	End
 	
-	Method Max:Void(value:Int) Property
+	Method Maximum:Void(value:Int) Property
 		if _value > value Then _value = value
 		if _max <> value then
 			_max = value
@@ -90,7 +90,7 @@ Class Slider extends Control
 		endif
 	End
 	
-	Method Max:Int() Property
+	Method Maximum:Int() Property
 		Return _max
 	End
 	
@@ -107,7 +107,7 @@ Class Slider extends Control
 	End
 	
 	Method SetValues(max:Int, value:Int)
-		Max = max
+		Maximum = max
 		Value = value
 	End
 		
@@ -148,11 +148,11 @@ Class Slider extends Control
 				Case eSliderOrientation.HORIZONTAL
 					Local newValue:Int = e.position.X - FaderSize
 					if newValue < 0 Then newValue = 0
-					Value = 0.5 + newValue * Max / (Size.X - FaderSize * 2)
+					Value = 0.5 + newValue * Maximum / (Size.X - FaderSize * 2)
 				Case eSliderOrientation.VERTICAL
 					Local newValue:Int = e.position.Y - FaderSize
 					if newValue < 0 Then newValue = 0
-					Value = 0.5 + newValue * Max / (Size.Y - FaderSize * 2)
+					Value = 0.5 + newValue * Maximum / (Size.Y - FaderSize * 2)
 			End
 			if Self.HasFocus = False Then Self.GetFocus()
 		EndIf
