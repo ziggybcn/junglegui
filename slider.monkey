@@ -42,11 +42,10 @@ Class Slider extends Control
 	
 	Method Update()
 		if _sliding Then
-			Local position:= New GuiVector2D
 			Local calculateRenderPos:= self.CalculateRenderPosition
-			position.X = GetGui.MousePos.X - calculateRenderPos.X
-			position.Y = GetGui.MousePos.Y - calculateRenderPos.Y
-			Mouse_Move(New MouseEventArgs(eEventKinds.MOUSE_MOVE, position, 0))
+			_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
+			_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
+			Mouse_Move(New MouseEventArgs(eEventKinds.MOUSE_MOVE, _cachedPosition, 0))
 		EndIf
 		Super.Update()
 	End
@@ -162,6 +161,8 @@ Class Slider extends Control
 	Field _value:Int = 50
 	Field _orientation:Int = eSliderOrientation.HORIZONTAL
 	Field _sliding:Bool = false
+	
+	Global _cachedPosition:= New GuiVector2D
 	'Const FADERSIZE:Int = 6
 	Method GetFaderSize:Float()
 		Select _orientation

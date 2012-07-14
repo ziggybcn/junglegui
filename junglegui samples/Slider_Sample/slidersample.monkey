@@ -112,7 +112,6 @@ Class MyForm extends Form
 		
 		'label.Size.Y = 10
 		
-		
 	End
 
 	Method Slider_Value_Changed(sender:Control, e:EventArgs)
@@ -121,10 +120,13 @@ Class MyForm extends Form
 		Select slider
 			Case red
 				panel.BackgroundColor.r = red.Value
+				red.TipText = "Red has a value of " + red.Value
 			Case green
 				panel.BackgroundColor.g = green.Value
+				green.TipText = "Green has a value of " + green.Value
 			Case blue
 				panel.BackgroundColor.b = blue.Value
+				blue.TipText = "Blue has a value of " + blue.Value
 		End
 	end
 	
