@@ -10,6 +10,7 @@ Class TrackBar extends Control
 Private
 
 	Global _trackBarImage:Image
+	Global _cachedPosition:= New GuiVector2D
 	
 	Const FADER_WIDTH:Int = 10
 	Const FADER_OFFSET:Int = 7
@@ -159,6 +160,7 @@ Private
 					Value = tx * float(_maximum - _minimum) + _minimum
 					
 			End
+			if Self.HasFocus = False Then Self.GetFocus()
 		Else
 			if _MouseOverFader(e.position.X, e.position.Y) Then
 				_frame = 1
@@ -169,6 +171,16 @@ Private
 	End
 	
 Public
+	
+	Method Update()
+		if _down Then
+			Local calculateRenderPos:= self.CalculateRenderPosition
+			_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
+			_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
+			_MouseMove(New MouseEventArgs(eEventKinds.MOUSE_MOVE, _cachedPosition, 0))
+		EndIf
+		Super.Update()
+	End
 	
 	Method Msg:Void(sender:Object, e:EventArgs)
 		Select e.eventSignature
