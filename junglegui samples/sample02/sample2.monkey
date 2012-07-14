@@ -65,6 +65,7 @@ Class MyForm extends Form
 		button.Text = "Sample button!"
 		button.Parent = Self
 		Self.Events.Add(button, eEventKinds.CLICK, "Button_Clicked")
+				
 	End
 
 	Method Button_Clicked(sender:Control, e:EventArgs)

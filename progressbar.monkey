@@ -36,7 +36,11 @@ Class ProgressBar extends Control
 	
 	Method Max:Void(value:Float) Property
 		if _value > value Then _value = value
-		_max = value
+		if _max <> value then
+			_max = value
+			Msg(Self, New EventArgs(eEventKinds.SLIDING_MAXIMUM_CHANGED))
+			_value = value			
+		endif
 	End
 	
 	Method Max:Float() Property
@@ -48,8 +52,11 @@ Class ProgressBar extends Control
 	End
 	
 	Method Value:Void(value:Float) Property
-		if value>_max Then value = _max
-		_value = value
+		if value > _max Then value = _max
+		if _value <> value then
+			Msg(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED))
+			_value = value
+		endif
 	End
 	
 	Method SetValues(max:Float, value:Float)

@@ -1,6 +1,7 @@
 Import junglegui
 Class EventArgs
 	Field eventSignature:Int
+	Field customSignature:Int = 0
 	Method New(signature:Int)
 		eventSignature = signature
 	End
@@ -114,5 +115,10 @@ Class eEventKinds Abstract
 	
 	Const TEXT_CHANGED:Int = 24
 	
+	Const SLIDING_VALUE_CHANGED:Int = 25
+	
+	Const SLIDING_MAXIMUM_CHANGED:Int = 26
+	
+	Const CUSTOM_CREATED_EVENT:Int = 27
 	
 End

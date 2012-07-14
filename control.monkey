@@ -267,6 +267,10 @@ Class Control
 		Return True
 	end
 
+	Method HasFocus:Bool()
+		Return _gui._focusedControl = self
+	End
+	
 	
 	Method Visible:Bool() Property
 		Return _visible

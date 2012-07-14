@@ -48,26 +48,73 @@ End
 
 Class MyForm extends Form
 
-	Field slider:Slider
-
+	Field red:Slider
+	Field green:Slider
+	Field blue:Slider
+	
+	Field panel:Panel
+	
 	Method OnInit()
 		'''
 		''' MyForm
 		'''
-		Events.Add(Self, eEventKinds.MOVED, "MyForm_Moved")
 		Self.Name = "MyForm"
+		Self.Text = "Color Mixer"
+		Self.Size.SetValues(380, 100)
 		
 		'''
-		''' button
+		''' red
 		'''
-		slider = New Slider
-		slider.Position.SetValues(10, 10)
+		red = New Slider
+		SetSliderValues(red, 0, "red")
+		
+		'''
+		''' green
+		'''
+		green = New Slider
+		SetSliderValues(green, 1, "green")
+
+		'''
+		''' blue
+		'''
+		blue = New Slider
+		SetSliderValues(blue, 2, "blue")
+
+		'''
+		''' panel
+		'''
+		panel = New Panel
+		panel.Parent = Self
+		panel.Position.SetValues(310, 10)
+		panel.Size.SetValues(50, 50)
+		panel.BorderColor = SystemColors.FormBorder.Clone()
+		panel.BackgroundColor.SetColor(1, red.Value, green.Value, blue.Value)
+		
+	End
+	
+	Method SetSliderValues(slider:Slider, Index:Int, name:String)
+		slider.Position.SetValues(10, 10 + Index * 20)
 		slider.Parent = Self
-		slider.Name = "slider"
-		Events.Add(slider, eEventKinds.CLICK, "hello_world")
+		slider.Name = name
+		slider.Max = 100
+		slider.Size.SetValues(280, 10)
+		slider.Max = 255
+		slider.Value = 255
+		Events.Add(slider, eEventKinds.SLIDING_VALUE_CHANGED, "Slider_Value_Changed")
+		
 	End
 
-	Method MyForm_Moved(sender:Control, e:EventArgs)
-		Self.Text = "Moved to: " + Self.Position.X + ", " + Self.Position.Y
-	End
+	Method Slider_Value_Changed(sender:Control, e:EventArgs)
+		local slider:= Slider(sender)
+		if slider = null Then Return
+		Select slider
+			Case red
+				panel.BackgroundColor.r = red.Value
+			Case green
+				panel.BackgroundColor.g = green.Value
+			Case blue
+				panel.BackgroundColor.b = blue.Value
+		End
+	end
+	
 End
