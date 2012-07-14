@@ -73,6 +73,9 @@ Class MyForm extends Form
 		trackbar.Parent = Self
 		trackbar.Position.SetValues(100, 100)
 		Self.Events.Add(trackbar, eEventKinds.SLIDING_VALUE_CHANGED, "Trackbar1_ValueChanged")
+		trackbar.Minimum = 0
+		trackbar.Maximum = 10
+		trackbar.Tickfrequency = 1
 		
 		trackbar = New TrackBar
 		trackbar.Parent = Self
@@ -81,6 +84,16 @@ Class MyForm extends Form
 		trackbar.Maximum = 200
 		trackbar.Tickfrequency = 10
 		Self.Events.Add(trackbar, eEventKinds.SLIDING_VALUE_CHANGED, "Trackbar2_ValueChanged")
+		
+		trackbar = New TrackBar
+		trackbar.Parent = Self
+		trackbar.Position.SetValues(10, 50)
+		trackbar.Minimum = -5
+		trackbar.Maximum = 5
+		trackbar.Orientation = eOrientation.VERTICAL
+		trackbar.Size.SetValues(40, 150)
+		trackbar.Tickfrequency = 1
+		
 	End
 
 	Method Button_Clicked(sender:Control, e:EventArgs)
