@@ -56,6 +56,7 @@ Class MyForm extends Form
 		''' MyForm
 		'''
 		'Events.Add(Self, eEventKinds.MOVED, "MyForm_Moved")
+		Self.Event_Moved.Add(Self, "MyForm_Moved")
 		
 		'''
 		''' button
@@ -110,7 +111,7 @@ Class MyForm extends Form
 		Self.Text = "trackbar2 value changed: " + TrackBar(sender).Value
 	End
 
-	Method MyForm_Moved(sender:Control, e:EventArgs)
+	Method MyForm_Moved(sender:Object, e:EventArgs)
 		Self.Text = "Moved to: " + Self.Position.X + ", " + Self.Position.Y
 	End
 End

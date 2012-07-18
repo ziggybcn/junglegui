@@ -1,5 +1,5 @@
 import junglegui
-Class MsgBox
+Class BoxedMsg
 	Method New(sender:Object, e:EventArgs)
 		Self.sender = sender
 		Self.e = e

@@ -45,7 +45,7 @@ Class Padding
 	Private
 	Method ValuesChanged()
 		if _notifyControl <> null then
-			_notifyControl.Msg(New MsgBox(_notifyControl, New EventArgs(eEventKinds.PADDING_MODIFIED)))
+			_notifyControl.Msg(New BoxedMsg(_notifyControl, New EventArgs(eEventKinds.PADDING_MODIFIED)))
 		endif
 	End
 	Field top:int
