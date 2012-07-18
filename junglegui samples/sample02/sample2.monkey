@@ -55,7 +55,7 @@ Class MyForm extends Form
 		'''
 		''' MyForm
 		'''
-		'Events.Add(Self, eEventKinds.MOVED, "MyForm_Moved")
+		'Events.Add(Self, eMsgKinds.MOVED, "MyForm_Moved")
 		Self.Event_Moved.Add(Self, "MyForm_Moved")
 		
 		'''
@@ -74,7 +74,7 @@ Class MyForm extends Form
 		local trackbar:= New TrackBar
 		trackbar.Parent = Self
 		trackbar.Position.SetValues(100, 100)
-		'Self.Events.Add(trackbar, eEventKinds.SLIDING_VALUE_CHANGED, "Trackbar1_ValueChanged")
+		trackbar.Event_ValueChanged.Add(Self, "Trackbar1_ValueChanged")
 		trackbar.Minimum = 0
 		trackbar.Maximum = 10
 		trackbar.Tickfrequency = 1
@@ -85,7 +85,7 @@ Class MyForm extends Form
 		trackbar.Minimum = -100
 		trackbar.Maximum = 200
 		trackbar.Tickfrequency = 10
-		'Self.Events.Add(trackbar, eEventKinds.SLIDING_VALUE_CHANGED, "Trackbar2_ValueChanged")
+		trackbar.Event_ValueChanged.Add(Self, "Trackbar2_ValueChanged")
 		
 		trackbar = New TrackBar
 		trackbar.Parent = Self
@@ -95,7 +95,7 @@ Class MyForm extends Form
 		trackbar.Orientation = eOrientation.VERTICAL
 		trackbar.Size.SetValues(40, 150)
 		trackbar.Tickfrequency = 1
-		'Self.Events.Add(trackbar, eEventKinds.SLIDING_VALUE_CHANGED, "Trackbar2_ValueChanged")
+		'Self.Events.Add(trackbar, eMsgKinds.SLIDING_VALUE_CHANGED, "Trackbar2_ValueChanged")
 	End
 
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
@@ -103,11 +103,11 @@ Class MyForm extends Form
 		button.Event_Click.Remove(Self, "Button_Clicked")
 	End
 	
-	Method Trackbar1_ValueChanged(sender:Control, e:EventArgs)
+	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)
 		Self.Text = "trackbar1 value changed: " + TrackBar(sender).Value
 	End
 	
-	Method Trackbar2_ValueChanged(sender:Control, e:EventArgs)
+	Method Trackbar2_ValueChanged(sender:Object, e:EventArgs)
 		Self.Text = "trackbar2 value changed: " + TrackBar(sender).Value
 	End
 

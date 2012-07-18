@@ -181,7 +181,7 @@ Public
 			Local calculateRenderPos:= self.CalculateRenderPosition
 			_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
 			_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
-			_MouseMove(New MouseEventArgs(eEventKinds.MOUSE_MOVE, _cachedPosition, 0))
+			_MouseMove(New MouseEventArgs(eMsgKinds.MOUSE_MOVE, _cachedPosition, 0))
 		EndIf
 		Super.Update()
 	End
@@ -189,15 +189,15 @@ Public
 	Method Msg(msg:BoxedMsg)
 		Select msg.e.eventSignature
 		
-			Case eEventKinds.MOUSE_DOWN
+			Case eMsgKinds.MOUSE_DOWN
 
 				_MouseDown(MouseEventArgs(msg.e))
 				
-			Case eEventKinds.MOUSE_UP
+			Case eMsgKinds.MOUSE_UP
 			
 				_MouseUp(MouseEventArgs(msg.e))
 				
-			Case eEventKinds.MOUSE_MOVE
+			Case eMsgKinds.MOUSE_MOVE
 			
 				_MouseMove(MouseEventArgs(msg.e))
 				
@@ -252,7 +252,7 @@ Public
 			if value < _minimum Then value = _minimum
 			if value > _maximum Then value = _maximum
 			_value = value
-			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED)))
+			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.SLIDING_VALUE_CHANGED)))
 		End
 	End
 	
@@ -294,8 +294,23 @@ Public
 		_tickFrequency = value 
 	End	
 
+	Method Dispatch(msg:BoxedMsg)
+		Super.Dispatch(msg)
+		Select msg.e.eventSignature
+			Case eMsgKinds.SLIDING_VALUE_CHANGED
+				_sliderValueChanged.RaiseEvent(msg.sender, msg.e)
+			Case eMsgKinds.SLIDING_MAXIMUM_CHANGED
+				_sliderMaximumChanged.RaiseEvent(msg.sender, msg.e)
+		End
+	End
 	
-Private
+	Method Event_ValueChanged:EventHandler<EventArgs>(); Return _sliderValueChanged; End
+	Method Event_MaximumChanged:EventHandler<EventArgs>(); Return _sliderMaximumChanged; End
+	
+	Private
+	
+	Field _sliderValueChanged:= New EventHandler<EventArgs>
+	Field _sliderMaximumChanged:= New EventHandler<EventArgs>
 
 	Field _state:Int = 0
 	Field _value:Int = 0

@@ -45,7 +45,7 @@ Class Slider extends Control
 			Local calculateRenderPos:= self.CalculateRenderPosition
 			_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
 			_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
-			Mouse_Move(New MouseEventArgs(eEventKinds.MOUSE_MOVE, _cachedPosition, 0))
+			Mouse_Move(New MouseEventArgs(eMsgKinds.MOUSE_MOVE, _cachedPosition, 0))
 		EndIf
 		Super.Update()
 	End
@@ -86,7 +86,7 @@ Class Slider extends Control
 		if _value > value Then _value = value
 		if _max <> value then
 			_max = value
-			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.SLIDING_MAXIMUM_CHANGED)))
+			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.SLIDING_MAXIMUM_CHANGED)))
 		endif
 	End
 	
@@ -102,7 +102,7 @@ Class Slider extends Control
 		if value > _max Then value = _max
 		if _value <> value then
 			_value = value
-			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED)))
+			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.SLIDING_VALUE_CHANGED)))
 		endif
 	End
 	
@@ -119,19 +119,34 @@ Class Slider extends Control
 	Method Msg(msg:BoxedMsg)
 		if msg.sender = Self Then
 			Select msg.e.eventSignature
-				Case eEventKinds.MOUSE_DOWN
+				Case eMsgKinds.MOUSE_DOWN
 					Mouse_Down(MouseEventArgs(msg.e))
-				Case eEventKinds.MOUSE_UP
+				Case eMsgKinds.MOUSE_UP
 					Mouse_Up()
-				Case eEventKinds.MOUSE_MOVE
+				Case eMsgKinds.MOUSE_MOVE
 					Mouse_Move(MouseEventArgs(msg.e))
 			End
 		EndIf
 		Super.Msg(msg)
 	End
 	
+	Method Dispatch(msg:BoxedMsg)
+		Super.Dispatch(msg)
+		Select msg.e.eventSignature
+			Case eMsgKinds.SLIDING_VALUE_CHANGED
+				_sliderValueChanged.RaiseEvent(msg.sender, msg.e)
+			Case eMsgKinds.SLIDING_MAXIMUM_CHANGED
+				_sliderMaximumChanged.RaiseEvent(msg.sender, msg.e)
+		End
+	End
+	
+	Method Event_ValueChanged:EventHandler<EventArgs>(); Return _sliderValueChanged; End
+	Method Event_MaximumChanged:EventHandler<EventArgs>(); Return _sliderMaximumChanged; End
 	Private
 	
+	Field _sliderValueChanged:= New EventHandler<EventArgs>
+	Field _sliderMaximumChanged:= New EventHandler<EventArgs>
+
 	Method Mouse_Down(e:MouseEventArgs)
 		_sliding = true
 		Mouse_Move(e)

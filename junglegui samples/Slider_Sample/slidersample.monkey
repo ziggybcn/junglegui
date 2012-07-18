@@ -100,7 +100,8 @@ Class MyForm extends Form
 		slider.Size.SetValues(230, 10)
 		slider.Maximum = 255
 		slider.Value = 255
-		'Events.Add(slider, eEventKinds.SLIDING_VALUE_CHANGED, "Slider_Value_Changed")
+		'Events.Add(slider, eMsgKinds.SLIDING_VALUE_CHANGED, "Slider_Value_Changed")
+		slider.Event_ValueChanged.Add(Self, "Slider_Value_Changed")
 		Local label:= New Label
 		label.Parent = self
 		label.Text = name
@@ -114,7 +115,7 @@ Class MyForm extends Form
 		
 	End
 
-	Method Slider_Value_Changed(sender:Control, e:EventArgs)
+	Method Slider_Value_Changed(sender:Object, e:EventArgs)
 		local slider:= Slider(sender)
 		if slider = null Then Return
 		Select slider

@@ -13,16 +13,17 @@ Class Delegate < T >
 		If Not classInfo Then
 			Throw New JungleGuiException("Event context does not exist.", Control(context))
 		endif
-			
-		Local methodInfo:= classInfo.GetMethod(methodName,[GetClass("Object"), GetClass(new T())])
+		Local newT:= New T
+		Local methodInfo:= classInfo.GetMethod(methodName,[GetClass("Object"), GetClass(newT)])
 		If Not methodInfo Then
 			Local exceptionText:String =
 				"Could not generate delegate with the given signature (methodname = '" + methodName + "').~n" +
 				"Maybe the reflection filter is not properly set, or the Method is not properly written."
 			if Control(context) <> null And Control(context).Name <> "" Then
-				exceptionText += "~n~tThe context control that caused the exception is named: ~q" + control.Name + "~q"
-			Else
-				exceptionText += "~n~tThe control that caused the exception has no name."
+				exceptionText += "~n~tThe context that caused the exception is named: ~q" + Control(context).Name + "~q"
+			EndIf
+			if CallInfo(newT) <> null then
+				exceptionText += "~n~tIMPORTANT:Be sure that the Method associated with this event has the following signature:~n~t" + CallInfo(newT).SignatureDescription()
 			EndIf
 			Throw New JungleGuiException(exceptionText, Control(context))
 		EndIf
@@ -47,6 +48,9 @@ Class EventHandler < T >
 		_events.AddLast(delegate)
 	End
 	
+	Method SignatureDescription:String()
+		Return "MethodName(sender:Object, e:EventArgs)"
+	End
 	
 	Method Remove:Bool(context:Object, methodName:String)
 		Local remover:= New List<Delegate<T>>
@@ -78,4 +82,8 @@ Class EventHandler < T >
 	
 	Private
 	Field _events:= New List<Delegate<T>>
+End
+
+Interface CallInfo
+	Method SignatureDescription:String()
 End

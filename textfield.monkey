@@ -80,7 +80,7 @@ Class TextField extends BaseLabel
 	
 	Method Msg(msg:BoxedMsg)
 		'Print("Got event!")
-		if msg.e.eventSignature = eEventKinds.KEY_PRESS Then
+		if msg.e.eventSignature = eMsgKinds.KEY_PRESS Then
 			'Print "got it!"
 			Local keyevent:= KeyEventArgs(msg.e)
 			if msg.e <> null
@@ -105,7 +105,7 @@ Class TextField extends BaseLabel
 					CaretPos = 0
 				end
 			EndIf
-		ElseIf msg.e.eventSignature = eEventKinds.CLICK
+		ElseIf msg.e.eventSignature = eMsgKinds.CLICK
 			local mouseEvent:= MouseEventArgs(msg.e)
 			if mouseEvent <> null Then _controlClicked(mouseEvent) 
 		endif

@@ -1,5 +1,5 @@
 Import junglegui
-Class EventArgs
+Class EventArgs Implements CallInfo
 	Field eventSignature:Int
 	Field customSignature:Int = 0
 	Method New(signature:Int)
@@ -7,7 +7,7 @@ Class EventArgs
 	End
 	
 	Method GetEventName:String()
-		Local classInfo:= GetClass("junglegui.eventargs.eEventKinds")
+		Local classInfo:= GetClass("junglegui.eventargs.eMsgKinds")
 		if classInfo = null Then Return "unknown class info. Can't get event name."
 		local constInfo:= classInfo.GetConsts(True)
 		For Local CI:ConstInfo = EachIn constInfo
@@ -17,6 +17,11 @@ Class EventArgs
 		next
 		Return "unknown event"
 	End
+
+	Method SignatureDescription:String()
+		Return "MethodName(sender:Object, e:EventArgs)"
+	End
+
 End
 
 Class MouseEventArgs extends EventArgs
@@ -31,6 +36,10 @@ Class MouseEventArgs extends EventArgs
 		Local result:= super.GetEventName() + ", Position  = (" + position.X + ", " + position.Y + "), Clicks: " + clicks
 		Return result
 	End
+	Method SignatureDescription:String()
+		Return "MethodName(sender:Object, e:MouseEventArgs)"
+	End
+	
 End
 
 Class KeyEventArgs extends EventArgs
@@ -42,10 +51,13 @@ Class KeyEventArgs extends EventArgs
 	Method GetEventName:String()
 		Return Super.GetEventName + ", Key code = " + key
 	End
+	Method SignatureDescription:String()
+		Return "MethodName(sender:Object, e:KeyEventArgs)"
+	End
 End
 
 'summary: This class is a enumerator-like class that contains all event kind constants.
-Class eEventKinds Abstract
+Class eMsgKinds Abstract
 
 	'summary: Control Position X and/or Y position values have been changed.
 	Const MOVED:Int = 1
