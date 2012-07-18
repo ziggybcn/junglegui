@@ -140,7 +140,7 @@ Class SampleForm extends Form
 		progBar.Parent = Self
 		progBar.Position.SetValues(10, 50)
 		progBar.Size.SetValues(200, 20)
-		progBar.Max = 100
+		progBar.Maximum = 100
 		progBar.Value = Rnd(0, 100)
 		progBar.Name = "ProgressBar"
 		HCenterControl(progBar)
@@ -218,7 +218,7 @@ Class SampleForm extends Form
 
 	Method Timer_Click(sender:Control, e:EventArgs)
 		Self.progBar.Value += 0.1
-		if progBar.Value >= progBar.Max Then progBar.Value = 0
+		if progBar.Value >= progBar.Maximum Then progBar.Value = 0
 		'Self.Text = "Timer called at time: " + Millisecs() 
 		progBar.TipText = "Current progress is " + Int(progBar.Value) + "%"
 	End

@@ -35,7 +35,7 @@ Private
 		
 	End
 	
-	Method _ValueToPosition:Int() 'Property
+	Method _ValueToPosition:Int()
 		if _maximum = _minimum Return 0
 		local m:Float = float(1.0 / float(_maximum - _minimum));
 			
