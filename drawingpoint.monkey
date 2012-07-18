@@ -50,7 +50,7 @@ Class ControlGuiVector2D extends GuiVector2D
 	Field _eventSignature:Int = eEventKinds.MOVED
 	Method PositionChanged()
 		if _notifyControl <> null then
-			_notifyControl.Msg(_notifyControl, New EventArgs(_eventSignature))
+			_notifyControl.Msg(New MsgBox(_notifyControl, New EventArgs(_eventSignature)))
 		endif
 	End
 End
