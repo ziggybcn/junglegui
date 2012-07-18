@@ -64,7 +64,7 @@ Class CheckBox extends BaseLabel
 		Super.Dispatch(msg)
 	End
 	
-	Method Event_CheckedChanged:EventHandler<EventArgs>(); return _checkedChanged; End
+	Method Event_CheckedChanged:EventHandler<EventArgs>() Property; return _checkedChanged; End
 	
 	Private
 	Field _checkedChanged:= New EventHandler<EventArgs>
