@@ -78,12 +78,12 @@ Class TextField extends BaseLabel
 	End
 
 	
-	Method Msg:Void(sender:Object,e:EventArgs)
+	Method Msg(msg:MsgBox)
 		'Print("Got event!")
-		if e.eventSignature = eEventKinds.KEY_PRESS Then
+		if msg.e.eventSignature = eEventKinds.KEY_PRESS Then
 			'Print "got it!"
-			Local keyevent:=KeyEventArgs(e)
-			if e <> null
+			Local keyevent:= KeyEventArgs(msg.e)
+			if msg.e <> null
 				If Font.GetFaceImage(keyevent.key)<>Null And keyevent.key <>127 then
 					Text = Text[.. _caretPos] + String.FromChar(keyevent.key) + Text[_caretPos..]
 					CaretPos+=1
@@ -105,11 +105,11 @@ Class TextField extends BaseLabel
 					CaretPos = 0
 				end
 			EndIf
-		ElseIf e.eventSignature = eEventKinds.CLICK
-			local mouseEvent:=MouseEventArgs(e)
+		ElseIf msg.e.eventSignature = eEventKinds.CLICK
+			local mouseEvent:= MouseEventArgs(msg.e)
 			if mouseEvent <> null Then _controlClicked(mouseEvent) 
 		endif
-		Super.Msg(sender,e)
+		Super.Msg(msg)
 	End
 	
 	Method SelectionLength:Int() Property

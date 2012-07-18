@@ -16,6 +16,7 @@ Import checkbox
 Import radiobutton
 Import slider
 Import trackbar
+Import msgbox
 
 #IF TARGET="html5"
 	Import "resizecanvas/resizecanvas.js"

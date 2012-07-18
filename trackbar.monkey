@@ -186,23 +186,23 @@ Public
 		Super.Update()
 	End
 	
-	Method Msg:Void(sender:Object, e:EventArgs)
-		Select e.eventSignature
+	Method Msg(msg:MsgBox)
+		Select msg.e.eventSignature
 		
 			Case eEventKinds.MOUSE_DOWN
 
-				_MouseDown(MouseEventArgs(e))
+				_MouseDown(MouseEventArgs(msg.e))
 				
 			Case eEventKinds.MOUSE_UP
 			
-				_MouseUp(MouseEventArgs(e))
+				_MouseUp(MouseEventArgs(msg.e))
 				
 			Case eEventKinds.MOUSE_MOVE
 			
-				_MouseMove(MouseEventArgs(e))
+				_MouseMove(MouseEventArgs(msg.e))
 				
 		End
-		Super.Msg(sender, e)
+		Super.Msg(msg)
 	End
 	
 	'summary: Gets a value indicating the horizontal or vertical orientation of the track bar.
@@ -252,7 +252,7 @@ Public
 			if value < _minimum Then value = _minimum
 			if value > _maximum Then value = _maximum
 			_value = value
-			Msg(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED))
+			Msg(New MsgBox(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED)))
 		End
 	End
 	

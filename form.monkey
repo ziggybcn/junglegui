@@ -70,21 +70,21 @@ Class Form extends TopLevelControl
 		_text = value
 		Return _text
 	End
-	
-	Method Msg:Void(sender:Object, e:EventArgs)
-		if sender = Self Then
-			Select e.eventSignature 
+		
+	Method Msg(msg:MsgBox)
+		if msg.sender = Self Then
+			Select msg.e.eventSignature
 				Case  eEventKinds.INIT_FORM 
 					_InitInternalForm
 				Case eEventKinds.MOUSE_DOWN
-					_CheckMouseDown(sender,e)
+					_CheckMouseDown(msg.sender, msg.e)
 				Case eEventKinds.MOUSE_UP
-					_CheckMouseUp(sender,e)
+					_CheckMouseUp(msg.sender, msg.e)
 				Case eEventKinds.GOT_FOCUS
 					Self.BringToFront()
 			end
 		endif
-		Super.Msg(sender, e)
+		Super.Msg(msg)
 	End
 	
 	Method ControlBox:Bool() Property

@@ -10,7 +10,9 @@ Class BaseLabel extends Control implements TextualItem abstract
 		if _text <> value then
 			_text = value
 			If AutoAdjustSize Then AdjustSize()
-			Msg(Self, eEventKinds.TEXT_CHANGED)
+			'Msg(Self, eEventKinds.TEXT_CHANGED)
+			Local msg:MsgBox = New MsgBox(self, New EventArgs(eEventKinds.TEXT_CHANGED))
+			Msg(msg)
 		endif
 	End
 	

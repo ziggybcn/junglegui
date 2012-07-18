@@ -118,7 +118,7 @@ Class SampleForm extends Form
 		
 		HCenterControl(button)
 		'We add an event handler for the click event of the button:
-		Events.Add(button, eEventKinds.CLICK, "Button_Clicked")
+'		Events.Add(button, eEventKinds.CLICK, "Button_Clicked")
 		'''
 		''' Edit field
 		'''
@@ -153,7 +153,7 @@ Class SampleForm extends Form
 		timer.Interval = Rnd(1, 5)	'The timer will trigger a Click event every "n" frames, so it is SetFrameRate dependant.
 		timer.Name = "timer1"
 
-		Events.Add(timer, eEventKinds.TIMER_TICK, "Timer_Click")
+		'Events.Add(timer, eEventKinds.TIMER_TICK, "Timer_Click")
 
 		''' 
 		''' Label 
@@ -171,17 +171,17 @@ Class SampleForm extends Form
 		''' ButLeft, right and center
 		'''
 		butLeft = New Button(Self, 10 + label.Size.X, 10, "Left", 50, 20)
-		Events.Add(butLeft, eEventKinds.CLICK, "Adjust_Button_Clicked")
+	'	Events.Add(butLeft, eEventKinds.CLICK, "Adjust_Button_Clicked")
 		butLeft.TipText = "Align the button to the left."
 		butLeft.Name = "butLeft"
 		
 		butCenter = New Button(Self, 70 + label.Size.X, 10, "Center", 50, 20)
-		Events.Add(butCenter, eEventKinds.CLICK, "Adjust_Button_Clicked")
+'		Events.Add(butCenter, eEventKinds.CLICK, "Adjust_Button_Clicked")
 		butCenter.TipText = "Align the button to the center.~nAnd make it look standard, any other aligment looks weird on a button.~nThis is a multiline tip. Isn't it cool?"
 		butCenter.Name = "butCenter"
 				 
 		butRight = New Button(Self, 130 + label.Size.X, 10, "Right", 50, 20)
-		Events.Add(butRight, eEventKinds.CLICK, "Adjust_Button_Clicked")
+'		Events.Add(butRight, eEventKinds.CLICK, "Adjust_Button_Clicked")
 		butRight.TipText = "This button does an obvious thing."
 		butRight.Name = "butRight"
 		
@@ -234,11 +234,7 @@ Class SampleForm extends Form
 		End
 	End
 	
-	Method Msg:Void(sender:Object, e:EventArgs)
-		Super.Msg(sender, e)
-		if Control(sender) = null Then return
-		if sender <> timer and e.eventSignature <> eEventKinds.MOUSE_MOVE then Print Control(sender).Name + " --> " + e.GetEventName
-	End
+
 End
 
 Function HCenterControl(control:Control)

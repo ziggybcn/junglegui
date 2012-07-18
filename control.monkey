@@ -96,21 +96,14 @@ Class Control
 		SetColor(color[0],color[1],color[2])
 	End
 	
-	'This is the internal low-level event message pool. this method should not be overriden unless you know what you're doing.
-	Method Msg:Void(sender:Object, e:EventArgs)
-		Local targetControl := self
-		if targetControl._parentControl<> null Then
-			_parentControl.Msg(sender,e)		
-		endif
-'		While targetControl._parentControl <> null
-'			targetControl = targetControl._parentControl
-'		Wend
-'		if targetControl.IsTopLevelControl Then
-'			Local topLevel:TopLevelControl = TopLevelControl(targetControl)
-'			topLevel.EventRaised(sender,e)
-'		EndIf
+	Method Msg(msg:MsgBox)
+		if Self._parentControl <> null Then
+			_parentControl.Msg(msg)
+		EndIf
+		if msg.sender = Self And msg.status = eMsgBoxStatus.Sent Then
+			Dispatch(msg)
+		EndIf
 	End
-	
 	'This returns the Gui component where this control is running.
 	Method GetGui:Gui()
 		Return _gui
@@ -138,12 +131,14 @@ Class Control
 		if _parentControl = parentControl Then return
 		if _parentControl <>null Then
 			_parentControl.controls.Remove(Self)
-			Msg(Self,New EventArgs(eEventKinds.PARENT_REMOVED))
+			'Msg(Self,New EventArgs(eEventKinds.PARENT_REMOVED))
+			Msg(New MsgBox(Self, New EventArgs(eEventKinds.PARENT_REMOVED)))
 		EndIf
 		if parentControl <> null then 
 			_parentControl = parentControl
 			parentControl.controls.AddLast(Self)
-			Msg(Self,New EventArgs(eEventKinds.PARENT_SET))
+			'Msg(Self,New EventArgs(eEventKinds.PARENT_SET))
+			Msg(New MsgBox(Self, New EventArgs(eEventKinds.PARENT_SET)))
 			_gui = parentControl._gui
 		Else
 			_gui = null
@@ -156,7 +151,7 @@ Class Control
 		if _parentControl = null Then Return
 		_parentControl.controls.Remove(Self)
 		_parentControl.controls.AddLast(Self)
-		Msg(Self, New EventArgs(eEventKinds.BRING_TO_FRONT ))
+		Msg(New MsgBox(Self, New EventArgs(eEventKinds.BRING_TO_FRONT)))
 	End
 	
 	'summary: send a control to the back of the Z-Order
@@ -164,7 +159,7 @@ Class Control
 		if _parentControl = null Then Return
 		_parentControl.controls.Remove(Self)
 		_parentControl.controls.AddFirst(Self)
-		Msg(Self, New EventArgs(eEventKinds.SEND_TO_BACK ))
+		Msg(New MsgBox(Self, New EventArgs(eEventKinds.SEND_TO_BACK)))
 	End
 	
 	'summary: Clear all resources used by the control and its child controls. This is automatically called by the Gui system when the control needs to "die".
@@ -206,10 +201,10 @@ Class Control
 	'summary:This method will give this control the focus.
 	Method GetFocus()
 		if _gui._focusedControl <> null Then
-			_gui._focusedControl.Msg(_gui._focusedControl,New EventArgs(eEventKinds.LOST_FOCUS))
+			_gui._focusedControl.Msg(New MsgBox(_gui._focusedControl, New EventArgs(eEventKinds.LOST_FOCUS)))
 		EndIf
 		_gui._focusedControl = self
-		Msg(Self,New EventArgs(eEventKinds.GOT_FOCUS))
+		Msg(New MsgBox(Self, New EventArgs(eEventKinds.GOT_FOCUS)))
 	End
 	
 	'summary:This method will give the focus to the next control that can take it.
@@ -279,7 +274,7 @@ Class Control
 	Method Visible:Void(value:Bool) Property
 		if value<> _visible then
 			_visible = value
-			Msg(Self,eEventKinds.VISIBLE_CHANGED)
+			Msg(New MsgBox(Self, eEventKinds.VISIBLE_CHANGED))
 		endif
 	End
 
@@ -291,7 +286,47 @@ Class Control
 		Return _tipText
 	End
 	
+	Method EventClick:EventHandler<MouseEventArgs>()
+		Return _eventClick
+	End
+	
+		'summary: Low level method that deals with event signatures. This method is part of the core functionality of the control.
+	Method Dispatch(msg:MsgBox)
+		Select msg.e.eventSignature
+			Case eEventKinds.BRING_TO_FRONT
+			Case eEventKinds.CHECKED_CHANGED
+			Case eEventKinds.CLICK
+				_eventClick.RaiseEvent(Self, MouseEventArgs(msg.e))
+			Case eEventKinds.CUSTOM_CREATED_EVENT
+			Case eEventKinds.GOT_FOCUS
+			Case eEventKinds.INIT_FORM
+			Case eEventKinds.KEY_DOWN
+			Case eEventKinds.KEY_DOWN
+			Case eEventKinds.KEY_PRESS
+			Case eEventKinds.KEY_UP
+			Case eEventKinds.LOST_FOCUS
+			Case eEventKinds.MOUSE_DOWN
+			Case eEventKinds.MOUSE_ENTER
+			Case eEventKinds.MOUSE_LEAVE
+			Case eEventKinds.MOUSE_MOVE
+			Case eEventKinds.MOUSE_UP
+			Case eEventKinds.MOVED
+			Case eEventKinds.PADDING_MODIFIED
+			Case eEventKinds.PARENT_REMOVED
+			Case eEventKinds.PARENT_RESIZED
+			Case eEventKinds.PARENT_SET
+			Case eEventKinds.RESIZED
+			Case eEventKinds.SEND_TO_BACK
+			Case eEventKinds.SLIDING_MAXIMUM_CHANGED
+			Case eEventKinds.SLIDING_VALUE_CHANGED
+			Case eEventKinds.TEXT_CHANGED
+			Case eEventKinds.TIMER_TICK
+			Case eEventKinds.VISIBLE_CHANGED
+		End
+	End
+
 	Private
+	Field _eventClick:= New EventHandler<MouseEventArgs>
 	Field _tipText:String
 	Field _visible:Bool = true
 	Method _FocusChecks()
@@ -379,13 +414,16 @@ Class ContainerControl extends Control
 		Super.Dispose()
 	End
 	
-	Method Msg:Void(sender:Object, e:EventArgs)
-		if e.eventSignature = eEventKinds.RESIZED Then
+
+	Method Msg(msg:MsgBox)
+		if msg.e.eventSignature = eEventKinds.RESIZED Then
 			For local control:Control = EachIn Self.controls
-				control.Msg(control, New EventArgs(eEventKinds.PARENT_RESIZED))
+				Local resizeMsg:= New MsgBox(control, eEventKinds.PARENT_RESIZED)
+				control.Msg(resizeMsg)
 			Next
 		EndIf
-		Super.Msg(sender, e)
+		Super.Msg(msg)
+		
 	End
 	
 	Method Render:Void()
@@ -488,18 +526,12 @@ End
 'summary: This is the TopLevelControl class, that extends the ControlConainer class. This class represents the base of any Form control.
 Class TopLevelControl extends ContainerControl
  
-	'summary: This is the EventHandler of this Top Level Control.
-	Method Events:EventHandler()
-		Return _eventHandler
-	End
-
 	'summary: This method inits the Top Level Control internals. This method has to be called BEFORE the form is used to actually do anything, including attaching controls to it, etc.
 	'Be sure to call it whenever a TopLevelControl has to be used. 
 	'This initialization will also cause a call to the OnInit method of the given TopLevelControl
 	Method InitForm(gui:Gui)
 		SetGui(gui)
-		InitEventHandler()
-		Msg(Self, New EventArgs(eEventKinds.INIT_FORM))
+		Msg(New MsgBox(Self, New EventArgs(eEventKinds.INIT_FORM)))
 	End
 	
 	'summary: This method will be called whenever a TopLevelControl has been properly init and we can start attaching controls to it and sending ang getting events.
@@ -507,27 +539,16 @@ Class TopLevelControl extends ContainerControl
 		
 	End
 	
-	Method Msg:Void(sender:Object,e:EventArgs)
-		Select e.eventSignature
-			Case eEventKinds.INIT_FORM 
+	Method Msg(msg:MsgBox)
+		Select msg.e.eventSignature
+			Case eEventKinds.INIT_FORM
 				OnInit()
 			Case eEventKinds.GOT_FOCUS, eEventKinds.MOUSE_DOWN, eEventKinds.KEY_PRESS
 				if _gui._components.Last() <> Self then BringToFront()
-		End select
-		Self.EventRaised(sender, e)
+			End
+		Super.Msg(msg)
 	End
-	'summary: This method deals with all internal event handling.  
-	Method EventRaised(sender:Object, e:EventArgs) Final
-		if _eventHandler = null Then Return
-		Local control:= Control(sender)
-		if control = null Then return
-		Local events:List<EventDelegate> = _eventHandler.FindAll(control, e.eventSignature)
-		if events.IsEmpty = False Then
-			For Local delegate:EventDelegate = EachIn events
-				delegate.Invoke(Self, control, e)
-			Next
-		EndIf
-	end
+	
 	
 	'summary: This method returns TRUE if the control is a top level control (a window).
 	Method IsTopLevelControl:Bool()
@@ -535,7 +556,6 @@ Class TopLevelControl extends ContainerControl
 	end
 	Method Dispose()
 		_gui._components.Remove(Self)
-		_eventHandler.Clear()
 		Super.Dispose()
 	End
 	
@@ -556,29 +576,15 @@ Class TopLevelControl extends ContainerControl
 		'Print "Called!"
 		_gui._components.Remove(Self)
 		_gui._components.AddLast(Self)
-		Msg(Self, New EventArgs(eEventKinds.BRING_TO_FRONT))
+		Msg(New MsgBox(Self, New EventArgs(eEventKinds.BRING_TO_FRONT)))
 	End
 
 	'summary: This method will send this Top Level Control to the bottom of the rendering z-order.
 	Method SendToBack()
 		_gui._components.Remove(Self)
 		_gui._components.AddFirst(Self)
-		Msg(Self, New EventArgs(eEventKinds.SEND_TO_BACK))
-	End
-	
-	'summary: This method handles all required updating of the contained controls.
-	Method Update() 
-		if _eventHandler = null Then
-			InitEventHandler
-		end
-		
-		Super.Update()
-	End
-	Private
-	Field _eventHandler:EventHandler
-	Method InitEventHandler()
-		_eventHandler = New EventHandler(Self)
-	end
+		Msg(New MsgBox(Self, New EventArgs(eEventKinds.SEND_TO_BACK)))
+	End	
 End
 
 'summary: This is the main Gui element.
@@ -646,7 +652,7 @@ Class Gui
 			c._FocusChecks()	'update control under mouse.
 			c.Update()
 			if sendParentResize Then
-				c.Msg(c, New EventArgs(eEventKinds.PARENT_RESIZED))
+				c.Msg(New MsgBox(c, New EventArgs(eEventKinds.PARENT_RESIZED)))
 			EndIf
 		Next
 		Local oldControl:= _mousePointerControl
@@ -655,8 +661,8 @@ Class Gui
 		_mousePointerControl = _mouseControl 
 		_mouseControl = null
 		if oldControl  <> newControl  Then
-			if oldControl <> null Then oldControl.Msg(oldControl,New EventArgs(eEventKinds.MOUSE_LEAVE))
-			if newControl <> null Then newControl.Msg(newControl, New EventArgs(eEventKinds.MOUSE_ENTER))
+			if oldControl <> null Then oldControl.Msg(New MsgBox(oldControl, New EventArgs(eEventKinds.MOUSE_LEAVE)))
+			if newControl <> null Then newControl.Msg(New MsgBox(newControl, New EventArgs(eEventKinds.MOUSE_ENTER)))
 			mouseMoved = true
 		end
 		
@@ -665,7 +671,7 @@ Class Gui
 			cords.X = _mousePos.X - cords.X
 			cords.Y = _mousePos.Y - cords.Y
 			Local eArgs:=New MouseEventArgs(eEventKinds.MOUSE_MOVE,cords,0)
-			_mousePointerControl.Msg(_mousePointerControl, eArgs)
+			_mousePointerControl.Msg(New MsgBox(_mousePointerControl, eArgs))
 		EndIf
 		
 		if oldMouseDown = False And _mouseDown = True Then
@@ -674,7 +680,7 @@ Class Gui
 				'local pos:=New GuiVector2D
 				Local controlPos:= newControl.CalculateRenderPosition()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
-				newControl.Msg(newControl, New MouseEventArgs(eEventKinds.MOUSE_DOWN,controlPos,1))
+				newControl.Msg(New MsgBox(newControl, New MouseEventArgs(eEventKinds.MOUSE_DOWN, controlPos, 1)))
 				_DownControl = newControl
 			EndIf
 		ElseIf oldMouseDown = True And _mouseDown = False Then
@@ -682,13 +688,13 @@ Class Gui
 			if _DownControl <> null Then
 				Local controlPos:= _DownControl.CalculateRenderPosition()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
-				_DownControl.Msg(_DownControl, New MouseEventArgs(eEventKinds.MOUSE_UP,controlPos,1))
+				_DownControl.Msg(New MsgBox(_DownControl, New MouseEventArgs(eEventKinds.MOUSE_UP, controlPos, 1)))
 			EndIf
 			if _DownControl = newControl And _DownControl <> null Then
 				local pos:GuiVector2D
 				pos= newControl.CalculateRenderPosition()
 				pos.SetValues(_mousePos.X-pos.X,_mousePos.Y-pos.Y)
-				newControl.Msg(newControl, New MouseEventArgs(eEventKinds.CLICK,pos,1))
+				newControl.Msg(New MsgBox(newControl, New MouseEventArgs(eEventKinds.CLICK, pos, 1)))
 				newControl.GetFocus()
 			EndIf
 		EndIf
@@ -699,9 +705,9 @@ Class Gui
 			if doCheck Then
 				if keys[i] = True And _oldKeys[i] = false Then
 					'KeyDown!
-					_focusedControl.Msg(_focusedControl,New KeyEventArgs(eEventKinds.KEY_DOWN,i))
+					_focusedControl.Msg(New MsgBox(_focusedControl, New KeyEventArgs(eEventKinds.KEY_DOWN, i)))
 				ElseIf keys[i] = False And _oldKeys[i] = True Then
-					_focusedControl.Msg(_focusedControl,New KeyEventArgs(eEventKinds.KEY_UP,i))
+					_focusedControl.Msg(New MsgBox(_focusedControl, New KeyEventArgs(eEventKinds.KEY_UP, i)))
 					'_focusedControl.Msg(_focusedControl,New KeyEventArgs(eEventKinds.KEY_PRESS,i))
 					'KeyUp and KeyPress
 				EndIf
@@ -709,7 +715,7 @@ Class Gui
 		Next
 		local char:Int = GetChar()
 		if char<>0 and _focusedControl <> null Then
-			_focusedControl.Msg(_focusedControl,New KeyEventArgs(eEventKinds.KEY_PRESS,char))
+			_focusedControl.Msg(New MsgBox(_focusedControl, New KeyEventArgs(eEventKinds.KEY_PRESS, char)))
 		EndIf
 		if char = 9 and _focusedControl<>null Then 	'MODIFY_TAB!!!
 			'Do focus chanche here!

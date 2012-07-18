@@ -4,7 +4,7 @@ Class Timer extends Control
 	Method Update()
 		_count+=1
 		if _count>= _interval Then
-			Msg(Self,New EventArgs(eEventKinds.TIMER_TICK))
+			Msg(New MsgBox(Self, New EventArgs(eEventKinds.TIMER_TICK)))
 			_count = 0 
 		EndIf
 		Super.Update()
