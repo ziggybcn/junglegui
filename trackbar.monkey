@@ -304,8 +304,8 @@ Public
 		End
 	End
 	
-	Method Event_ValueChanged:EventHandler<EventArgs>(); Return _sliderValueChanged; End
-	Method Event_MaximumChanged:EventHandler<EventArgs>(); Return _sliderMaximumChanged; End
+	Method Event_ValueChanged:EventHandler<EventArgs>() Property; Return _sliderValueChanged; End
+	Method Event_MaximumChanged:EventHandler<EventArgs>() Property; Return _sliderMaximumChanged; End
 	
 	Private
 	

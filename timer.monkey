@@ -18,7 +18,7 @@ Class Timer extends Control
 		End
 	End
 	
-	Method Event_TimerTick:EventHandler<EventArgs>(); Return _timerTick; End
+	Method Event_TimerTick:EventHandler<EventArgs>() Property; Return _timerTick; End
 	
 	Method Render:void()
 

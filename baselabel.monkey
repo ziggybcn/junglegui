@@ -74,7 +74,7 @@ Class BaseLabel extends Control implements TextualItem abstract
 			_textModified.RaiseEvent(msg.sender, msg.e)
 		End
 	End
-	
+	Method Event_TextModified:EventHandler<EventArgs>() Property; Return _textModified; End
 	Private
 	Field _textModified:= New EventHandler<EventArgs>
 	Field _text:String

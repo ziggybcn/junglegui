@@ -355,29 +355,27 @@ Class Control
 				_visibleChanged.RaiseEvent(msg.sender, msg.e)
 		End
 	End
-	Method Event_Click:EventHandler<MouseEventArgs>()
-		Return _eventClick
-	End
-	Method Event_BringToFront:EventHandler<EventArgs>(); Return _bringToFront; end
-	Method Event_GotFocus:EventHandler<EventArgs>(); Return _gotFocus; End
-	Method Event_KeyDown:EventHandler<KeyEventArgs>(); Return _keyDown; End
-	Method Event_KeyPress:EventHandler<KeyEventArgs>(); Return _keyPress; End
-	Method Event_KeyUp:EventHandler<KeyEventArgs>(); Return _keyUp; End
-	Method Event_LostFocus:EventHandler<EventArgs>(); Return _lostFocus; end
+	Method Event_Click:EventHandler<MouseEventArgs>() Property; Return _eventClick; End
+	Method Event_BringToFront:EventHandler<EventArgs>() Property; Return _bringToFront; end
+	Method Event_GotFocus:EventHandler<EventArgs>() Property; Return _gotFocus; End
+	Method Event_KeyDown:EventHandler<KeyEventArgs>() Property; Return _keyDown; End
+	Method Event_KeyPress:EventHandler<KeyEventArgs>() Property; Return _keyPress; End
+	Method Event_KeyUp:EventHandler<KeyEventArgs>() Property; Return _keyUp; End
+	Method Event_LostFocus:EventHandler<EventArgs>() Property; Return _lostFocus; end
 
-	Method Event_MouseDown:EventHandler<MouseEventArgs>(); Return _mouseDown; end
-	Method Event_MouseMove:EventHandler<MouseEventArgs>(); Return _mouseMove; end
-	Method Event_MouseUp:EventHandler<MouseEventArgs>(); Return _mouseUp; end
-	Method Event_MouseEnter:EventHandler<EventArgs>(); Return _mouseEnter; end
-	Method Event_MouseLeave:EventHandler<EventArgs>(); Return _mouseLeave; end
-	Method Event_Moved:EventHandler<EventArgs>(); Return _moved; end
-	Method Event_PaddingModified:EventHandler<EventArgs>(); Return _paddingModified; end
-	Method Event_ParentRemoved:EventHandler<EventArgs>(); Return _parentRemoved; end
-	Method Event_ParentResized:EventHandler<EventArgs>(); Return _parentResized; end
-	Method Event_ParentSet:EventHandler<EventArgs>(); Return _parentSet; end
-	Method Event_SendToBack:EventHandler<EventArgs>(); Return _sendToBack; end
-	Method Event_VisibleChanged:EventHandler<EventArgs>(); Return _visibleChanged; end
-	Method Event_Resized:EventHandler<EventArgs>(); Return _resized; end
+	Method Event_MouseDown:EventHandler<MouseEventArgs>() Property; Return _mouseDown; end
+	Method Event_MouseMove:EventHandler<MouseEventArgs>() Property; Return _mouseMove; end
+	Method Event_MouseUp:EventHandler<MouseEventArgs>() Property; Return _mouseUp; end
+	Method Event_MouseEnter:EventHandler<EventArgs>() Property; Return _mouseEnter; end
+	Method Event_MouseLeave:EventHandler<EventArgs>() Property; Return _mouseLeave; end
+	Method Event_Moved:EventHandler<EventArgs>() Property; Return _moved; end
+	Method Event_PaddingModified:EventHandler<EventArgs>() Property; Return _paddingModified; end
+	Method Event_ParentRemoved:EventHandler<EventArgs>() Property; Return _parentRemoved; end
+	Method Event_ParentResized:EventHandler<EventArgs>() Property; Return _parentResized; end
+	Method Event_ParentSet:EventHandler<EventArgs>() Property; Return _parentSet; end
+	Method Event_SendToBack:EventHandler<EventArgs>() Property; Return _sendToBack; end
+	Method Event_VisibleChanged:EventHandler<EventArgs>() Property; Return _visibleChanged; end
+	Method Event_Resized:EventHandler<EventArgs>() Property; Return _resized; end
 	
 	Private
 
@@ -669,7 +667,7 @@ Class TopLevelControl extends ContainerControl
 				_initForm.RaiseEvent(msg.sender, msg.e)
 		End
 	End
-	Method Event_InitForm:EventHandler<EventArgs>(); Return _initForm; End
+	Method Event_InitForm:EventHandler<EventArgs>() Property; Return _initForm; End
 	
 Private
 	Field _initForm:= New EventHandler<EventArgs>
