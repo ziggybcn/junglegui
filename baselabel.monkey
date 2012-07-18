@@ -67,9 +67,16 @@ Class BaseLabel extends Control implements TextualItem abstract
 		Return value
 	End
 	
-	
+	Method Dispatch(msg:MsgBox)
+		Super.Dispatch(msg)
+		Select msg.e.eventSignature
+			Case eEventKinds.TEXT_CHANGED
+			_textModified.RaiseEvent(msg.sender, msg.e)
+		End
+	End
 	
 	Private
+	Field _textModified:= New EventHandler<EventArgs>
 	Field _text:String
 	Field _font:BitmapFont 
 	Field _autoAdjust:Bool = true

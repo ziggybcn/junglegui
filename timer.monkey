@@ -10,6 +10,16 @@ Class Timer extends Control
 		Super.Update()
 	End
 	
+	Method Dispatch(msg:MsgBox)
+		Super.Dispatch(msg)
+		Select msg.e.eventSignature
+			Case eEventKinds.TIMER_TICK
+			_timerTick.RaiseEvent(msg.sender, msg.e)
+		End
+	End
+	
+	Method Event_TimerTick:EventHandler<EventArgs>(); Return _timerTick; End
+	
 	Method Render:void()
 
 	End
@@ -33,6 +43,7 @@ Class Timer extends Control
 		Position.SetValues(64000,64000)
 	End
 	Private
+	Field _timerTick:= New EventHandler<EventArgs>
 	Field _count:Int = 0
 	Field _interval:Int = 100
 End

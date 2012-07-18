@@ -65,7 +65,7 @@ Class MyForm extends Form
 		button.Text = "Sample button!"
 		button.Parent = Self
 
-		button.EventClick.Add(Self, "Button_Clicked")
+		button.Event_Click.Add(Self, "Button_Clicked")
 		
 		'''
 		''' trackbar
@@ -93,13 +93,13 @@ Class MyForm extends Form
 		trackbar.Maximum = 5
 		trackbar.Orientation = eOrientation.VERTICAL
 		trackbar.Size.SetValues(40, 150)
-		'trackbar.Tickfrequency = 1
+		trackbar.Tickfrequency = 1
 		'Self.Events.Add(trackbar, eEventKinds.SLIDING_VALUE_CHANGED, "Trackbar2_ValueChanged")
 	End
 
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.Text = "Button was clicked in millisecond: " + Millisecs()
-		button.EventClick.Remove(Self, "Button_Clicked")
+		button.Event_Click.Remove(Self, "Button_Clicked")
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Control, e:EventArgs)

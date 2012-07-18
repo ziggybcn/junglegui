@@ -56,7 +56,19 @@ Class CheckBox extends BaseLabel
 		endif
 	End
 	
+	Method Dispatch(msg:MsgBox)
+		Select msg.e.eventSignature
+			Case eEventKinds.CHECKED_CHANGED
+				_checkedChanged.RaiseEvent(msg.sender, msg.e)
+		End
+		Super.Dispatch(msg)
+	End
+	
+	Method Event_CheckedChanged:EventHandler<EventArgs>(); return _checkedChanged; End
+	
 	Private
+	Field _checkedChanged:EventHandler<EventArgs>
+	
 	Field _checked:Bool = False
 	Field _transparent:Bool = true
 	Const BoxSize:Int = 16
