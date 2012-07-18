@@ -286,47 +286,123 @@ Class Control
 		Return _tipText
 	End
 	
-	Method EventClick:EventHandler<MouseEventArgs>()
-		Return _eventClick
-	End
 	
 		'summary: Low level method that deals with event signatures. This method is part of the core functionality of the control.
 	Method Dispatch(msg:MsgBox)
 		Select msg.e.eventSignature
 			Case eEventKinds.BRING_TO_FRONT
-			Case eEventKinds.CHECKED_CHANGED
+				_bringToFront.RaiseEvent(msg.sender, msg.e)
+
+				
+			Case eEventKinds.CHECKED_CHANGED	'Set on the checkbox control
+
+			
 			Case eEventKinds.CLICK
 				_eventClick.RaiseEvent(Self, MouseEventArgs(msg.e))
 			Case eEventKinds.CUSTOM_CREATED_EVENT
+				'Nothing to do at control level.
 			Case eEventKinds.GOT_FOCUS
-			Case eEventKinds.INIT_FORM
+				_gotFocus.RaiseEvent(Self, msg.e)
+
+				
+			Case eEventKinds.INIT_FORM		'Set on TopLevel control
+
+			
 			Case eEventKinds.KEY_DOWN
-			Case eEventKinds.KEY_DOWN
+				_keyDown.RaiseEvent(msg.sender, KeyEventArgs(msg.e))
 			Case eEventKinds.KEY_PRESS
+				_keyPress.RaiseEvent(msg.sender, KeyEventArgs(msg.e))
 			Case eEventKinds.KEY_UP
+				_keyUp.RaiseEvent(msg.sender, KeyEventArgs(msg.e))
 			Case eEventKinds.LOST_FOCUS
+				_lostFocus.RaiseEvent(msg.sender, msg.e)
 			Case eEventKinds.MOUSE_DOWN
-			Case eEventKinds.MOUSE_ENTER
-			Case eEventKinds.MOUSE_LEAVE
+				_mouseDown.RaiseEvent(msg.sender, MouseEventArgs(msg.e))
 			Case eEventKinds.MOUSE_MOVE
+				_mouseMove.RaiseEvent(msg.sender, MouseEventArgs(msg.e))
 			Case eEventKinds.MOUSE_UP
+				_mouseUp.RaiseEvent(msg.sender, MouseEventArgs(msg.e))
+			Case eEventKinds.MOUSE_ENTER
+				_mouseEnter.RaiseEvent(msg.sender, msg.e)
+			Case eEventKinds.MOUSE_LEAVE
+				_mouseLeave.RaiseEvent(msg.sender, msg.e)
 			Case eEventKinds.MOVED
+				_moved.RaiseEvent(msg.sender, msg.e)
 			Case eEventKinds.PADDING_MODIFIED
+				_paddingModified.RaiseEvent(msg.sender, msg.e)
 			Case eEventKinds.PARENT_REMOVED
+				_parentRemoved.RaiseEvent(msg.sender, msg.e)
 			Case eEventKinds.PARENT_RESIZED
+				_parentResized.RaiseEvent(msg.sender, msg.e)
 			Case eEventKinds.PARENT_SET
+				_parentSet.RaiseEvent(msg.sender, msg.e)
 			Case eEventKinds.RESIZED
+				_resized.RaiseEvent(msg.sender, msg.e)
 			Case eEventKinds.SEND_TO_BACK
-			Case eEventKinds.SLIDING_MAXIMUM_CHANGED
+				_sendToBack.RaiseEvent(msg.sender, msg.e)
+				
+			
+			Case eEventKinds.SLIDING_MAXIMUM_CHANGED	'PENDING: Has to be set on all slider controls
+			
 			Case eEventKinds.SLIDING_VALUE_CHANGED
-			Case eEventKinds.TEXT_CHANGED
-			Case eEventKinds.TIMER_TICK
+			
+			Case eEventKinds.TEXT_CHANGED	'Set on baselabel control
+
+			Case eEventKinds.TIMER_TICK	'Set on timer
+			
+			
 			Case eEventKinds.VISIBLE_CHANGED
+				_visibleChanged.RaiseEvent(msg.sender, msg.e)
 		End
 	End
+	Method Event_Click:EventHandler<MouseEventArgs>()
+		Return _eventClick
+	End
+	Method Event_BringToFront:EventHandler<EventArgs>(); Return _bringToFront; end
+	Method Event_GotFocus:EventHandler<EventArgs>(); Return _gotFocus; End
+	Method Event_KeyDown:EventHandler<KeyEventArgs>(); Return _keyDown; End
+	Method Event_KeyPress:EventHandler<KeyEventArgs>(); Return _keyPress; End
+	Method Event_KeyUp:EventHandler<KeyEventArgs>(); Return _keyUp; End
+	Method Event_LostFocus:EventHandler<EventArgs>(); Return _lostFocus; end
 
+	Method Event_MouseDown:EventHandler<MouseEventArgs>(); Return _mouseDown; end
+	Method Event_MouseMove:EventHandler<MouseEventArgs>(); Return _mouseMove; end
+	Method Event_MouseUp:EventHandler<MouseEventArgs>(); Return _mouseUp; end
+	Method Event_MouseEnter:EventHandler<EventArgs>(); Return _mouseEnter; end
+	Method Event_MouseLeave:EventHandler<EventArgs>(); Return _mouseLeave; end
+	Method Event_Moved:EventHandler<EventArgs>(); Return _moved; end
+	Method Event_PaddingModified:EventHandler<EventArgs>(); Return _paddingModified; end
+	Method Event_ParentRemoved:EventHandler<EventArgs>(); Return _parentRemoved; end
+	Method Event_ParentResized:EventHandler<EventArgs>(); Return _parentResized; end
+	Method Event_ParentSet:EventHandler<EventArgs>(); Return _parentSet; end
+	Method Event_SendToBack:EventHandler<EventArgs>(); Return _sendToBack; end
+	Method Event_VisibleChanged:EventHandler<EventArgs>(); Return _visibleChanged; end
+	Method Event_Resized:EventHandler<EventArgs>(); Return _resized; end
+	
 	Private
+
+	'INTERNAL EVENT HANDLERS:
 	Field _eventClick:= New EventHandler<MouseEventArgs>
+	Field _bringToFront:= New EventHandler<EventArgs>
+	Field _gotFocus:= New EventHandler<EventArgs>
+	Field _keyDown:= New EventHandler<KeyEventArgs>
+	Field _keyPress:= New EventHandler<KeyEventArgs>
+	Field _keyUp:= New EventHandler<KeyEventArgs>
+	Field _lostFocus:= New EventHandler<EventArgs>
+	Field _mouseDown:= New EventHandler<MouseEventArgs>
+	Field _mouseMove:= New EventHandler<MouseEventArgs>
+	Field _mouseUp:= New EventHandler<MouseEventArgs>
+	Field _mouseEnter:= New EventHandler<EventArgs>
+	Field _mouseLeave:= New EventHandler<EventArgs>
+	Field _moved:= New EventHandler<EventArgs>
+	Field _paddingModified:= New EventHandler<EventArgs>
+	Field _parentRemoved:= New EventHandler<EventArgs>
+	Field _parentResized:= New EventHandler<EventArgs>
+	Field _parentSet:= New EventHandler<EventArgs>
+	Field _sendToBack:= New EventHandler<EventArgs>
+	Field _visibleChanged:= New EventHandler<EventArgs>
+	Field _resized:= New EventHandler<EventArgs>
+	'OTHER PRIVATES:	
 	Field _tipText:String
 	Field _visible:Bool = true
 	Method _FocusChecks()
@@ -584,7 +660,19 @@ Class TopLevelControl extends ContainerControl
 		_gui._components.Remove(Self)
 		_gui._components.AddFirst(Self)
 		Msg(New MsgBox(Self, New EventArgs(eEventKinds.SEND_TO_BACK)))
-	End	
+	End
+	
+	Method Dispatch(msg:MsgBox)
+		Super.Dispatch(msg)
+		Select msg.e.eventSignature
+			Case eEventKinds.INIT_FORM
+				_initForm.RaiseEvent(msg.sender, msg.e)
+		End
+	End
+	Method Event_InitForm:EventHandler<EventArgs>(); Return _initForm; End
+	
+Private
+	Field _initForm:= New EventHandler<EventArgs>
 End
 
 'summary: This is the main Gui element.
