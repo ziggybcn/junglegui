@@ -96,7 +96,7 @@ Class Control
 		SetColor(color[0],color[1],color[2])
 	End
 	
-	Method Msg(msg:MsgBox)
+	Method Msg(msg:BoxedMsg)
 		if Self._parentControl <> null Then
 			_parentControl.Msg(msg)
 		EndIf
@@ -132,13 +132,13 @@ Class Control
 		if _parentControl <>null Then
 			_parentControl.controls.Remove(Self)
 			'Msg(Self,New EventArgs(eEventKinds.PARENT_REMOVED))
-			Msg(New MsgBox(Self, New EventArgs(eEventKinds.PARENT_REMOVED)))
+			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.PARENT_REMOVED)))
 		EndIf
 		if parentControl <> null then 
 			_parentControl = parentControl
 			parentControl.controls.AddLast(Self)
 			'Msg(Self,New EventArgs(eEventKinds.PARENT_SET))
-			Msg(New MsgBox(Self, New EventArgs(eEventKinds.PARENT_SET)))
+			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.PARENT_SET)))
 			_gui = parentControl._gui
 		Else
 			_gui = null
@@ -151,7 +151,7 @@ Class Control
 		if _parentControl = null Then Return
 		_parentControl.controls.Remove(Self)
 		_parentControl.controls.AddLast(Self)
-		Msg(New MsgBox(Self, New EventArgs(eEventKinds.BRING_TO_FRONT)))
+		Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.BRING_TO_FRONT)))
 	End
 	
 	'summary: send a control to the back of the Z-Order
@@ -159,7 +159,7 @@ Class Control
 		if _parentControl = null Then Return
 		_parentControl.controls.Remove(Self)
 		_parentControl.controls.AddFirst(Self)
-		Msg(New MsgBox(Self, New EventArgs(eEventKinds.SEND_TO_BACK)))
+		Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.SEND_TO_BACK)))
 	End
 	
 	'summary: Clear all resources used by the control and its child controls. This is automatically called by the Gui system when the control needs to "die".
@@ -201,10 +201,10 @@ Class Control
 	'summary:This method will give this control the focus.
 	Method GetFocus()
 		if _gui._focusedControl <> null Then
-			_gui._focusedControl.Msg(New MsgBox(_gui._focusedControl, New EventArgs(eEventKinds.LOST_FOCUS)))
+			_gui._focusedControl.Msg(New BoxedMsg(_gui._focusedControl, New EventArgs(eEventKinds.LOST_FOCUS)))
 		EndIf
 		_gui._focusedControl = self
-		Msg(New MsgBox(Self, New EventArgs(eEventKinds.GOT_FOCUS)))
+		Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.GOT_FOCUS)))
 	End
 	
 	'summary:This method will give the focus to the next control that can take it.
@@ -274,7 +274,7 @@ Class Control
 	Method Visible:Void(value:Bool) Property
 		if value<> _visible then
 			_visible = value
-			Msg(New MsgBox(Self, eEventKinds.VISIBLE_CHANGED))
+			Msg(New BoxedMsg(Self, eEventKinds.VISIBLE_CHANGED))
 		endif
 	End
 
@@ -288,7 +288,7 @@ Class Control
 	
 	
 		'summary: Low level method that deals with event signatures. This method is part of the core functionality of the control.
-	Method Dispatch(msg:MsgBox)
+	Method Dispatch(msg:BoxedMsg)
 		Select msg.e.eventSignature
 			Case eEventKinds.BRING_TO_FRONT
 				_bringToFront.RaiseEvent(msg.sender, msg.e)
@@ -491,10 +491,10 @@ Class ContainerControl extends Control
 	End
 	
 
-	Method Msg(msg:MsgBox)
+	Method Msg(msg:BoxedMsg)
 		if msg.e.eventSignature = eEventKinds.RESIZED Then
 			For local control:Control = EachIn Self.controls
-				Local resizeMsg:= New MsgBox(control, eEventKinds.PARENT_RESIZED)
+				Local resizeMsg:= New BoxedMsg(control, eEventKinds.PARENT_RESIZED)
 				control.Msg(resizeMsg)
 			Next
 		EndIf
@@ -607,7 +607,7 @@ Class TopLevelControl extends ContainerControl
 	'This initialization will also cause a call to the OnInit method of the given TopLevelControl
 	Method InitForm(gui:Gui)
 		SetGui(gui)
-		Msg(New MsgBox(Self, New EventArgs(eEventKinds.INIT_FORM)))
+		Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.INIT_FORM)))
 	End
 	
 	'summary: This method will be called whenever a TopLevelControl has been properly init and we can start attaching controls to it and sending ang getting events.
@@ -615,7 +615,7 @@ Class TopLevelControl extends ContainerControl
 		
 	End
 	
-	Method Msg(msg:MsgBox)
+	Method Msg(msg:BoxedMsg)
 		Select msg.e.eventSignature
 			Case eEventKinds.INIT_FORM
 				OnInit()
@@ -652,17 +652,17 @@ Class TopLevelControl extends ContainerControl
 		'Print "Called!"
 		_gui._components.Remove(Self)
 		_gui._components.AddLast(Self)
-		Msg(New MsgBox(Self, New EventArgs(eEventKinds.BRING_TO_FRONT)))
+		Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.BRING_TO_FRONT)))
 	End
 
 	'summary: This method will send this Top Level Control to the bottom of the rendering z-order.
 	Method SendToBack()
 		_gui._components.Remove(Self)
 		_gui._components.AddFirst(Self)
-		Msg(New MsgBox(Self, New EventArgs(eEventKinds.SEND_TO_BACK)))
+		Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.SEND_TO_BACK)))
 	End
 	
-	Method Dispatch(msg:MsgBox)
+	Method Dispatch(msg:BoxedMsg)
 		Super.Dispatch(msg)
 		Select msg.e.eventSignature
 			Case eEventKinds.INIT_FORM
@@ -740,7 +740,7 @@ Class Gui
 			c._FocusChecks()	'update control under mouse.
 			c.Update()
 			if sendParentResize Then
-				c.Msg(New MsgBox(c, New EventArgs(eEventKinds.PARENT_RESIZED)))
+				c.Msg(New BoxedMsg(c, New EventArgs(eEventKinds.PARENT_RESIZED)))
 			EndIf
 		Next
 		Local oldControl:= _mousePointerControl
@@ -749,8 +749,8 @@ Class Gui
 		_mousePointerControl = _mouseControl 
 		_mouseControl = null
 		if oldControl  <> newControl  Then
-			if oldControl <> null Then oldControl.Msg(New MsgBox(oldControl, New EventArgs(eEventKinds.MOUSE_LEAVE)))
-			if newControl <> null Then newControl.Msg(New MsgBox(newControl, New EventArgs(eEventKinds.MOUSE_ENTER)))
+			if oldControl <> null Then oldControl.Msg(New BoxedMsg(oldControl, New EventArgs(eEventKinds.MOUSE_LEAVE)))
+			if newControl <> null Then newControl.Msg(New BoxedMsg(newControl, New EventArgs(eEventKinds.MOUSE_ENTER)))
 			mouseMoved = true
 		end
 		
@@ -759,7 +759,7 @@ Class Gui
 			cords.X = _mousePos.X - cords.X
 			cords.Y = _mousePos.Y - cords.Y
 			Local eArgs:=New MouseEventArgs(eEventKinds.MOUSE_MOVE,cords,0)
-			_mousePointerControl.Msg(New MsgBox(_mousePointerControl, eArgs))
+			_mousePointerControl.Msg(New BoxedMsg(_mousePointerControl, eArgs))
 		EndIf
 		
 		if oldMouseDown = False And _mouseDown = True Then
@@ -768,7 +768,7 @@ Class Gui
 				'local pos:=New GuiVector2D
 				Local controlPos:= newControl.CalculateRenderPosition()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
-				newControl.Msg(New MsgBox(newControl, New MouseEventArgs(eEventKinds.MOUSE_DOWN, controlPos, 1)))
+				newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eEventKinds.MOUSE_DOWN, controlPos, 1)))
 				_DownControl = newControl
 			EndIf
 		ElseIf oldMouseDown = True And _mouseDown = False Then
@@ -776,13 +776,13 @@ Class Gui
 			if _DownControl <> null Then
 				Local controlPos:= _DownControl.CalculateRenderPosition()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
-				_DownControl.Msg(New MsgBox(_DownControl, New MouseEventArgs(eEventKinds.MOUSE_UP, controlPos, 1)))
+				_DownControl.Msg(New BoxedMsg(_DownControl, New MouseEventArgs(eEventKinds.MOUSE_UP, controlPos, 1)))
 			EndIf
 			if _DownControl = newControl And _DownControl <> null Then
 				local pos:GuiVector2D
 				pos= newControl.CalculateRenderPosition()
 				pos.SetValues(_mousePos.X-pos.X,_mousePos.Y-pos.Y)
-				newControl.Msg(New MsgBox(newControl, New MouseEventArgs(eEventKinds.CLICK, pos, 1)))
+				newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eEventKinds.CLICK, pos, 1)))
 				newControl.GetFocus()
 			EndIf
 		EndIf
@@ -793,9 +793,9 @@ Class Gui
 			if doCheck Then
 				if keys[i] = True And _oldKeys[i] = false Then
 					'KeyDown!
-					_focusedControl.Msg(New MsgBox(_focusedControl, New KeyEventArgs(eEventKinds.KEY_DOWN, i)))
+					_focusedControl.Msg(New BoxedMsg(_focusedControl, New KeyEventArgs(eEventKinds.KEY_DOWN, i)))
 				ElseIf keys[i] = False And _oldKeys[i] = True Then
-					_focusedControl.Msg(New MsgBox(_focusedControl, New KeyEventArgs(eEventKinds.KEY_UP, i)))
+					_focusedControl.Msg(New BoxedMsg(_focusedControl, New KeyEventArgs(eEventKinds.KEY_UP, i)))
 					'_focusedControl.Msg(_focusedControl,New KeyEventArgs(eEventKinds.KEY_PRESS,i))
 					'KeyUp and KeyPress
 				EndIf
@@ -803,7 +803,7 @@ Class Gui
 		Next
 		local char:Int = GetChar()
 		if char<>0 and _focusedControl <> null Then
-			_focusedControl.Msg(New MsgBox(_focusedControl, New KeyEventArgs(eEventKinds.KEY_PRESS, char)))
+			_focusedControl.Msg(New BoxedMsg(_focusedControl, New KeyEventArgs(eEventKinds.KEY_PRESS, char)))
 		EndIf
 		if char = 9 and _focusedControl<>null Then 	'MODIFY_TAB!!!
 			'Do focus chanche here!

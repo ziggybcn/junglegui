@@ -71,7 +71,7 @@ Class Form extends TopLevelControl
 		Return _text
 	End
 		
-	Method Msg(msg:MsgBox)
+	Method Msg(msg:BoxedMsg)
 		if msg.sender = Self Then
 			Select msg.e.eventSignature
 				Case  eEventKinds.INIT_FORM 

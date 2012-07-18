@@ -78,7 +78,7 @@ Class TextField extends BaseLabel
 	End
 
 	
-	Method Msg(msg:MsgBox)
+	Method Msg(msg:BoxedMsg)
 		'Print("Got event!")
 		if msg.e.eventSignature = eEventKinds.KEY_PRESS Then
 			'Print "got it!"

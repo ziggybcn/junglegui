@@ -4,13 +4,13 @@ Class Timer extends Control
 	Method Update()
 		_count+=1
 		if _count>= _interval Then
-			Msg(New MsgBox(Self, New EventArgs(eEventKinds.TIMER_TICK)))
+			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.TIMER_TICK)))
 			_count = 0 
 		EndIf
 		Super.Update()
 	End
 	
-	Method Dispatch(msg:MsgBox)
+	Method Dispatch(msg:BoxedMsg)
 		Super.Dispatch(msg)
 		Select msg.e.eventSignature
 			Case eEventKinds.TIMER_TICK

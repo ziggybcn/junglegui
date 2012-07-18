@@ -86,7 +86,7 @@ Class Slider extends Control
 		if _value > value Then _value = value
 		if _max <> value then
 			_max = value
-			Msg(New MsgBox(Self, New EventArgs(eEventKinds.SLIDING_MAXIMUM_CHANGED)))
+			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.SLIDING_MAXIMUM_CHANGED)))
 		endif
 	End
 	
@@ -102,7 +102,7 @@ Class Slider extends Control
 		if value > _max Then value = _max
 		if _value <> value then
 			_value = value
-			Msg(New MsgBox(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED)))
+			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED)))
 		endif
 	End
 	
@@ -116,7 +116,7 @@ Class Slider extends Control
 		BackgroundColor = SystemColors.WindowColor.Clone()
 	End
 	
-	Method Msg(msg:MsgBox)
+	Method Msg(msg:BoxedMsg)
 		if msg.sender = Self Then
 			Select msg.e.eventSignature
 				Case eEventKinds.MOUSE_DOWN

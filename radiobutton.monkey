@@ -14,7 +14,7 @@ Class RadioButton extends CheckBox
 		EndIf
 		Super.Checked(value)
 	End
-	Method Msg(msg:MsgBox)
+	Method Msg(msg:BoxedMsg)
 		if msg.sender = Self And msg.e.eventSignature = eEventKinds.CLICK And Checked = false Then Checked = true
 		Super.Msg(msg)
 	End

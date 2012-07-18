@@ -186,7 +186,7 @@ Public
 		Super.Update()
 	End
 	
-	Method Msg(msg:MsgBox)
+	Method Msg(msg:BoxedMsg)
 		Select msg.e.eventSignature
 		
 			Case eEventKinds.MOUSE_DOWN
@@ -252,7 +252,7 @@ Public
 			if value < _minimum Then value = _minimum
 			if value > _maximum Then value = _maximum
 			_value = value
-			Msg(New MsgBox(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED)))
+			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED)))
 		End
 	End
 	
