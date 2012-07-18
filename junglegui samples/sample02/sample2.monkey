@@ -92,8 +92,8 @@ Class MyForm extends Form
 		trackbar.Maximum = 5
 		trackbar.Orientation = eOrientation.VERTICAL
 		trackbar.Size.SetValues(40, 150)
-		trackbar.Tickfrequency = 1
-		
+		'trackbar.Tickfrequency = 1
+		Self.Events.Add(trackbar, eEventKinds.SLIDING_VALUE_CHANGED, "Trackbar2_ValueChanged")
 	End
 
 	Method Button_Clicked(sender:Control, e:EventArgs)
