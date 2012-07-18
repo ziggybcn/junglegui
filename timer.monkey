@@ -4,7 +4,7 @@ Class Timer extends Control
 	Method Update()
 		_count+=1
 		if _count>= _interval Then
-			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.TIMER_TICK)))
+			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.TIMER_TICK)))
 			_count = 0 
 		EndIf
 		Super.Update()
@@ -13,7 +13,7 @@ Class Timer extends Control
 	Method Dispatch(msg:BoxedMsg)
 		Super.Dispatch(msg)
 		Select msg.e.eventSignature
-			Case eEventKinds.TIMER_TICK
+			Case eMsgKinds.TIMER_TICK
 			_timerTick.RaiseEvent(msg.sender, msg.e)
 		End
 	End

@@ -52,13 +52,13 @@ Class CheckBox extends BaseLabel
 	Method Checked:Void(value:Bool) Property
 		if _checked <> value then
 			_checked = value
-			Msg(New BoxedMsg(Self, eEventKinds.CHECKED_CHANGED))
+			Msg(New BoxedMsg(Self, eMsgKinds.CHECKED_CHANGED))
 		endif
 	End
 	
 	Method Dispatch(msg:BoxedMsg)
 		Select msg.e.eventSignature
-			Case eEventKinds.CHECKED_CHANGED
+			Case eMsgKinds.CHECKED_CHANGED
 				_checkedChanged.RaiseEvent(msg.sender, msg.e)
 		End
 		Super.Dispatch(msg)
@@ -67,7 +67,7 @@ Class CheckBox extends BaseLabel
 	Method Event_CheckedChanged:EventHandler<EventArgs>(); return _checkedChanged; End
 	
 	Private
-	Field _checkedChanged:EventHandler<EventArgs>
+	Field _checkedChanged:= New EventHandler<EventArgs>
 	
 	Field _checked:Bool = False
 	Field _transparent:Bool = true

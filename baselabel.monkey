@@ -10,8 +10,8 @@ Class BaseLabel extends Control implements TextualItem abstract
 		if _text <> value then
 			_text = value
 			If AutoAdjustSize Then AdjustSize()
-			'Msg(Self, eEventKinds.TEXT_CHANGED)
-			Local msg:BoxedMsg = New BoxedMsg(self, New EventArgs(eEventKinds.TEXT_CHANGED))
+			'Msg(Self, eMsgKinds.TEXT_CHANGED)
+			Local msg:BoxedMsg = New BoxedMsg(self, New EventArgs(eMsgKinds.TEXT_CHANGED))
 			Msg(msg)
 		endif
 	End
@@ -70,7 +70,7 @@ Class BaseLabel extends Control implements TextualItem abstract
 	Method Dispatch(msg:BoxedMsg)
 		Super.Dispatch(msg)
 		Select msg.e.eventSignature
-			Case eEventKinds.TEXT_CHANGED
+			Case eMsgKinds.TEXT_CHANGED
 			_textModified.RaiseEvent(msg.sender, msg.e)
 		End
 	End

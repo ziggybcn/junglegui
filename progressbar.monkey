@@ -38,7 +38,7 @@ Class ProgressBar extends Control
 		if _value > value Then _value = value
 		if _max <> value then
 			_max = value
-			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.SLIDING_MAXIMUM_CHANGED)))
+			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.SLIDING_MAXIMUM_CHANGED)))
 			_value = value			
 		endif
 	End
@@ -54,7 +54,7 @@ Class ProgressBar extends Control
 	Method Value:Void(value:Float) Property
 		if value > _max Then value = _max
 		if _value <> value then
-			Msg(New BoxedMsg(Self, New EventArgs(eEventKinds.SLIDING_VALUE_CHANGED)))
+			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.SLIDING_VALUE_CHANGED)))
 			_value = value
 		endif
 	End

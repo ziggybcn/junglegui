@@ -23,7 +23,6 @@ Class Sample extends App
 	Field background:Image
 	Field MyForm:SampleForm
 	Method OnCreate()
-		'ResizeCanvasFull()
 		SetUpdateRate(60)
 	
 		'We create a gui, wich is the component that handles all the gui:
@@ -118,7 +117,9 @@ Class SampleForm extends Form
 		
 		HCenterControl(button)
 		'We add an event handler for the click event of the button:
-'		Events.Add(button, eEventKinds.CLICK, "Button_Clicked")
+		'DebugStop()
+		button.Event_Click.Add(Self, "Button_Clicked")
+		
 		'''
 		''' Edit field
 		'''
@@ -152,8 +153,8 @@ Class SampleForm extends Form
 		timer.Parent = Self
 		timer.Interval = Rnd(1, 5)	'The timer will trigger a Click event every "n" frames, so it is SetFrameRate dependant.
 		timer.Name = "timer1"
-
-		'Events.Add(timer, eEventKinds.TIMER_TICK, "Timer_Click")
+		timer.Event_TimerTick.Add(Self, "Timer_Click")
+		
 
 		''' 
 		''' Label 
@@ -165,23 +166,22 @@ Class SampleForm extends Form
 		label.Size.Y = 25
 		label.TipText = "This is a label."
 		label.Name = "label1"
-		'Events.Add(label, eEventKinds.CLICK, "Label_Clicked")
 
 		'''
 		''' ButLeft, right and center
 		'''
 		butLeft = New Button(Self, 10 + label.Size.X, 10, "Left", 50, 20)
-	'	Events.Add(butLeft, eEventKinds.CLICK, "Adjust_Button_Clicked")
+		butLeft.Event_Click.Add(Self, "Adjust_Button_Clicked")
 		butLeft.TipText = "Align the button to the left."
 		butLeft.Name = "butLeft"
 		
 		butCenter = New Button(Self, 70 + label.Size.X, 10, "Center", 50, 20)
-'		Events.Add(butCenter, eEventKinds.CLICK, "Adjust_Button_Clicked")
+		butCenter.Event_Click.Add(Self, "Adjust_Button_Clicked")
 		butCenter.TipText = "Align the button to the center.~nAnd make it look standard, any other aligment looks weird on a button.~nThis is a multiline tip. Isn't it cool?"
 		butCenter.Name = "butCenter"
 				 
 		butRight = New Button(Self, 130 + label.Size.X, 10, "Right", 50, 20)
-'		Events.Add(butRight, eEventKinds.CLICK, "Adjust_Button_Clicked")
+		butRight.Event_Click.Add(Self, "Adjust_Button_Clicked")
 		butRight.TipText = "This button does an obvious thing."
 		butRight.Name = "butRight"
 		
@@ -212,18 +212,18 @@ Class SampleForm extends Form
 		
 	End
 	
-	Method Button_Clicked(sender:Control, e:EventArgs)
+	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.BackgroundColor = New GuiColor(255, Rnd(200, 255), Rnd(200, 255), Rnd(200, 255))
 	End
 
-	Method Timer_Click(sender:Control, e:EventArgs)
+	Method Timer_Click(sender:Object, e:EventArgs)
 		Self.progBar.Value += 0.1
 		if progBar.Value >= progBar.Maximum Then progBar.Value = 0
 		'Self.Text = "Timer called at time: " + Millisecs() 
 		progBar.TipText = "Current progress is " + Int(progBar.Value) + "%"
 	End
 		
-	Method Adjust_Button_Clicked(sender:Control, e:EventArgs)
+	Method Adjust_Button_Clicked(sender:Object, e:MouseEventArgs)
 		Select sender
 			Case butLeft
 				button.TextAlign = eTextAlign.LEFT
@@ -234,7 +234,6 @@ Class SampleForm extends Form
 		End
 	End
 	
-
 End
 
 Function HCenterControl(control:Control)

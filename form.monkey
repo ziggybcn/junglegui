@@ -74,13 +74,13 @@ Class Form extends TopLevelControl
 	Method Msg(msg:BoxedMsg)
 		if msg.sender = Self Then
 			Select msg.e.eventSignature
-				Case  eEventKinds.INIT_FORM 
+				Case  eMsgKinds.INIT_FORM 
 					_InitInternalForm
-				Case eEventKinds.MOUSE_DOWN
+				Case eMsgKinds.MOUSE_DOWN
 					_CheckMouseDown(msg.sender, msg.e)
-				Case eEventKinds.MOUSE_UP
+				Case eMsgKinds.MOUSE_UP
 					_CheckMouseUp(msg.sender, msg.e)
-				Case eEventKinds.GOT_FOCUS
+				Case eMsgKinds.GOT_FOCUS
 					Self.BringToFront()
 			end
 		endif
