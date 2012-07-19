@@ -1,25 +1,25 @@
 Import junglegui
 Class GuiVector2D
 	'summary: X coordinate
-	Method X:Float() property
+	Method X:Int() property
 		Return _x
 	End
-	Method X:Void(value:Float) Property
+	Method X:Void(value:Int) Property
 		_x = value
 		PositionChanged()
 	End
 	
 	'summary: Y coordinate
-	Method Y:Float() property
+	Method Y:Int() property
 		Return _y
 	End
-	Method Y:Void(value:Float) Property
+	Method Y:Void(value:Int) Property
 		_y = value
 		PositionChanged()
 	End
 	
 	
-	Method SetValues:Void(x:Float, y:Float)
+	Method SetValues:Void(x:Int, y:Int)
 		_x = x
 		_y = y
 		PositionChanged()
@@ -32,7 +32,7 @@ Class GuiVector2D
 	End
 
 	Private
-	Field _x:Float, _y:Float
+	Field _x:Int, _y:Int
 
 	Method PositionChanged()
 		'Do nothing on the non event driven class.

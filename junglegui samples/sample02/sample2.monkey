@@ -23,13 +23,13 @@ Class Sample2 extends App
 			Print "Form could not be initialized becouse of an exception:"
 			Print jge.ToString()
 		End
-		
-		For Local i:Int = 0 to 20
-			Local mf:= New MyForm
-			mf.InitForm(gui)
-			mf.Position.SetValues(Int(Rnd(0, DeviceWidth - mf.Size.X)), Int(Rnd(0, DeviceHeight - mf.Size.Y)))
-		Next
-		
+	
+'		For Local i:Int = 0 to 20
+'			Local mf:= New MyForm
+'			mf.InitForm(gui)
+'			mf.Position.SetValues(int(Rnd(0, DeviceWidth - mf.Size.X)), Int(Rnd(0, DeviceHeight - mf.Size.Y)))
+'		Next
+			
 	End
 	
 	Method OnUpdate()
