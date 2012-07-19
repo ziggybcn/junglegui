@@ -299,8 +299,7 @@ Class Control
 			
 			Case eMsgKinds.CLICK
 				_eventClick.RaiseEvent(Self, MouseEventArgs(msg.e))
-			Case eMsgKinds.CUSTOM_CREATED_EVENT
-				'Nothing to do at control level.
+
 			Case eMsgKinds.GOT_FOCUS
 				_gotFocus.RaiseEvent(Self, msg.e)
 
@@ -430,7 +429,8 @@ Class Control
 		endif
 		
 		if Self.IsContainer then
-			Local container:=ContainerControl(Self)
+			Local container:= ContainerControl(Self)
+			viewPort = New ViewPort
 			viewPort.SetValuesFromControl(container,container.Padding)
 			viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 			_gui.viewPortStack.Stack.AddLast(viewPort)
@@ -524,10 +524,11 @@ Class ContainerControl extends Control
 		_gui.viewPortStack.Stack.AddLast(viewPort)
 		RenderBackground()
 
-		
+		viewPort = New ViewPort
 		viewPort.SetValuesFromControl(Self,Padding)
 		viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 		_gui.viewPortStack.Stack.AddLast(viewPort)
+		SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 				
 		RenderChildren()
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el post-padding
