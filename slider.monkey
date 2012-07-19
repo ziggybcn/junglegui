@@ -24,16 +24,20 @@ Class Slider extends Control
 	Method RenderLine:Void(pos:GuiVector2D)
 		Select _orientation
 			Case eSliderOrientation.HORIZONTAL
+				Local init:Int = pos.X
+				if Self.HasFocus Then init = pos.X + ( (Millisecs() / 120) mod 6)
 				SystemColors.FocusColor.Activate()
 				Local yPos:Int = pos.Y + Size.Y / 2
-				For Local i:Int = pos.X to pos.X + Size.X step 6
+				For Local i:Int = init to pos.X + Size.X step 6
 					DrawPoint(Int(i), Int(yPos))
 				Next
 			Case eSliderOrientation.VERTICAL
+				Local init:Int = pos.X
+				if Self.HasFocus Then init = pos.Y + ( (Millisecs() / 120) mod 6)
 				SystemColors.FocusColor.Activate()
 				'DrawBox(int(pos.X + Size.X / 2 - 1), Int(pos.Y), 1, int(Size.Y))
 				Local xPos:Int = pos.X + Size.X / 2
-				For Local i:Int = pos.Y to pos.Y + Size.Y step 4
+				For Local i:Int = init to pos.Y + Size.Y step 4
 					DrawPoint(Int(xPos), Int(i))
 				Next
 				

@@ -26,7 +26,7 @@ Class ProgressBar extends Control
 		SystemColors.InactiveFormBorder.Activate()
 		DrawBox(drawpos,Size)
 		
-		if GetGui.ActiveControl = Self Then DrawFocusRect(Self,False)
+		if HasFocus Then DrawFocusRect(Self, False)
 		if GetGui.GetMousePointedControl = Self Then
 			SystemColors.FocusColor.Activate()
 			DrawBox(drawpos,Size)

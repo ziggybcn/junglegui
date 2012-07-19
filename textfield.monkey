@@ -29,14 +29,14 @@ Class TextField extends BaseLabel
 		Local Position:= CalculateRenderPosition
 		Self.BackgroundColor.Activate()
 		DrawRect(Position.X, Position.Y, Size.X, Size.Y)
-		if GetGui.GetMousePointedControl = self and GetGui.ActiveControl <> self then
+		if GetGui.GetMousePointedControl = self and HasFocus = False Then
 			SystemColors.FocusColor.Activate()
 		Else
 			Self.BorderColor.Activate
 		EndIf
 		DrawBox(Position, Size)
 		local TextY:Int = Position.Y + Size.Y / 2 - Font.GetFontHeight / 2
-		if GetGui.ActiveControl = Self Then
+		if HasFocus Then
 			Local text1:String = Text[ .. _caretPos]
 			Local text2:String = Text[_caretPos ..]
 			ForeColor.Activate()

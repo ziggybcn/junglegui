@@ -19,10 +19,10 @@ Function DrawBox(position:GuiVector2D, size:GuiVector2D )
 End
 
 Function DrawRoundBox(x:Float, y:Float, width:Float, height:Float)
-	DrawRect(x + 1, y, width - 3, 1) '---
+	DrawRect(x + 1, y, width - 2, 1) '---
 	DrawRect(x,y+1,1,height-2) '|--
-	DrawRect(x + width - 2, y + 1, 1, height - 2)'--|
-	DrawRect(x + 1, y + height - 1, width - 3, 1) '___
+	DrawRect(x + width - 1, y + 1, 1, height - 2)'--|
+	DrawRect(x + 1, y + height - 1, width - 2, 1) '___
 End
 
 Function DrawRoundBox(x:Int, y:Int, width:Int, height:Int)
