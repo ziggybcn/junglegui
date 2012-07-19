@@ -23,7 +23,7 @@ Class RadioButton extends CheckBox
 	Method Render:Void()
 		Super.Render
 		local points:= CalculateRenderPosition
-		if GetGui.ActiveControl = Self Then
+		if HasFocus Then
 			SystemColors.FocusColor.Activate
 			SetAlpha(0.1)
 			DrawRect(points.X, points.Y, Size.X, Size.Y)

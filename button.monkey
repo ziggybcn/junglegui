@@ -40,11 +40,11 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 			SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
 		EndIf
 		
-		DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 3, Size.Y - 2)
+		DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y - 2)
 		
 		SetAlpha(.5)
 		SetColor(255,255,255)
-		DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 3, Size.Y / 2)
+		DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y / 2)
 		SetAlpha(1)
 		
 		SetColor(BorderColor.r,BorderColor.g,BorderColor.b) 
@@ -52,10 +52,10 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 		DrawRoundBox(drawingPos,Size)
 		
 		
-		if GetGui.ActiveControl = Self Then
+		if HasFocus Then
 			SetAlpha 0.2
 			SystemColors.FocusColor.Activate
-			DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 3, Size.Y - 2)
+			DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y - 2)
 			SetAlpha 1
 		EndIf
 
@@ -70,7 +70,7 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 				Font.DrawText(Text,int(drawingPos.X + Size.X) ,int(drawingPos.Y + Size.Y/2 - Font.GetFontHeight()/2),eDrawAlign.RIGHT )
 		End
 		
-		if GetGui.ActiveControl  = Self Then DrawFocusRect(Self,true)
+		if HasFocus Then DrawFocusRect(Self, true)
 	End
 	Method AdjustSize:GuiVector2D()
 		Local size:GuiVector2D = New GuiVector2D 

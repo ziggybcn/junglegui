@@ -26,7 +26,7 @@ Class Form extends TopLevelControl
 		
 		BackgroundColor.Activate()
 		DrawRect(drawPos.X + Padding.Left, drawPos.Y + Padding.Top, Size.X - Padding.Left - Padding.Right, Size.Y - Padding.Bottom - Padding.Top)
-		if GetGui.ActiveControl = Self Then
+		if HasFocus Then
 			DrawFocusRect(Self)
 		Else
 			SystemColors.InactiveFormBorder.Activate()

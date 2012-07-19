@@ -16,10 +16,11 @@ Class Panel extends ContainerControl
 	Method RenderBackground()
 		BackgroundColor.Activate()
 		Local position:=self.CalculateRenderPosition()
-		DrawRect(position.X,position.Y,Size.X,Size.Y)
+		DrawRect(position.X + 1, position.Y + 1, Size.X - 2, Size.Y - 2)
 		_borderColor.Activate()
-		DrawBox(position,Size)
-		if GetGui.ActiveControl = Self Then DrawFocusRect(Self)
+		DrawRoundBox(position, Size)
+		if HasFocus Then DrawFocusRect(Self, true)
+		
 	End
 	
 	Private

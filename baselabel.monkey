@@ -46,7 +46,7 @@ Class BaseLabel extends Control implements TextualItem abstract
 		
 		SetColor(Self.ForeColor.r,ForeColor.g,ForeColor.b)
 		Font.DrawText(Text,drawingPos.X,drawingPos.Y)
-		if GetGui.ActiveControl = Self Then
+		if HasFocus Then
 			DrawFocusRect(Self)
 		EndIf
 	End
