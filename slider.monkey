@@ -16,7 +16,7 @@ Class Slider extends Control
 	Method Render:Void()
 		Local renderPos:= CalculateRenderPosition()
 		BackgroundColor.Activate()
-		DrawRect(renderPos.X, renderPos.Y, Size.X, Size.Y)
+		DrawRect(Int(renderPos.X), Int(renderPos.Y), Int(Size.X), Int(Size.Y))
 		RenderLine(renderPos)
 		RenderFader(renderPos)
 	End
@@ -27,14 +27,14 @@ Class Slider extends Control
 				SystemColors.FocusColor.Activate()
 				Local yPos:Int = pos.Y + Size.Y / 2
 				For Local i:Int = pos.X to pos.X + Size.X step 6
-					DrawPoint(i, yPos)
+					DrawPoint(Int(i), Int(yPos))
 				Next
 			Case eSliderOrientation.VERTICAL
 				SystemColors.FocusColor.Activate()
 				'DrawBox(int(pos.X + Size.X / 2 - 1), Int(pos.Y), 1, int(Size.Y))
 				Local xPos:Int = pos.X + Size.X / 2
 				For Local i:Int = pos.Y to pos.Y + Size.Y step 4
-					DrawPoint(xPos, i)
+					DrawPoint(Int(xPos), Int(i))
 				Next
 				
 		End
@@ -71,14 +71,14 @@ Class Slider extends Control
 		End
 		if Self.HasFocus then
 			SystemColors.FocusColor.Activate()		
-			DrawCircle(posX, posY, FaderSize)
+			DrawCircle(Int(posX), Int(posY), FaderSize)
 			SetAlpha(Abs(Sin(Millisecs() / 5)))
 			SystemColors.ControlFace.Activate()
-			DrawCircle(posX, posY, FaderSize - 2)
+			DrawCircle(Int(posX), Int(posY), FaderSize - 2)
 			SetAlpha(1)
 		Else
 			SystemColors.FocusColor.Activate()
-			DrawCircle(posX, posY, FaderSize)
+			DrawCircle(Int(posX), Int(posY), FaderSize)
 		endif
 	End
 	

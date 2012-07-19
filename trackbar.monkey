@@ -59,20 +59,20 @@ Private
 			Case eOrientation.HORIZONTAL
 			
 				SetColor(176, 176, 176)
-				DrawRect(drawpos.X + FADER_OFFSET / 2 + 1, drawpos.Y + Size.Y / 2 - 8, Size.X - FADER_OFFSET - 3, 1)
+				DrawRect(Int(drawpos.X + FADER_OFFSET / 2 + 1), Int(drawpos.Y + Size.Y / 2 - 8), Int(Size.X - FADER_OFFSET - 3), 1)
 				SetColor(242, 242, 242)
-				DrawRect(drawpos.X + FADER_OFFSET / 2 + 1, drawpos.Y + Size.Y / 2 - 7, Size.X - FADER_OFFSET - 2, 3)
+				DrawRect(Int(drawpos.X + FADER_OFFSET / 2 + 1), Int(drawpos.Y + Size.Y / 2 - 7), Int(Size.X - FADER_OFFSET - 2), 3)
 				SetColor(231, 233, 234)
-				DrawRect(drawpos.X + FADER_OFFSET / 2 + 1, drawpos.Y + Size.Y / 2 - 7, Size.X - FADER_OFFSET - 3, 2)
+				DrawRect(Int(drawpos.X + FADER_OFFSET / 2 + 1), Int(drawpos.Y + Size.Y / 2 - 7), Int(Size.X - FADER_OFFSET - 3), 2)
 				
 			Case eOrientation.VERTICAL
 				
 				SetColor(176, 176, 176)
-				DrawRect(drawpos.X + Size.X / 2 - 8, drawpos.Y + FADER_OFFSET / 2 + 1, 1, Size.Y - 3 - FADER_OFFSET)
+				DrawRect(Int(drawpos.X + Size.X / 2 - 8), Int(drawpos.Y + FADER_OFFSET / 2 + 1), 1, Int(Size.Y - 3 - FADER_OFFSET))
 				SetColor(242, 242, 242)
-				DrawRect(drawpos.X + Size.X / 2 - 7, drawpos.Y + FADER_OFFSET / 2 + 1, 3, Size.Y - 2 - FADER_OFFSET)
+				DrawRect(Int(drawpos.X + Size.X / 2 - 7), Int(drawpos.Y + FADER_OFFSET / 2 + 1), 3, Int(Size.Y - 2 - FADER_OFFSET))
 				SetColor(231, 233, 234)
-				DrawRect(drawpos.X + Size.X / 2 - 7, drawpos.Y + FADER_OFFSET / 2 + 1, 2, Size.Y - 3 - FADER_OFFSET)
+				DrawRect(Int(drawpos.X + Size.X / 2 - 7), Int(drawpos.Y + FADER_OFFSET / 2 + 1), 2, Int(Size.Y - 3 - FADER_OFFSET))
 				
 		End
 	End
@@ -89,10 +89,10 @@ Private
 			
 				Local stepWidth:Float = float(Size.X - FADER_OFFSET2) / float(count)
 				SetColor 176, 176, 175
-				DrawRect drawpos.X + FADER_OFFSET, drawpos.Y + Size.Y / 2 + 7, 1, 5
-				DrawRect drawpos.X + FADER_OFFSET + count * stepWidth, drawpos.Y + Size.Y / 2 + 7, 1, 5
+				DrawRect Int(drawpos.X + FADER_OFFSET), Int(drawpos.Y + Size.Y / 2 + 7), 1, 5
+				DrawRect Int(drawpos.X + FADER_OFFSET + count * stepWidth), Int(drawpos.Y + Size.Y / 2 + 7), 1, 5
 				For Local i= 0 until count
-					DrawRect FADER_OFFSET + drawpos.X + (i + 1) * stepWidth, drawpos.Y + Size.Y / 2 + 7, 1, 3
+					DrawRect Int(FADER_OFFSET + drawpos.X + (i + 1) * stepWidth), Int(drawpos.Y + Size.Y / 2 + 7), 1, 3
 				Next
 				
 			Case eOrientation.VERTICAL
@@ -100,11 +100,11 @@ Private
 				Local stepWidth:Float = float(Size.Y - FADER_OFFSET2) / float(count)
 				
 				SetColor 176, 176, 175
-				DrawRect drawpos.X + Size.X / 2 + 7, FADER_OFFSET + drawpos.Y, 5, 1
-				DrawRect drawpos.X + Size.X / 2 + 7, FADER_OFFSET + drawpos.Y + count * stepWidth, 5, 1
+				DrawRect Int(drawpos.X + Size.X / 2 + 7), Int(FADER_OFFSET + drawpos.Y), 5, 1
+				DrawRect Int(drawpos.X + Size.X / 2 + 7), Int(FADER_OFFSET + drawpos.Y + count * stepWidth), 5, 1
 	
 				For Local i= 0 until count
-					DrawRect drawpos.X + Size.X / 2 + 7, FADER_OFFSET + drawpos.Y + (i + 1) * stepWidth, 3, 1
+					DrawRect Int(drawpos.X + Size.X / 2 + 7), Int(FADER_OFFSET + drawpos.Y + (i + 1) * stepWidth), 3, 1
 				Next
 				
 		End
@@ -117,14 +117,14 @@ Private
 			Case eOrientation.HORIZONTAL
 			
 				SetColor 255, 255, 255
-				DrawImage(_trackBarImage, drawpos.X + _ValueToPosition, drawpos.Y + Size.Y / 2 - 5, _frame)
+				DrawImage(_trackBarImage, Int(drawpos.X + _ValueToPosition), Int(drawpos.Y + Size.Y / 2 - 5), _frame)
 				
 			Case eOrientation.VERTICAL
 				
 				SetColor 255, 255, 255
 				DrawImage(_trackBarImage,
-				 drawpos.X +Size.X / 2 - 5,
-				 drawpos.Y +_ValueToPosition, ' add 10, cause of rotaion
+				 Int(drawpos.X + Size.X / 2 - 5),
+				 Int(drawpos.Y + _ValueToPosition), ' add 10, cause of rotaion
 				 90, 1, 1, _frame)
 		End
 		
