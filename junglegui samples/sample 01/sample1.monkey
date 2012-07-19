@@ -222,7 +222,7 @@ Class SampleForm extends Form
 		'Self.Text = "Timer called at time: " + Millisecs() 
 		progBar.TipText = "Current progress is " + Int(progBar.Value) + "%"
 	End
-		
+	
 	Method Adjust_Button_Clicked(sender:Object, e:MouseEventArgs)
 		Select sender
 			Case butLeft
@@ -233,7 +233,6 @@ Class SampleForm extends Form
 				button.TextAlign = eTextAlign.RIGHT
 		End
 	End
-	
 End
 
 Function HCenterControl(control:Control)

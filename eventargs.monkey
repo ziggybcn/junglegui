@@ -1,4 +1,5 @@
 Import junglegui
+
 Class EventArgs Implements CallInfo
 	Field eventSignature:Int
 	Field customSignature:Int = 0
@@ -47,6 +48,7 @@ Class KeyEventArgs extends EventArgs
 	Method New(signature:Int, key:int)
 		eventSignature = signature
 		self.key = key
+		
 	End
 	Method GetEventName:String()
 		Return Super.GetEventName + ", Key code = " + key
@@ -119,18 +121,26 @@ Class eMsgKinds Abstract
 	'The internal FORM class initializes most of its internal sub-components here, such as the control box to be closeable.
 	Const INIT_FORM:Int = 20	
 	
+	'summary: This msg indicates that a Timer has raised its tick
 	Const TIMER_TICK:Int = 21
 	
+	'summary: This msg indicates that a control has changed its visible status.
 	Const VISIBLE_CHANGED:Int = 22
 	
+	'summary: This msg indicates that a control has changed its checked status.
 	Const CHECKED_CHANGED:Int = 23
 	
+	'summary: This msg indicates that a control has changed its text.
 	Const TEXT_CHANGED:Int = 24
 	
+	'summary: This msg indicates that a sliding control has changed its value.
 	Const SLIDING_VALUE_CHANGED:Int = 25
 	
+	'summary: This msg indicates that a sliding control has changed its maximum allowed value.
 	Const SLIDING_MAXIMUM_CHANGED:Int = 26
 	
-	Const CUSTOM_CREATED_EVENT:Int = 27
-	
+End
+
+Interface CallInfo
+	Method SignatureDescription:String()
 End

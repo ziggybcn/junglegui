@@ -1,13 +1,20 @@
 Import junglegui
 Import reflection
 
-
+#Rem
+	summary: This is the Delegate class. This class contains a reflection-based pointer to a method of a class instance with the signature: Sender:Obect, e:T, where T is a class defined generic.
+#end
 Class Delegate < T >
 	Private
 	Field _context:Object
 	Field _callInfo:MethodInfo
 	Field _methodName:String
 	
+	#Rem
+		summary: This is the Delegate constructor.
+		Context: This is the an instance for the class that contains the method that will be called.
+		methodName: This is the name of the method that will be called by the Call function of this Delegate.
+	#END
 	Method New(context:Object, methodName:String)
 		local classInfo:= GetClass(context)
 		If Not classInfo Then
@@ -32,7 +39,9 @@ Class Delegate < T >
 		_context = context
 		_methodName = methodName
 	End
-	
+	#Rem
+		summary: This method will execute the associated Method of the context class, with the given sender and event parameters.
+	#END
 	Method Call(sender:Object, event:T)
 		if _callInfo <> null then
 			_callInfo.Invoke(_context,[sender, event])
@@ -42,16 +51,29 @@ Class Delegate < T >
 	End
 End
 
+
+#Rem
+	summary: This class represents an EventHandler.
+#END
 Class EventHandler < T >
+	#Rem
+		summary: This method can be used to add a new Callback to this event handler. When the event is raised, all methods registered here are called.
+	#END
 	Method Add(context:Object, methodName:String)
 		Local delegate:= New Delegate<T>(context, methodName)
 		_events.AddLast(delegate)
 	End
 	
+	#Rem
+		summary: This method returns signature description for the current Event Handler.
+	#END
 	Method SignatureDescription:String()
 		Return "MethodName(sender:Object, e:EventArgs)"
 	End
 	
+	#Rem
+		summary: This method alows a given callback to be removed from this Event Handler.
+	#END
 	Method Remove:Bool(context:Object, methodName:String)
 		Local remover:= New List<Delegate<T>>
 		For Local del:= EachIn _events
@@ -67,6 +89,9 @@ Class EventHandler < T >
 		Return result
 	End
 	
+	#Rem
+		summary: Use this method to raise the given event. When this is called, all the event callbacks are executed.
+	#END
 	Method RaiseEvent(sender:Object, e:T)
 	
 		Local source:= New List<Delegate<T>>
@@ -80,10 +105,14 @@ Class EventHandler < T >
 		Next
 	End
 	
+	#Rem
+		summary: This method removes all event callbacks from this Event Handler.
+	#END
+	Method Clear()
+		_events.Clear()
+	End
+	
 	Private
 	Field _events:= New List<Delegate<T>>
 End
 
-Interface CallInfo
-	Method SignatureDescription:String()
-End
