@@ -100,7 +100,7 @@ Class Control
 		if Self._parentControl <> null Then
 			_parentControl.Msg(msg)
 		EndIf
-		if msg.sender = Self And msg.status = eMsgBoxStatus.Sent Then
+		if msg.sender = Self And msg.status = eMsgStatus.Sent Then
 			Dispatch(msg)
 		EndIf
 	End

@@ -184,5 +184,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="debug" BuildMode="bypass" Target="html5" />
+  <CompilerConfig Configuration="debug" BuildMode="bypass" Target="glfw" />
 </JiProj>

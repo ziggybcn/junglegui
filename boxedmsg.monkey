@@ -3,14 +3,14 @@ Class BoxedMsg
 	Method New(sender:Object, e:EventArgs)
 		Self.sender = sender
 		Self.e = e
-		Self.status = eMsgBoxStatus.Sent
+		Self.status = eMsgStatus.Sent
 	End
 	Field e:EventArgs
 	Field sender:Object
 	Field status:int
 End
 
-Class eMsgBoxStatus
+Class eMsgStatus
 	'summary: The Msg has been sent as a regular low-level message:
 	Const Sent:Int = 0
 	
