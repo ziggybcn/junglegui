@@ -97,6 +97,7 @@ Class Control
 	End
 	
 	Method Msg(msg:BoxedMsg)
+		if Not _gui Then return
 		if Self._parentControl <> null Then
 			_parentControl.Msg(msg)
 		EndIf
@@ -200,6 +201,7 @@ Class Control
 	
 	'summary:This method will give this control the focus.
 	Method GetFocus()
+		if Not _gui Then return
 		if _gui._focusedControl <> null Then
 			_gui._focusedControl.Msg(New BoxedMsg(_gui._focusedControl, New EventArgs(eMsgKinds.LOST_FOCUS)))
 		EndIf
@@ -289,6 +291,7 @@ Class Control
 	
 		'summary: Low level method that deals with event signatures. This method is part of the core functionality of the control.
 	Method Dispatch(msg:BoxedMsg)
+		if Not _gui Then return
 		Select msg.e.eventSignature
 			Case eMsgKinds.BRING_TO_FRONT
 				_bringToFront.RaiseEvent(msg.sender, msg.e)
@@ -354,6 +357,8 @@ Class Control
 				_visibleChanged.RaiseEvent(msg.sender, msg.e)
 		End
 	End
+	
+	
 	Method Event_Click:EventHandler<MouseEventArgs>() Property; Return _eventClick; End
 	Method Event_BringToFront:EventHandler<EventArgs>() Property; Return _bringToFront; end
 	Method Event_GotFocus:EventHandler<EventArgs>() Property; Return _gotFocus; End
@@ -668,6 +673,8 @@ Class TopLevelControl extends ContainerControl
 				_initForm.RaiseEvent(msg.sender, msg.e)
 		End
 	End
+
+	
 	Method Event_InitForm:EventHandler<EventArgs>() Property; Return _initForm; End
 	
 Private
@@ -738,9 +745,8 @@ Class Gui
 		For Local c:Control = eachin _components
 			c._FocusChecks()	'update control under mouse.
 			c.Update()
-			if sendParentResize Then
-				c.Msg(New BoxedMsg(c, New EventArgs(eMsgKinds.PARENT_RESIZED)))
-			EndIf
+			if c._gui = null Then Continue
+			if sendParentResize Then c.Msg(New BoxedMsg(c, New EventArgs(eMsgKinds.PARENT_RESIZED)))
 		Next
 		Local oldControl:= _mousePointerControl
 		Local newControl:= _mouseControl
@@ -748,12 +754,12 @@ Class Gui
 		_mousePointerControl = _mouseControl 
 		_mouseControl = null
 		if oldControl  <> newControl  Then
-			if oldControl <> null Then oldControl.Msg(New BoxedMsg(oldControl, New EventArgs(eMsgKinds.MOUSE_LEAVE)))
-			if newControl <> null Then newControl.Msg(New BoxedMsg(newControl, New EventArgs(eMsgKinds.MOUSE_ENTER)))
+			if oldControl <> null and oldControl._gui <> null Then oldControl.Msg(New BoxedMsg(oldControl, New EventArgs(eMsgKinds.MOUSE_LEAVE)))
+			if newControl <> null and newControl._gui <> null Then newControl.Msg(New BoxedMsg(newControl, New EventArgs(eMsgKinds.MOUSE_ENTER)))
 			mouseMoved = true
 		end
 		
-		if _mousePointerControl <>null And (_oldMousePos.X <> _mousePos.X or _oldMousePos.Y <> _mousePos.Y) Then
+		if _mousePointerControl <> null And (_oldMousePos.X <> _mousePos.X or _oldMousePos.Y <> _mousePos.Y) and _mousePointerControl._gui <> null Then
 			local cords:= _mousePointerControl.CalculateRenderPosition()
 			cords.X = _mousePos.X - cords.X
 			cords.Y = _mousePos.Y - cords.Y
@@ -767,22 +773,22 @@ Class Gui
 				'local pos:=New GuiVector2D
 				Local controlPos:= newControl.CalculateRenderPosition()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
-				newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.MOUSE_DOWN, controlPos, 1)))
+				if newControl._gui <> null then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.MOUSE_DOWN, controlPos, 1)))
 				_DownControl = newControl
 			EndIf
 		ElseIf oldMouseDown = True And _mouseDown = False Then
 			'Mouse up and possible click:
-			if _DownControl <> null Then
+			if _DownControl <> null and _DownControl._gui <> null Then
 				Local controlPos:= _DownControl.CalculateRenderPosition()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
-				_DownControl.Msg(New BoxedMsg(_DownControl, New MouseEventArgs(eMsgKinds.MOUSE_UP, controlPos, 1)))
+				if _DownControl._gui <> null then _DownControl.Msg(New BoxedMsg(_DownControl, New MouseEventArgs(eMsgKinds.MOUSE_UP, controlPos, 1)))
 			EndIf
 			if _DownControl = newControl And _DownControl <> null Then
 				local pos:GuiVector2D
 				pos= newControl.CalculateRenderPosition()
 				pos.SetValues(_mousePos.X-pos.X,_mousePos.Y-pos.Y)
-				newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
-				newControl.GetFocus()
+				if newControl._gui <> null then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
+				if newControl._gui <> null then newControl.GetFocus()
 			EndIf
 		EndIf
 		Local keys:Int[] = New Int[256]
@@ -792,21 +798,21 @@ Class Gui
 			if doCheck Then
 				if keys[i] = True And _oldKeys[i] = false Then
 					'KeyDown!
-					_focusedControl.Msg(New BoxedMsg(_focusedControl, New KeyEventArgs(eMsgKinds.KEY_DOWN, i)))
+					if _focusedControl._gui <> null then _focusedControl.Msg(New BoxedMsg(_focusedControl, New KeyEventArgs(eMsgKinds.KEY_DOWN, i)))
 				ElseIf keys[i] = False And _oldKeys[i] = True Then
-					_focusedControl.Msg(New BoxedMsg(_focusedControl, New KeyEventArgs(eMsgKinds.KEY_UP, i)))
+					if _focusedControl._gui <> null then _focusedControl.Msg(New BoxedMsg(_focusedControl, New KeyEventArgs(eMsgKinds.KEY_UP, i)))
 					'_focusedControl.Msg(_focusedControl,New KeyEventArgs(eMsgKinds.KEY_PRESS,i))
 					'KeyUp and KeyPress
 				EndIf
 			end if
 		Next
 		local char:Int = GetChar()
-		if char<>0 and _focusedControl <> null Then
+		if char <> 0 and _focusedControl <> null and _focusedControl._gui <> null Then
 			_focusedControl.Msg(New BoxedMsg(_focusedControl, New KeyEventArgs(eMsgKinds.KEY_PRESS, char)))
 		EndIf
 		if char = 9 and _focusedControl<>null Then 	'MODIFY_TAB!!!
 			'Do focus chanche here!
-			_focusedControl.FocusNext()
+			if _focusedControl._gui <> null then _focusedControl.FocusNext()
 		end
 		_oldKeys = keys
 		if mouseMoved Then

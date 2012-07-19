@@ -108,7 +108,7 @@ Class MyForm extends Form
 
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.Text = "Button was clicked in millisecond: " + Millisecs()
-		button.Event_Click.Remove(Self, "Button_Clicked")
+		Self.Dispose()
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)
