@@ -58,7 +58,9 @@ End
 Class MyForm extends Form
 
 	Field button:Button
-
+	Field vScrollBar:VScrollBar
+	Field listBox1:ListBox
+	
 	Method OnInit()
 		'''
 		''' MyForm
@@ -81,7 +83,7 @@ Class MyForm extends Form
 		'''
 		local trackbar:= New TrackBar
 		trackbar.Parent = Self
-		trackbar.Position.SetValues(100, 100)
+		trackbar.Position.SetValues(150, 10)
 		trackbar.Event_ValueChanged.Add(Self, "Trackbar1_ValueChanged")
 		trackbar.Minimum = 0
 		trackbar.Maximum = 10
@@ -89,7 +91,7 @@ Class MyForm extends Form
 		
 		trackbar = New TrackBar
 		trackbar.Parent = Self
-		trackbar.Position.SetValues(100, 150)
+		trackbar.Position.SetValues(150, 60)
 		trackbar.Minimum = -100
 		trackbar.Maximum = 200
 		trackbar.Tickfrequency = 10
@@ -104,8 +106,38 @@ Class MyForm extends Form
 		trackbar.Size.SetValues(40, 150)
 		trackbar.Tickfrequency = 1
 		'Self.Events.Add(trackbar, eMsgKinds.SLIDING_VALUE_CHANGED, "Trackbar2_ValueChanged")
+		
+		
+		'''
+		''' vertical scrollbar
+		'''
+		
+		vScrollBar = New VScrollBar()
+		vScrollBar.Parent = Self
+		vScrollBar.Position.SetValues(Self.Size.X - 17 - Self.Padding.Left - Self.Padding.Right, 0)
+		vScrollBar.Size.SetValues(17, Size.Y - Self.Padding.Top - Self.Padding.Bottom)
+		vScrollBar.Event_ValueChanged.Add(Self, "vScrollBar_ValueChanged")
+		
+		'''
+		''' listbox
+		'''
+		
+		listBox1 = New ListBox(100, 120, 175, 200, Self)
+		listBox1.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
+		For Local i = 0 until 33
+			listBox1.Items.AddLast(New ListItem("Test Item " + i))
+		Next
+		
 	End
 
+	Method vScrollBar_ValueChanged(sender:object, e:EventArgs)
+		Self.Text = "vScrollBar value " + vScrollBar.Value
+	End
+	
+	Method listBox1_SelectedIndexChanged(sender:object, e:EventArgs)
+		Self.Text = listBox1.SelectedItem.Text
+	End
+	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.Text = "Button was clicked in millisecond: " + Millisecs()
 		Self.Dispose()

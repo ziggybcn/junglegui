@@ -17,6 +17,8 @@ Import radiobutton
 Import slider
 Import trackbar
 Import boxedmsg
+Import scrollbar
+Import listbox
 
 #IF TARGET="html5"
 	Import "resizecanvas/resizecanvas.js"
