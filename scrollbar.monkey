@@ -99,6 +99,10 @@ Public
 	
 End
 
+Class eScrollMode
+	Const Smooth = 0
+	Const Stepwise = 1
+End
 Class ScrollBarContainer
 
 	Const DefaultWidth = 17
@@ -119,7 +123,7 @@ Class ScrollBarContainer
 	Field _size:= new GuiVector2D
 	Field _faderSize:Int = 50' the current fader size
 	Field _faderPosition:Int = DefaultWidth' the current fader position
-	
+	Field _scrollMode:int = eScrollMode.Stepwise 
 	'
 	' internal fields that indicates the state of different elements
 	'
@@ -144,7 +148,7 @@ Class ScrollBarContainer
 	
 	Field _orientation:Int = eOrientation.VERTICAL
 	Field _minFaderSize:Int = 15 ' the minimum fader size
-	Field ButtonSize:Int = 15' the width/height of an button
+	Field _buttonSize:Int = 15' the width/height of an button
 	
 	'summary: Renders the scrollbar on its position
 	Method Render(drawPos:GuiVector2D, size:GuiVector2D)
@@ -164,8 +168,8 @@ Class ScrollBarContainer
 		if _mouseOver Then
 		
 			SetColor(BorderColor.r, BorderColor.g, BorderColor.b)
-			DrawRect drawPos.X + 1, drawPos.Y + 1, 15, 15
-			DrawRect drawPos.X + 1, drawPos.Y + size.Y - 16, 15, 15
+			DrawRect drawPos.X + 1, drawPos.Y + 1, size.X - 2, _buttonSize
+			DrawRect drawPos.X + 1, drawPos.Y + size.Y - _buttonSize - 1, size.X - 2, _buttonSize
 			
 			if _topButtonState = eButtonState.BUTTON_DOWN Then
 			
@@ -181,7 +185,7 @@ Class ScrollBarContainer
 				
 			EndIf
 			
-			DrawRect drawPos.X + 2, drawPos.Y + 2, 13, 13
+			DrawRect drawPos.X + 2, drawPos.Y + 2, size.X - 4, _buttonSize - 2
 			
 			if _bottomButtonState = eButtonState.BUTTON_DOWN Then
 			
@@ -197,18 +201,17 @@ Class ScrollBarContainer
 				
 			EndIf
 			
-			DrawRect drawPos.X + 2, drawPos.Y + size.Y - 15, 13, 13
+			DrawRect drawPos.X + 2, drawPos.Y + size.Y - _buttonSize, size.X - 4, _buttonSize - 2
 			
 		End
 		
 		SetColor(150, 150, 150)
-		DrawRect drawPos.X + ButtonSize / 2 + 1, drawPos.Y + ButtonSize / 2, 1, 3
-		DrawRect drawPos.X + ButtonSize / 2 + 1 - 1, drawPos.Y + ButtonSize / 2 + 1, 3, 1
-		DrawRect drawPos.X + ButtonSize / 2 + 1 - 2, drawPos.Y + ButtonSize / 2 + 2, 5, 1
-		
-		DrawRect drawPos.X + ButtonSize / 2 + 1, drawPos.Y + size.Y - ButtonSize / 2 - 1, 1, 1
-		DrawRect drawPos.X + ButtonSize / 2 + 1 - 1, drawPos.Y + size.Y - ButtonSize / 2 - 1 - 1, 3, 1
-		DrawRect drawPos.X + ButtonSize / 2 + 1 - 2, drawPos.Y + size.Y - ButtonSize / 2 - 1 - 2, 5, 1
+		DrawRect drawPos.X + size.X / 2, drawPos.Y + _buttonSize / 2, 1, 3
+		DrawRect drawPos.X + size.X / 2 - 1, drawPos.Y + _buttonSize / 2 + 1, 3, 1
+		DrawRect drawPos.X + size.X / 2 - 2, drawPos.Y + _buttonSize / 2 + 2, 5, 1
+		DrawRect drawPos.X + size.X / 2, drawPos.Y + size.Y - _buttonSize / 2 - 1, 1, 1
+		DrawRect drawPos.X + size.X / 2 - 1, drawPos.Y + size.Y - _buttonSize / 2 - 1 - 1, 3, 1
+		DrawRect drawPos.X + size.X / 2 - 2, drawPos.Y + size.Y - _buttonSize / 2 - 1 - 2, 5, 1
 
 		' fader
 		
@@ -232,8 +235,8 @@ Class ScrollBarContainer
 		Local x:Float = e.position.X' - _pos.X
 		Local y:Float = e.position.Y' - _pos.Y
 		
-		_topButtonState = (y < ButtonSize)
-		_bottomButtonState = (y > _size.Y - ButtonSize And y < _size.Y)
+		_topButtonState = (y < _buttonSize)
+		_bottomButtonState = (y > _size.Y - _buttonSize And y < _size.Y)
 		_middleButtonState = (y > _faderPosition And y < _faderPosition + _faderSize)
 		
 		if x < _pos.X or x > _pos.X + _size.X Then
@@ -282,11 +285,11 @@ Class ScrollBarContainer
 		End
 		
 		If _topButtonState <> eButtonState.BUTTON_DOWN
-			_topButtonState = (y < ButtonSize)
+			_topButtonState = (y < _buttonSize)
 		End
 		
 		If _bottomButtonState <> eButtonState.BUTTON_DOWN
-			_bottomButtonState = (y > _size.Y - ButtonSize And y < _size.Y)
+			_bottomButtonState = (y > _size.Y - _buttonSize And y < _size.Y)
 		End
 				
 		If _middleButtonState = eButtonState.BUTTON_DOWN Then
@@ -295,15 +298,21 @@ Class ScrollBarContainer
 			_topButtonState = eButtonState.BUTTON_UP
 			
 			' set new fader position
-			Local max:Float = _size.Y - ButtonSize - 2 - _faderSize
-			Local min:Float = ButtonSize + 2
+			Local max:Float = _size.Y - _buttonSize - 2 - _faderSize
+			Local min:Float = _buttonSize + 2
 			_faderPosition = int(Min(max, Max(min, y - _dragOrigin.Y)))
 			
 			' Converts  the current fader position to value
 			Local length:Float = Abs(max - min)
-			Local relPos:Float = float(_faderPosition - ButtonSize - 2) / length
-			Value = float(_maximum - _minimum) * relPos + _minimum
-
+			Local relPos:Float = float(_faderPosition - _buttonSize - 2) / length
+			Local newVal:= float(_maximum - _minimum) * relPos + _minimum
+			
+			if _scrollMode = eScrollMode.Smooth Then
+				_value = newVal
+			Else
+				Value = newVal
+			End
+		
 		Else
 
 			if Not (_topButtonState = eButtonState.BUTTON_DOWN Or
@@ -437,7 +446,7 @@ Class ScrollBarContainer
 	Method UpdateFaderPosition(size:GuiVector2D)
 
 		if _minimum = _maximum Then
-			_faderPosition = ButtonSize + 2
+			_faderPosition = _buttonSize + 2
 			Return
 		EndIf
 		
@@ -446,8 +455,8 @@ Class ScrollBarContainer
 		Local relVal:Float = m * Value - m * _minimum
 		
 		' set new fader position
-		Local length:Float = Abs( (size.Y - ButtonSize - 2 - _faderSize) - (ButtonSize + 2))
-		_faderPosition = ButtonSize + 2 + length * relVal				
+		Local length:Float = Abs(size.Y - _buttonSize - _faderSize - _buttonSize - 4)
+		_faderPosition = _buttonSize + 2 + length * relVal				
 	End
 	
 	Method ItemsCount:int() Property
@@ -456,7 +465,7 @@ Class ScrollBarContainer
 	
 	Method ItemsCount:Void(value:int) Property
 		if _itemsCount <> value Then
-			Local scrollHeight:Float = float(_size.Y - (ButtonSize + 2) * 2)
+			Local scrollHeight:Float = float(_size.Y - (_buttonSize + 2) * 2)
 			_itemsCount = Max(0, value)
 			_faderSize = Min(scrollHeight, Max(32.0, scrollHeight * _visibleItems / _itemsCount))
 			_minimum = 0
@@ -471,7 +480,7 @@ Class ScrollBarContainer
 	
 	Method VisibleItems:Void(value:int) Property
 		if _visibleItems <> value Then
-			Local scrollHeight:Float = float(_size.Y - (ButtonSize + 2) * 2)
+			Local scrollHeight:Float = float(_size.Y - (_buttonSize + 2) * 2)
 			_visibleItems = Max(0, Min(_itemsCount, value))
 			_faderSize = Min(scrollHeight, Max(32.0, scrollHeight * _visibleItems / _itemsCount))
 			_minimum = 0

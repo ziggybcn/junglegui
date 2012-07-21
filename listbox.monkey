@@ -130,7 +130,7 @@ Public
 				Local calculateRenderPos:= self.CalculateRenderPosition
 				_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
 				_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
-				_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y)
+				_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
 				_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth, 0)
 			
 				_scrollbar.MouseDown(New MouseEventArgs(eMsgKinds.MOUSE_DOWN, _cachedPosition, 0))
@@ -139,7 +139,7 @@ Public
 				Local calculateRenderPos:= self.CalculateRenderPosition
 				_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
 				_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
-				_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y)
+				_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
 				_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth, 0)
 			
 				_scrollbar.MouseMove(New MouseEventArgs(eMsgKinds.MOUSE_MOVE, _cachedPosition, 0))
@@ -152,7 +152,7 @@ Public
 	
 	Method Msg(msg:BoxedMsg)
 		if msg.sender = Self Then
-			 _scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y)
+			_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
 			_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth + 1, 0)
 			
 			Select msg.e.eventSignature
@@ -287,7 +287,7 @@ Public
 			if i >= _scrollbar.Value and i < (_scrollbar.Value + _visibleItems) Then
 				if SelectedIndex = i Then
 					Local margin:Int = 0
-					if ScrollbarVisible Then margin = _scrollbar.ButtonSize
+					if ScrollbarVisible Then margin = _scrollbar._buttonSize
 				
 					SystemColors.SelectedItemBackColor.Activate()
 					DrawRect 1 + drawpos.X, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), Size.X - margin, _itemHeight

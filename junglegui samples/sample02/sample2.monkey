@@ -83,7 +83,7 @@ Class MyForm extends Form
 		''' comboBox
 		'''
 		comboBox = new ComboBox(self, 150, 10, 130)
-		For Local i = 0 until 33
+		For Local i = 0 until 20
 			comboBox.Items.AddLast(New ListItem("comboBox Item " + i))
 		Next
 		comboBox.Event_SelectedIndexChanged.Add(Self, "combobox_SelectedIndexChanged")
@@ -112,8 +112,8 @@ Class MyForm extends Form
 		'''
 		vScrollBar = New VScrollBar()
 		vScrollBar.Parent = Self
-		vScrollBar.Position.SetValues(Self.Size.X - 17 - Self.Padding.Left - Self.Padding.Right, 0)
-		vScrollBar.Size.SetValues(17, Size.Y - Self.Padding.Top - Self.Padding.Bottom)
+		vScrollBar.Position.SetValues(Self.Size.X - 25 - Self.Padding.Left - Self.Padding.Right, 0)
+		vScrollBar.Size.SetValues(25, Size.Y - Self.Padding.Top - Self.Padding.Bottom)
 		vScrollBar.Event_ValueChanged.Add(Self, "vScrollBar_ValueChanged")
 		
 		'''
