@@ -187,20 +187,22 @@ Public
 	End
 	
 	Method Msg(msg:BoxedMsg)
-		Select msg.e.eventSignature
-		
-			Case eMsgKinds.MOUSE_DOWN
-
-				_MouseDown(MouseEventArgs(msg.e))
-				
-			Case eMsgKinds.MOUSE_UP
+		if msg.sender = Self
+			Select msg.e.eventSignature
 			
-				_MouseUp(MouseEventArgs(msg.e))
+				Case eMsgKinds.MOUSE_DOWN
+	
+					_MouseDown(MouseEventArgs(msg.e))
+					
+				Case eMsgKinds.MOUSE_UP
 				
-			Case eMsgKinds.MOUSE_MOVE
-			
-				_MouseMove(MouseEventArgs(msg.e))
+					_MouseUp(MouseEventArgs(msg.e))
+					
+				Case eMsgKinds.MOUSE_MOVE
 				
+					_MouseMove(MouseEventArgs(msg.e))
+					
+			End
 		End
 		Super.Msg(msg)
 	End

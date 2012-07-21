@@ -9,5 +9,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="debug" BuildMode="run" Target="glfw" />
+  <CompilerConfig Configuration="debug" BuildMode="run" Target="xna" />
 </JiProj>
