@@ -166,8 +166,27 @@ Public
 						Select keyEvent.key
 							Case 65576	'KeyUp!
 								self.SelectedIndex += 1
+								ScrollSelectedItem()
 							Case 65574	'Key Down
 								Self.SelectedIndex -= 1
+								ScrollSelectedItem()
+
+							Case 65570	'PageDown
+								Self.SelectedIndex += _scrollbar._visibleItems
+								ScrollSelectedItem()
+
+							Case 65569	'PageUp
+								Self.SelectedIndex -= _scrollbar._visibleItems
+								ScrollSelectedItem()
+
+							Case 65572 'Home
+								Self.SelectedIndex = 0
+								ScrollSelectedItem()
+
+							Case 65571
+								Self.SelectedIndex = Items.Count() - 1
+								ScrollSelectedItem()
+
 						End
 					EndIf
 					
@@ -179,6 +198,16 @@ Public
 	
 	Method PickItem(y:Float)
 		SelectedIndex = (y - 2) / _itemHeight + _scrollbar.Value
+	End
+	
+	Method ScrollSelectedItem()
+		if Self._selectedIndex >= _scrollbar.Value And Self._selectedIndex < _scrollbar.Value + _scrollbar.VisibleItems - 1 Then Return
+		if _selectedIndex >= _scrollbar.Value + _scrollbar.VisibleItems - 1 then
+			Self._scrollbar.Value = _selectedIndex - _scrollbar.VisibleItems + 1
+		Else
+			Self._scrollbar.Value = _selectedIndex '_selectedIndex + _scrollbar.VisibleItems - 1
+		endif
+		
 	End
 	
 	Method Render:Void()
