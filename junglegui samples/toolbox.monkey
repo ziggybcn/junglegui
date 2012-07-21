@@ -119,8 +119,8 @@ Class ToolBox extends form.Form
 	
 	Method Explossion_Clicked(sender:Object, e:MouseEventArgs)
 		For Local i:Int = 0 to 200
-			Local particle:= New Particle(Sample.emiter)
-			Sample.emiter.stars.AddLast(particle)
+			Local particle:= New Particle(particlessample.Sample.emiter)
+			particlessample.Sample.emiter.stars.AddLast(particle)
 		next
 	End
 	
@@ -129,20 +129,20 @@ Class ToolBox extends form.Form
 		if slider = null Then Return
 		Select slider
 			Case colorR
-				Sample.emiter.particleColor.r = colorR.Value
+				particlessample.Sample.emiter.particleColor.r = colorR.Value
 				colorR.TipText = "Red has a value of " + colorR.Value
 			Case colorG
-				Sample.emiter.particleColor.g = colorG.Value
+				particlessample.Sample.emiter.particleColor.g = colorG.Value
 				colorG.TipText = "Green has a value of " + colorG.Value
 			Case colorB
-				Sample.emiter.particleColor.b = colorB.Value
+				particlessample.Sample.emiter.particleColor.b = colorB.Value
 				colorB.TipText = "Blue has a value of " + colorB.Value
 		End
 
 	End
 	
 	Method Desired_Changed(sender:Object, e:EventArgs)
-		if Sample <> null then Sample.emiter.desiredParticles = desiredStars.Value
+		if particlessample.Sample <> null then particlessample.Sample.emiter.desiredParticles = desiredStars.Value
 	End
 	
 	Method Canvas_Resized(sender:Object, e:EventArgs)

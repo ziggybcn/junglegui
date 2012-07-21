@@ -18,7 +18,7 @@ Private
 	Field _allowSelection:Bool = true
 	Field _horizontalScrollbar:Bool = false
 	Field _itemHeight:Int = DefaultItemHeight
-	Field _selectedIndex:Int = 5
+	Field _selectedIndex:Int = -1
 	Field _selectedIndices:= new List<Int>
 	Field _selectedItem:ListItem = null
 	Field _selectedItems:= new List<ListItem>
@@ -57,7 +57,12 @@ Public
 		Local newVal:int = Max(0, Min(value, _items.Count))
 		if newVal <> _selectedIndex Then
 			_selectedIndex = newVal
-			_selectedItem = _items.ToArray()[newVal]
+			if newVal >= 0 And newVal < _items.Count Then
+				_selectedItem = _items.ToArray()[newVal]
+			Else
+				_selectedIndex = -1
+				_selectedItem = null
+			End
 			_selectedIndexChanged.RaiseEvent(Self, new EventArgs(0))
 		EndIf
 	End
@@ -116,38 +121,39 @@ Public
 	End
 	
 	Method Msg(msg:BoxedMsg)
-	
-		_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y)
-		_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth, 0)
-		
-		Select msg.e.eventSignature
-			Case eMsgKinds.MOUSE_MOVE
+		if msg.sender = Self Then
+			_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y)
+			_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth, 0)
 			
-				_scrollbar.MouseEnter()
-				_scrollbar.MouseMove(MouseEventArgs(msg.e))
+			Select msg.e.eventSignature
+				Case eMsgKinds.MOUSE_MOVE
 				
-			Case eMsgKinds.MOUSE_UP
-			
-				_scrollbar.MouseUp(MouseEventArgs(msg.e))
+					_scrollbar.MouseEnter()
+					_scrollbar.MouseMove(MouseEventArgs(msg.e))
+					
+				Case eMsgKinds.MOUSE_UP
 				
-			Case eMsgKinds.MOUSE_DOWN
+					_scrollbar.MouseUp(MouseEventArgs(msg.e))
+					
+				Case eMsgKinds.MOUSE_DOWN
+					
+					Local me:= MouseEventArgs(msg.e)
+					
+					if me.position.X < _scrollbar._pos.X' TODO: either completele here or completely in scrollbar
+						PickItem(me.position.Y)
+					Else
+						_scrollbar.MouseDown(me)
+					End
 				
-				Local me:= MouseEventArgs(msg.e)
+				Case eMsgKinds.MOUSE_LEAVE
 				
-				if me.position.X < _scrollbar._pos.X' TODO: either completele here or completely in scrollbar
-					PickItem(me.position.Y)
-				Else
-					_scrollbar.MouseDown(me)
-				End
-			
-			Case eMsgKinds.MOUSE_LEAVE
-			
-				_scrollbar.MouseLeave()
+					_scrollbar.MouseLeave()
+					
+				Case eMsgKinds.MOUSE_ENTER
 				
-			Case eMsgKinds.MOUSE_ENTER
-			
-				_scrollbar.MouseEnter()
-				
+					_scrollbar.MouseEnter()
+					
+			End
 		End
 		Super.Msg(msg)
 	End

@@ -60,8 +60,10 @@ Class MyForm extends Form
 	Field button:Button
 	Field vScrollBar:VScrollBar
 	Field listBox1:ListBox
+	Field comboBox:ComboBox
 	
 	Method OnInit()
+		Size.SetValues(500, 400)
 		'''
 		''' MyForm
 		'''
@@ -79,11 +81,21 @@ Class MyForm extends Form
 		button.Event_Click.Add(Self, "Button_Clicked")
 		
 		'''
+		''' comboBox
+		'''
+		comboBox = new ComboBox(self, 130, 10, 130)
+		For Local i = 0 until 33
+			comboBox.Items.AddLast(New ListItem("comboBox Item " + i))
+		Next
+		comboBox.Event_SelectedIndexChanged.Add(Self, "combobox_SelectedIndexChanged")
+		
+		
+		'''
 		''' trackbar
 		'''
 		local trackbar:= New TrackBar
 		trackbar.Parent = Self
-		trackbar.Position.SetValues(150, 10)
+		trackbar.Position.SetValues(230, 120)
 		trackbar.Event_ValueChanged.Add(Self, "Trackbar1_ValueChanged")
 		trackbar.Minimum = 0
 		trackbar.Maximum = 10
@@ -122,20 +134,31 @@ Class MyForm extends Form
 		''' listbox
 		'''
 		
-		listBox1 = New ListBox(100, 120, 175, 200, Self)
+		listBox1 = New ListBox(75, 120, 150, 200, Self)
 		listBox1.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
 		For Local i = 0 until 33
-			listBox1.Items.AddLast(New ListItem("Test Item " + i))
+			listBox1.Items.AddLast(New ListItem("listBox1 Item " + i))
 		Next
+		
+	
 		
 	End
 
+	
+	Method combobox_SelectedIndexChanged(sender:object, e:EventArgs)
+		if comboBox.SelectedItem Then
+			Self.Text = comboBox.SelectedItem.Text
+		End
+	End
+	
 	Method vScrollBar_ValueChanged(sender:object, e:EventArgs)
 		Self.Text = "vScrollBar value " + vScrollBar.Value
 	End
 	
 	Method listBox1_SelectedIndexChanged(sender:object, e:EventArgs)
-		Self.Text = listBox1.SelectedItem.Text
+		if listBox1.SelectedItem then
+			Self.Text = listBox1.SelectedItem.Text
+		End 
 	End
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)

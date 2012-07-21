@@ -19,6 +19,7 @@ Import trackbar
 Import boxedmsg
 Import scrollbar
 Import listbox
+Import combobox
 
 #IF TARGET="html5"
 	Import "resizecanvas/resizecanvas.js"
