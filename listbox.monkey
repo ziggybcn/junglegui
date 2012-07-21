@@ -13,12 +13,11 @@ Private
 
 	Global _cachedPosition:= New GuiVector2D
 	
-	'Const DefaultItemHeight:Int = 13
-	Const ItemMargin:Int = 4
+	Const ItemMargin:Int = 4	'Maybe this could be done a property, or be defined on the Renderer?
  
 	Field _allowSelection:Bool = true
 	Field _horizontalScrollbar:Bool = false
-	Field _itemHeight:Int = Gui.systemFont.GetFontHeight() + ItemMargin 'DefaultItemHeight
+	Field _itemHeight:Int = Gui.systemFont.GetFontHeight() + ItemMargin
 	Field _selectedIndex:Int = -1
 	Field _selectedIndices:= new List<Int>
 	Field _selectedItem:ListItem = null
@@ -90,9 +89,8 @@ Public
 			EndIf
 			i += 1
 			node = node.NextNode
-			if node = null Then done = true
 		Wend
-
+		'index out of bounds:
 		_selectedItem = null
 		_selectedIndex = -1
 		
@@ -403,6 +401,10 @@ Public
 		Local node:= Super.AddLast(data)
 		_owner.ItemAdded(data)
 		Return node
+	End
+	
+	Method EstimatedCount:Int()
+		Return _owner._itemsCount
 	End
 	
 	Method RemoveEach(value:ListItem)
