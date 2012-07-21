@@ -14,7 +14,7 @@ Class Sample2 extends App
 	Field myForm:MyForm
 	Method OnCreate()
 		SetUpdateRate(60)
-		'EnableAutoSize()
+		EnableAutoSize()
 		gui = New Gui	'We create the Gui manager.
 		myForm = New MyForm
 		try
@@ -29,7 +29,7 @@ Class Sample2 extends App
 '			mf.InitForm(gui)
 '			mf.Position.SetValues(int(Rnd(0, DeviceWidth - mf.Size.X)), Int(Rnd(0, DeviceHeight - mf.Size.Y)))
 '		Next
-			
+'			
 	End
 	
 	Method OnUpdate()

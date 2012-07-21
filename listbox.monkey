@@ -207,7 +207,7 @@ Public
 		Else
 			Self._scrollbar.Value = _selectedIndex '_selectedIndex + _scrollbar.VisibleItems - 1
 		endif
-		
+		Self._scrollbar.UpdateFaderPosition(_scrollbar._size)
 	End
 	
 	Method Render:Void()
