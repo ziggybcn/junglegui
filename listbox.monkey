@@ -13,11 +13,12 @@ Private
 
 	Global _cachedPosition:= New GuiVector2D
 	
-	Const DefaultItemHeight:Int = 13
+	'Const DefaultItemHeight:Int = 13
+	Const ItemMargin:Int = 4
  
 	Field _allowSelection:Bool = true
 	Field _horizontalScrollbar:Bool = false
-	Field _itemHeight:Int = DefaultItemHeight
+	Field _itemHeight:Int = Gui.systemFont.GetFontHeight() + ItemMargin 'DefaultItemHeight
 	Field _selectedIndex:Int = -1
 	Field _selectedIndices:= new List<Int>
 	Field _selectedItem:ListItem = null
@@ -41,6 +42,11 @@ Public
 		if _font<>null Then Return _font Else Return GetGui.systemFont
 	End
 	
+	Method Font(value:BitmapFont) Property
+		_font = value
+		_itemHeight = Font.GetFontHeight + ItemMargin 'This will get _font or SytemFont if _font is null.
+	End
+	
 	Method Items:ListItemCollection() Property
 		Return _items
 	End
@@ -58,7 +64,7 @@ Public
 		if newVal <> _selectedIndex Then
 			_selectedIndex = newVal
 			if newVal >= 0 And newVal < _items.Count Then
-				_selectedItem = _items.ToArray()[newVal]
+				_selectedItem = _items.ToArray()[newVal]		'Bottleneck??
 			Else
 				_selectedIndex = -1
 				_selectedItem = null
@@ -80,16 +86,14 @@ Public
 	'
 	
 	Method New()
-		_items = new ListItemCollection(Self)
-		_itemHeight = Font.GetFontHeight()
+		InitControl()
 	End
 	
 	Method New(x:Float, y:Float, width:Float, height:Float, parent:ContainerControl)
 		Position.SetValues(x, y)
 		Size.SetValues(width, height)
 		Parent = parent
-		_items = new ListItemCollection(Self)
-		_itemHeight = Font.GetFontHeight()
+		InitControl()
 	End
 	
 	Method Update()
@@ -122,10 +126,13 @@ Public
 	
 	Method Msg(msg:BoxedMsg)
 		if msg.sender = Self Then
-			_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y)
-			_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth, 0)
+					_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y)
+					_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth, 0)
 			
 			Select msg.e.eventSignature
+			
+				Case eMsgKinds.RESIZED, eMsgKinds.MOVED
+			
 				Case eMsgKinds.MOUSE_MOVE
 				
 					_scrollbar.MouseEnter()
@@ -152,6 +159,18 @@ Public
 				Case eMsgKinds.MOUSE_ENTER
 				
 					_scrollbar.MouseEnter()
+					
+				Case eMsgKinds.KEY_PRESS
+					Local keyEvent:= KeyEventArgs(msg.e)
+					if Not (keyEvent = Null) Then
+						Select keyEvent.key
+							Case 65576	'KeyUp!
+								self.SelectedIndex += 1
+							Case 65574	'Key Down
+								Self.SelectedIndex -= 1
+						End
+					EndIf
+					
 					
 			End
 		End
@@ -180,26 +199,63 @@ Public
 		' render listbox items text
 		'
 		
-		Local items:= _items.ToArray()
+'		Local items:= _items.ToArray()	'Bottleneck?
+'		
+'		SetColor(0, 0, 0)
+'		For Local i = _scrollbar.Value until _scrollbar.Value + _visibleItems
+'		
+'			if SelectedIndex = i Then
+'			
+'				SetColor 74, 120, 242
+'				DrawRect 1 + drawpos.X, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), Size.X - _scrollbar.ButtonSize, _itemHeight
+'				SetColor 255, 255, 255
+'				Font.DrawText(items[i].Text, drawpos.X + 5, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), 0)
+'				SetColor(0, 0, 0)
+'				
+'			Else
+'			
+'				Font.DrawText(items[i].Text, drawpos.X + 5, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), 0)
+'				
+'			EndIf
+'			
+'		End
+'		
+		'Version 2:
 		
-		SetColor(0, 0, 0)
-		For Local i = _scrollbar.Value until _scrollbar.Value + _visibleItems
-		
-			if SelectedIndex = i Then
-			
-				SetColor 74, 120, 242
-				DrawRect 1 + drawpos.X, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), Size.X - _scrollbar.ButtonSize, _itemHeight
-				SetColor 255, 255, 255
-				Font.DrawText(items[i].Text, drawpos.X + 5, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), 0)
-				SetColor(0, 0, 0)
-				
-			Else
-			
-				Font.DrawText(items[i].Text, drawpos.X + 5, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), 0)
-				
+		ForeColor.Activate()	'It is 255,255,255 on HTML5 while 0,0,0 on non HTML5
+		Local done:Bool = false, node:= _items.FirstNode(), i:Int = 0
+		While done = false 'And node <> null
+			if node = null Then
+				'Print "Null!"
+				done = True
+				Continue
 			EndIf
-			
-		End
+			if i >= _scrollbar.Value and i < (_scrollbar.Value + _visibleItems) Then
+				if SelectedIndex = i Then
+				
+					'SetColor 74, 120, 242
+					SystemColors.SelectedItemBackColor.Activate()
+					DrawRect 1 + drawpos.X, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), Size.X - _scrollbar.ButtonSize, _itemHeight
+					SystemColors.SelectedItemForeColor.Activate()
+					Font.DrawText(node.Value.Text, drawpos.X + 5, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value) + ItemMargin / 2, 0)
+					'SetColor(0, 0, 0)
+					ForeColor.Activate()
+					
+				Else
+				
+					Font.DrawText(node.Value.Text, drawpos.X + 5, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value) + ItemMargin / 2, 0)
+					
+				EndIf
+			ElseIf i >= (_scrollbar.Value + _visibleItems)
+				done = True
+			ElseIf node = null
+				done = true
+			endif
+			i += 1
+			node = node.NextNode
+		wend
+		'/Version2		
+		
 		
 		'
 		' render scrollbar
@@ -230,6 +286,10 @@ Private
 		_scrollbar.VisibleItems = _visibleItems
 	End
 
+	Method InitControl()
+		_items = new ListItemCollection(Self)
+		_itemHeight = Font.GetFontHeight() + ItemMargin		
+	End
 End
 
 Class ListItem

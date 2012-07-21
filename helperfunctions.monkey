@@ -56,7 +56,6 @@ Function DrawFocusRect(control:Control, round:Bool = false)
 End
 
    Class SystemColors
-	'Global ControlFace:GuiColor = New GuiColor(1,240,240,240)
 	Global ControlFace:GuiColor = New GuiColor(1,220,220,220)
 	Global ButtonBorderColor:GuiColor = New GuiColor(1, 182, 182, 182)
 	Global FocussedButtonBorderColor:GuiColor = New GuiColor(1, 69, 216, 251)
@@ -65,7 +64,9 @@ End
 	Global FormBorder:GuiColor = New GuiColor(1,185,209,234)
 	Global WindowColor:GuiColor = New GuiColor(1,255,255,255)
 	Global FormMargin:GuiColor = New GuiColor(1,174,199,225)
-	Global InactiveFormBorder:GuiColor = New GuiColor(1,120,120,120)
+	Global InactiveFormBorder:GuiColor = New GuiColor(1, 120, 120, 120)
+	Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
+	Global SelectedItemBackColor:GuiColor = New GuiColor(1, 51, 153, 255)
 End
 
 #REM
