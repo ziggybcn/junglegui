@@ -427,6 +427,11 @@ Class ScrollBarContainer
 		Else
 			_value = val
 		End
+		UpdateFaderPosition()
+	End
+	
+	Method UpdateFaderPosition()
+		UpdateFaderPosition(_size)
 	End
 	
 	Method UpdateFaderPosition(size:GuiVector2D)
