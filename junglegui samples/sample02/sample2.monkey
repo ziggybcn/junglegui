@@ -121,7 +121,7 @@ Class MyForm extends Form
 		'''
 		listBox1 = New ListBox(75, 120, 150, 200, Self)
 		listBox1.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
-		For Local i = 0 until 1013
+		For Local i = 0 until 10013
 			listBox1.Items.AddLast(New ListItem("listBox1 Item " + i))
 		Next
 		
