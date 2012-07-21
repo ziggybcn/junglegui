@@ -415,11 +415,11 @@ Class ScrollBarContainer
 		_mouseDown = True
 	End
 	
-	Method Value:Int()
+	Method Value:Int() Property
 		Return _value
 	End
 	
-	Method Value:Void(val:int)
+	Method Value:Void(val:int) Property
 		if val < _minimum Then
 			_value = _minimum
 		Else If val > _maximum Then
@@ -469,7 +469,7 @@ Class ScrollBarContainer
 		return _visibleItems
 	End
 	
-	Method VisibleItems:Void(value:int)
+	Method VisibleItems:Void(value:int) Property
 		if _visibleItems <> value Then
 			Local scrollHeight:Float = float(_size.Y - (ButtonSize + 2) * 2)
 			_visibleItems = Max(0, Min(_itemsCount, value))
