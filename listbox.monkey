@@ -60,17 +60,42 @@ Public
 	End
 	
 	Method SelectedIndex:Void(value:Int)
-		Local newVal:int = Max(0, Min(value, _items.Count))
-		if newVal <> _selectedIndex Then
-			_selectedIndex = newVal
-			if newVal >= 0 And newVal < _items.Count Then
-				_selectedItem = _items.ToArray()[newVal]		'Bottleneck??
-			Else
-				_selectedIndex = -1
-				_selectedItem = null
-			End
-			_selectedIndexChanged.RaiseEvent(Self, new EventArgs(0))
-		EndIf
+'		Local newVal:int = Max(0, Min(value, _items.Count))	'Bottleneck??
+'		if newVal <> _selectedIndex Then
+'			_selectedIndex = newVal
+'			if newVal >= 0 And newVal < _items.Count Then	'_items.Count bottleneck?
+'				_selectedItem = _items.ToArray()[newVal]		'_items to array bottleneck??
+'			Else
+'				_selectedIndex = -1
+'				_selectedItem = null
+'			End
+'			_selectedIndexChanged.RaiseEvent(Self, new EventArgs(0))
+'		EndIf
+
+		'Optimized implementation:
+		'	Each _items.Count call iterates the whole list, so we need to avoid it.
+		'	Each _items.ToArray iterates the whole list, creates an array and fills it, so it is a very very slow operation
+		'	This is a single pass implementation that just iterates once in the worst case:
+
+		Local i:Int = 0
+		Local node:= _items.FirstNode(), done:Bool = false
+
+		if value < 0 Then done = true
+
+		While done = False And node <> null
+			if i = value Then
+				_selectedItem = node.Value
+				_selectedIndex = value
+				return
+			EndIf
+			i += 1
+			node = node.NextNode
+			if node = null Then done = true
+		Wend
+
+		_selectedItem = null
+		_selectedIndex = -1
+		
 	End
 	
 	'
@@ -378,12 +403,10 @@ Public
 	End
 	
 	Method RemoveEach(value:ListItem)
-		Local removed:Bool = false
 		Local mynode:= FirstNode()
 		While mynode
 		        If mynode.Value = value Then
 					mynode.Remove()
-					removed = true
 		        Endif
 		        mynode = mynode.NextNode()
 		Wend
