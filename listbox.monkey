@@ -85,6 +85,7 @@ Public
 			if i = value Then
 				_selectedItem = node.Value
 				_selectedIndex = value
+				_selectedIndexChanged.RaiseEvent(Self, new EventArgs(0))
 				return
 			EndIf
 			i += 1
@@ -93,6 +94,8 @@ Public
 		'index out of bounds:
 		_selectedItem = null
 		_selectedIndex = -1
+
+		_selectedIndexChanged.RaiseEvent(Self, new EventArgs(0))
 		
 	End
 	
@@ -278,7 +281,6 @@ Public
 		Local done:Bool = false, node:= _items.FirstNode(), i:Int = 0
 		While done = false 'And node <> null
 			if node = null Then
-				'Print "Null!"
 				done = True
 				Continue
 			EndIf
