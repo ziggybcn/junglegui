@@ -189,15 +189,15 @@ Public
 					Local keyEvent:= KeyEventArgs(msg.e)
 					if Not (keyEvent = Null) Then
 						Select keyEvent.key
-							Case 65576	'KeyUp!
-								self.SelectedIndex += 1
+							Case 65576	'Key Down
+								if Self._selectedIndex < _itemsCount - 1 then self.SelectedIndex += 1
 								ScrollSelectedItem()
-							Case 65574	'Key Down
+							Case 65574	'Key Up
 								Self.SelectedIndex -= 1
 								ScrollSelectedItem()
 
 							Case 65570	'PageDown
-								Self.SelectedIndex += _scrollbar._visibleItems
+								Self.SelectedIndex = Min(_itemsCount - 1, _scrollbar.Value + _visibleItems)
 								ScrollSelectedItem()
 
 							Case 65569	'PageUp
@@ -209,7 +209,7 @@ Public
 								ScrollSelectedItem()
 
 							Case 65571
-								Self.SelectedIndex = Items.Count() - 1
+								Self.SelectedIndex = _itemsCount - 1
 								ScrollSelectedItem()
 
 						End
@@ -322,19 +322,22 @@ Public
 Private
 
 	Method ItemsCleared()
-		UpdateScrollBar()
+		_itemsCount = 0
+		UpdateScrollBar(false)
 	End
 	
 	Method ItemRemoved(obj:object)
-		UpdateScrollBar()
+		_itemsCount -= 1
+		UpdateScrollBar(false)
 	End
 	
 	Method ItemAdded(obj:object)
-		UpdateScrollBar()
+		_itemsCount += 1
+		UpdateScrollBar(false)
 	End
 	
-	Method UpdateScrollBar()
-		_itemsCount = _items.Count
+	Method UpdateScrollBar(recountItems:Bool)
+		if recountItems then _itemsCount = _items.Count
 		_visibleItems = Max(0, Min(_itemsCount, int(Size.Y / _itemHeight)))
 		_scrollbar.ItemsCount = _itemsCount
 		_scrollbar.VisibleItems = _visibleItems
@@ -407,9 +410,14 @@ Public
 		While mynode
 		        If mynode.Value = value Then
 					mynode.Remove()
+					_owner.ItemRemoved(value)	'We get track of how many times an item has been removed. One call each time.
 		        Endif
 		        mynode = mynode.NextNode()
 		Wend
-		_owner.ItemRemoved(value)
+		'_owner.ItemRemoved(value)
+	End
+	
+	Method RefreshChanges()
+		_owner.UpdateScrollBar(True)
 	End
 End
