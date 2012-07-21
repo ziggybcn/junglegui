@@ -61,6 +61,8 @@ End
 'summary: This class is a enumerator-like class that contains all event kind constants.
 Class eMsgKinds Abstract
 
+	Const EMPTYMSG:Int = 0
+
 	'summary: Control Position X and/or Y position values have been changed.
 	Const MOVED:Int = 1
 
