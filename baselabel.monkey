@@ -59,12 +59,11 @@ Class BaseLabel extends Control implements TextualItem abstract
 		Return Self.Size
 	End
 	
-	Method AutoAdjustSize?() Property
+	Method AutoAdjustSize:Bool() Property
 		Return _autoAdjust
 	End
-	Method AutoAdjustSize?(value:Bool) Property
+	Method AutoAdjustSize:Void(value:Bool) Property
 		_autoAdjust = value
-		Return value
 	End
 	
 	Method Dispatch(msg:BoxedMsg)
