@@ -3,10 +3,7 @@ Import mojo
 
 'summary: simple combobox for testing 
 Class ComboBox extends BaseLabel implements guiinterfaces.TextualAlignItem
-
-	Field _dropDownHeight:int = 200
-	Field _selectedIndexChanged:= new EventHandler<EventArgs>
-		
+	
 	Method New()
 		_InitComponent()
 	End
@@ -44,22 +41,6 @@ Class ComboBox extends BaseLabel implements guiinterfaces.TextualAlignItem
 	
 	Method Event_SelectedIndexChanged:EventHandler<EventArgs>() Property
 		return _selectedIndexChanged
-	End
-	
-' something strange with got/lost-focus???
-Method _listBox_GotFocus(sender:Object, e:EventArgs)
-	Print "Got"
-	'_listBox.Visible = false
-End
-Method _listBox_LostFocus(sender:Object, e:EventArgs)
-	Print "Lost"
-	'_listBox.Visible = false
-End
-	
-	Method listBox1_SelectedIndexChanged(sender:object, e:EventArgs)
-		Self.Text = _listBox.SelectedItem.Text
-		_listBox.Visible = false
-		_selectedIndexChanged.RaiseEvent(Self, e)
 	End
 	
 	Method Msg(msg:BoxedMsg)
@@ -134,7 +115,7 @@ End
 		
 		EndIf
 	
-		
+		SetColor 0,0,0
 		DrawRect drawingPos.X + Size.X - 10, drawingPos.Y + Size.Y / 2 - 0, 1, 1
 		DrawRect drawingPos.X + Size.X - 10 - 1, drawingPos.Y + Size.Y / 2 - 1 - 0, 3, 1
 		DrawRect drawingPos.X + Size.X - 10 - 2, drawingPos.Y + Size.Y / 2 - 1 - 1, 5, 1
@@ -178,6 +159,8 @@ Private
 	Field _borderColor:GuiColor = new GuiColor
 	Field _hooveColor:GuiColor = New GuiColor
 	Field _listBox:ListBox
+	Field _dropDownHeight:int = 200
+	Field _selectedIndexChanged:= new EventHandler<EventArgs>
 	
 	Method _InitComponent()
 		ForeColor.SetColor(1,0,0,0)
@@ -194,5 +177,21 @@ Private
 		_listBox.Event_LostFocus.Add(Self, "_listBox_LostFocus")
 		_listBox.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
 		
+	End
+	
+	' something strange with got/lost-focus???
+	Method _listBox_GotFocus(sender:Object, e:EventArgs)
+		Print "Got"
+		'_listBox.Visible = false
+	End
+	Method _listBox_LostFocus(sender:Object, e:EventArgs)
+		Print "Lost"
+		'_listBox.Visible = false
+	End
+		
+	Method listBox1_SelectedIndexChanged(sender:object, e:EventArgs)
+		Self.Text = _listBox.SelectedItem.Text
+		_listBox.Visible = false
+		_selectedIndexChanged.RaiseEvent(Self, e)
 	End
 End

@@ -77,18 +77,16 @@ Class MyForm extends Form
 		button.Position.SetValues(10, 10)
 		button.Text = "Sample button!"
 		button.Parent = Self
-
 		button.Event_Click.Add(Self, "Button_Clicked")
 		
 		'''
 		''' comboBox
 		'''
-		comboBox = new ComboBox(self, 130, 10, 130)
+		comboBox = new ComboBox(self, 150, 10, 130)
 		For Local i = 0 until 33
 			comboBox.Items.AddLast(New ListItem("comboBox Item " + i))
 		Next
 		comboBox.Event_SelectedIndexChanged.Add(Self, "combobox_SelectedIndexChanged")
-		
 		
 		'''
 		''' trackbar
@@ -109,21 +107,9 @@ Class MyForm extends Form
 		trackbar.Tickfrequency = 10
 		trackbar.Event_ValueChanged.Add(Self, "Trackbar2_ValueChanged")
 		
-		trackbar = New TrackBar
-		trackbar.Parent = Self
-		trackbar.Position.SetValues(10, 50)
-		trackbar.Minimum = -5
-		trackbar.Maximum = 5
-		trackbar.Orientation = eOrientation.VERTICAL
-		trackbar.Size.SetValues(40, 150)
-		trackbar.Tickfrequency = 1
-		'Self.Events.Add(trackbar, eMsgKinds.SLIDING_VALUE_CHANGED, "Trackbar2_ValueChanged")
-		
-		
 		'''
 		''' vertical scrollbar
 		'''
-		
 		vScrollBar = New VScrollBar()
 		vScrollBar.Parent = Self
 		vScrollBar.Position.SetValues(Self.Size.X - 17 - Self.Padding.Left - Self.Padding.Right, 0)
@@ -133,18 +119,14 @@ Class MyForm extends Form
 		'''
 		''' listbox
 		'''
-		
 		listBox1 = New ListBox(75, 120, 150, 200, Self)
 		listBox1.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
 		For Local i = 0 until 33
 			listBox1.Items.AddLast(New ListItem("listBox1 Item " + i))
 		Next
 		
-	
-		
 	End
 
-	
 	Method combobox_SelectedIndexChanged(sender:object, e:EventArgs)
 		if comboBox.SelectedItem Then
 			Self.Text = comboBox.SelectedItem.Text
