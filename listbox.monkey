@@ -123,7 +123,7 @@ Public
 	End
 	
 	Method Update()
-		if _scrollbar._mouseDown Then
+		if _scrollbar._mouseDown And ScrollbarVisible Then
 
 			if _scrollbar._fastMove Or _scrollbar._topButtonState = eButtonState.BUTTON_DOWN Or _scrollbar._bottomButtonState = eButtonState.BUTTON_DOWN Then
 				
@@ -152,39 +152,38 @@ Public
 	
 	Method Msg(msg:BoxedMsg)
 		if msg.sender = Self Then
-					_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y)
-					_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth, 0)
+			 _scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y)
+			_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth + 1, 0)
 			
 			Select msg.e.eventSignature
 			
 				Case eMsgKinds.RESIZED, eMsgKinds.MOVED
 			
 				Case eMsgKinds.MOUSE_MOVE
-				
-					_scrollbar.MouseEnter()
-					_scrollbar.MouseMove(MouseEventArgs(msg.e))
+					if ScrollbarVisible then
+						_scrollbar.MouseEnter()
+						_scrollbar.MouseMove(MouseEventArgs(msg.e))
+					endif
 					
 				Case eMsgKinds.MOUSE_UP
-				
-					_scrollbar.MouseUp(MouseEventArgs(msg.e))
+					if ScrollbarVisible Then _scrollbar.MouseUp(MouseEventArgs(msg.e))
 					
 				Case eMsgKinds.MOUSE_DOWN
 					
 					Local me:= MouseEventArgs(msg.e)
-					
-					if me.position.X < _scrollbar._pos.X' TODO: either completele here or completely in scrollbar
-						PickItem(me.position.Y)
-					Else
+					if ScrollbarVisible And me.position.X >= _scrollbar._pos.X  ' TODO: either completele here or completely in scrollbar
 						_scrollbar.MouseDown(me)
+					Else
+						PickItem(me.position.Y)
 					End
 				
 				Case eMsgKinds.MOUSE_LEAVE
 				
-					_scrollbar.MouseLeave()
+					if ScrollbarVisible then _scrollbar.MouseLeave()
 					
 				Case eMsgKinds.MOUSE_ENTER
 				
-					_scrollbar.MouseEnter()
+					if ScrollbarVisible then _scrollbar.MouseEnter()
 					
 				Case eMsgKinds.KEY_PRESS
 					Local keyEvent:= KeyEventArgs(msg.e)
@@ -227,6 +226,7 @@ Public
 	End
 	
 	Method ScrollSelectedItem()
+		if Not ScrollbarVisible then return
 		if Self._selectedIndex >= _scrollbar.Value And Self._selectedIndex < _scrollbar.Value + _scrollbar.VisibleItems - 1 Then Return
 		if _selectedIndex >= _scrollbar.Value + _scrollbar.VisibleItems - 1 then
 			Self._scrollbar.Value = _selectedIndex - _scrollbar.VisibleItems + 1
@@ -286,10 +286,11 @@ Public
 			EndIf
 			if i >= _scrollbar.Value and i < (_scrollbar.Value + _visibleItems) Then
 				if SelectedIndex = i Then
+					Local margin:Int = 0
+					if ScrollbarVisible Then margin = _scrollbar.ButtonSize
 				
-					'SetColor 74, 120, 242
 					SystemColors.SelectedItemBackColor.Activate()
-					DrawRect 1 + drawpos.X, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), Size.X - _scrollbar.ButtonSize, _itemHeight
+					DrawRect 1 + drawpos.X, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), Size.X - margin, _itemHeight
 					SystemColors.SelectedItemForeColor.Activate()
 					Font.DrawText(node.Value.Text, drawpos.X + 5, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value) + ItemMargin / 2, 0)
 					'SetColor(0, 0, 0)
@@ -315,8 +316,12 @@ Public
 		' render scrollbar
 		'
 		_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
-		_scrollbar._pos.SetValues(drawpos.X + Size.X - _scrollbar.DefaultWidth - 1, drawpos.Y + 1)
-		_scrollbar.Render(_scrollbar._pos, _scrollbar._size)
+		'_scrollbar._pos.SetValues(drawpos.X + Size.X - _scrollbar.DefaultWidth - 1, drawpos.Y + 1)
+		_scrollbar._pos.SetValues(drawpos.X + Size.X - _scrollbar.DefaultWidth - 0, drawpos.Y + 1)
+		if ScrollbarVisible then
+			_scrollbar.Render(_scrollbar._pos, _scrollbar._size)
+		endif
+		if HasFocus Then DrawFocusRect(Self, True)
 	End
 
 Private
@@ -346,6 +351,10 @@ Private
 	Method InitControl()
 		_items = new ListItemCollection(Self)
 		_itemHeight = Font.GetFontHeight() + ItemMargin		
+	End
+	
+	Method ScrollbarVisible:Bool()
+		Return _itemsCount > _scrollbar.VisibleItems
 	End
 End
 

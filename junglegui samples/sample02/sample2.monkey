@@ -75,7 +75,7 @@ Class MyForm extends Form
 		'''
 		button = New Button
 		button.Position.SetValues(10, 10)
-		button.Text = "Sample button!"
+		button.Text = "Add List Item"
 		button.Parent = Self
 		button.Event_Click.Add(Self, "Button_Clicked")
 		
@@ -119,10 +119,11 @@ Class MyForm extends Form
 		'''
 		''' listbox
 		'''
-		listBox1 = New ListBox(75, 120, 150, 200, Self)
+		listBox1 = New ListBox(75, 120, 151, 200, Self)
 		listBox1.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
 		listBox1.Items
-		For Local i = 0 until 10013
+		listBox1.TipText = "This is a list box."
+		For Local i = 0 until 6
 			listBox1.Items.AddLast(New ListItem("listBox1 Item " + i))
 		Next
 		
@@ -146,7 +147,8 @@ Class MyForm extends Form
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.Text = "Button was clicked in millisecond: " + Millisecs()
-		Self.Dispose()
+		'Self.Dispose()
+		listBox1.Items.AddLast(New ListItem("This is a new item " + Millisecs()))
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)
