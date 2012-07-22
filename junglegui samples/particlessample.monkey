@@ -2,13 +2,13 @@ Import junglegui
 Import toolbox
 Import simpleparticles
 #REFLECTION_FILTER="particlessample*|toolbox*|junglegui*"
-Global Sample:ParticlesSample
+Global ParticlesSample:Sample
 Function Main()
-	Sample = New ParticlesSample
+	ParticlesSample = New Sample
 End
 
 
-Class ParticlesSample extends App
+Class Sample extends App
 	Field toolBox:ToolBox
 	Field emiter:Emiter
 	Global gui:Gui
