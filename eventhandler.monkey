@@ -23,16 +23,28 @@ Class Delegate < T >
 		Local newT:= New T
 		Local methodInfo:= classInfo.GetMethod(methodName,[GetClass("Object"), GetClass(newT)])
 		If Not methodInfo Then
-			Local exceptionText:String =
-				"Could not generate delegate with the given signature (methodname = '" + methodName + "').~n" +
-				"Maybe the reflection filter is not properly set, or the Method is not properly written."
+'			Local exceptionText:String =
+'				"Could not generate delegate with the given signature (methodname = '" + methodName + "').~n" +
+'				"Maybe the reflection filter is not properly set, or the Method is not properly written."
+'			if Control(context) <> null And Control(context).Name <> "" Then
+'				exceptionText += "~n~tThe context that caused the exception is named: ~q" + Control(context).Name + "~q"
+'			EndIf
+'			if CallInfo(newT) <> null then
+'				exceptionText += "~n~tIMPORTANT:Be sure that the Method associated with this event has the following signature:~n~t" + CallInfo(newT).SignatureDescription()
+'			EndIf
+
+			Local exceptionText:String = ""
+			if CallInfo(newT) <> null then
+				exceptionText = "Could not generate an Event Callback. The Method " + methodName + CallInfo(newT).SignatureDescription + " was not found. Be sure that the method does exists on " + classInfo.Name + " and that the reflection filter is properly set."
+			Else
+				exceptionText = "Could not generate an Event Callback. The method " + methodName + " seems to have a bad signature or be missing. Be sure that the reflection filter is properly set."
+			endif
 			if Control(context) <> null And Control(context).Name <> "" Then
 				exceptionText += "~n~tThe context that caused the exception is named: ~q" + Control(context).Name + "~q"
 			EndIf
-			if CallInfo(newT) <> null then
-				exceptionText += "~n~tIMPORTANT:Be sure that the Method associated with this event has the following signature:~n~t" + CallInfo(newT).SignatureDescription()
-			EndIf
-			Throw New JungleGuiException(exceptionText, Control(context))
+
+			'Throw New JungleGuiException(exceptionText, Control(context))
+			Error(exceptionText)
 		EndIf
 		
 		_callInfo = methodInfo
@@ -68,7 +80,7 @@ Class EventHandler < T >
 		summary: This method returns signature description for the current Event Handler.
 	#END
 	Method SignatureDescription:String()
-		Return "MethodName(sender:Object, e:EventArgs)"
+		Return "(sender:Object, e:EventArgs)"
 	End
 	
 	#Rem
