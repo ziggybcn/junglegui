@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
 <JiProj xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryPoint=".\particlessample.monkey" Name="particles sample" OriginalLocation="C:\Monkey Compiler\MonkeyPro60\modules\junglegui\junglegui samples\">
   <Files>
+    <Document Filename=".\debugform.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
     <Document Filename=".\particlessample.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>

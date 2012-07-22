@@ -7,6 +7,7 @@ Class Emiter
 	Field particleColor:= New GuiColor(1, 255, 255, 255)
 	Field count:Int = 0
 	Field kind:Int
+	Field randomizeColors:Bool = false
 	Method Update()
 		position.SetValues(DeviceWidth / 2, DeviceHeight / 2)
 		Local node:list.Node<Particle>
@@ -55,6 +56,11 @@ Class Particle
 		x = Rnd( - 100, 100)
 		y = Rnd( - 100, 100)
 		color = parent.particleColor.Clone()
+		if parent.randomizeColors Then
+			color = New GuiColor(1, Rnd(0, 255), Rnd(0, 255), Rnd(0, 255))
+		else
+			color = parent.particleColor.Clone()
+		EndIf
 		speed = Rnd(0.5, 3)
 	End
 
