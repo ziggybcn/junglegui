@@ -57,10 +57,12 @@ Public
 	Method SelectedItem:Bool(item:ListItem) Property
 		Local i:Int = 0
 		For Local li:ListItem = EachIn _items
-			if li = item and _selectedItem <> li Then
-				_selectedItem = li
-				_selectedIndex = i
-				_selectedIndexChanged.RaiseEvent(Self, New EventArgs(0))
+			if li = item then
+				if _selectedItem <> li Then
+					_selectedItem = li
+					_selectedIndex = i
+					_selectedIndexChanged.RaiseEvent(Self, New EventArgs(0))
+				endif
 				Return true
 			EndIf
 			i += 1
