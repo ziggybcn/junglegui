@@ -9,5 +9,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="release" BuildMode="run" Target="html5" />
+  <CompilerConfig Configuration="release" BuildMode="run" Target="glfw" />
 </JiProj>

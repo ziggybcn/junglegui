@@ -6,15 +6,16 @@ Class Emiter
 	Field desiredParticles:Int = 100
 	Field particleColor:= New GuiColor(1, 255, 255, 255)
 	Field count:Int = 0
+	Field kind:Int
 	Method Update()
 		position.SetValues(DeviceWidth / 2, DeviceHeight / 2)
 		Local node:list.Node<Particle>
 		count = 0
 		node = stars.FirstNode()
-		While node <> null And node.NextNode <> null
+		While node <> null And node <> null
 			Local p:Particle = node.Value
 			count += 1
-			if p.Update(Self) = Particle.DIE Then
+			if p.Update(Self) = Particle.UPDATE_DIE Then
 				Local node2:= node
 				node = node.NextNode
 				node2.Remove
@@ -33,11 +34,16 @@ Class Emiter
 		For local p:Particle = EachIn stars
 			p.Draw(self)
 		Next
-	End
+	End 
 	Method New()
 		position = New GuiVector2D
 		position.SetValues(DeviceWidth / 2, DeviceHeight / 2)
 	End
+	
+	Const KIND_CIRCLE:Int = 0
+	Const KIND_BOX:Int = 1
+	Const KIND_DOT:Int = 2
+
 End
 
 Class Particle
@@ -55,18 +61,30 @@ Class Particle
 	Method Draw(parent:Emiter)
 		color.Activate()
 		'DrawPoint(parent.position.X + x, parent.position.Y + y)
-		DrawCircle(parent.position.X + x, parent.position.Y + y, 1 * (1 + speed))
+		Select parent.kind
+			Case Emiter.KIND_BOX
+				'DrawCircle(parent.position.X + x, parent.position.Y + y, 1 * (1 + speed))
+				Local xPos:Int = parent.position.X + x
+				Local yPos:Int = parent.position.Y + y
+				Local size:Int = 1 * (1 + speed)
+				DrawRect(int(xPos - size), int(yPos - size / 2), int(size * 2), int(size * 2))
+			Case Emiter.KIND_CIRCLE
+				DrawCircle(parent.position.X + x, parent.position.Y + y, 1 * (1 + speed))
+			Case Emiter.KIND_DOT
+				DrawPoint(int(parent.position.X + x), int(parent.position.Y + y))
+		End
 	End
 	
 	Method Update:Int(parent:Emiter)
 		x = x * (1 + speed / 100.0)
 		y = y * (1 + speed / 100.0)
 		
-		if(x + parent.position.X) > DeviceWidth or (x + parent.position.X) < 0 Then Return Particle.DIE
-		if(y + parent.position.Y > DeviceHeight) or (y + parent.position.Y < 0) Then Return Particle.DIE
-		Return Particle.OK
+		if(x + parent.position.X) > DeviceWidth or (x + parent.position.X) < 0 Then Return Particle.UPDATE_DIE
+		if(y + parent.position.Y > DeviceHeight) or (y + parent.position.Y < 0) Then Return Particle.UPDATE_DIE
+		Return Particle.UPDATE_OK
 	End
 	
-	Const DIE:Int = 1
-	Const OK:Int = 2
+	Const UPDATE_DIE:Int = 1
+	Const UPDATE_OK:Int = 2
+	
 End
