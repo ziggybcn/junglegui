@@ -11,6 +11,12 @@ Class ToolBox extends form.Form
 	
 	Field shapeKind:ListBox
 	
+	Field randomizeColors:CheckBox
+	Field word:TextField
+	
+	'Field msgInspector:ListBox
+	Field debugForm:DebugForm
+	
 	Method OnInit()
 		Local height:Int = 0
 		'SELF:
@@ -20,6 +26,7 @@ Class ToolBox extends form.Form
 		Self.Position.X = DeviceWidth - Self.Size.X - 20
 		Self.TipText = "This is jsut a sample toolbar"
 		Self.Event_ParentResized.Add(Self, "Canvas_Resized")
+		Self.Name = "ToolBox"
 		
 		'''
 		''' starCount
@@ -30,16 +37,20 @@ Class ToolBox extends form.Form
 		particlesCount.Position.X = 10
 		particlesCount.Position.Y = 10
 		particlesCount.TipText = "This label shows the amount of used particles."
+		particlesCount.Name = "particlesCount"
 		height = GetNextHeight(particlesCount)
+		
 		'''
 		'''explosionButton
 		'''
 		explosionButton = New Button
 		explosionButton.Parent = self
 		explosionButton.Text = "Explosion!"
+		explosionButton.Size.Y = explosionButton.Font.GetFontHeight()
 		explosionButton.Position.SetValues(10, height)
 		explosionButton.Event_Click.Add(Self, "Explossion_Clicked")
 		explosionButton.TipText = "Click here to generate an explosion"
+		explosionButton.Name = "explosionButton"
 		height = GetNextHeight(explosionButton)
 		
 		'''
@@ -49,6 +60,7 @@ Class ToolBox extends form.Form
 		tmpLabel.Parent = self
 		tmpLabel.Position.SetValues(10, height)
 		tmpLabel.Text = "count:"
+		tmpLabel.Name = "CountLabel"
 		desiredStars = New TrackBar
 		desiredStars.Parent = self
 		desiredStars.Position.SetValues(tmpLabel.Position.X + tmpLabel.Size.X, height)
@@ -60,8 +72,8 @@ Class ToolBox extends form.Form
 		desiredStars.Tickfrequency = 50
 		desiredStars.Size.X = self.Size.X - desiredStars.Position.X - 10
 		desiredStars.TipText = "This is the amount of desired particles."
-		height = GetNextHeight(desiredStars)
-
+		desiredStars.Name = "DesiredStars"
+		
 
 		'''
 		''' red
@@ -94,9 +106,50 @@ Class ToolBox extends form.Form
 
 		shapeKind.SelectedIndex = 0
 		shapeKind.Event_SelectedIndexChanged.Add(Self, "ShapeKind_Selected_Changed")
+		shapeKind.Name = "ShapeKind"
 
 		height = GetNextHeight(shapeKind)
-
+		
+		'''
+		'''Randomize
+		'''
+		randomizeColors = New CheckBox
+		randomizeColors.Parent = Self
+		randomizeColors.Text = "Randomize colors"
+		randomizeColors.TipText = "Enable or disable randomize colors for particles"
+		randomizeColors.Position.SetValues(10, height)
+		randomizeColors.Size.Y = 18
+		randomizeColors.Event_Click.Add(Self, "Randomize_Clicked")
+		randomizeColors.Event_CheckedChanged.Add(Self, "Randomize_Checked_Changed")
+		randomizeColors.Name = "RandomizeColors"
+		height = GetNextHeight(randomizeColors)
+		
+		tmpLabel = New Label
+		tmpLabel.Parent = self
+		tmpLabel.Position.SetValues(10, height)
+		tmpLabel.Text = "word:"
+		tmpLabel.Name = "LabelWord"
+		
+		word = New TextField
+		word.Parent = Self
+		word.Position.Y = tmpLabel.Position.Y
+		word.Position.X = tmpLabel.Position.X + tmpLabel.Size.X + 10
+		word.Size.X = Self.Size.X - Self.Padding.Left - Self.Padding.Right - tmpLabel.Size.X - tmpLabel.Position.X * 2
+		word.AutoAdjustSize = false
+		word.Size.Y = tmpLabel.Size.Y
+		word.Name = "Word"
+		height = GetNextHeight(tmpLabel)
+'
+'		'''
+'		''' MsgInspector
+'		'''
+'		msgInspector = New ListBox
+'		msgInspector.Parent = Self
+'		msgInspector.Position.SetValues(10, height)
+'		msgInspector.Size.SetValues(Self.Size.X - Self.Padding.Left - Self.Padding.Right - msgInspector.Position.X + 2, 100)
+'		msgInspector.Items.AddLast(New ListItem("Ready!"))		
+'		height = GetNextHeight(msgInspector)
+	
 		'''
 		''' Form size:
 		'''
@@ -123,7 +176,7 @@ Class ToolBox extends form.Form
 		label.Parent = self
 		label.Text = name
 		label.Position.SetValues(10, height + Index * 20)
-		
+		label.Name = "Label" + name
 		'We align the label:
 		
 		label.Position.Y = slider.Position.Y - (label.Size.Y - slider.Size.Y) / 2
@@ -177,6 +230,27 @@ Class ToolBox extends form.Form
 				Case "Dot"
 					ParticlesSample.emiter.kind = Emiter.KIND_DOT
 			End
+		endif
+	End
+	
+	Method Randomize_Clicked(sender:Object, e:MouseEventArgs)
+		randomizeColors.Checked = Not randomizeColors.Checked
+	End
+	
+	Method Randomize_Checked_Changed(sender:Object, e:EventArgs)
+		ParticlesSample.emiter.randomizeColors = randomizeColors.Checked
+	End
+	
+	Method Msg(msg:BoxedMsg)
+		Super.Msg(msg)
+
+		If debugForm = null And GetGui <> Null Then
+			'DebugStop
+			debugForm = New DebugForm
+			debugForm.InitForm(GetGui)
+		endif
+		if debugForm <> null then
+			debugForm.ShowDebugMsg(msg)
 		endif
 	End
 End

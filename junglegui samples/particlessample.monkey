@@ -1,7 +1,8 @@
 Import junglegui
 Import toolbox
 Import simpleparticles
-#REFLECTION_FILTER="particlessample*|toolbox*|junglegui*"
+Import debugform
+#REFLECTION_FILTER="particlessample*|toolbox*|junglegui*|debugform*"
 Global ParticlesSample:Sample
 Function Main()
 	ParticlesSample = New Sample
