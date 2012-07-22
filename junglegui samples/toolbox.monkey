@@ -9,6 +9,8 @@ Class ToolBox extends form.Form
 	Field colorG:Slider
 	Field colorB:Slider
 	
+	Field shapeKind:ListBox
+	
 	Method OnInit()
 		Local height:Int = 0
 		'SELF:
@@ -82,6 +84,19 @@ Class ToolBox extends form.Form
 		height = GetNextHeight(colorB)
 		
 				
+		shapeKind = New ListBox(10, height, Self.Size.X - Self.Padding.Left - Self.Padding.Right - 20, 100, self)
+		shapeKind.Items.AddLast("Round")
+		shapeKind.Items.AddLast("Square")
+		shapeKind.Items.AddLast("Dot")
+		shapeKind.Items.AddLast("Round")
+		shapeKind.Items.AddLast("Square")
+		shapeKind.Items.AddLast("Dot")
+
+		shapeKind.SelectedIndex = 0
+		shapeKind.Event_SelectedIndexChanged.Add(Self, "ShapeKind_Selected_Changed")
+
+		height = GetNextHeight(shapeKind)
+
 		'''
 		''' Form size:
 		'''
@@ -100,7 +115,7 @@ Class ToolBox extends form.Form
 		slider.Parent = Self
 		slider.Name = name
 		slider.Maximum = 100
-		slider.Size.SetValues(Self.Size.X - 70 - 10 - Self.Padding.Left - Self.Padding.Right, 10)
+		slider.Size.SetValues(Self.Size.X - 70 - 10 - Self.Padding.Left - Self.Padding.Right, 15)
 		slider.Maximum = 255
 		slider.Value = 255
 		slider.Event_ValueChanged.Add(Self, "Slider_Value_Changed")
@@ -119,8 +134,8 @@ Class ToolBox extends form.Form
 	
 	Method Explossion_Clicked(sender:Object, e:MouseEventArgs)
 		For Local i:Int = 0 to 200
-			Local particle:= New Particle(particlessample.Sample.emiter)
-			particlessample.Sample.emiter.stars.AddLast(particle)
+			Local particle:= New Particle(particlessample.ParticlesSample.emiter)
+			particlessample.ParticlesSample.emiter.stars.AddLast(particle)
 		next
 	End
 	
@@ -129,24 +144,39 @@ Class ToolBox extends form.Form
 		if slider = null Then Return
 		Select slider
 			Case colorR
-				particlessample.Sample.emiter.particleColor.r = colorR.Value
+				particlessample.ParticlesSample.emiter.particleColor.r = colorR.Value
 				colorR.TipText = "Red has a value of " + colorR.Value
 			Case colorG
-				particlessample.Sample.emiter.particleColor.g = colorG.Value
+				particlessample.ParticlesSample.emiter.particleColor.g = colorG.Value
 				colorG.TipText = "Green has a value of " + colorG.Value
 			Case colorB
-				particlessample.Sample.emiter.particleColor.b = colorB.Value
+				particlessample.ParticlesSample.emiter.particleColor.b = colorB.Value
 				colorB.TipText = "Blue has a value of " + colorB.Value
 		End
 
 	End
 	
 	Method Desired_Changed(sender:Object, e:EventArgs)
-		if particlessample.Sample <> null then particlessample.Sample.emiter.desiredParticles = desiredStars.Value
+		if particlessample.ParticlesSample <> null then particlessample.ParticlesSample.emiter.desiredParticles = desiredStars.Value
 	End
 	
 	Method Canvas_Resized(sender:Object, e:EventArgs)
 		if Self.Position.X > DeviceWidth - Self.Size.X - 10 Then Self.Position.X = DeviceWidth - Self.Size.X - 10
 		if Self.Position.Y > DeviceHeight - Self.Size.Y - 10 Then Self.Position.Y = DeviceHeight - Self.Size.Y - 10
+	End
+	
+	Method ShapeKind_Selected_Changed(sender:Object, e:EventArgs)
+		if shapeKind.SelectedItem = null Then
+			shapeKind.SelectedItem = shapeKind.Items.First()
+		else
+			Select shapeKind.SelectedItem.Text
+				Case "Round"
+					ParticlesSample.emiter.kind = Emiter.KIND_CIRCLE
+				Case "Square"
+					ParticlesSample.emiter.kind = Emiter.KIND_BOX
+				Case "Dot"
+					ParticlesSample.emiter.kind = Emiter.KIND_DOT
+			End
+		endif
 	End
 End

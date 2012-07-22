@@ -69,7 +69,7 @@ Class MyForm extends Form
 		'''
 		'Events.Add(Self, eMsgKinds.MOVED, "MyForm_Moved")
 		Self.Event_Moved.Add(Self, "MyForm_Moved")
-		
+
 		'''
 		''' button
 		'''
@@ -148,7 +148,7 @@ Class MyForm extends Form
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.Text = "Button was clicked in millisecond: " + Millisecs()
 		'Self.Dispose()
-		listBox1.Items.AddLast(New ListItem("This is a new item " + Millisecs()))
+		listBox1.Items.AddLast(New ListItem("Item " + Millisecs()))
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)

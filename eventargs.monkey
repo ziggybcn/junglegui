@@ -20,7 +20,7 @@ Class EventArgs Implements CallInfo
 	End
 
 	Method SignatureDescription:String()
-		Return "MethodName(sender:Object, e:EventArgs)"
+		Return "(sender:Object, e:EventArgs)"
 	End
 
 End
@@ -38,7 +38,7 @@ Class MouseEventArgs extends EventArgs
 		Return result
 	End
 	Method SignatureDescription:String()
-		Return "MethodName(sender:Object, e:MouseEventArgs)"
+		Return "(sender:Object, e:MouseEventArgs)"
 	End
 	
 End
@@ -54,7 +54,7 @@ Class KeyEventArgs extends EventArgs
 		Return Super.GetEventName + ", Key code = " + key
 	End
 	Method SignatureDescription:String()
-		Return "MethodName(sender:Object, e:KeyEventArgs)"
+		Return "(sender:Object, e:KeyEventArgs)"
 	End
 End
 

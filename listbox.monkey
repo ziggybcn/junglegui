@@ -50,15 +50,29 @@ Public
 		Return _items
 	End
 	
-	Method SelectedItem:ListItem()
+	Method SelectedItem:ListItem() Property
 		Return _selectedItem
 	End
 	
-	Method SelectedIndex:Int()
+	Method SelectedItem:Bool(item:ListItem) Property
+		Local i:Int = 0
+		For Local li:ListItem = EachIn _items
+			if li = item and _selectedItem <> li Then
+				_selectedItem = li
+				_selectedIndex = i
+				_selectedIndexChanged.RaiseEvent(Self, New EventArgs(0))
+				Return true
+			EndIf
+			i += 1
+		Next
+		Return false
+	End
+	
+	Method SelectedIndex:Int() Property
 		Return _selectedIndex
 	End
 	
-	Method SelectedIndex:Void(value:Int)
+	Method SelectedIndex:Void(value:Int) Property
 '		Local newVal:int = Max(0, Min(value, _items.Count))	'Bottleneck??
 '		if newVal <> _selectedIndex Then
 '			_selectedIndex = newVal
