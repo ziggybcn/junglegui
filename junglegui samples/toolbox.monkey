@@ -34,8 +34,10 @@ Class ToolBox extends form.Form
 		particlesCount = New Label
 		particlesCount.Parent = self
 		particlesCount.Text = "Particles: ??"
+		particlesCount.AutoAdjustSize = false
 		particlesCount.Position.X = 10
 		particlesCount.Position.Y = 10
+		particlesCount.Size.X = Self.Size.X - Self.Padding.Left - Self.Padding.Right
 		particlesCount.TipText = "This label shows the amount of used particles."
 		particlesCount.Name = "particlesCount"
 		height = GetNextHeight(particlesCount)
