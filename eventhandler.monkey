@@ -4,7 +4,7 @@ Import reflection
 #Rem
 	summary: This is the Delegate class. This class contains a reflection-based pointer to a method of a class instance with the signature: Sender:Obect, e:T, where T is a class defined generic.
 #end
-Class Delegate < T >
+Class Delegate<T>
 	Private
 	Field _context:Object
 	Field _callInfo:MethodInfo
@@ -67,7 +67,7 @@ End
 #Rem
 	summary: This class represents an EventHandler.
 #END
-Class EventHandler < T >
+Class EventHandler<T>
 	#Rem
 		summary: This method can be used to add a new Callback to this event handler. When the event is raised, all methods registered here are called.
 	#END
@@ -109,7 +109,7 @@ Class EventHandler < T >
 		Local source:= New List<Delegate<T>>
 	
 		For Local del:Delegate<T> = Eachin _events
-			'del.Call(sender, e)
+			'del.Call(sender, e)  
 			source.AddLast(del)
 		Next
 		For Local del:Delegate<T> = EachIn source
