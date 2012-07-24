@@ -5,7 +5,7 @@ Class DebugForm extends Form
 	Field msgInspector:ListBox
 	Method OnInit()
 		Self.Text = "Debug form"
-		Self.Size.SetValues(500, 150)
+		Self.Size.SetValues(500, 100)
 		Self.Position.SetValues(10, 300)
 		Self.Event_ParentResized.Add(Self, "Canvas_Resized")
 			

@@ -15,6 +15,7 @@ Class Form extends TopLevelControl
 	Method RenderBackground()
 		Local drawPos:GuiVector2D = CalculateRenderPosition()
 		SystemColors.FormMargin.Activate()
+		'SetAlpha(0.8)	'Make transparent border, kind of cool, keep it here for future refence on the renderer.
 		DrawRect(drawPos.X, drawPos.Y, Size.X, Size.Y)
 		SetColor(255, 255, 255)
 		SetAlpha(0.2)
