@@ -2,7 +2,10 @@ Import junglegui
 Private
 Import mojo
 public
+
+'summary: This is the BaseLabel class. This class is used by controls displaying and handling Text
 Class BaseLabel extends Control implements TextualItem abstract
+	'summary: This is the text displayed by the control
 	Method Text:String() property
 		Return _text
 	End
@@ -16,6 +19,7 @@ Class BaseLabel extends Control implements TextualItem abstract
 		endif
 	End
 	
+	'summary: This property alows you to override the system font with a custom one for this control
 	Method Font:BitmapFont() property
 		if _font<>null Then Return _font Else Return GetGui.systemFont
 	End
@@ -51,14 +55,16 @@ Class BaseLabel extends Control implements TextualItem abstract
 		EndIf
 	End
 	
+	'summary: This method will resize the control to the contained text size
 	Method AdjustSize:GuiVector2D()
 		Local size:GuiVector2D = New GuiVector2D 
 		size.X = Font.GetTxtWidth(Text) 
-		size.Y = Font.GetFontHeight() 
+		size.Y = Font.GetTxtHeight(Text)
 		Self.Size.SetValues(size.X,size.Y)
 		Return Self.Size
 	End
 	
+	'summary: If this property is set to True, whenever the text of the control is modified, the control will be resized accordingly.
 	Method AutoAdjustSize:Bool() Property
 		Return _autoAdjust
 	End
@@ -73,6 +79,7 @@ Class BaseLabel extends Control implements TextualItem abstract
 			_textModified.RaiseEvent(msg.sender, msg.e)
 		End
 	End
+	'summary: This event is raised whenever the text contained in this control is modified.
 	Method Event_TextModified:EventHandler<EventArgs>() Property; Return _textModified; End
 	Private
 	Field _textModified:= New EventHandler<EventArgs>

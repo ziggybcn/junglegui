@@ -13,7 +13,7 @@ public
 Class Control
 
 	Public
-
+	'summary: This property is meant to contain the runtime name of the control.
 	Method Name:String() Property
 		Return _name
 	End
@@ -87,7 +87,7 @@ Class Control
 		Return _foreColor
 	End
 
-	'This is automatically called when the control needs to be drawn on the screen.
+	'summary: This is automatically called when the control needs to be drawn on the screen.
 	Method Render:Void()
 		Local color:Float[] = GetColor()
 		SetColor(Self.BackgroundColor.r, Self.BackgroundColor.g,Self.BackgroundColor.b)
@@ -95,7 +95,7 @@ Class Control
 		DrawRect(renderPos.X,renderPos.Y,Size.X,Size.Y)
 		SetColor(color[0],color[1],color[2])
 	End
-	
+	'summary: <font color=red><b>Advanced usage only</b></font><br>This method is internally used to build and control the internal status changes messaging sustem of the Gui system.
 	Method Msg(msg:BoxedMsg)
 		if Not _gui Then return
 		if Self._parentControl <> null Then
@@ -105,7 +105,7 @@ Class Control
 			Dispatch(msg)
 		EndIf
 	End
-	'This returns the Gui component where this control is running.
+	'summary: This returns the Gui component where this control is running.
 	Method GetGui:Gui()
 		Return _gui
 	End
@@ -259,16 +259,16 @@ Class Control
 			_NavigationGotFocus()
 		EndIf
 	End
-	
+	'summary: This will return True for all controls that are based on a graphical interface such as buttons, labels, etc.<br>Non graphical controls, such as Timer, return False.
 	Method HasGraphicalInterface:Bool() property
 		Return True
 	end
-
+	'summary: Returs True if the control is currently the Gui focused control.
 	Method HasFocus:Bool()
 		Return _gui._focusedControl = self
 	End
 	
-	
+	'summary: This property ca be set to True or False to make to show or hide this control.
 	Method Visible:Bool() Property
 		Return _visible
 	End
@@ -280,6 +280,7 @@ Class Control
 		endif
 	End
 
+	'summary: This property alows you to set the text to be displayed as a control hint pop-up when the mouse is over the control.
 	Method TipText:Void(value:String) Property
 		_tipText = value
 	End
@@ -358,27 +359,46 @@ Class Control
 		End
 	End
 	
-	
+	'summary: This event is raised whenever the button is Clicked
 	Method Event_Click:EventHandler<MouseEventArgs>() Property; Return _eventClick; End
+	'summary: This event is raised whenever the control is set a the top of its container Z-Order
 	Method Event_BringToFront:EventHandler<EventArgs>() Property; Return _bringToFront; end
+	'summary: This event is raised whenever the control gets the focus
 	Method Event_GotFocus:EventHandler<EventArgs>() Property; Return _gotFocus; End
+	'summary: This event is raised whenever a key is pressed down and the control has the focus.
 	Method Event_KeyDown:EventHandler<KeyEventArgs>() Property; Return _keyDown; End
+	'summary: This event is raised whenever a key stroke is completed and the control has the focus.
 	Method Event_KeyPress:EventHandler<KeyEventArgs>() Property; Return _keyPress; End
+	'summary: This event is raised whenever a key is raised up and the control has the focus.
 	Method Event_KeyUp:EventHandler<KeyEventArgs>() Property; Return _keyUp; End
+	'summary: This event is raised whenever the controls loses focus.
 	Method Event_LostFocus:EventHandler<EventArgs>() Property; Return _lostFocus; end
 
+	'summary: This event is raised whenever the mouse down button is pressed down over the control.
 	Method Event_MouseDown:EventHandler<MouseEventArgs>() Property; Return _mouseDown; end
+	'summary: This event is raised whenever the mouse is moved over the control.
 	Method Event_MouseMove:EventHandler<MouseEventArgs>() Property; Return _mouseMove; end
+	'summary: This event is raised whenever the mouse button is unpressed over the control.
 	Method Event_MouseUp:EventHandler<MouseEventArgs>() Property; Return _mouseUp; end
+	'summary: This event is raised whenever the mouse pointer enters the control area.
 	Method Event_MouseEnter:EventHandler<EventArgs>() Property; Return _mouseEnter; end
+	'summary: This event is raised whenever the mouse pointer leaves the control area.
 	Method Event_MouseLeave:EventHandler<EventArgs>() Property; Return _mouseLeave; end
+	'summary: This event is raised whenever the control is moved from its parent-relative location.
 	Method Event_Moved:EventHandler<EventArgs>() Property; Return _moved; end
+	'summary: This event is raised whenever the control padding is modified.
 	Method Event_PaddingModified:EventHandler<EventArgs>() Property; Return _paddingModified; end
+	'summary: This event is raised whenever the control parent is removed.
 	Method Event_ParentRemoved:EventHandler<EventArgs>() Property; Return _parentRemoved; end
+	'summary: This event is raised whenever the control parent is resized.<br>On TopLevelControls this indicates that the whole device canvas has been resized.
 	Method Event_ParentResized:EventHandler<EventArgs>() Property; Return _parentResized; end
+	'summary: This event is raised whenever the control parent is set.
 	Method Event_ParentSet:EventHandler<EventArgs>() Property; Return _parentSet; end
+	'summary: This event is raised whenever the control is sent to the bottom of its parent the Z-Order.
 	Method Event_SendToBack:EventHandler<EventArgs>() Property; Return _sendToBack; end
+	'summary: This event is raised whenever the control visible property is modified.
 	Method Event_VisibleChanged:EventHandler<EventArgs>() Property; Return _visibleChanged; end
+	'summary: This event is raised whenever the control is resized.
 	Method Event_Resized:EventHandler<EventArgs>() Property; Return _resized; end
 	
 	Private
