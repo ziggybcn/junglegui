@@ -53,8 +53,8 @@ Class Particle
 	Field speed:Float
 	Field color:GuiColor
 	Method New(parent:Emiter)
-		x = Rnd( - 100, 100)
-		y = Rnd( - 100, 100)
+		x = Rnd(-100, 100)
+		y = Rnd(-100, 100)
 		color = parent.particleColor.Clone()
 		if parent.randomizeColors Then
 			color = New GuiColor(1, Rnd(0, 255), Rnd(0, 255), Rnd(0, 255))
@@ -69,7 +69,7 @@ Class Particle
 		'DrawPoint(parent.position.X + x, parent.position.Y + y)
 		Select parent.kind
 			Case Emiter.KIND_BOX
-				'DrawCircle(parent.position.X + x, parent.position.Y + y, 1 * (1 + speed))
+				'DrawCircle(parent.position.X + x, parent.position.Y + y, 1 * (1 + speed)) 
 				Local xPos:Int = parent.position.X + x
 				Local yPos:Int = parent.position.Y + y
 				Local size:Int = 1 * (1 + speed)
@@ -85,8 +85,8 @@ Class Particle
 		x = x * (1 + speed / 100.0)
 		y = y * (1 + speed / 100.0)
 		
-		if(x + parent.position.X) > DeviceWidth or (x + parent.position.X) < 0 Then Return Particle.UPDATE_DIE
-		if(y + parent.position.Y > DeviceHeight) or (y + parent.position.Y < 0) Then Return Particle.UPDATE_DIE
+		if (x + parent.position.X) > DeviceWidth or (x + parent.position.X) < 0 Then Return Particle.UPDATE_DIE
+		if (y + parent.position.Y > DeviceHeight) or (y + parent.position.Y < 0) Then Return Particle.UPDATE_DIE
 		Return Particle.UPDATE_OK
 	End
 	
