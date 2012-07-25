@@ -467,7 +467,7 @@ Class ScrollBarContainer
 		if _itemsCount <> value Then
 			Local scrollHeight:Float = float(_size.Y - (_buttonSize + 2) * 2)
 			_itemsCount = Max(0, value)
-			_faderSize = Min(scrollHeight, Max(32.0, scrollHeight * _visibleItems / _itemsCount))
+			_faderSize = Min(int(scrollHeight), Max(_minFaderSize, int(scrollHeight * _visibleItems / _itemsCount)))
 			_minimum = 0
 			_maximum = _itemsCount - _visibleItems
 			_bigChange = Max(2, _maximum / 5)
