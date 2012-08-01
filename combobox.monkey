@@ -48,12 +48,32 @@ Class ComboBox extends BaseLabel implements guiinterfaces.TextualAlignItem
 			Select msg.e.eventSignature
 				Case eMsgKinds.CLICK
 					_listBox.Visible = Not _listBox.Visible
+					_listBox.Position.SetValues(Self.Position.X, Self.Position.Y + Self.Size.Y)
+					_listBox.Size.SetValues(Self.Size.X, _dropDownHeight)
 					if _listBox.Visible Then
 						_listBox.BringToFront()
 					End
+					if Not HasFocus Then GetFocus
 			End
 		End
 		Super.Msg(msg)
+	End
+	
+	
+	Method Dispose()
+		_listBox.Dispose()
+		Super.Dispose()
+	End
+	
+	Method Visible:Void(value:Bool) Property
+		if value = False Then' make sure that listbox becomes also hidden
+			_listBox.Visible = False
+		End
+		Super.Visible(value)
+	End
+	
+	Method Visible:Bool() Property
+		Return Super.Visible
 	End
 	
 	Method BorderColor:GuiColor() Property
@@ -151,6 +171,17 @@ Class ComboBox extends BaseLabel implements guiinterfaces.TextualAlignItem
 	End
 	
 	
+	Method DropDownHeight:Float() Property
+		Return _dropDownHeight
+	End
+	
+	Method DropDownHeight:Void(value:Float) Property
+		_dropDownHeight = value
+	End
+	
+	Method ListBox:ListBox() Property
+		Return _listBox
+	End
 Private
 	
 	Const DEFAULT_HEIGHT = 20
@@ -176,16 +207,23 @@ Private
 		_listBox.Event_GotFocus.Add(Self, "_listBox_GotFocus")
 		_listBox.Event_LostFocus.Add(Self, "_listBox_LostFocus")
 		_listBox.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
-		
+	End
+	
+	Method Parent:ContainerControl(parentControl:ContainerControl) Property
+		_listBox.Parent = parentControl
+		Super.Parent(parentControl)
+	End
+	
+	Method Parent:ContainerControl() Property
+		Return Super.Parent
 	End
 	
 	' something strange with got/lost-focus???
 	Method _listBox_GotFocus(sender:Object, e:EventArgs)
-		Print "Got"
 		'_listBox.Visible = false
 	End
+	
 	Method _listBox_LostFocus(sender:Object, e:EventArgs)
-		Print "Lost"
 		'_listBox.Visible = false
 	End
 		
