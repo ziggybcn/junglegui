@@ -2,14 +2,17 @@ Import junglegui
 Private
 Import mojo
 public
-Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem 
+Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
+	'summary: This is the color used to draw the button border.
 	Method BorderColor:GuiColor() Property
 		Return _borderColor
 	End
+	'summary: This is the color used to draw the button border.
 	Method BorderColor:GuiColor(value:GuiColor) Property
 		_borderColor = value
 	End
 	
+	'summary: This is the color used to draw the button background when the mouse is over the control.
 	Method HooverColor:GuiColor() Property
 		Return _hooveColor
 	End
@@ -79,7 +82,7 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 		Self.Size.SetValues(size.X,size.Y)
 		Return size
 	End
-	
+	'summary: This property allows you to set the desired text aligment for thsi control.
 	Method TextAlign:Int() Property
 		Return _textAlign	
 	End

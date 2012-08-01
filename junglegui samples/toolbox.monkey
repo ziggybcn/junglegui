@@ -179,6 +179,7 @@ Class ToolBox extends form.Form
 		label.Text = name
 		label.Position.SetValues(10, height + Index * 20)
 		label.Name = "Label" + name
+		
 		'We align the label:
 		
 		label.Position.Y = slider.Position.Y - (label.Size.Y - slider.Size.Y) / 2
@@ -245,9 +246,8 @@ Class ToolBox extends form.Form
 	
 	Method Msg(msg:BoxedMsg)
 		Super.Msg(msg)
-
 		If debugForm = null And GetGui <> Null Then
-			'DebugStop
+			'DebugStop 
 			debugForm = New DebugForm
 			debugForm.InitForm(GetGui)
 		endif
@@ -255,4 +255,6 @@ Class ToolBox extends form.Form
 			debugForm.ShowDebugMsg(msg)
 		endif
 	End
+	
+	
 End

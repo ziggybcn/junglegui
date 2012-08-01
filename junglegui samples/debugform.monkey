@@ -5,7 +5,7 @@ Class DebugForm extends Form
 	Field msgInspector:ListBox
 	Method OnInit()
 		Self.Text = "Debug form"
-		Self.Size.SetValues(500, 150)
+		Self.Size.SetValues(500, 100)
 		Self.Position.SetValues(10, 300)
 		Self.Event_ParentResized.Add(Self, "Canvas_Resized")
 			
@@ -36,5 +36,4 @@ Class DebugForm extends Form
 		if Self.Position.X > DeviceWidth - Self.Size.X - 10 Then Self.Position.X = DeviceWidth - Self.Size.X - 10
 		if Self.Position.Y > DeviceHeight - Self.Size.Y - 10 Then Self.Position.Y = DeviceHeight - Self.Size.Y - 10
 	End
-			
 End
