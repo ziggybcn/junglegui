@@ -103,11 +103,13 @@ Class MyForm extends Form
 
 	Field button:Button
 	Field vScrollBar:VScrollBar
-	Field listBox1:PropertyGrid
+	Field listBox1:ListBox
 	Field comboBox:ComboBox
+	Field propertyGrid:PropertyGrid
 	
 	Method OnInit()
 		Size.SetValues(500, 400)
+		
 		'''
 		''' MyForm
 		'''
@@ -122,11 +124,6 @@ Class MyForm extends Form
 		button.Text = "Add List Item"
 		button.Parent = Self
 		button.Event_Click.Add(Self, "Button_Clicked")
-		button.Event_LostFocus.Add(Self, "Button_LostFocus")
-		button.Event_GotFocus.Add(Self, "Button_GotFocus")
-		button.Parent = null
-		button.Dispose()
-		
 		
 		'''
 		''' comboBox
@@ -148,6 +145,9 @@ Class MyForm extends Form
 		trackbar.Maximum = 10
 		trackbar.Tickfrequency = 1
 		
+		'''
+		''' trackbar
+		'''
 		trackbar = New TrackBar
 		trackbar.Parent = Self
 		trackbar.Position.SetValues(230, 60)
@@ -161,34 +161,28 @@ Class MyForm extends Form
 		'''
 		vScrollBar = New VScrollBar()
 		vScrollBar.Parent = Self
-		vScrollBar.Position.SetValues(Self.Size.X - 25 - Self.Padding.Left - Self.Padding.Right, 0)
-		vScrollBar.Size.SetValues(25, Size.Y - Self.Padding.Top - Self.Padding.Bottom)
+		vScrollBar.Position.SetValues(Self.Size.X - 17 - Self.Padding.Left - Self.Padding.Right, 0)
+		vScrollBar.Size.SetValues(17, Size.Y - Self.Padding.Top - Self.Padding.Bottom)
 		vScrollBar.Event_ValueChanged.Add(Self, "vScrollBar_ValueChanged")
 		
 		'''
+		''' PropertyGrid
+		'''
+		propertyGrid = New PropertyGrid(10, 120, 250, 200, Self)
+		propertyGrid.SelectedObject = New ParticleType
+
+	
+		'''
 		''' listbox
 		'''
-		listBox1 = New PropertyGrid(10, 120, 250, 200, Self)
-		listBox1.SelectedObject = New ParticleType
-		'listBox1.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
-		'listBox1.Items
-		'listBox1.TipText = "This is a list box."
-	'	For Local i = 0 until 6
-		'	listBox1.Items.AddLast(New ListItem("listBox1 Item " + i))
-	'	Next
+		listBox1 = New ListBox(270, 120, 150, 200, Self)
+		listBox1.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
+		listBox1.Items
+		listBox1.TipText = "This is a list box."
+		For Local i = 0 until 6
+			listBox1.Items.AddLast(New ListItem("listBox1 Item " + i))
+		Next
 	
-	
-	Local lstBox:= new ListBox()
-	
-		
-	End
-	
-	Method Button_LostFocus(sender:Object, e:EventArgs)
-		Print "LOST"
-	End
-	
-	Method Button_GotFocus(sender:Object, e:EventArgs)
-		Print "GOT"
 	End
 
 	Method combobox_SelectedIndexChanged(sender:object, e:EventArgs)
@@ -202,15 +196,14 @@ Class MyForm extends Form
 	End
 	
 	Method listBox1_SelectedIndexChanged(sender:object, e:EventArgs)
-		'if listBox1.SelectedItem then
-		'	Self.Text = listBox1.SelectedItem.Text
-		'End 
+		if listBox1.SelectedItem then
+			Self.Text = listBox1.SelectedItem.Text
+		End
 	End
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.Text = "Button was clicked in millisecond: " + Millisecs()
-		'Self.Dispose()
-		'listBox1.Items.AddLast(New ListItem("Item " + Millisecs()))
+		listBox1.Items.AddLast(New ListItem("Item " + Millisecs()))
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)
