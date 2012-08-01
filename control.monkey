@@ -165,6 +165,7 @@ Class Control
 	
 	'summary: Clear all resources used by the control and its child controls. This is automatically called by the Gui system when the control needs to "die".
 	Method Dispose()
+		Parent = null
 		_parentControl = null
 		_GuiVector2D.SetNotifyControl(null, 0)
 		_drawingSize.SetNotifyControl(null, 0)
@@ -202,6 +203,7 @@ Class Control
 	'summary:This method will give this control the focus.
 	Method GetFocus()
 		if Not _gui Then return
+		if _gui._focusedControl = Self Return
 		if _gui._focusedControl <> null Then
 			_gui._focusedControl.Msg(New BoxedMsg(_gui._focusedControl, New EventArgs(eMsgKinds.LOST_FOCUS)))
 		EndIf
@@ -366,7 +368,6 @@ Class Control
 	Method Event_KeyPress:EventHandler<KeyEventArgs>() Property; Return _keyPress; End
 	Method Event_KeyUp:EventHandler<KeyEventArgs>() Property; Return _keyUp; End
 	Method Event_LostFocus:EventHandler<EventArgs>() Property; Return _lostFocus; end
-
 	Method Event_MouseDown:EventHandler<MouseEventArgs>() Property; Return _mouseDown; end
 	Method Event_MouseMove:EventHandler<MouseEventArgs>() Property; Return _mouseMove; end
 	Method Event_MouseUp:EventHandler<MouseEventArgs>() Property; Return _mouseUp; end
@@ -383,7 +384,7 @@ Class Control
 	
 	Private
 
-	'INTERNAL EVENT HANDLERS:
+'INTERNAL EVENT HANDLERS:
 	Field _eventClick:= New EventHandler<MouseEventArgs>
 	Field _bringToFront:= New EventHandler<EventArgs>
 	Field _gotFocus:= New EventHandler<EventArgs>
@@ -404,7 +405,7 @@ Class Control
 	Field _sendToBack:= New EventHandler<EventArgs>
 	Field _visibleChanged:= New EventHandler<EventArgs>
 	Field _resized:= New EventHandler<EventArgs>
-	'OTHER PRIVATES:	
+'OTHER PRIVATES:	
 	Field _tipText:String
 	Field _visible:Bool = true
 	Method _FocusChecks()
