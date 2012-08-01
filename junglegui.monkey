@@ -20,6 +20,7 @@ Import boxedmsg
 Import scrollbar
 Import listbox
 Import combobox
+Import propertygrid
 
 #IF TARGET="html5"
 	Import "resizecanvas/resizecanvas.js"
