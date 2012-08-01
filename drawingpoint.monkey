@@ -1,6 +1,7 @@
 Import junglegui
+'summary: This is a basic 2D integer vector used for Control metrics on JungleGui
 Class GuiVector2D
-	'summary: X coordinate
+	'summary: X value of this vector
 	Method X:Int() property
 		Return _x
 	End
@@ -9,7 +10,7 @@ Class GuiVector2D
 		PositionChanged()
 	End
 	
-	'summary: Y coordinate
+	'summary: Y value of this vector
 	Method Y:Int() property
 		Return _y
 	End
@@ -18,13 +19,14 @@ Class GuiVector2D
 		PositionChanged()
 	End
 	
-	
+	'summary: This method allows you to set the X and Y values of this vector in one call
 	Method SetValues:Void(x:Int, y:Int)
 		_x = x
 		_y = y
 		PositionChanged()
 	End
 	
+	'summary: This method returns a new GuiVector2D with the same X and Y values of this one
 	Method Clone:GuiVector2D()
 		Local vector:=New GuiVector2D
 		vector.SetValues(X,Y)
@@ -41,6 +43,7 @@ Class GuiVector2D
 End
 
 Class ControlGuiVector2D extends GuiVector2D
+	'summary:<b>Internal method used by Control.</b><br>Don't use unless you know what you're doing.
 	Method SetNotifyControl(control:Control, eventSignature:Int)
 		_notifyControl = control
 		_eventSignature = eventSignature
