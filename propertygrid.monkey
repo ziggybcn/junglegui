@@ -99,7 +99,10 @@ Class ScrollableControl extends Control
 	
 End
 
+'summary: Provides a user interface for browsing the properties of an object.
 Class PropertyGrid extends ScrollableControl
+
+Private
 
 	Global _cachedPosition:= New GuiVector2D
 	
@@ -117,7 +120,9 @@ Class PropertyGrid extends ScrollableControl
 	Field _leftWidth:Int
 	Field _rightWidth:Int
 	Field _lastItem:PropertyItem
-		
+
+Public
+			
 	Method New(x:Float, y:Float, width:Float, height:Float, parent:ContainerControl)
 		Position.SetValues(x, y)
 		Size.SetValues(width, height)
@@ -131,18 +136,11 @@ Class PropertyGrid extends ScrollableControl
 	Method Update()
 		if UiTypeEditor.ShowErrorDialog Then
 			UiTypeEditor.ShowErrorDialog = false
-			'if _selectedItem Then
-			'	_selectedItem.UiTypeEditor_.Dispose()
-			'EndIf
 			if _lastItem Then
 				_lastItem.UiTypeEditor_.ShowDialog(Parent)
 			End
 		End
 		Super.Update()
-	End
-	
-	Method SelectedIndex:Int() Property
-		Return _selectedIndex
 	End
 	
 	Method SelectedIndex:Void(value:Int) Property
@@ -168,10 +166,12 @@ Class PropertyGrid extends ScrollableControl
 		_selectedIndex = -1
 	End
 	
+	'summary: Gets the object for which the grid displays properties.
 	Method SelectedObject:Object()
 		Return _selectedObject
 	End
 	
+	'summary: Sets the object for which the grid displays properties.
 	Method SelectedObject(value:Object)
 		_selectedObject = value
 		UpdateProperties()
@@ -317,13 +317,14 @@ Class PropertyGrid extends ScrollableControl
 		_scrollbar.VisibleItems = _visibleItems
 	End
 	
+	Method SelectedIndex:Int() Property
+		Return _selectedIndex
+	End
+	
 End
 
 
-#rem
- summary:
- Encapsulates a propertygrids's item entry.	
-#END
+' summary: Encapsulates a propertygrids's item entry.	
 Class PropertyItem
 Private
 
@@ -499,19 +500,21 @@ Class UiTypeEditor
 	
 	Method Dispose() Abstract
 	
+	' TODO: 	Add proper type conversion error handling.
+	' 			Currently its ugly, and this method sucks. 
+	'			Format errors should be handled inside PropertyGrid?
 	Method ShowDialog(parent:ContainerControl) abstract
 	
 End
 
-'---------------------------------------------------------------------
-
+' summary: Specifies identifiers that indicate the value editing style of a UITypeEditor.
 Class eUITypeEditorEditStyle
 	Const NONE:Int = 0
 	Const MODAL:Int = 1
 	Const DROPDOWN:Int = 2
 End
 
-'---------------------------------------------------------------------
+' summary: TypeConverter for String type
 Class String_TypeConverter extends TypeConverter
 
 	Method SourceType:String()
@@ -539,7 +542,7 @@ Class String_TypeConverter extends TypeConverter
 	End
 End
 
-
+' summary: TypeConverter for Bool type, using StandardValues
 Class Bool_TypeConverter extends TypeConverter
 	
 	Field _stdValues:= new List<String>
@@ -579,6 +582,7 @@ Class Bool_TypeConverter extends TypeConverter
 	End
 End
 
+' summary: TypeConverter for Int type
 Class Int_TypeConverter extends TypeConverter
 
 	Method SourceType:String()
@@ -610,7 +614,7 @@ Class Int_TypeConverter extends TypeConverter
 	End
 End
 
-
+' summary: TypeConverter for Float type
 Class Float_TypeConverter extends TypeConverter
 
 	Method SourceType:String()
@@ -649,11 +653,7 @@ Class Float_TypeConverter extends TypeConverter
 	End
 End
 
-
-
-
-'---------------------------------------------------------------------
-' used for string/int/float
+' summary: Used for string/int/float
 Class Default_UiTypeEditor extends UiTypeEditor
 
 	Field _tf:TextField
