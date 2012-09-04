@@ -67,6 +67,13 @@ End
 	Global InactiveFormBorder:GuiColor = New GuiColor(1, 120, 120, 120)
 	Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
 	Global SelectedItemBackColor:GuiColor = New GuiColor(1, 51, 153, 255)
+	Global HooverBackgroundColor:GuiColor = New GuiColor(1, 255, 255, 255)
+	Global WindowForeColor:GuiColor = New GuiColor(1, 0, 0, 0)
+End
+
+
+Function HasFlag:Bool(value:Int, flag:Int)
+	Return( (value & flag) = flag)
 End
 
 #REM

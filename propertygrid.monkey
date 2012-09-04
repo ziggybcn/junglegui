@@ -701,7 +701,7 @@ Private
 	Method ShowDialog(parent:ContainerControl)
 		
 		Local dlg:= new ErrorDialog(ErrorString)
-		dlg.Position.SetValues(DeviceWidth / 2 - 100, DeviceWidth / 2 - 75)
+		dlg.Position.SetValues(DeviceWidth / 2 - 100, DeviceHeight / 2 - 75)
 		
 		try
 			dlg.InitForm(_selectedItem._propertyGrid.GetGui())

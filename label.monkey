@@ -12,7 +12,7 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 		local textHeight:Int = Font.GetTxtHeight(Text)
 		Font.DrawText(Text,drawingPos.X,Int(drawingPos.Y + Size.Y/2 - textHeight/2))
 		if _border Then
-			_borderColor.Activate()
+			BorderColor.Activate()
 			DrawBox(drawingPos,Self.Size)
 		EndIf
 	End
@@ -30,17 +30,17 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 		End
 	End
 	
-	Method BorderColor:GuiColor() Property
-		Return _borderColor
-	End
-	
-	Method BorderColor:Void(color:GuiColor) Property
-		if color<> null then
-			_borderColor = color
-		Else
-			Throw New JungleGuiException("Border color can't be null.",Self)
-		endif
-	End
+'	Method BorderColor:GuiColor() Property
+'		Return _borderColor
+'	End
+'	
+'	Method BorderColor:Void(color:GuiColor) Property
+'		if color<> null then
+'			_borderColor = color
+'		Else
+'			Throw New JungleGuiException("Border color can't be null.",Self)
+'		endif
+'	End
 	
 	Method Transparent:Bool() Property
 		Return _transparent 
@@ -52,6 +52,5 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 	Private
 	Field _textAlign:Int = eTextAlign.LEFT 
 	Field _border:Bool = false
-	Field _borderColor:GuiColor = SystemColors.ButtonBorderColor.Clone()
 	Field _transparent:Bool = true
 end

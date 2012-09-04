@@ -99,7 +99,7 @@ Public
 	
 End
 
-Class eScrollMode
+Class eScrollMode 
 	Const Smooth = 0
 	Const Stepwise = 1
 End
@@ -506,10 +506,10 @@ Public
 	End
 End
 
-Class eButtonState
+Class eButtonState 
 	Const BUTTON_UP = 0
 	Const BUTTON_OVER = 1
 	Const BUTTON_DOWN = 2
-	Const BUTTON_SELECTED = 3
+	Const BUTTON_SELECTED = 4
 End
 

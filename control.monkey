@@ -73,7 +73,7 @@ Class Control
 	'summary: this is the Fore color of the control
 	Method ForeColor:GuiColor() Property 
 	#if TARGET="html5" 
-		return _htmlforecolor.Clone() 'SetColor(255,255,255)
+		return _htmlforecolor  '.Clone() 'SetColor(255,255,255)
 	#end
 	Return _foreColor
 	end
@@ -292,6 +292,31 @@ Class Control
 	End
 	
 	
+	'summary: This is the color used to draw the control background when the mouse is over the control. 
+	Method HooverColor:GuiColor() Property
+		if _hooveColor <> null Then Return _hooveColor Else Return SystemColors.HooverBackgroundColor
+	End
+	
+	Method HooverColor:GuiColor(value:GuiColor) Property
+		_hooveColor = value
+	End
+
+	'summary: This is the color used to draw the control border.
+	Method BorderColor:GuiColor() Property
+		if _borderColor = Null then return SystemColors.ButtonBorderColor else Return _borderColor
+	End
+
+	'summary: This is the color used to draw the control border.
+	Method BorderColor:GuiColor(value:GuiColor) Property
+		if value <> null then
+			_borderColor = value
+		Else
+			Throw New JungleGuiException("Border color can't be null.", Self)
+		endif
+	End
+
+
+	
 		'summary: Low level method that deals with event signatures. This method is part of the core functionality of the control.
 	Method Dispatch(msg:BoxedMsg)
 		if Not _gui Then return
@@ -361,7 +386,7 @@ Class Control
 		End
 	End
 	
-	'summary: This event is raised whenever the button is Clicked
+	'summary: This event is raised whenever the button is Clicked 
 	Method Event_Click:EventHandler<MouseEventArgs>() Property; Return _eventClick; End
 	'summary: This event is raised whenever the control is set a the top of its container Z-Order
 	Method Event_BringToFront:EventHandler<EventArgs>() Property; Return _bringToFront; end
@@ -402,6 +427,14 @@ Class Control
 	'summary: This event is raised whenever the control is resized.
 	Method Event_Resized:EventHandler<EventArgs>() Property; Return _resized; end
 	
+	Method Status:Int() Property
+		Local status:Int = eControlStatus.NONE
+		if _gui.ActiveControl = Self Then status = status | eControlStatus.FOCUSED
+		if _gui.GetMousePointedControl = Self Then status = status | eControlStatus.HOOVER
+		Return status
+	end
+	
+	
 	Private
 
 'INTERNAL EVENT HANDLERS:
@@ -425,6 +458,7 @@ Class Control
 	Field _sendToBack:= New EventHandler<EventArgs>
 	Field _visibleChanged:= New EventHandler<EventArgs>
 	Field _resized:= New EventHandler<EventArgs>
+		
 'OTHER PRIVATES:	
 	Field _tipText:String
 	Field _visible:Bool = true
@@ -483,13 +517,15 @@ Class Control
 	Field _parentControl:ContainerControl 
 	Field _drawingSize:ControlGuiVector2D = New ControlGuiVector2D
 	Field _backgroundColor:GuiColor = SystemColors.ControlFace.Clone() 'new GuiColor(1,170,170,170)
-	Field _foreColor:GuiColor = New GuiColor(1, 0, 0, 0)
+	Field _foreColor:GuiColor = SystemColors.WindowForeColor.Clone() 
 	Global _htmlforecolor:GuiColor = New GuiColor(1, 255, 255, 255)
 	Field _gui:Gui 
 	Field _tabStop:Bool = true
 	Field _name:String = ""
 	'Cache items:
 	Field _cacheRenderPosCalcuation:GuiVector2D
+	Field _hooveColor:GuiColor = Null
+	Field _borderColor:GuiColor = Null
 
 End
 'summary: This is the ContainerControl class, that extends the Control class.
@@ -698,6 +734,7 @@ Class TopLevelControl extends ContainerControl
 	
 	Method Event_InitForm:EventHandler<EventArgs>() Property; Return _initForm; End
 	
+	
 Private
 	Field _initForm:= New EventHandler<EventArgs>
 End
@@ -732,6 +769,11 @@ Class Gui
 			RenderTip()
 		EndIf
 	End
+	
+	Method Renderer:GuiRenderer()
+		Return _renderer
+	End
+
 	'summary: This method will clear all controls contained in this Gui.
 	Method Clear()
 		For Local form:TopLevelControl = EachIn _components
@@ -865,9 +907,10 @@ Class Gui
 		Return _focusedControl 
 	End
 	
-	Private 
+	Private
 	
-	Field _renderTipAlpha:Float=0
+	Field _renderer:GuiRenderer = New GuiRenderer
+	Field _renderTipAlpha:Float = 0
 	Method RenderTip()
 		Local control:=GetMousePointedControl()
 		if control  = null or control.TipText = "" Then 

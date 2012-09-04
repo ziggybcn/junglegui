@@ -75,22 +75,7 @@ Class ComboBox extends BaseLabel implements guiinterfaces.TextualAlignItem
 	Method Visible:Bool() Property
 		Return Super.Visible
 	End
-	
-	Method BorderColor:GuiColor() Property
-		Return _borderColor
-	End
-	Method BorderColor:GuiColor(value:GuiColor) Property
-		_borderColor = value
-	End
-	
-	Method HooverColor:GuiColor() Property
-		Return _hooveColor
-	End
-	
-	Method HooverColor:GuiColor(value:GuiColor) Property
-		_hooveColor = value
-	End
-	
+		
 	Method Render:Void()
 		Local drawingPos:=CalculateRenderPosition()
 		
@@ -187,8 +172,6 @@ Private
 	Const DEFAULT_HEIGHT = 20
 		
 	Field _textAlign:Int = eTextAlign.RIGHT
-	Field _borderColor:GuiColor = new GuiColor
-	Field _hooveColor:GuiColor = New GuiColor
 	Field _listBox:ListBox
 	Field _dropDownHeight:int = 200
 	Field _selectedIndexChanged:= new EventHandler<EventArgs>

@@ -21,6 +21,7 @@ Import scrollbar
 Import listbox
 Import combobox
 Import propertygrid
+Import renderer
 
 #IF TARGET="html5"
 	Import "resizecanvas/resizecanvas.js"
