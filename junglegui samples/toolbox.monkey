@@ -192,12 +192,12 @@ Class ToolBox extends form.Form
 		For Local i:Int = 0 to 200
 			Local particle:= New Particle(particlessample.ParticlesSample.emiter)
 			particlessample.ParticlesSample.emiter.stars.AddLast(particle)
-		next
+		Next
 	End
 	
 	Method Slider_Value_Changed(sender:Object, e:EventArgs)
-		local slider:= Slider(sender)
-		if slider = null Then Return
+		Local slider:= Slider(sender)
+		If slider = null Then Return
 		Select slider
 			Case colorR
 				particlessample.ParticlesSample.emiter.particleColor.r = colorR.Value
@@ -213,18 +213,18 @@ Class ToolBox extends form.Form
 	End
 	
 	Method Desired_Changed(sender:Object, e:EventArgs)
-		if particlessample.ParticlesSample <> null then particlessample.ParticlesSample.emiter.desiredParticles = desiredStars.Value
+		If particlessample.ParticlesSample <> null Then particlessample.ParticlesSample.emiter.desiredParticles = desiredStars.Value
 	End
 	
 	Method Canvas_Resized(sender:Object, e:EventArgs)
-		if Self.Position.X > DeviceWidth - Self.Size.X - 10 Then Self.Position.X = DeviceWidth - Self.Size.X - 10
-		if Self.Position.Y > DeviceHeight - Self.Size.Y - 10 Then Self.Position.Y = DeviceHeight - Self.Size.Y - 10
+		If Self.Position.X > DeviceWidth - Self.Size.X - 10 Then Self.Position.X = DeviceWidth - Self.Size.X - 10
+		If Self.Position.Y > DeviceHeight - Self.Size.Y - 10 Then Self.Position.Y = DeviceHeight - Self.Size.Y - 10
 	End
 	
 	Method ShapeKind_Selected_Changed(sender:Object, e:EventArgs)
-		if shapeKind.SelectedItem = null Then
+		If shapeKind.SelectedItem = null Then
 			shapeKind.SelectedItem = shapeKind.Items.First()
-		else
+		Else
 			Select shapeKind.SelectedItem.Text
 				Case "Round"
 					ParticlesSample.emiter.kind = Emiter.KIND_CIRCLE
@@ -250,10 +250,10 @@ Class ToolBox extends form.Form
 			'DebugStop 
 			debugForm = New DebugForm
 			debugForm.InitForm(GetGui)
-		endif
-		if debugForm <> null then
+		EndIf
+		If debugForm <> null Then
 			debugForm.ShowDebugMsg(msg)
-		endif
+		EndIf
 	End
 	
 	

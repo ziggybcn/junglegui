@@ -9,7 +9,8 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 		Endif
 		
 		SetColor(Self.ForeColor.r,ForeColor.g,ForeColor.b)
-		local textHeight:Int = Font.GetTxtHeight(Text)
+		Local textHeight:Int = Font.GetTxtHeight(Text)
+		'SetColor(0, 0, 0)	'Bottleneck
 		Font.DrawText(Text,drawingPos.X,Int(drawingPos.Y + Size.Y/2 - textHeight/2))
 		if _border Then
 			BorderColor.Activate()

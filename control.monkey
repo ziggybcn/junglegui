@@ -1,4 +1,4 @@
-Import drawingpoint
+ï»¿Import drawingpoint
 Import eventargs
 Import guicolor
 Import viewportstack
@@ -73,9 +73,9 @@ Class Control
 	'summary: this is the Fore color of the control
 	Method ForeColor:GuiColor() Property 
 	#if TARGET="html5" 
-		return _htmlforecolor  '.Clone() 'SetColor(255,255,255)
+		Return _htmlforecolor  '.Clone() 'SetColor(255,255,255)
 	#end
-	Return _foreColor
+		Return _foreColor
 	end
 	
 	Method ForeColor:GuiColor(value:GuiColor) Property
@@ -250,7 +250,7 @@ Class Control
 		Next
 		if focused = null Then 
 			if Parent <>null Then 
-				Parent.GetFocus()	'Era el último mohicano, volvemos al parent y escojemos el siguiente tío.
+				Parent.GetFocus()	'Era el Ãºltimo mohicano, volvemos al parent y escojemos el siguiente tÃ­o.
 				Parent.FocusNext()
 			Else
 				_NavigationGotFocus()		
@@ -478,7 +478,7 @@ Class Control
 		'Los ajustamos al viewport padre:
 		if _gui.viewPortStack.Stack.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 			
-		'Añadimos el viewport a la cola:
+		'AÃ±adimos el viewport a la cola:
 		_gui.viewPortStack.Stack.AddLast(viewPort)
 		if HasGraphicalInterface Then 	'And is visible
 			if _gui._mousePos.X>= viewPort.position.X And _gui._mousePos.X<= (viewPort.position.X + viewPort.size.X) Then
@@ -517,7 +517,7 @@ Class Control
 	Field _parentControl:ContainerControl 
 	Field _drawingSize:ControlGuiVector2D = New ControlGuiVector2D
 	Field _backgroundColor:GuiColor = SystemColors.ControlFace.Clone() 'new GuiColor(1,170,170,170)
-	Field _foreColor:GuiColor = SystemColors.WindowForeColor.Clone() 
+	Field _foreColor:GuiColor = SystemColors.WindowTextForeColor.Clone()
 	Global _htmlforecolor:GuiColor = New GuiColor(1, 255, 255, 255)
 	Field _gui:Gui 
 	Field _tabStop:Bool = true
@@ -582,7 +582,7 @@ Class ContainerControl extends Control
 		'Hacemos tijeretazo:
 		SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		
-		'Añadimos el viewport a la cola:
+		'AÃ±adimos el viewport a la cola:
 		_gui.viewPortStack.Stack.AddLast(viewPort)
 		RenderBackground()
 

@@ -29,7 +29,7 @@ Class ProgressBar extends Control
 		if HasFocus Then DrawFocusRect(Self, False)
 		if GetGui.GetMousePointedControl = Self Then
 			SystemColors.FocusColor.Activate()
-			DrawBox(drawpos,Size)
+			DrawBox(drawpos, Size)
 		EndIf
 	End
 	

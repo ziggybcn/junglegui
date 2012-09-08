@@ -4,7 +4,7 @@ Import mojo
 public
 
 'summary: This is the BaseLabel class. This class is used by controls displaying and handling Text
-Class BaseLabel extends Control implements TextualItem abstract
+Class BaseLabel Extends Control Implements TextualItem Abstract
 	'summary: This is the text displayed by the control
 	Method Text:String() property
 		Return _text
@@ -44,20 +44,16 @@ Class BaseLabel extends Control implements TextualItem abstract
 
 	
 	Method Render:Void()
-		Local drawingPos:=CalculateRenderPosition()
-		SetColor(BackgroundColor.r,BackgroundColor.g,BackgroundColor.b)
-		DrawRect(drawingPos.X,drawingPos.Y,Size.X,Size.Y)
+		Local drawingPos:= CalculateRenderPosition()
 		
-		SetColor(Self.ForeColor.r,ForeColor.g,ForeColor.b)
-		Font.DrawText(Text,drawingPos.X,drawingPos.Y)
-		if HasFocus Then
-			DrawFocusRect(Self)
-		EndIf
+		GetGui.Renderer.DrawControlBackground(Self.Status, drawingPos, Size, Self)
+		GetGui.Renderer.DrawLabelText(Self.Status, drawingPos, Size, Self.Text, eTextAlign.LEFT, Self.Font, Self)
+		
 	End
 	
 	'summary: This method will resize the control to the contained text size
 	Method AdjustSize:GuiVector2D()
-		Local size:GuiVector2D = New GuiVector2D 
+		Local size:GuiVector2D = New GuiVector2D
 		size.X = Font.GetTxtWidth(Text) 
 		size.Y = Font.GetTxtHeight(Text)
 		Self.Size.SetValues(size.X,size.Y)

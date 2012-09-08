@@ -7,9 +7,12 @@ Class CheckBox extends BaseLabel
 			BackgroundColor.Activate()
 			DrawRect(drawPos.X, drawPos.Y, Size.X, Size.Y)
 		endif
-		RenderCheckBox(drawPos)
-		ForeColor.Activate()
-		Font.DrawText(self.Text, drawPos.X + BoxSize, drawPos.Y + Size.Y / 2 - Font.GetTxtHeight(Text) / 2)
+		'RenderCheckBox(drawPos)
+		GetGui.Renderer.DrawCheckBox(Status, drawPos, Size, Self, BoxSize, Checked)
+		drawPos.X += BoxSize
+		GetGui.Renderer.DrawLabelText(Status, drawPos, Size, Text, eTextAlign.LEFT, Self.Font, Self)
+		'ForeColor.Activate()
+		'Font.DrawText(Self.Text, drawPos.X + BoxSize, drawPos.Y + Size.Y / 2 - Font.GetTxtHeight(Text) / 2)
 	End
 
 	Method Transparent:Bool() property
@@ -19,23 +22,24 @@ Class CheckBox extends BaseLabel
 	Method Transparent:Void(value:Bool) Property
 		_transparent = value
 	End
-	
-	Method RenderCheckBox(drawPos:GuiVector2D)
-		SystemColors.ControlFace.Activate()
-		Local yOffset:Int = Size.Y / 2 - BoxSize / 2
-		DrawRect(drawPos.X + 1, drawPos.Y + 1 + yOffset, BoxSize - 2, BoxSize - 2)
-		if GetGui.GetMousePointedControl = Self Then
-			SystemColors.FocusColor.Activate()
-		else
-			SystemColors.ButtonBorderColor.Activate()
-		EndIf
-		DrawRoundBox(int(drawPos.X), int(drawPos.Y + yOffset), BoxSize, BoxSize)
-		if Checked Then
-			SystemColors.AppWorkspace.Activate()
-			DrawRect(drawPos.X + 4, drawPos.Y + 4 + yOffset, BoxSize - 9, BoxSize - 8)
-		EndIf
-		
-	End
+
+'	Moved to the renderer:	
+'	Method RenderCheckBox(drawPos:GuiVector2D)
+'		SystemColors.ControlFace.Activate()
+'		Local yOffset:Int = Size.Y / 2 - BoxSize / 2
+'		DrawRect(drawPos.X + 1, drawPos.Y + 1 + yOffset, BoxSize - 2, BoxSize - 2)
+'		if GetGui.GetMousePointedControl = Self Then
+'			SystemColors.FocusColor.Activate()
+'		else
+'			SystemColors.ButtonBorderColor.Activate()
+'		EndIf
+'		DrawRoundBox(int(drawPos.X), int(drawPos.Y + yOffset), BoxSize, BoxSize)
+'		if Checked Then
+'			SystemColors.AppWorkspace.Activate()
+'			DrawRect(drawPos.X + 4, drawPos.Y + 4 + yOffset, BoxSize - 9, BoxSize - 8)
+'		EndIf
+'		
+'	End
 	
 	Method AdjustSize:GuiVector2D()
 		Local size:GuiVector2D = New GuiVector2D

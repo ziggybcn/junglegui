@@ -2,7 +2,7 @@ Import junglegui
 Import toolbox
 Import simpleparticles
 Import debugform
-#REFLECTION_FILTER="particlessample*|toolbox*|junglegui*|debugform*"
+#REFLECTION_FILTER="particlessample*|toolbox*|junglegui*|debugform*" 
 Global ParticlesSample:Sample
 Function Main()
 	ParticlesSample = New Sample
@@ -29,8 +29,9 @@ Class Sample extends App
 	End
 	Method OnRender()
 		Cls(0, 0, 55)
-		emiter.Draw()		
+		emiter.Draw()
 		SetColor(255, 255, 255)
 		gui.Render()
 	End
 End
+
