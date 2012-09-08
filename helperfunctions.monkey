@@ -65,10 +65,15 @@ End
 	Global WindowColor:GuiColor = New GuiColor(1,255,255,255)
 	Global FormMargin:GuiColor = New GuiColor(1,174,199,225)
 	Global InactiveFormBorder:GuiColor = New GuiColor(1, 120, 120, 120)
-	Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
 	Global SelectedItemBackColor:GuiColor = New GuiColor(1, 51, 153, 255)
 	Global HooverBackgroundColor:GuiColor = New GuiColor(1, 255, 255, 255)
-	Global WindowForeColor:GuiColor = New GuiColor(1, 0, 0, 0)
+	#IF TARGET<>"html5"
+	Global WindowTextForeColor:GuiColor = New GuiColor(1, 0, 0, 0)
+	Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
+	#ELSE 
+	Global WindowTextForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
+	Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
+	#END
 End
 
 

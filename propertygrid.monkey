@@ -58,7 +58,7 @@ Class ScrollableControl extends Control
 					endif
 					
 				Case eMsgKinds.MOUSE_UP
-					if ScrollbarVisible Then _scrollbar.MouseUp(MouseEventArgs(msg.e))
+					If ScrollbarVisible Then _scrollbar.MouseUp(MouseEventArgs(msg.e))
 					
 				Case eMsgKinds.MOUSE_DOWN
 					
