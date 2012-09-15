@@ -25,47 +25,8 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 		if Self.HasFocus Then GetGui.Renderer.DrawButtonFocusRect(Self.Status, drawingPos, Self.Size, Self)
 		GetGui.Renderer.DrawLabelText(Self.Status, drawingPos, Self.Size, Self.Text, Self.TextAlign, Self.Font, Self)
 		if HasFocus Then DrawFocusRect(Self, true)
-
-'		Local drawingPos:=CalculateRenderPosition()
-'		
-'		if GetGui.GetMousePointedControl() = Self Then
-'			SetColor(HooverColor.r,HooverColor.g,HooverColor.b)
-'		else
-'			SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
-'		EndIf
-'		
-'		DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y - 2)
-'		
-'		SetAlpha(.5)
-'		SetColor(255,255,255)
-'		DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y / 2)
-'		SetAlpha(1)
-'		
-'		SetColor(BorderColor.r,BorderColor.g,BorderColor.b) 
-'		
-'		DrawRoundBox(drawingPos,Size)
-'		
-'		
-'		if HasFocus Then
-'			SetAlpha 0.2
-'			SystemColors.FocusColor.Activate
-'			DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y - 2)
-'			SetAlpha 1
-'		EndIf
-'
-'		SetColor(Self.ForeColor.r, ForeColor.g, ForeColor.b)
-'		
-'		Select TextAlign
-'			Case eTextAlign.CENTER 
-'				Font.DrawText(Text,int(drawingPos.X + Size.X/2) ,int(drawingPos.Y + Size.Y/2 - Font.GetFontHeight()/2),eDrawAlign.CENTER )
-'			Case eTextAlign.LEFT 
-'				Font.DrawText(Text,int(drawingPos.X ) ,int(drawingPos.Y + Size.Y/2 - Font.GetFontHeight()/2),eDrawAlign.LEFT )
-'			Case eTextAlign.RIGHT
-'				Font.DrawText(Text,int(drawingPos.X + Size.X) ,int(drawingPos.Y + Size.Y/2 - Font.GetFontHeight()/2),eDrawAlign.RIGHT )
-'		End
-'		
-'		if HasFocus Then DrawFocusRect(Self, true)
 	End
+	
 	Method AdjustSize:GuiVector2D()
 		Local size:GuiVector2D = New GuiVector2D 
 		size.X = Font.GetTxtWidth(Text) + 19
