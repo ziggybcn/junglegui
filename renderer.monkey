@@ -4,19 +4,25 @@ Import junglegui
 Class GuiRenderer
 
 	Method DrawButtonBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
-
-		if HasFlag(status, eControlStatus.HOOVER) then
-			if context then context.HooverColor.Activate() Else SystemColors.HooverBackgroundColor.Activate()
-		else
-			if context then context.BackgroundColor.Activate() Else SystemColors.ControlFace.Activate()
+		Local backColor:GuiColor
+		If HasFlag(status, eControlStatus.HOOVER) Then
+			If context Then
+				backColor = context.HooverColor
+			Else
+				backColor = SystemColors.HooverBackgroundColor
+			EndIf
+		Else
+			If context Then
+				backColor = context.BackgroundColor
+			Else
+				backColor = SystemColors.ControlFace
+			EndIf
 		EndIf
+		backColor.Activate
 		
-		DrawRect(position.X + 1, position.Y + 1, size.X - 2, size.Y - 2)
-		
-		SetAlpha(.5)
-		SetColor(255,255,255)
+		DrawRect(position.X + 1, position.Y + 1, size.X - 2, size.Y - 2)		
+		backColor.ActivateBright()
 		DrawRect(position.X + 1, position.Y + 1, size.X - 2, size.Y / 2)
-		SetAlpha(1)
 	End
 	
 	Method DrawControlBorder(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
@@ -63,8 +69,35 @@ Class GuiRenderer
 
 	End
 	
-	Method DrawFormBackground(control:Control, position:GuiVector2D, size:GuiVector2D)
+	Method DrawFormBackground(status:Int, position:GuiVector2D, size:GuiVector2D, padding:Padding, text:String, context:Control)
+		SystemColors.FormMargin.Activate()
+		DrawRect(position.X, position.Y, size.X, size.Y)
+		'SetColor(SystemColors.FormMargin.r + 10, SystemColors.FormMargin.g + 10, SystemColors.FormMargin.b + 10)
+		SystemColors.FormMargin.ActivateBright(15)
+		DrawRect(position.X + 2, position.Y + 2, size.X - 4, padding.Top / 2 - 2)
 		
+		If context <> null Then
+			context.ForeColor.Activate()
+		Else
+			SystemColors.WindowTextForeColor.Activate()
+		EndIf
+		Local TextY:Int = position.Y + padding.Top / 2 - Gui.systemFont.GetFontHeight / 2
+		Gui.systemFont.DrawText(text, int(position.X + size.X / 2), TextY, eDrawAlign.CENTER)
+		
+		If context <> null Then
+			context.BackgroundColor.Activate()
+		Else
+			SystemColors.WindowColor.Activate()
+		EndIf
+		
+		DrawRect(position.X + padding.Left, position.Y + padding.Top, size.X - padding.Left - padding.Right, size.Y - padding.Bottom - padding.Top)
+		If HasFlag(status, eControlStatus.FOCUSED) Then
+			DrawFocusRect(context)
+		Else
+			SystemColors.InactiveFormBorder.Activate()
+			DrawBox(position, size)
+		EndIf
+
 	End
 	
 	Method DrawFormClientArea(control:Control, position:GuiVector2D, size:GuiVector2D)
@@ -93,10 +126,7 @@ Class GuiRenderer
 	
 	End
 	
-	Method DrawFocusRect(control:Control, position:GuiVector2D, size:GuiVector2D)
-	
-	end
-	
+
 	Method DrawPanelBackground(control:Control, position:GuiVector2D, size:GuiVector2D)
 		
 	End

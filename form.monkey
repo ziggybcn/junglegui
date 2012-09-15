@@ -14,25 +14,27 @@ Class Form extends TopLevelControl
 	End
 	Method RenderBackground()
 		Local drawPos:GuiVector2D = CalculateRenderPosition()
-		SystemColors.FormMargin.Activate()
-		'SetAlpha(0.8)	'Make transparent border, kind of cool, keep it here for future refence on the renderer.
-		DrawRect(drawPos.X, drawPos.Y, Size.X, Size.Y)
-		SetColor(255, 255, 255)
-		SetAlpha(0.2)
-		DrawRect(drawPos.X + 2, drawPos.Y + 2, Size.X - 4, Padding.Top / 2 - 2)
-		SetAlpha(1)
-		ForeColor.Activate()
-		Local TextY:Int = drawPos.Y + Padding.Top / 2 - Gui.systemFont.GetFontHeight / 2
-		Gui.systemFont.DrawText(Text, int(drawPos.X + Self.Size.X / 2), TextY, eDrawAlign.CENTER)
 		
-		BackgroundColor.Activate()
-		DrawRect(drawPos.X + Padding.Left, drawPos.Y + Padding.Top, Size.X - Padding.Left - Padding.Right, Size.Y - Padding.Bottom - Padding.Top)
-		if HasFocus Then
-			DrawFocusRect(Self)
-		Else
-			SystemColors.InactiveFormBorder.Activate()
-			DrawBox(drawPos, Self.Size)
-		EndIf
+		GetGui.Renderer.DrawFormBackground(Status, drawPos, Size, Padding, Text, Self)
+		
+		'SystemColors.FormMargin.Activate()
+		'DrawRect(drawPos.X, drawPos.Y, Size.X, Size.Y)
+		'SetColor(255, 255, 255)
+		'SetAlpha(0.2)
+		'DrawRect(drawPos.X + 2, drawPos.Y + 2, Size.X - 4, Padding.Top / 2 - 2)
+		'SetAlpha(1)
+		'ForeColor.Activate()
+		'Local TextY:Int = drawPos.Y + Padding.Top / 2 - Gui.systemFont.GetFontHeight / 2
+		'Gui.systemFont.DrawText(Text, int(drawPos.X + Self.Size.X / 2), TextY, eDrawAlign.CENTER)
+		
+		'BackgroundColor.Activate()
+		'DrawRect(drawPos.X + Padding.Left, drawPos.Y + Padding.Top, Size.X - Padding.Left - Padding.Right, Size.Y - Padding.Bottom - Padding.Top)
+		'if HasFocus Then
+		'	DrawFocusRect(Self)
+		'Else
+		'	SystemColors.InactiveFormBorder.Activate()
+		'	DrawBox(drawPos, Self.Size)
+		'EndIf
 		If ControlBox then RenderControlBox(drawPos)
 	End
 	Method RenderControlBox(FormScreenPos:GuiVector2D)
