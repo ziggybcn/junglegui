@@ -4,10 +4,10 @@ Import simpleparticles
 Import debugform
 #REFLECTION_FILTER="particlessample*|toolbox*|junglegui*|debugform*" 
 Global ParticlesSample:Sample
+
 Function Main()
 	ParticlesSample = New Sample
 End
-
 
 Class Sample extends App
 	Field toolBox:ToolBox
@@ -18,9 +18,10 @@ Class Sample extends App
 		EnableAutoSize()
 		emiter = New Emiter
 		
-		if gui = null Then gui = New Gui
+		If gui = null Then gui = New Gui
 		toolBox = New ToolBox
 		toolBox.InitForm(gui)
+		
 	End
 	Method OnUpdate()
 		emiter.Update()
@@ -34,4 +35,3 @@ Class Sample extends App
 		gui.Render()
 	End
 End
-

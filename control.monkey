@@ -591,7 +591,7 @@ Class ContainerControl extends Control
 		viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 		_gui.viewPortStack.Stack.AddLast(viewPort)
 		SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
-				
+		
 		RenderChildren()
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el post-padding
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el borde del control
@@ -643,6 +643,7 @@ Class ContainerControl extends Control
 		For Local c:Control = EachIn controls
 			c._InformGui(gui)
 		Next
+		
 	End
 	
 	Method _NavigationGotFocus()
@@ -761,9 +762,10 @@ Class Gui
 		For Local c:Control = eachin _components
 			if c.Visible = False Then Continue
 			c.Render()
-			SetScissor(scissor[0],scissor[1],scissor[2],scissor[3])
+			SetScissor(scissor[0], scissor[1], scissor[2], scissor[3])
 		Next
-		SetScissor(scissor[0],scissor[1],scissor[2],scissor[3])	
+		SetScissor(scissor[0], scissor[1], scissor[2], scissor[3])
+		
 		if _waitingTipCount>10 Then
 			_waitingTipCount = 10 + 1
 			RenderTip()
