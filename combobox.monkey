@@ -182,6 +182,7 @@ Class ComboBox extends BaseLabel implements guiinterfaces.TextualAlignItem
 	Method ListBox:ListBox() Property
 		Return _listBox
 	End
+	
 Private
 	
 	Const DEFAULT_HEIGHT = 20
