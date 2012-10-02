@@ -172,40 +172,33 @@ Public
 		_lblText.Text = text
 		_lblText.Font = boldFont
 		_lblText.Parent = Self 
+		_lblText.Position.SetValues(96,5)
 		
 		_lblMapName = New Label
 		_lblMapName.Text = mapName
 		_lblMapName.Parent = Self 
 		_lblMapName.Font = normalFont
+		_lblMapName.Position.SetValues(96,25)
 		
 		_lblStatus = New Label
 		_lblStatus.Text = status
 		_lblStatus.Parent = Self 
 		_lblStatus.Font = boldFont
+		_lblStatus.TextAlign = eTextAlign.LEFT   
+		_lblStatus.Position.SetValues(WIDTH-5-_lblStatus.Font.GetTxtWidth(_lblStatus.Text),5)
 		
 		_lblIp = New Label
 		_lblIp.Text = ip
 		_lblIp.Parent = Self 
 		_lblIp.Font = normalFont
-			
-		_img = img 
-		
-		InitControls()
-	End
-	
-	Method InitControls()
-	
-		_lblStatus.TextAlign = eTextAlign.LEFT   
 		_lblIp.TextAlign = eTextAlign.LEFT 
-		
-		_lblText.Position.SetValues(96,5)
-		_lblMapName.Position.SetValues(96,25)
-		_lblStatus.Position.SetValues(WIDTH-5-_lblStatus.Font.GetTxtWidth(_lblStatus.Text),5)
 		_lblIp.Position.SetValues(WIDTH-5-_lblIp.Font.GetTxtWidth(_lblIp.Text),25)
+		
+		_img = img 
 		
 		Size.SetValues(WIDTH, HEIGHT )
 	End
-	
+
 	Method Render:Void()
 		Super.Render()
 		
@@ -235,5 +228,6 @@ Class GameListView extends ListView
 		Super.New(x,y,width, height, parent )
 		ItemHeight = GameListViewItem.HEIGHT 
 		ItemWidth = GameListViewItem.WIDTH 
+		SetItemSpacing(5,5)
 	End
 End
