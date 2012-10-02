@@ -73,10 +73,6 @@ Public
 		_text = text 
 		_img = img
 		_textHeight = Font.GetFontHeight + 4
-		
-		Event_MouseEnter.Add( Self, "OnEnter" )
-		Event_MouseLeave.Add( Self, "OnLeave" )
-		Event_Click.Add(Self, "OnClick" )
 	End
 	
 Private 
