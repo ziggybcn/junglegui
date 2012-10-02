@@ -2,12 +2,65 @@ Import junglegui
 Import mojo 
 
 
-'' summary: Represents an item in a ListView control.
 Class ListViewItem extends ContainerControl 
 
 Private 
 
 	Field _owner:ListView 
+	
+	Method OnEnter(sender:Object, e:EventArgs )
+		_owner._overControl = Self
+	End
+	
+	Method OnLeave(sender:Object, e:EventArgs )
+		_owner._overControl = null
+	End
+	
+	Method OnClick(sender:Object, e:MouseEventArgs )
+		_owner._selectedItem = Self 
+		Local index = 0
+		'' TODO: Optimize!
+		For Local i:= eachin _owner._items 
+			if i = Self Then 
+				_owner._selectedIndex = index; Exit  
+			End 
+			index+=1
+		Next
+	End
+	
+
+Public 
+
+	Method new()
+		Event_MouseEnter.Add( Self, "OnEnter" )
+		Event_MouseLeave.Add( Self, "OnLeave" )
+		Event_Click.Add(Self, "OnClick" )
+	End
+	
+	Method Owner:ListView() Property 
+		Return _owner 
+	End
+	
+	Method Render:Void()
+		
+		if _owner.SelectedItem = Self Then 
+			BackgroundColor.SetColor(255,184,214,251)
+		else If HasFlag(Self.Status, eControlStatus.HOOVER) Then
+			BackgroundColor.SetColor(255,236,244,253)
+		Else
+			BackgroundColor.SetColor(255,255,255,255)
+		EndIf
+	
+		Super.Render()
+	End
+	
+End 
+
+'' summary: Represents an item in a ListView control.
+Class DefaultListViewItem extends ListViewItem 
+
+Private 
+
 	Field _text:String 
 	Field _img:Image 
 	Field _textHeight
@@ -27,14 +80,6 @@ Public
 	End
 	
 Private 
-
-	Method OnEnter(sender:Object, e:EventArgs )
-		_owner._overControl = Self
-	End
-	
-	Method OnLeave(sender:Object, e:EventArgs )
-		_owner._overControl = null
-	End
 	
 	Method BorderVisible?() Property
 		Return _showBorder
@@ -43,31 +88,8 @@ Private
 	Method BorderVisible:Void(val?) Property 
 		_showBorder = val 
 	End
-	
-
-	Method OnClick(sender:Object, e:MouseEventArgs )
-		_owner._selectedItem = Self 
-		Local index = 0
-		
-		'' TODO: Optimize!
-		For Local i:= eachin _owner._items 
-			if i = Self Then 
-				_owner._selectedIndex = index; Exit  
-			End 
-			index+=1
-		Next
-	End
-
-	Method ListView:Void(val:ListView) Property
-		_owner = val
-	End 
 
 Public 
-	
-	'' Gets the ListView control that contains the item.
-	Method ListView:ListView() Property
-		Return _owner
-	End 
 	
 	Method Font(value:BitmapFont) Property
 		_font = value
@@ -355,42 +377,45 @@ Public
 	
 	Method UpdateScrollBar( )
 		
-		_countX = Max( 1, Size.X / (_itemWidth + _vSpacing ) )
-		_countY = Items.Count  / _countX  + 1 
-
+		if Items And Items.Count > 0 Then 
 		
-		'' TODO: Optimize
-		Local items:= Items.ToArray()
-		Local length = items.Length 
-		
-		'' update items position and size
-		For Local iy= 0 until _countY
-			for Local ix = 0 until _countX
-				
-				Local index = iy * _countX + ix
-				if index >= length Then 
-					Exit 
-				EndIf
-
-				Local item:= items[index]
- 
-				item.Size.SetValues(_itemWidth,_itemHeight)
-
-				item.Position.SetValues(
-					_hSpacing + (_itemWidth + _hSpacing ) * ix,
-					_vSpacing -_scrollbar.Value *_hScrollStep + (_itemHeight + _vSpacing ) * iy )
-		
+			_countX = Max( 1, Size.X / (_itemWidth + _vSpacing ) )
+			_countY = Items.Count  / _countX  + 1 
+	
+			
+			'' TODO: Optimize
+			Local items:= Items.ToArray()
+			Local length = items.Length 
+			
+			'' update items position and size
+			For Local iy= 0 until _countY
+				for Local ix = 0 until _countX
+					
+					Local index = iy * _countX + ix
+					if index >= length Then 
+						Exit 
+					EndIf
+	
+					Local item:= items[index]
+	 
+					item.Size.SetValues(_itemWidth,_itemHeight)
+	
+					item.Position.SetValues(
+						_hSpacing + (_itemWidth + _hSpacing ) * ix,
+						_vSpacing -_scrollbar.Value *_hScrollStep + (_itemHeight + _vSpacing ) * iy )
+			
+				End 
 			End 
+	
+			''
+			'' update scrollbar -  TODO: Does not work, needs to be fixed...
+			''
+			
+			local _visibleItems:= Max(0, int(Size.Y / (_itemHeight+ _vSpacing )))
+			_scrollbar.ItemsCount = _countY*_itemHeight / _hScrollStep
+			_scrollbar.VisibleItems = _visibleItems*_itemHeight / _hScrollStep 
+
 		End 
-
-		''
-		'' update scrollbar -  TODO: Does not work, needs to be fixed...
-		''
-		
-		local _visibleItems:= Max(0, int(Size.Y / (_itemHeight+ _vSpacing )))
-		_scrollbar.ItemsCount = _countY*_itemHeight / _hScrollStep
-		_scrollbar.VisibleItems = _visibleItems*_itemHeight / _hScrollStep 
-
 	End
 	
 	Method Update()

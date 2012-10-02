@@ -51,43 +51,23 @@ End
 
 Class MyForm extends Form
 
-	Field button:Button
-	Field vScrollBar:VScrollBar
 	Field listBox1:ListBox
 	Field comboBox:ComboBox
 	Field listView1:ListView
-	Field img2:Image 
-	
+	Field listView2:ListView
+
 	Method OnInit()
-		Size.SetValues(500, 400)
-		
+		Size.SetValues(500, 464)
+		Position.SetValues(DeviceWidth / 2 - 255, DeviceHeight / 2 - 232 )
 		'''
 		''' MyForm
 		'''
 		'Events.Add(Self, eMsgKinds.MOVED, "MyForm_Moved")
 		Self.Event_Moved.Add(Self, "MyForm_Moved")
-
-		'''
-		''' button
-		'''
-		button = New Button
-		button.Position.SetValues(10, 10)
-		button.Text = "Add List Item"
-		button.Parent = Self
-		button.Event_Click.Add(Self, "Button_Clicked")
-		
-		'''
-		''' comboBox
-		'''
-		comboBox = new ComboBox(self, 150, 10, 130)
-		For Local i = 0 until 20
-			comboBox.Items.AddLast(New ListItem("comboBox Item " + i))
-		Next
-		comboBox.Event_SelectedIndexChanged.Add(Self, "combobox_SelectedIndexChanged")
 		
 		
 		Local label:= new Label()
-		label.Position.SetValues( 10,50)
+		label.Position.SetValues( 10,5)
 		label.Parent = Self  
 		label.Text = "Item Size: "
 		'''
@@ -95,7 +75,7 @@ Class MyForm extends Form
 		'''
 		local trackbar:= New TrackBar
 		trackbar.Parent = Self
-		trackbar.Position.SetValues(10, 70)
+		trackbar.Position.SetValues(10, 25)
 		trackbar.Event_ValueChanged.Add(Self, "Trackbar1_ValueChanged")
 		trackbar.Minimum = 48
 		trackbar.Maximum = 256
@@ -103,7 +83,7 @@ Class MyForm extends Form
 		
 		
 		label= new Label()
-		label.Position.SetValues( 230,50)
+		label.Position.SetValues( 230,5)
 		label.Parent = Self  
 		label.Text = "Item Spacing: "
 		
@@ -112,70 +92,42 @@ Class MyForm extends Form
 		'''
 		trackbar = New TrackBar
 		trackbar.Parent = Self
-		trackbar.Position.SetValues(230, 70)
+		trackbar.Position.SetValues(230, 25)
 		trackbar.Minimum = 2
 		trackbar.Maximum = 64
 		trackbar.Tickfrequency = 2
 		trackbar.Event_ValueChanged.Add(Self, "Trackbar2_ValueChanged")
 		
 		'''
-		''' vertical scrollbar
-		'''
-		vScrollBar = New VScrollBar()
-		vScrollBar.Parent = Self
-		vScrollBar.Position.SetValues(Self.Size.X - 17 - Self.Padding.Left - Self.Padding.Right, 0)
-		vScrollBar.Size.SetValues(17, Size.Y - Self.Padding.Top - Self.Padding.Bottom)
-		vScrollBar.Event_ValueChanged.Add(Self, "vScrollBar_ValueChanged")
-		
-		'''
 		''' listView1
 		'''
 		
-		Local items:= LoadImage("icons.png")
 		Local img1:= LoadImage("icon1.png")
-		img2 = LoadImage("icon2.png")
-		
-		listView1 = New ListView(10, 120, 400, 200, Self)
-		listView1.Items.AddLast( New ListViewItem( "Wall", img1 )) 
-		listView1.Items.AddLast( New ListViewItem( "Chain Link", img2 )) 
-		listView1.Items.AddLast( New ListViewItem( "Airstrip", img1 )) 
-		listView1.Items.AddLast( New ListViewItem( "APC", img2 )) 
-		listView1.Items.AddLast( New ListViewItem( "Artillery", img1 )) 
-		listView1.Items.AddLast( New ListViewItem( "Nuclear Strike", img2 )) 
-		listView1.Items.AddLast( New ListViewItem( "Advanced Guard", img1 )) 
-		listView1.Items.AddLast( New ListViewItem( "NOD Buggy", img2 )) 
-		
-		listView1.Event_ItemAdded.Add(Self, "listView1_ItemAdded" )
-		listView1.Event_ItemRemoved.Add(Self, "listView1_ItemRemoved" )
-	End
+		local img2:= LoadImage("icon2.png")
+		Local map1:= LoadImage("map1.png")
+		Local map2:= LoadImage("map2.png")
+		Local map3:= LoadImage("map3.png")
+					
+		listView1 = New ListView(5, 60, 470, 180, Self)
+		listView1.Items.AddLast( New DefaultListViewItem( "Bla" ,img1 )) 
+		listView1.Items.AddLast( New DefaultListViewItem( "Bla" , img2 )) 
+		listView1.Items.AddLast( New DefaultListViewItem( "Bla" ,img1 )) 
+		listView1.Items.AddLast( New DefaultListViewItem( "Bla" ,img2 )) 
+		listView1.Items.AddLast( New DefaultListViewItem( "Bla" ,img1 )) 
+		listView1.Items.AddLast( New DefaultListViewItem( "Bla" ,img2 )) 
+		listView1.Items.AddLast( New DefaultListViewItem( "Bla" ,img1 )) 
+		listView1.Items.AddLast( New DefaultListViewItem( "Bla" ,img2 )) 
 
-	Method listView1_ItemAdded(sender:object, e:EventArgs)
-		Print "listView1_ItemAdded"
-	End
-	
-	Method listView1_ItemRemoved(sender:object, e:EventArgs)
-		Print "listView1_ItemRemoved"
-	End
-	
-	Method combobox_SelectedIndexChanged(sender:object, e:EventArgs)
-		if comboBox.SelectedItem Then
-			Self.Text = comboBox.SelectedItem.Text
-		End
-	End
-	
-	Method vScrollBar_ValueChanged(sender:object, e:EventArgs)
-		Self.Text = "vScrollBar value " + vScrollBar.Value
-	End
-	
-	Method listBox1_SelectedIndexChanged(sender:object, e:EventArgs)
-		if listBox1.SelectedItem then
-			Self.Text = listBox1.SelectedItem.Text
-		End
-	End
-	
-	Method Button_Clicked(sender:Object, e:MouseEventArgs)
-		Self.Text = "Button was clicked in millisecond: " + Millisecs()
-		listView1.Items.AddLast( New ListViewItem( "Item " + int(Rnd(0,100)), img2 )) 
+		listView2  = New GameListView(5, 250, 470, 180, Self)
+		listView2.Items.AddLast( New GameListViewItem( "Bla Dedicated Server","Waiting for players","37.59.222.194:1234","A Path Beyond" ,map1 )) 
+		listView2.Items.AddLast( New GameListViewItem( "Bla Dedicated Server","Waiting for players","37.59.222.194:1234","A Path Beyond" , map2 )) 
+		listView2.Items.AddLast( New GameListViewItem( "Bla Dedicated Server","Waiting for players","37.59.222.194:1234","A Path Beyond" ,map3 )) 
+		listView2.Items.AddLast( New GameListViewItem( "Bla Dedicated Server","Waiting for players","37.59.222.194:1234","A Path Beyond" ,map1 )) 
+		listView2.Items.AddLast( New GameListViewItem( "Bla Dedicated Server","Waiting for players","37.59.222.194:1234","A Path Beyond" ,map2 )) 
+		listView2.Items.AddLast( New GameListViewItem( "Bla Dedicated Server","Waiting for players","37.59.222.194:1234","A Path Beyond" ,map3 )) 
+		listView2.Items.AddLast( New GameListViewItem( "Bla Dedicated Server","Waiting for players","37.59.222.194:1234","A Path Beyond" ,img1 )) 
+		listView2.Items.AddLast( New GameListViewItem( "Bla Dedicated Server","Waiting for players","37.59.222.194:1234","A Path Beyond" ,img2 )) 
+		
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)
@@ -190,5 +142,98 @@ Class MyForm extends Form
 
 	Method MyForm_Moved(sender:Object, e:EventArgs)
 		Self.Text = "Moved to: " + Self.Position.X + ", " + Self.Position.Y
+	End
+	
+End
+
+'################################################################
+
+Class GameListViewItem extends ListViewItem 
+
+Private 
+
+	Const WIDTH = 440
+	Const HEIGHT = 72
+	
+	Field _lblStatus:Label 
+	Field _lblIp:Label 
+	Field _lblMapName:Label 
+	Field _lblText:Label 
+	Field _img:Image 
+
+Public 
+		
+	Method New(text$,status$, ip$, mapName$, img:Image)
+		
+		Local boldFont:=  New BitmapFont("boldFont.txt")
+		Local normalFont:=  New BitmapFont("normal.txt")
+		
+		_lblText = New Label
+		_lblText.Text = text
+		_lblText.Font = boldFont
+		_lblText.Parent = Self 
+		
+		_lblMapName = New Label
+		_lblMapName.Text = mapName
+		_lblMapName.Parent = Self 
+		_lblMapName.Font = normalFont
+		
+		_lblStatus = New Label
+		_lblStatus.Text = status
+		_lblStatus.Parent = Self 
+		_lblStatus.Font = boldFont
+		
+		_lblIp = New Label
+		_lblIp.Text = ip
+		_lblIp.Parent = Self 
+		_lblIp.Font = normalFont
+			
+		_img = img 
+		
+		InitControls()
+	End
+	
+	Method InitControls()
+	
+		_lblStatus.TextAlign = eTextAlign.LEFT   
+		_lblIp.TextAlign = eTextAlign.LEFT 
+		
+		_lblText.Position.SetValues(96,5)
+		_lblMapName.Position.SetValues(96,25)
+		_lblStatus.Position.SetValues(WIDTH-5-_lblStatus.Font.GetTxtWidth(_lblStatus.Text),5)
+		_lblIp.Position.SetValues(WIDTH-5-_lblIp.Font.GetTxtWidth(_lblIp.Text),25)
+		
+		Size.SetValues(WIDTH, HEIGHT )
+	End
+	
+	Method Render:Void()
+		Super.Render()
+		
+		Local drawpos:= CalculateRenderPosition()
+		
+		'' Calculate image scaling factor
+		Local scale# = Min( 
+		float(HEIGHT-8) / float(_img.Width),
+		float(HEIGHT-8) / float(_img.Height))
+	
+		'' Draw item image
+		SetColor 255,255,255
+		DrawImage(_img, 
+			drawpos.X + HEIGHT / 2 - float(_img.Width * scale) / 2 ,
+			drawpos.Y + (HEIGHT ) / 2 - float(_img.Height * scale) / 2 , 
+			0,scale, scale)
+	End
+	
+	Method Text:String()
+		Return _lblText.Text 
+	End
+	
+End
+
+Class GameListView extends ListView 
+	Method new(x%,y%, width%, height%, parent:ContainerControl )
+		Super.New(x,y,width, height, parent )
+		ItemHeight = GameListViewItem.HEIGHT 
+		ItemWidth = GameListViewItem.WIDTH 
 	End
 End
