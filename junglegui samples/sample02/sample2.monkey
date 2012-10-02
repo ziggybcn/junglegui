@@ -1,6 +1,8 @@
 'This is a very small minimal sample
 
 Import junglegui
+Import trans 
+
 #REFLECTION_FILTER="sample2*|junglegui*"
 
 Function Main()
@@ -22,14 +24,7 @@ Class Sample2 extends App
 		Catch jge:JungleGuiException
 			Print "Form could not be initialized becouse of an exception:"
 			Print jge.ToString()
-		End
-	
-'		For Local i:Int = 0 to 20
-'			Local mf:= New MyForm
-'			mf.InitForm(gui)
-'			mf.Position.SetValues(int(Rnd(0, DeviceWidth - mf.Size.X)), Int(Rnd(0, DeviceHeight - mf.Size.Y)))
-'		Next
-'			
+		End		
 	End
 	
 	Method OnUpdate()
@@ -54,58 +49,14 @@ Class Sample2 extends App
 	End
 End
 
-
-Class ParticleType
-	Field Name:String				= "Default"			
-	Field LifeTime:Int				= 10000
-	Field Blend = 1
-	Field Rotation:Int				= 90
-	Field RotationMode:Int = 0
-	Field Img:Image					= Null
-	Field MidHandleImage:Bool		= True
-	Field HandleX:Int				= 0
-	Field HandleY:Int				= 0
-	Field EmissionRadius:Float 		= 0
-	Field EmissionShape:Int = 0
-	Field EmissionRate:Int			= 10
-	Field EmissionAngle:Int			= 45
-	Field EmissionChange:Int		= 0
-	Field Speed:Float				= 100
-	Field SpeedVar:Float			= 30
-	Field SpeedChange:Float			= 0
-	Field Size:Float				= 0.2
-	Field SizeVar:Float				= 0.1
-	Field SizeChange:Float			= 2.0
-	Field SizeMax:Float				= 5.0
-	Field Weight:Float				= 0
-	Field WeightVar:Float			= 0
-	Field StartColorR:Int			= 128
-	Field StartColorG:Int			= 128
-	Field StartColorB:Int			= 128
-	Field EndColorR:Float			= 0	
-	Field EndColorG:Float			= 0
-	Field EndColorB:Float			= 0
-	Field BrightnessChange:Int		= 20
-	Field BrightnessVar:Int			= 10
-	Field Alpha:Float				= 1.0
-	Field AlphaVar:Float			= 0.2
-	Field AlphaChange:Float			= 0.01
-	Field AlphaDelay:Int			= 0
-	Field KillOutsideScreen:Bool	= True
-	Field Enabled:Bool				= True
-	Field TailEmissionRate:Float	= 0.0
-	Field TailEmissionChange:Float	= 0.0
-	
-End
-
-
 Class MyForm extends Form
 
 	Field button:Button
 	Field vScrollBar:VScrollBar
 	Field listBox1:ListBox
 	Field comboBox:ComboBox
-	Field propertyGrid:PropertyGrid
+	Field listView1:ListView
+	Field img2:Image 
 	
 	Method OnInit()
 		Size.SetValues(500, 400)
@@ -134,26 +85,37 @@ Class MyForm extends Form
 		Next
 		comboBox.Event_SelectedIndexChanged.Add(Self, "combobox_SelectedIndexChanged")
 		
+		
+		Local label:= new Label()
+		label.Position.SetValues( 10,50)
+		label.Parent = Self  
+		label.Text = "Item Size: "
 		'''
 		''' trackbar
 		'''
 		local trackbar:= New TrackBar
 		trackbar.Parent = Self
-		trackbar.Position.SetValues(10, 60)
+		trackbar.Position.SetValues(10, 70)
 		trackbar.Event_ValueChanged.Add(Self, "Trackbar1_ValueChanged")
-		trackbar.Minimum = 0
-		trackbar.Maximum = 10
-		trackbar.Tickfrequency = 1
+		trackbar.Minimum = 48
+		trackbar.Maximum = 256
+		trackbar.Tickfrequency = 4
+		
+		
+		label= new Label()
+		label.Position.SetValues( 230,50)
+		label.Parent = Self  
+		label.Text = "Item Spacing: "
 		
 		'''
 		''' trackbar
 		'''
 		trackbar = New TrackBar
 		trackbar.Parent = Self
-		trackbar.Position.SetValues(230, 60)
-		trackbar.Minimum = -100
-		trackbar.Maximum = 200
-		trackbar.Tickfrequency = 10
+		trackbar.Position.SetValues(230, 70)
+		trackbar.Minimum = 2
+		trackbar.Maximum = 64
+		trackbar.Tickfrequency = 2
 		trackbar.Event_ValueChanged.Add(Self, "Trackbar2_ValueChanged")
 		
 		'''
@@ -166,25 +128,35 @@ Class MyForm extends Form
 		vScrollBar.Event_ValueChanged.Add(Self, "vScrollBar_ValueChanged")
 		
 		'''
-		''' PropertyGrid
+		''' listView1
 		'''
-		propertyGrid = New PropertyGrid(10, 120, 250, 200, Self)
-		propertyGrid.SelectedObject = New ParticleType
-
-	
-		'''
-		''' listbox
-		'''
-		listBox1 = New ListBox(270, 120, 150, 200, Self)
-		listBox1.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
-		listBox1.Items
-		listBox1.TipText = "This is a list box."
-		For Local i = 0 until 6
-			listBox1.Items.AddLast(New ListItem("listBox1 Item " + i))
-		Next
-	
+		
+		Local items:= LoadImage("icons.png")
+		Local img1:= LoadImage("icon1.png")
+		img2 = LoadImage("icon2.png")
+		
+		listView1 = New ListView(10, 120, 400, 200, Self)
+		listView1.Items.AddLast( New ListViewItem( "Wall", img1 )) 
+		listView1.Items.AddLast( New ListViewItem( "Chain Link", img2 )) 
+		listView1.Items.AddLast( New ListViewItem( "Airstrip", img1 )) 
+		listView1.Items.AddLast( New ListViewItem( "APC", img2 )) 
+		listView1.Items.AddLast( New ListViewItem( "Artillery", img1 )) 
+		listView1.Items.AddLast( New ListViewItem( "Nuclear Strike", img2 )) 
+		listView1.Items.AddLast( New ListViewItem( "Advanced Guard", img1 )) 
+		listView1.Items.AddLast( New ListViewItem( "NOD Buggy", img2 )) 
+		
+		listView1.Event_ItemAdded.Add(Self, "listView1_ItemAdded" )
+		listView1.Event_ItemRemoved.Add(Self, "listView1_ItemRemoved" )
 	End
 
+	Method listView1_ItemAdded(sender:object, e:EventArgs)
+		Print "listView1_ItemAdded"
+	End
+	
+	Method listView1_ItemRemoved(sender:object, e:EventArgs)
+		Print "listView1_ItemRemoved"
+	End
+	
 	Method combobox_SelectedIndexChanged(sender:object, e:EventArgs)
 		if comboBox.SelectedItem Then
 			Self.Text = comboBox.SelectedItem.Text
@@ -203,15 +175,17 @@ Class MyForm extends Form
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.Text = "Button was clicked in millisecond: " + Millisecs()
-		listBox1.Items.AddLast(New ListItem("Item " + Millisecs()))
+		listView1.Items.AddLast( New ListViewItem( "Item " + int(Rnd(0,100)), img2 )) 
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)
 		Self.Text = "trackbar1 value changed: " + TrackBar(sender).Value
+		listView1.SetItemSize(TrackBar(sender).Value,TrackBar(sender).Value )
 	End
 	
 	Method Trackbar2_ValueChanged(sender:Object, e:EventArgs)
 		Self.Text = "trackbar2 value changed: " + TrackBar(sender).Value
+		listView1.SetItemSpacing(TrackBar(sender).Value,TrackBar(sender).Value)
 	End
 
 	Method MyForm_Moved(sender:Object, e:EventArgs)
