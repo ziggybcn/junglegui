@@ -106,6 +106,7 @@ Class EventHandler<T>
 	#END
 	Method RaiseEvent(sender:Object, e:T)
 	
+		#rem
 		Local source:= New List<Delegate<T>>
 	
 		For Local del:Delegate<T> = Eachin _events
@@ -113,6 +114,11 @@ Class EventHandler<T>
 			source.AddLast(del)
 		Next
 		For Local del:Delegate<T> = EachIn source
+			del.Call(sender, e)
+		Next
+		#end
+		
+		For Local del:= EachIn _events
 			del.Call(sender, e)
 		Next
 	End
