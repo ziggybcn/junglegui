@@ -7,6 +7,7 @@ Class ListViewItem extends ContainerControl
 Private 
 
 	Field _owner:ListView 
+	Field _text:String 
 	
 	Method OnEnter(sender:Object, e:EventArgs )
 		_owner._overControl = Self
@@ -54,6 +55,14 @@ Public
 		Super.Render()
 	End
 	
+	Method Text:String() Property
+		Return _text 
+	End
+	
+	Method Text:Void(val:String) Property
+		_text = val 
+	End
+	
 End 
 
 '' summary: Represents an item in a ListView control.
@@ -61,7 +70,6 @@ Class DefaultListViewItem extends ListViewItem
 
 Private 
 
-	Field _text:String 
 	Field _img:Image 
 	Field _textHeight
 	Field _font:BitmapFont
@@ -183,7 +191,17 @@ Public
 	End
 
 	Method Clear()
+	
+		'' Dispose nodes, in order to release ndes from ListView
+		Local mynode:= FirstNode()
+		While mynode
+			 mynode.Value.Dispose(); mynode = mynode.NextNode(); 
+		Wend
+		
+		'' Clear collection
 		Super.Clear()
+		
+		'' notify owner ListView
 		_owner.ItemsCleared()
 	End
 
