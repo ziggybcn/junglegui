@@ -2,4 +2,8 @@
 <JungleSolution xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Project>.\junglegui samples\sample02\Sample2.jiproj</Project>
   <Project>.\junglegui.jiproj</Project>
+  <Project>.\junglegui samples\Nueva carpeta\EventHandling.jiproj</Project>
+  <Project>.\junglegui samples\particles sample.jiproj</Project>
+  <Project>.\junglegui samples\sample 01\sample1.jiproj</Project>
+  <Project>.\junglegui samples\Slider_Sample\Slider_Sample.jiproj</Project>
 </JungleSolution>

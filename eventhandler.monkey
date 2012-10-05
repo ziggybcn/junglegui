@@ -1,5 +1,4 @@
 Import junglegui
-Import reflection
 
 #Rem
 	summary: This is the Delegate class. This class contains a reflection-based pointer to a method of a class instance with the signature: Sender:Obect, e:T, where T is a class defined generic.

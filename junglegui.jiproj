@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<JiProj xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryPoint=".\junglegui.monkey" Name="junglegui" OriginalLocation="F:\Tools\MonkeyPro61\MonkeyPro61\modules\junglegui\">
+<JiProj xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryPoint=".\junglegui.monkey" Name="junglegui">
   <Files>
     <Document Filename=".\resizecanvas\resizecanvas.js" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
@@ -205,13 +205,6 @@
       </CursorPos>
     </Document>
     <Document Filename=".\trackbar.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
-      <DocGUID />
-      <CursorPos>
-        <X>0</X>
-        <Y>0</Y>
-      </CursorPos>
-    </Document>
-    <Document Filename=".\treeview.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>
         <X>0</X>

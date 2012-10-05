@@ -32,12 +32,29 @@ Private
 
 Public 
 
-	Method new()
-		Event_MouseEnter.Add( Self, "OnEnter" )
-		Event_MouseLeave.Add( Self, "OnLeave" )
-		Event_Click.Add(Self, "OnClick" )
+	Method New()
+		'If the user clears the eventhandler contents, the control would become unstable.
+		'We should not rely on eventhandlers for internal controls functionality.
+		'This has ben reworked to use the Dispatch method (See just below)
+		
+		'Event_MouseEnter.Add( Self, "OnEnter" )
+		'Event_MouseLeave.Add( Self, "OnLeave" )
+		'Event_Click.Add(Self, "OnClick" )
 	End
 	
+	Method Dispatch(msg:BoxedMsg)
+		Select msg.e.eventSignature
+			Case eMsgKinds.MOUSE_ENTER
+				OnEnter(msg.sender, msg.e)
+			Case eMsgKinds.MOUSE_LEAVE
+				OnLeave(msg.sender, msg.e)
+			Case eMsgKinds.CLICK
+				OnClick(msg.sender, MouseEventArgs(msg.e))
+		End
+		
+		Super.Dispatch(msg)
+	End
+		
 	Method Owner:ListView() Property 
 		Return _owner 
 	End
@@ -440,9 +457,10 @@ Public
 		EndIf
 	End
 	
-	Method Msg(msg:BoxedMsg)
-		Super.Msg(msg)
-	End
+	
+	'Method Msg(msg:BoxedMsg)
+	'	Super.Msg(msg)
+	'End
 
 	Method Render:Void()
 		Local drawpos:= CalculateRenderPosition()

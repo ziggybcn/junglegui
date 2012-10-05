@@ -1,4 +1,4 @@
-'-----------
+Ôªø'-----------
 'Imports:
 Import control
 Import form
@@ -23,6 +23,9 @@ Import combobox
 Import propertygrid
 Import listview 
 Import renderer
+
+Import reflection
+#REFLECTION_FILTER+="junglegui*"
 
 
 #IF TARGET="html5"
@@ -68,7 +71,7 @@ Import renderer
 #END
 
 #REM
-Copyright (c) 2012, Manel Ib·Òez
+Copyright (c) 2012, Manel Ib√°√±ez
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

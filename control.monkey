@@ -5,7 +5,8 @@ Import viewportstack
 Import helperfunctions
 Import eventhandler
 Import padding
-private
+
+Private
 Import mojo
 public
 'summary: this is the base class of a JungleGui control

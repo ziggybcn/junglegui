@@ -1,7 +1,7 @@
 Import junglegui
 Private
 Import mojo
-public
+Public
 
 'summary: This is the BaseLabel class. This class is used by controls displaying and handling Text
 Class BaseLabel Extends Control Implements TextualItem Abstract

@@ -1,7 +1,7 @@
 Import junglegui
 Private
 Import mojo
-public
+Public
 Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 	
 	Method New()
