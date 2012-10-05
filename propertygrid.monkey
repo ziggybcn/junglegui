@@ -42,7 +42,17 @@ Class ScrollableControl extends ContainerControl
 	
 	
 	Method Msg(msg:BoxedMsg)
-		if msg.sender = Self Then
+		Local isChild:Bool = False		
+		Local control:= Control(msg.sender)
+		If control <> Null And control.Parent = Self Then isChild = True
+		If isChild Then
+			Select msg.e.eventSignature
+				Case eMsgKinds.RESIZED, eMsgKinds.MOVED
+					'Scrolling has to be recalculated when a child control changes its size or its location into the parent.
+					
+			End
+		
+		ElseIf msg.sender = Self Then
 			_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
 			_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth + 1, 0)
 			
@@ -51,7 +61,7 @@ Class ScrollableControl extends ContainerControl
 				Case eMsgKinds.RESIZED, eMsgKinds.MOVED
 			
 				Case eMsgKinds.MOUSE_MOVE
-					if ScrollbarVisible then
+					If ScrollbarVisible Then
 						_scrollbar.MouseEnter()
 						_scrollbar.MouseMove(MouseEventArgs(msg.e))
 					endif

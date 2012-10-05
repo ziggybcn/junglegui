@@ -33,6 +33,7 @@ Private
 Public 
 
 	Method New()
+		'<MANEL>
 		'If the user clears the eventhandler contents, the control would become unstable.
 		'We should not rely on eventhandlers for internal controls functionality.
 		'This has ben reworked to use the Dispatch method (See just below)
@@ -40,8 +41,9 @@ Public
 		'Event_MouseEnter.Add( Self, "OnEnter" )
 		'Event_MouseLeave.Add( Self, "OnLeave" )
 		'Event_Click.Add(Self, "OnClick" )
+		'</MANEL>
 	End
-	
+	'<MANEL>
 	Method Dispatch(msg:BoxedMsg)
 		Select msg.e.eventSignature
 			Case eMsgKinds.MOUSE_ENTER
@@ -54,7 +56,8 @@ Public
 		
 		Super.Dispatch(msg)
 	End
-		
+	'</MANEL>
+	
 	Method Owner:ListView() Property 
 		Return _owner 
 	End
