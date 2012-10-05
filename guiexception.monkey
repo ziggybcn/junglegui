@@ -1,4 +1,5 @@
 Import junglegui
+
 Class JungleGuiException extends Throwable
 	
 	Method New(description:String, control:Control)

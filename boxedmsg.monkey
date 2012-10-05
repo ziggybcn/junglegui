@@ -1,4 +1,5 @@
-import junglegui
+Import junglegui
+
 Class BoxedMsg
 	Method New(sender:Object, e:EventArgs)
 		Self.sender = sender

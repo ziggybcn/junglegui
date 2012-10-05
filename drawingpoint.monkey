@@ -1,4 +1,7 @@
 Import junglegui
+'Import reflection
+'#REFLECTION_FILER+="drawingpoint"
+
 'summary: This is a basic 2D integer vector used for Control metrics on JungleGui
 Class GuiVector2D
 	'summary: X value of this vector

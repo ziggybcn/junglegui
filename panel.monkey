@@ -1,7 +1,7 @@
 Import junglegui
 Private 
 Import mojo
-public
+Public
 Class Panel extends ContainerControl
 	Method New()
 		_InitComponent

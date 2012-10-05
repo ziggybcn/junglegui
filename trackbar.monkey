@@ -1,7 +1,7 @@
 Import junglegui
 Private
 Import mojo
-public
+Public
 Import "data/trackbar.png"
 
 'summary: Represents a standard Windows track bar.
