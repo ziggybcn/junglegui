@@ -596,8 +596,8 @@ Class ContainerControl extends Control
 		RenderChildren()
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el post-padding
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el borde del control
-		
-		if _gui._focusedControl = Self Then	DrawFocusRect(Self)
+				
+		If _gui._focusedControl = Self Then DrawFocus
 	End
 
 	'summary: This method is called by the Gui system when a control container has to render its background, that is, the part of the component that is drawn behind the contained controls.
@@ -605,6 +605,9 @@ Class ContainerControl extends Control
 		Super.Render()
 	end
 
+	Method DrawFocus()
+		DrawFocusRect(Self)
+	End
 	'summary: This method renders all the contained controls, in the required order.
 	Method RenderChildren()
 		For Local c:Control = EachIn controls

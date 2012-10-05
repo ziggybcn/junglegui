@@ -23,6 +23,7 @@ Import combobox
 Import propertygrid
 Import listview 
 Import renderer
+Import windowframe
 
 Import reflection
 #REFLECTION_FILTER+="junglegui*"
