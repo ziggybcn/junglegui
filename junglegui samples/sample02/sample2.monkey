@@ -49,7 +49,7 @@ Class Sample2 extends App
 	End
 End
 
-Class MyForm extends Form
+Class MyForm Extends Form
 
 	Field listBox1:ListBox
 	Field comboBox:ComboBox
@@ -58,7 +58,7 @@ Class MyForm extends Form
 
 	Method OnInit()
 		Size.SetValues(500, 464)
-		Position.SetValues(DeviceWidth / 2 - 255, DeviceHeight / 2 - 232 )
+		Position.SetValues(DeviceWidth / 2 - 255, DeviceHeight / 2 - 232)
 		'''
 		''' MyForm
 		'''
