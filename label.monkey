@@ -8,9 +8,15 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 			DrawRect(drawingPos.X,drawingPos.Y,Size.X,Size.Y)
 		Endif
 		
-		SetColor(Self.ForeColor.r,ForeColor.g,ForeColor.b)
 		Local textHeight:Int = Font.GetTxtHeight(Text)
 		'SetColor(0, 0, 0)	'Bottleneck
+		
+		#IF TARGET="html5" 
+			SetColor(255, 255, 255)
+		#Else
+			SetColor(Self.ForeColor.r,ForeColor.g,ForeColor.b)
+		#END
+		
 		Font.DrawText(Text,drawingPos.X,Int(drawingPos.Y + Size.Y/2 - textHeight/2))
 		if _border Then
 			BorderColor.Activate()
