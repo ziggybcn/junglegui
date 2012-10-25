@@ -274,12 +274,11 @@ Public
 				if SelectedIndex = i Then
 					SystemColors.SelectedItemBackColor.Activate()
 					DrawRect _leftPadding + drawpos.X + 1, y + drawpos.Y + 1, _leftWidth - 2, _itemHeight - 2
-					SystemColors.SelectedItemForeColor.Activate()
+					SetColor(255, 255, 255)
 					Font.DrawText(p.Name, _leftPadding + 3 + drawpos.X + 1, y + 1 + drawpos.Y + 3, 0)
 				Else
 					SetColor(255, 255, 255)
 					DrawRect _leftPadding + drawpos.X + 1, y + drawpos.Y + 1, _leftWidth - 2, _itemHeight - 2
-					ForeColor.Activate()
 					Font.DrawText(p.Name, _leftPadding + 3 + drawpos.X + 1, y + 1 + drawpos.Y + 3, 0)
 				EndIf
 				
@@ -293,7 +292,6 @@ Public
 				if p.TypeConverter_ Then
 					
 					Local str:= p.TypeConverter_.ConvertToString(p.Value)
-					ForeColor.Activate()
 					Font.DrawText(str, _leftPadding + _leftWidth + drawpos.X + 3, y + 1 + drawpos.Y + 3, eDrawAlign.LEFT)
 					
 				EndIf

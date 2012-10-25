@@ -154,6 +154,8 @@ Public
 
 		EndIf
 	
+		SetColor 255,255,255
+		
 		if _img <> null Then 
 			
 			'' Calculate image scaling factor
@@ -162,7 +164,6 @@ Public
 				float(Size.X-_owner._iconSpacing*2) / float(_img.Height+_textHeight))
 			
 			'' Draw item image
-			SetColor 255,255,255
 			DrawImage(_img, 
 				drawpos.X + Size.X / 2 - float(_img.Width * scale) / 2 ,
 				drawpos.Y + (Size.Y - _textHeight) / 2 - float(_img.Height * scale) / 2 , 
@@ -186,8 +187,7 @@ Public
 					Exit 
 				EndIf
 			Wend  
-			
-			SetColor 0,0,0
+
 			Font.DrawText(displayStr, drawpos.X + Size.X / 2, drawpos.Y + Size.Y - _textHeight , eDrawAlign.CENTER )
 		End 
 		
