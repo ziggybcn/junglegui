@@ -308,17 +308,8 @@ Public
 					SystemColors.SelectedItemBackColor.Activate()
 					DrawRect 1 + drawpos.X, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value), Size.X - margin, _itemHeight
 					
-					#IF TARGET="html5" 
-						SetColor(255, 255, 255)
-					#Else
-						SystemColors.SelectedItemForeColor.Activate()
-					#END
-					
+					ForeColor.Activate()
 					Font.DrawText(node.Value.Text, drawpos.X + 5, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value) + ItemMargin / 2, 0)
-
-					#IF TARGET<>"html5" 
-						ForeColor.Activate()
-					#END
 				Else
 				
 					Font.DrawText(node.Value.Text, drawpos.X + 5, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value) + ItemMargin / 2, 0)

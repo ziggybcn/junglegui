@@ -24,6 +24,7 @@ Import propertygrid
 Import listview 
 Import renderer
 Import windowframe
+Import tabcontrol 
 
 Import reflection
 #REFLECTION_FILTER+="junglegui*"
