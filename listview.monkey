@@ -154,8 +154,8 @@ Public
 
 		EndIf
 	
-		SetColor 255,255,255
 		
+
 		if _img <> null Then 
 			
 			'' Calculate image scaling factor
@@ -164,13 +164,14 @@ Public
 				float(Size.X-_owner._iconSpacing*2) / float(_img.Height+_textHeight))
 			
 			'' Draw item image
+			SetColor(255, 255, 255)
 			DrawImage(_img, 
 				drawpos.X + Size.X / 2 - float(_img.Width * scale) / 2 ,
 				drawpos.Y + (Size.Y - _textHeight) / 2 - float(_img.Height * scale) / 2 , 
 				0,scale, scale)
 				
 		End 
-	
+
 		if _text <> "" Then 
 		
 			'' Draw item text
@@ -188,6 +189,7 @@ Public
 				EndIf
 			Wend  
 
+			ForeColor.Activate()
 			Font.DrawText(displayStr, drawpos.X + Size.X / 2, drawpos.Y + Size.Y - _textHeight , eDrawAlign.CENTER )
 		End 
 		
@@ -417,29 +419,24 @@ Public
 			_countY = Items.Count  / _countX  + 1 
 	
 			
-			'' TODO: Optimize
-			Local items:= Items.ToArray()
-			Local length = items.Length 
-			
-			'' update items position and size
-			For Local iy= 0 until _countY
-				for Local ix = 0 until _countX
-					
-					Local index = iy * _countX + ix
-					if index >= length Then 
-						Exit 
-					EndIf
+			Local index = 0
+			Local ix = 0
+			Local iy = 0
+			For Local item:= eachin _items
+				
+				item.Size.SetValues(_itemWidth,_itemHeight)
 	
-					Local item:= items[index]
-	 
-					item.Size.SetValues(_itemWidth,_itemHeight)
-	
-					item.Position.SetValues(
-						_hSpacing + (_itemWidth + _hSpacing ) * ix,
-						_vSpacing -_scrollbar.Value *_hScrollStep + (_itemHeight + _vSpacing ) * iy )
-			
+				item.Position.SetValues(
+					_hSpacing + (_itemWidth + _hSpacing ) * ix,
+					_vSpacing -_scrollbar.Value *_hScrollStep + (_itemHeight + _vSpacing ) * iy )
+		
+				ix+=1
+				index+=1
+				if index Mod _countX = 0 Then 
+					iy+=1
+					ix = 0
 				End 
-			End 
+			Next
 	
 			''
 			'' update scrollbar -  TODO: Does not work, needs to be fixed...
@@ -460,11 +457,6 @@ Public
 		EndIf
 	End
 	
-	
-	'Method Msg(msg:BoxedMsg)
-	'	Super.Msg(msg)
-	'End
-
 	Method Render:Void()
 		Local drawpos:= CalculateRenderPosition()
 		
@@ -472,10 +464,12 @@ Public
 		DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)
 		SetColor(255, 255, 255)
 		DrawRect(drawpos.X + 1, drawpos.Y + 1, Size.X - 2, Size.Y - 2)
-	
+
+		Super.Render()
+		
 		if HasFocus Then
 			DrawFocusRect(Self, True)
 		End
-		Super.Render()
+		
 	End 
 End
