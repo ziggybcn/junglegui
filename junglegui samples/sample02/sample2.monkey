@@ -28,6 +28,8 @@ Class Sample2 extends App
 	End
 	
 	Method OnUpdate()
+	
+		
 		try
 			gui.Update()
 		Catch jge:JungleGuiException
@@ -40,7 +42,16 @@ Class Sample2 extends App
 	Method OnRender()
 		Cls(0, 0, 105)
 		try
+		
+			Local t:= Millisecs 
+			
+			
 			gui.Render()
+			
+			SetColor 255,255,255
+			Local time = Millisecs - t 
+			DrawText time,10,10
+			
 		Catch jge:JungleGuiException
 			Print "Error rendering the Gui component:"
 			Print jge.ToString()
@@ -55,70 +66,106 @@ Class MyForm Extends Form
 	Field comboBox:ComboBox
 	Field listView1:ListView
 	Field listView2:ListView
-
+	Field tabControl:TabControl 
+	
 	Method OnInit()
-		Size.SetValues(500, 464)
-		Position.SetValues(DeviceWidth / 2 - 255, DeviceHeight / 2 - 232)
+	
 		'''
 		''' MyForm
 		'''
+		Size.SetValues(500, 464)
+		Position.SetValues(DeviceWidth / 2 - 255, DeviceHeight / 2 - 232)
 		'Events.Add(Self, eMsgKinds.MOVED, "MyForm_Moved")
 		Self.Event_Moved.Add(Self, "MyForm_Moved")
 		
-		
+		local trackbar2:= New TrackBar
+		listBox1 = New ListBox(10,10,150,250,Null)
+		listView1 = New ListView(0,80, Self.Size.X-55, Self.Size.Y -260, Self)
+		listView2  = New GameListView(0,0, 470, 180, Self)
+		tabControl = New TabControl
+		Local tabPage1:= new TabPage("Default")
+		Local tabPage2:= new TabPage("Custom")
+		Local tabPage3:= new TabPage("ListBox")
 		Local label:= new Label()
+		Local trackbar:= New TrackBar
+		local label2:= New Label()
+		
+		'''
+		''' tabControl
+		'''
+		tabControl.Position.SetValues(10,70)
+		tabControl.Size.SetValues(Self.Size.X-40, Self.Size.Y -150)
+		tabControl.Parent = Self 
+		tabControl.TabPages.AddLast(tabPage1)
+		tabControl.TabPages.AddLast(tabPage2)
+		tabControl.TabPages.AddLast(tabPage3)
+		tabControl.SelectedTab = tabPage3
+		
+		''
+		'' label
+		''
+		label.Parent = tabPage1
 		label.Position.SetValues(10, 5)
-		label.Parent = Self
 		label.Text = "Item Size: "
+		
 		'''
 		''' trackbar
 		'''
-		Local trackbar:= New TrackBar
-		trackbar.Parent = Self
+		trackbar.Parent = tabPage1
+		trackbar.Parent = tabPage1
 		trackbar.Position.SetValues(10, 25)
 		trackbar.Event_ValueChanged.Add(Self, "Trackbar1_ValueChanged")
 		trackbar.Minimum = 48
 		trackbar.Maximum = 256
 		trackbar.Tickfrequency = 4
 		
-		
-		label = New Label()
-		label.Position.SetValues(230, 5)
-		label.Parent = Self
-		label.Text = "Item Spacing: "
+		''
+		'' label2
+		''
+		label2.Parent = tabPage1
+		label2.Position.SetValues(230, 5)
+		label2.Text = "Item Spacing: "
 		
 		'''
 		''' trackbar
 		'''
-		trackbar = New TrackBar
-		trackbar.Parent = Self
-		trackbar.Position.SetValues(230, 25)
-		trackbar.Minimum = 2
-		trackbar.Maximum = 64
-		trackbar.Tickfrequency = 2
-		trackbar.Event_ValueChanged.Add(Self, "Trackbar2_ValueChanged")
+		trackbar2.Parent = tabPage1
+		trackbar2.Position.SetValues(230, 25)
+		trackbar2.Minimum = 2
+		trackbar2.Maximum = 64
+		trackbar2.Tickfrequency = 2
+		trackbar2.Event_ValueChanged.Add(Self, "Trackbar2_ValueChanged")
 		
+		''
+		'' listBox1
+		''
+		listBox1.Parent = tabPage3
+		For Local i:= 0 until 20
+			listBox1.Items.AddLast( New ListItem("test" + i) )
+		Next
+
 		'''
 		''' listView1
 		'''
-		
 		Local img1:= LoadImage("icon1.png")
 		Local img2:= LoadImage("icon2.png")
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
+		listView1.Parent = tabPage1 
+		listView1.Position.SetValues(10,80)
+		listView1.Size.SetValues(tabPage1.Size.X-20, tabPage1.Size.Y-85)
+		'''
+		''' listView2
+		'''
 		Local map1:= LoadImage("map1.png")
 		Local map2:= LoadImage("map2.png")
 		Local map3:= LoadImage("map3.png") 
-					 
-		listView1 = New ListView(5, 60, 470, 180, Self)
-		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
-		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
-		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
-		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
-		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
-		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
-		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
-		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
-
-		listView2  = New GameListView(5, 250, 470, 180, Self)
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map1))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map2))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map3))
@@ -127,7 +174,9 @@ Class MyForm Extends Form
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map3))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", img1))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", img2))
-		 
+		listView2.Parent = tabPage2 
+		listView2.Position.SetValues(10,10)
+		listView2.Size.SetValues(tabPage2.Size.X-20, tabPage2.Size.Y-20)
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)
@@ -152,7 +201,7 @@ Class GameListViewItem Extends ListViewItem
 
 Private 
 
-	Const WIDTH = 440
+	Const WIDTH = 400
 	Const HEIGHT = 72
  	
 	Field _lblStatus:Label

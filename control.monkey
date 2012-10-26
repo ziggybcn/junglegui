@@ -597,7 +597,8 @@ Class ContainerControl extends Control
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el post-padding
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el borde del control
 				
-		If _gui._focusedControl = Self Then DrawFocus
+		'Is done by derived controls.
+		''If _gui._focusedControl = Self Then DrawFocus
 	End
 
 	'summary: This method is called by the Gui system when a control container has to render its background, that is, the part of the component that is drawn behind the contained controls.
@@ -762,6 +763,7 @@ Class Gui
 
 	'summary: This method has to be called whenever the Gui has to be rendered.
 	Method Render()
+	
 		local scissor:Float[] = GetScissor()
 		For Local c:Control = eachin _components
 			if c.Visible = False Then Continue

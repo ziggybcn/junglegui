@@ -91,6 +91,7 @@ Class ScrollableControl extends ContainerControl
 
 	
 	Method Render:Void()
+	
 		Super.Render()
 		
 		Local drawpos:= CalculateRenderPosition()
