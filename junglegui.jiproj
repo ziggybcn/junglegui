@@ -233,9 +233,5 @@
       </CursorPos>
     </Document>
   </Files>
-<<<<<<< local
   <CompilerConfig Configuration="debug" BuildMode="run" Target="xna" />
-=======
-  <CompilerConfig Configuration="release" BuildMode="run" Target="xna" />
->>>>>>> other
 </JiProj>
