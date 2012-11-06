@@ -130,20 +130,24 @@ Class Control
 
 	'summary: A control'l parent container
 	Method Parent:ContainerControl(parentControl:ContainerControl) Property
-		if _parentControl = parentControl Then return
-		if _parentControl <>null Then
+		If parentControl = Null And _parentControl = Null Then Return
+		If _parentControl = parentControl Then
+			If _gui <> parentControl._gui Then _gui = parentControl._gui
+			Return
+		EndIf
+		If _parentControl <> Null Then
 			_parentControl.controls.Remove(Self)
 			'Msg(Self,New EventArgs(eMsgKinds.PARENT_REMOVED))
 			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.PARENT_REMOVED)))
 		EndIf
-		if parentControl <> null then 
-			_parentControl = parentControl
-			parentControl.controls.AddLast(Self)
+		If parentControl <> Null Then
+ 			_parentControl = parentControl
+ 			parentControl.controls.AddLast(Self)
 			'Msg(Self,New EventArgs(eMsgKinds.PARENT_SET))
-			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.PARENT_SET)))
-			_gui = parentControl._gui
+ 			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.PARENT_SET)))
+ 			_gui = parentControl._gui
 		Else
-			_gui = null
+ 			_gui = Null
 		EndIf
 	End
 	
@@ -551,7 +555,18 @@ Class ContainerControl extends Control
 		Super.Dispose()
 	End
 	
+	Method Parent:ContainerControl() Property
+		Return Super.Parent '_parentControl
+	End
 
+	'summary: A control'l parent container
+	Method Parent:ContainerControl(parentControl:ContainerControl) Property
+		If _parentControl = parentControl Then Return
+		Super.Parent(parentControl)
+		For Local child:Control = EachIn Self.controls
+			child.Parent = Self
+		Next
+	End	
 	Method Msg(msg:BoxedMsg)
 		if msg.e.eventSignature = eMsgKinds.RESIZED Then
 			For local control:Control = EachIn Self.controls
