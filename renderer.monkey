@@ -1,5 +1,4 @@
 Import junglegui
-
  
 Class GuiRenderer
 

@@ -2,7 +2,7 @@ Import junglegui
 Import mojo.input
 Import "data/close_button.png"
 
-Class Form extends TopLevelControl 
+Class Form Extends TopLevelControl
 	
 	Method New()
 		BackgroundColor = SystemColors.AppWorkspace.Clone()

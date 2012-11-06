@@ -1,4 +1,5 @@
 Import junglegui
+
 Class CheckBox extends BaseLabel
 
 	Method Render:Void()

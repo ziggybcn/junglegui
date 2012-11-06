@@ -312,9 +312,6 @@ Public
 					SetColor(255, 255, 255)
 					#END
 					Font.DrawText(node.Value.Text, drawpos.X + 5, 2 + drawpos.Y + _itemHeight * (i - _scrollbar.Value) + ItemMargin / 2, 0)
-					'SetColor(0, 0, 0)
-					ForeColor.Activate()
-					
 				Else
 					#IF TARGET="html5"
 					SetColor(255, 255, 255)

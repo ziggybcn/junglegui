@@ -1,4 +1,6 @@
 Import junglegui
+Import reflection
+#REFLECTION_FILER+="junglegui*"
 
 Class EventArgs Implements CallInfo
 	Field eventSignature:Int

@@ -1,5 +1,4 @@
 Import junglegui
-Import reflection
 
 #Rem
 	summary: This is the Delegate class. This class contains a reflection-based pointer to a method of a class instance with the signature: Sender:Obect, e:T, where T is a class defined generic.
@@ -106,6 +105,7 @@ Class EventHandler<T>
 	#END
 	Method RaiseEvent(sender:Object, e:T)
 	
+		#rem
 		Local source:= New List<Delegate<T>>
 	
 		For Local del:Delegate<T> = Eachin _events
@@ -113,6 +113,11 @@ Class EventHandler<T>
 			source.AddLast(del)
 		Next
 		For Local del:Delegate<T> = EachIn source
+			del.Call(sender, e)
+		Next
+		#end
+		
+		For Local del:= EachIn _events
 			del.Call(sender, e)
 		Next
 	End
