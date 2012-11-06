@@ -1,7 +1,6 @@
 Import junglegui
-Import reflection
 
-Class ScrollableControl extends Control
+Class ScrollableControl extends ContainerControl
 	
 	Global _cachedPosition:= New GuiVector2D
 		
@@ -43,7 +42,17 @@ Class ScrollableControl extends Control
 	
 	
 	Method Msg(msg:BoxedMsg)
-		if msg.sender = Self Then
+		Local isChild:Bool = False		
+		Local control:= Control(msg.sender)
+		If control <> Null And control.Parent = Self Then isChild = True
+		If isChild Then
+			Select msg.e.eventSignature
+				Case eMsgKinds.RESIZED, eMsgKinds.MOVED
+					'Scrolling has to be recalculated when a child control changes its size or its location into the parent.
+					
+			End
+		
+		ElseIf msg.sender = Self Then
 			_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
 			_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth + 1, 0)
 			
@@ -52,7 +61,7 @@ Class ScrollableControl extends Control
 				Case eMsgKinds.RESIZED, eMsgKinds.MOVED
 			
 				Case eMsgKinds.MOUSE_MOVE
-					if ScrollbarVisible then
+					If ScrollbarVisible Then
 						_scrollbar.MouseEnter()
 						_scrollbar.MouseMove(MouseEventArgs(msg.e))
 					endif
@@ -82,16 +91,16 @@ Class ScrollableControl extends Control
 
 	
 	Method Render:Void()
+	
+		Super.Render()
+		
 		Local drawpos:= CalculateRenderPosition()
-
 		_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
 		_scrollbar._pos.SetValues(drawpos.X + Size.X - _scrollbar.DefaultWidth - 1, drawpos.Y + 1)
 		'_scrollbar._pos.SetValues(drawpos.X + Size.X - _scrollbar.DefaultWidth - 0, drawpos.Y + 1)
 		if ScrollbarVisible then
 			_scrollbar.Render(_scrollbar._pos, _scrollbar._size)
 		endif
-		
-		'Super.Render()
 	End
 	
 	Method RenderBackground()
@@ -120,6 +129,8 @@ Private
 	Field _leftWidth:Int
 	Field _rightWidth:Int
 	Field _lastItem:PropertyItem
+	Field _useFields:Bool = true
+	
 
 Public
 			
@@ -134,13 +145,13 @@ Public
 	End
 	
 	Method Update()
+		Super.Update()
 		if UiTypeEditor.ShowErrorDialog Then
 			UiTypeEditor.ShowErrorDialog = false
 			if _lastItem Then
 				_lastItem.UiTypeEditor_.ShowDialog(Parent)
 			End
 		End
-		Super.Update()
 	End
 	
 	Method SelectedIndex:Void(value:Int) Property
@@ -177,30 +188,42 @@ Public
 		UpdateProperties()
 	End
 	
-	Method Msg(msg:BoxedMsg)
-		if msg.sender = Self Then
-		
-			Select msg.e.eventSignature
-			
-				Case eMsgKinds.MOUSE_DOWN
-					
-					Local me:= MouseEventArgs(msg.e)
-					if ScrollbarVisible And me.position.X >= _scrollbar._pos.X
-					Else if me.position.X < Size.X - _scrollbar.DefaultWidth Then
-						
-						_lastItem = _selectedItem
-						PickItem(me.position.Y)
+	Field _editable? = true 
 	
-						if me.position.X > _leftPadding + _leftWidth Then
-							' show type ui editor
-							if _selectedItem And _selectedItem.UiTypeEditor_ Then
-								_selectedItem.UiTypeEditor_.EditValue(_selectedItem, me.position)
-							EndIf
-						End
+	Method Editable?() Property
+		Return _editable
+	End
+	
+	Method Editable(val?) Property
+		_editable = val 
+	End
+	
+	Method Msg(msg:BoxedMsg)
+		if Editable Then 
+			if msg.sender = Self Then
+			
+				Select msg.e.eventSignature
+				
+					Case eMsgKinds.MOUSE_DOWN
 						
-					End
+						Local me:= MouseEventArgs(msg.e)
+						if ScrollbarVisible And me.position.X >= _scrollbar._pos.X
+						Else if me.position.X < Size.X - _scrollbar.DefaultWidth Then
+							
+							_lastItem = _selectedItem
+							PickItem(me.position.Y)
+		
+							if me.position.X > _leftPadding + _leftWidth Then
+								' show type ui editor
+								if _selectedItem And _selectedItem.UiTypeEditor_ Then
+									_selectedItem.UiTypeEditor_.EditValue(_selectedItem, me.position)
+								EndIf
+							End
+							
+						End
+				End
 			End
-		End
+		End 
 		Super.Msg(msg)
 	End
 	
@@ -251,7 +274,7 @@ Public
 				'
 				if SelectedIndex = i Then
 					SystemColors.SelectedItemBackColor.Activate()
-					DrawRect _leftPadding + drawpos.X + 1, y + drawpos.Y + 1, _leftWidth - 2, _itemHeight - 2
+					DrawRect _leftPadding + drawpos.X + 1, y + drawpos.Y + 1, _leftWidth - 2, _itemHeight - 2					
 					SystemColors.SelectedItemForeColor.Activate()
 					#IF TARGET="html5"
 					SetColor(255, 255, 255)

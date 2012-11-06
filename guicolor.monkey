@@ -1,5 +1,6 @@
 private
 Import mojo
+
 Public
 'summary: This represents a color to be used on the Gui system
 Class GuiColor

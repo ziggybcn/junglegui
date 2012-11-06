@@ -5,7 +5,8 @@ Import viewportstack
 Import helperfunctions
 Import eventhandler
 Import padding
-private
+
+Private
 Import mojo
 public
 'summary: this is the base class of a JungleGui control
@@ -595,8 +596,9 @@ Class ContainerControl extends Control
 		RenderChildren()
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el post-padding
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el borde del control
-		
-		if _gui._focusedControl = Self Then	DrawFocusRect(Self)
+				
+		'Is done by derived controls.
+		''If _gui._focusedControl = Self Then DrawFocus
 	End
 
 	'summary: This method is called by the Gui system when a control container has to render its background, that is, the part of the component that is drawn behind the contained controls.
@@ -604,6 +606,9 @@ Class ContainerControl extends Control
 		Super.Render()
 	end
 
+	Method DrawFocus()
+		DrawFocusRect(Self)
+	End
 	'summary: This method renders all the contained controls, in the required order.
 	Method RenderChildren()
 		For Local c:Control = EachIn controls
@@ -758,6 +763,7 @@ Class Gui
 
 	'summary: This method has to be called whenever the Gui has to be rendered.
 	Method Render()
+	
 		local scissor:Float[] = GetScissor()
 		For Local c:Control = eachin _components
 			if c.Visible = False Then Continue

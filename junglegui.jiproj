@@ -127,6 +127,13 @@
         <Y>0</Y>
       </CursorPos>
     </Document>
+    <Document Filename=".\listview.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
     <Document Filename=".\padding.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>
@@ -183,6 +190,13 @@
         <Y>0</Y>
       </CursorPos>
     </Document>
+    <Document Filename=".\tabcontrol.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
     <Document Filename=".\textfield.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>
@@ -211,6 +225,17 @@
         <Y>0</Y>
       </CursorPos>
     </Document>
+    <Document Filename=".\windowframe.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
   </Files>
+<<<<<<< local
   <CompilerConfig Configuration="debug" BuildMode="run" Target="xna" />
+=======
+  <CompilerConfig Configuration="release" BuildMode="run" Target="xna" />
+>>>>>>> other
 </JiProj>

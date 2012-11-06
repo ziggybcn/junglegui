@@ -1,7 +1,9 @@
 'This is a very small minimal sample
 
 Import junglegui
-#REFLECTION_FILTER="sample2*|junglegui*"
+Import trans 
+
+#REFLECTION_FILTER+="sample2*"
 
 Function Main()
 	New Sample2
@@ -22,17 +24,12 @@ Class Sample2 extends App
 		Catch jge:JungleGuiException
 			Print "Form could not be initialized becouse of an exception:"
 			Print jge.ToString()
-		End
-	
-'		For Local i:Int = 0 to 20
-'			Local mf:= New MyForm
-'			mf.InitForm(gui)
-'			mf.Position.SetValues(int(Rnd(0, DeviceWidth - mf.Size.X)), Int(Rnd(0, DeviceHeight - mf.Size.Y)))
-'		Next
-'			
+		End		
 	End
 	
 	Method OnUpdate()
+	
+		
 		try
 			gui.Update()
 		Catch jge:JungleGuiException
@@ -45,7 +42,16 @@ Class Sample2 extends App
 	Method OnRender()
 		Cls(0, 0, 105)
 		try
+		
+			Local t:= Millisecs 
+			
+			
 			gui.Render()
+			
+			SetColor 255,255,255
+			Local time = Millisecs - t 
+			DrawText time,10,10
+			
 		Catch jge:JungleGuiException
 			Print "Error rendering the Gui component:"
 			Print jge.ToString()
@@ -54,167 +60,223 @@ Class Sample2 extends App
 	End
 End
 
+Class MyForm Extends Form
 
-Class ParticleType
-	Field Name:String				= "Default"			
-	Field LifeTime:Int				= 10000
-	Field Blend = 1
-	Field Rotation:Int				= 90
-	Field RotationMode:Int = 0
-	Field Img:Image					= Null
-	Field MidHandleImage:Bool		= True
-	Field HandleX:Int				= 0
-	Field HandleY:Int				= 0
-	Field EmissionRadius:Float 		= 0
-	Field EmissionShape:Int = 0
-	Field EmissionRate:Int			= 10
-	Field EmissionAngle:Int			= 45
-	Field EmissionChange:Int		= 0
-	Field Speed:Float				= 100
-	Field SpeedVar:Float			= 30
-	Field SpeedChange:Float			= 0
-	Field Size:Float				= 0.2
-	Field SizeVar:Float				= 0.1
-	Field SizeChange:Float			= 2.0
-	Field SizeMax:Float				= 5.0
-	Field Weight:Float				= 0
-	Field WeightVar:Float			= 0
-	Field StartColorR:Int			= 128
-	Field StartColorG:Int			= 128
-	Field StartColorB:Int			= 128
-	Field EndColorR:Float			= 0	
-	Field EndColorG:Float			= 0
-	Field EndColorB:Float			= 0
-	Field BrightnessChange:Int		= 20
-	Field BrightnessVar:Int			= 10
-	Field Alpha:Float				= 1.0
-	Field AlphaVar:Float			= 0.2
-	Field AlphaChange:Float			= 0.01
-	Field AlphaDelay:Int			= 0
-	Field KillOutsideScreen:Bool	= True
-	Field Enabled:Bool				= True
-	Field TailEmissionRate:Float	= 0.0
-	Field TailEmissionChange:Float	= 0.0
-	
-End
-
-
-Class MyForm extends Form
-
-	Field button:Button
-	Field vScrollBar:VScrollBar
 	Field listBox1:ListBox
 	Field comboBox:ComboBox
-	Field propertyGrid:PropertyGrid
+	Field listView1:ListView
+	Field listView2:ListView
+	Field tabControl:TabControl 
 	
 	Method OnInit()
-		Size.SetValues(500, 400)
-		
+	
 		'''
 		''' MyForm
 		'''
+		Size.SetValues(500, 464)
+		Position.SetValues(DeviceWidth / 2 - 255, DeviceHeight / 2 - 232)
 		'Events.Add(Self, eMsgKinds.MOVED, "MyForm_Moved")
 		Self.Event_Moved.Add(Self, "MyForm_Moved")
-
-		'''
-		''' button
-		'''
-		button = New Button
-		button.Position.SetValues(10, 10)
-		button.Text = "Add List Item"
-		button.Parent = Self
-		button.Event_Click.Add(Self, "Button_Clicked")
+		
+		local trackbar2:= New TrackBar
+		listBox1 = New ListBox(10,10,150,250,Null)
+		listView1 = New ListView(0,80, Self.Size.X-55, Self.Size.Y -260, Self)
+		listView2  = New GameListView(0,0, 470, 180, Self)
+		tabControl = New TabControl
+		Local tabPage1:= new TabPage("Default")
+		Local tabPage2:= new TabPage("Custom")
+		Local tabPage3:= new TabPage("ListBox")
+		Local label:= new Label()
+		Local trackbar:= New TrackBar
+		local label2:= New Label()
 		
 		'''
-		''' comboBox
+		''' tabControl
 		'''
-		comboBox = new ComboBox(self, 150, 10, 130)
-		For Local i = 0 until 20
-			comboBox.Items.AddLast(New ListItem("comboBox Item " + i))
-		Next
-		comboBox.Event_SelectedIndexChanged.Add(Self, "combobox_SelectedIndexChanged")
+		tabControl.Position.SetValues(10,70)
+		tabControl.Size.SetValues(Self.Size.X-40, Self.Size.Y -150)
+		tabControl.Parent = Self 
+		tabControl.TabPages.AddLast(tabPage1)
+		tabControl.TabPages.AddLast(tabPage2)
+		tabControl.TabPages.AddLast(tabPage3)
+		tabControl.SelectedTab = tabPage3
+		
+		''
+		'' label
+		''
+		label.Parent = tabPage1
+		label.Position.SetValues(10, 5)
+		label.Text = "Item Size: "
 		
 		'''
 		''' trackbar
 		'''
-		local trackbar:= New TrackBar
-		trackbar.Parent = Self
-		trackbar.Position.SetValues(10, 60)
+		trackbar.Parent = tabPage1
+		trackbar.Parent = tabPage1
+		trackbar.Position.SetValues(10, 25)
 		trackbar.Event_ValueChanged.Add(Self, "Trackbar1_ValueChanged")
-		trackbar.Minimum = 0
-		trackbar.Maximum = 10
-		trackbar.Tickfrequency = 1
+		trackbar.Minimum = 48
+		trackbar.Maximum = 256
+		trackbar.Tickfrequency = 4
+		
+		''
+		'' label2
+		''
+		label2.Parent = tabPage1
+		label2.Position.SetValues(230, 5)
+		label2.Text = "Item Spacing: "
 		
 		'''
 		''' trackbar
 		'''
-		trackbar = New TrackBar
-		trackbar.Parent = Self
-		trackbar.Position.SetValues(230, 60)
-		trackbar.Minimum = -100
-		trackbar.Maximum = 200
-		trackbar.Tickfrequency = 10
-		trackbar.Event_ValueChanged.Add(Self, "Trackbar2_ValueChanged")
+		trackbar2.Parent = tabPage1
+		trackbar2.Position.SetValues(230, 25)
+		trackbar2.Minimum = 2
+		trackbar2.Maximum = 64
+		trackbar2.Tickfrequency = 2
+		trackbar2.Event_ValueChanged.Add(Self, "Trackbar2_ValueChanged")
 		
-		'''
-		''' vertical scrollbar
-		'''
-		vScrollBar = New VScrollBar()
-		vScrollBar.Parent = Self
-		vScrollBar.Position.SetValues(Self.Size.X - 17 - Self.Padding.Left - Self.Padding.Right, 0)
-		vScrollBar.Size.SetValues(17, Size.Y - Self.Padding.Top - Self.Padding.Bottom)
-		vScrollBar.Event_ValueChanged.Add(Self, "vScrollBar_ValueChanged")
-		
-		'''
-		''' PropertyGrid
-		'''
-		propertyGrid = New PropertyGrid(10, 120, 250, 200, Self)
-		propertyGrid.SelectedObject = New ParticleType
-
-	
-		'''
-		''' listbox
-		'''
-		listBox1 = New ListBox(270, 120, 150, 200, Self)
-		listBox1.Event_SelectedIndexChanged.Add(Self, "listBox1_SelectedIndexChanged")
-		listBox1.Items
-		listBox1.TipText = "This is a list box."
-		For Local i = 0 until 6
-			listBox1.Items.AddLast(New ListItem("listBox1 Item " + i))
+		''
+		'' listBox1
+		''
+		listBox1.Parent = tabPage3
+		For Local i:= 0 until 20
+			listBox1.Items.AddLast( New ListItem("test" + i) )
 		Next
-	
-	End
 
-	Method combobox_SelectedIndexChanged(sender:object, e:EventArgs)
-		if comboBox.SelectedItem Then
-			Self.Text = comboBox.SelectedItem.Text
-		End
-	End
-	
-	Method vScrollBar_ValueChanged(sender:object, e:EventArgs)
-		Self.Text = "vScrollBar value " + vScrollBar.Value
-	End
-	
-	Method listBox1_SelectedIndexChanged(sender:object, e:EventArgs)
-		if listBox1.SelectedItem then
-			Self.Text = listBox1.SelectedItem.Text
-		End
-	End
-	
-	Method Button_Clicked(sender:Object, e:MouseEventArgs)
-		Self.Text = "Button was clicked in millisecond: " + Millisecs()
-		listBox1.Items.AddLast(New ListItem("Item " + Millisecs()))
+		'''
+		''' listView1
+		'''
+		Local img1:= LoadImage("icon1.png")
+		Local img2:= LoadImage("icon2.png")
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
+		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
+		listView1.Parent = tabPage1 
+		listView1.Position.SetValues(10,80)
+		listView1.Size.SetValues(tabPage1.Size.X-20, tabPage1.Size.Y-85)
+		'''
+		''' listView2
+		'''
+		Local map1:= LoadImage("map1.png")
+		Local map2:= LoadImage("map2.png")
+		Local map3:= LoadImage("map3.png") 
+		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map1))
+		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map2))
+		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map3))
+		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map1))
+		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map2))
+		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map3))
+		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", img1))
+		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", img2))
+		listView2.Parent = tabPage2 
+		listView2.Position.SetValues(10,10)
+		listView2.Size.SetValues(tabPage2.Size.X-20, tabPage2.Size.Y-20)
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)
 		Self.Text = "trackbar1 value changed: " + TrackBar(sender).Value
+		listView1.SetItemSize(TrackBar(sender).Value, TrackBar(sender).Value)
 	End
 	
 	Method Trackbar2_ValueChanged(sender:Object, e:EventArgs)
 		Self.Text = "trackbar2 value changed: " + TrackBar(sender).Value
+		listView1.SetItemSpacing(TrackBar(sender).Value, TrackBar(sender).Value)
 	End
 
 	Method MyForm_Moved(sender:Object, e:EventArgs)
 		Self.Text = "Moved to: " + Self.Position.X + ", " + Self.Position.Y
+	End
+	
+End
+
+'################################################################
+
+Class GameListViewItem Extends ListViewItem
+
+Private 
+
+	Const WIDTH = 400
+	Const HEIGHT = 72
+ 	
+	Field _lblStatus:Label
+	Field _lblIp:Label
+	Field _lblMapName:Label
+	Field _lblText:Label
+	Field _img:Image
+
+Public 
+		
+	Method New(text:String, status:String, ip:String, mapName:String, img:Image)
+		
+		Local boldFont:= New BitmapFont("boldFont.txt")
+		Local normalFont:= New BitmapFont("normal.txt")
+		
+		_lblText = New Label
+		_lblText.Text = text
+		_lblText.Font = boldFont
+		_lblText.Parent = Self 
+		_lblText.Position.SetValues(96, 5)
+		
+		_lblMapName = New Label
+		_lblMapName.Text = mapName
+		_lblMapName.Parent = Self
+		_lblMapName.Font = normalFont
+		_lblMapName.Position.SetValues(96, 25)
+		
+		_lblStatus = New Label
+		_lblStatus.Text = status
+		_lblStatus.Parent = Self
+		_lblStatus.Font = boldFont
+		_lblStatus.TextAlign = eTextAlign.LEFT
+		_lblStatus.Position.SetValues(WIDTH - 5 - _lblStatus.Font.GetTxtWidth(_lblStatus.Text), 5)
+		
+		_lblIp = New Label
+		_lblIp.Text = ip
+		_lblIp.Parent = Self 
+		_lblIp.Font = normalFont
+		_lblIp.TextAlign = eTextAlign.LEFT 
+		_lblIp.Position.SetValues(WIDTH - 5 - _lblIp.Font.GetTxtWidth(_lblIp.Text), 25)
+		
+		_img = img
+		
+		Size.SetValues(WIDTH, HEIGHT)
+	End
+
+	Method Render:Void()
+		Super.Render()
+		
+		Local drawpos:= CalculateRenderPosition()
+		
+		'' Calculate image scaling factor
+		Local scale:Float = Min(
+		float(HEIGHT - 8) / float(_img.Width),
+		float(HEIGHT - 8) / float(_img.Height))
+	
+		'' Draw item image
+		SetColor 255, 255, 255
+		DrawImage(_img,
+			drawpos.X +HEIGHT / 2 - float(_img.Width * scale) / 2,
+			drawpos.Y + (HEIGHT) / 2 - float(_img.Height * scale) / 2,
+			0, scale, scale)
+	End
+	
+	Method Text:String()
+		Return _lblText.Text 
+	End
+	
+End
+
+Class GameListView extends ListView 
+	Method New(x:Int, y:Int, width:Int, height:Int, parent:ContainerControl)
+		Super.New(x, y, width, height, parent)
+		ItemHeight = GameListViewItem.HEIGHT
+		ItemWidth = GameListViewItem.WIDTH
+		SetItemSpacing(5, 5)
 	End
 End

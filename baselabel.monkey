@@ -1,7 +1,7 @@
 Import junglegui
 Private
 Import mojo
-public
+Public
 
 'summary: This is the BaseLabel class. This class is used by controls displaying and handling Text
 Class BaseLabel Extends Control Implements TextualItem Abstract
@@ -83,7 +83,7 @@ Class BaseLabel Extends Control Implements TextualItem Abstract
 	Field _font:BitmapFont 
 	Field _autoAdjust:Bool = true
 	Method _InitComponent()
-		Self.ForeColor.SetColor(1,0,0,0)
+		'Self.ForeColor.SetColor(1,0,0,0)
 		Self.BackgroundColor = SystemColors.ControlFace.Clone()
 		TabStop = false
 	end

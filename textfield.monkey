@@ -1,7 +1,7 @@
 ﻿Import junglegui
 Private 
 Import mojo
-public
+Public
 Const TEXTVALIDCHARS:String = "+-*/=~q!@#$%&()?[]çÇñÑáéíóúàèìòùâêîôûäëïöüÁÉÍÓÚÀÈIÒÙÄËÏÖÜÂÊÎÔÛýÝ€0123456789,.:;{}¨'`´~~|\ºª<>"
 
 Class TextField extends BaseLabel
