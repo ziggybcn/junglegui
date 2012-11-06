@@ -233,5 +233,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="debug" BuildMode="run" Target="xna" />
+  <CompilerConfig Configuration="debug" BuildMode="run" Target="html5" />
 </JiProj>
