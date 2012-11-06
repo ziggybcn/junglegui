@@ -35,6 +35,8 @@ Import renderer
 #print ""
 
 #If TARGET="html5"
+	'Import "data\html5font.txt"
+	'Import "data\html5font_P_1.png"
 	Import "data\html5font.txt"
 	Import "data\html5font_P_1.png"
 	Import "data\html5TipFont.txt"

@@ -74,14 +74,12 @@ Class GuiRenderer
 		DrawRect(position.X, position.Y, size.X, size.Y)
 		'SetColor(SystemColors.FormMargin.r + 10, SystemColors.FormMargin.g + 10, SystemColors.FormMargin.b + 10)
 		SystemColors.FormMargin.ActivateBright(15)
-		DrawRect(position.X + 2, position.Y + 2, size.X - 4, padding.Top / 2 - 2)
-		
-		If context <> null Then
-			context.ForeColor.Activate()
-		Else
-			SystemColors.WindowTextForeColor.Activate()
-		EndIf
+		DrawRect(position.X + 2, position.Y + 2, size.X - 4, padding.Top / 2 - 2)	
+		SystemColors.WindowTextForeColor.Activate()
 		Local TextY:Int = position.Y + padding.Top / 2 - Gui.systemFont.GetFontHeight / 2
+		#IF TARGET="html5"
+		SetColor(255, 255, 255)
+		#END
 		Gui.systemFont.DrawText(text, int(position.X + size.X / 2), TextY, eDrawAlign.CENTER)
 		
 		If context <> null Then
@@ -99,11 +97,7 @@ Class GuiRenderer
 		EndIf
 
 	End
-	
-	Method DrawFormClientArea(control:Control, position:GuiVector2D, size:GuiVector2D)
-		
-	End
-	 
+ 
 	Method DrawCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = null, BoxSize:Int = 16, checked:Bool = True)
 		SystemColors.ControlFace.Activate()
 		Local yOffset:Int = size.Y / 2 - BoxSize / 2
@@ -149,6 +143,10 @@ Class GuiRenderer
 	End
 	
 	Method SetDefaultFormPadding(form:Form)
+		
+	End
+	
+	Method ActivateRenderer()
 		
 	End
 	

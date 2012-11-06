@@ -2,7 +2,7 @@
 Private 
 Import mojo
 public
-Const TEXTVALIDCHARS:String = "+-*/=~q!@#$%&()?[]çÇñÑáéíóúàèìòùâêîôûäëïöüÁÉÍÓÚÀÈIÒÙÄËÏÖÜÂÊÎÔÛýÝ€0123456789,.:;{}¨'`´~|\ºª<>"
+Const TEXTVALIDCHARS:String = "+-*/=~q!@#$%&()?[]çÇñÑáéíóúàèìòùâêîôûäëïöüÁÉÍÓÚÀÈIÒÙÄËÏÖÜÂÊÎÔÛýÝ€0123456789,.:;{}¨'`´~~|\ºª<>"
 
 Class TextField extends BaseLabel
 
@@ -40,6 +40,10 @@ Class TextField extends BaseLabel
 			Local text1:String = Text[ .. _caretPos]
 			Local text2:String = Text[_caretPos ..]
 			ForeColor.Activate()
+			
+			#IF TARGET="html5"
+			SetColor(255, 255, 255)
+			#END
 			Font.DrawText(text1, Position.X - _drawOffset, TextY)
 			
 			Local xsize:Int = Font.GetTxtWidth(text1 + " ") - Font.GetFaceInfo(" "[0]).drawingWidth  '- Font.GetFaceInfo(" "[0]).drawingOffset.x
@@ -54,7 +58,12 @@ Class TextField extends BaseLabel
 			EndIf
 			SetAlpha(1)
 			ForeColor.Activate()
+			
+			#IF TARGET="html5"
+			SetColor(255, 255, 255)
+			#END
 			Font.DrawText(text2, Position.X + xsize - _drawOffset, TextY)
+			
 			DrawFocusRect(Self)
 			Local caretXPos:Int = xsize - _drawOffset
 			if caretXPos >= (Size.X - Size.X / 4)
@@ -69,6 +78,10 @@ Class TextField extends BaseLabel
 		else
 			'_drawOffset = 0 
 			ForeColor.Activate()
+			
+			#IF TARGET="html5"
+			SetColor(255, 255, 255)
+			#END			
 			Font.DrawText(Text, Position.X - _drawOffset, TextY)
 		EndIf
 		'Font.DrawText(

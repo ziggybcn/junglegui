@@ -253,11 +253,17 @@ Public
 					SystemColors.SelectedItemBackColor.Activate()
 					DrawRect _leftPadding + drawpos.X + 1, y + drawpos.Y + 1, _leftWidth - 2, _itemHeight - 2
 					SystemColors.SelectedItemForeColor.Activate()
+					#IF TARGET="html5"
+					SetColor(255, 255, 255)
+					#END
 					Font.DrawText(p.Name, _leftPadding + 3 + drawpos.X + 1, y + 1 + drawpos.Y + 3, 0)
 				Else
 					SetColor(255, 255, 255)
 					DrawRect _leftPadding + drawpos.X + 1, y + drawpos.Y + 1, _leftWidth - 2, _itemHeight - 2
 					ForeColor.Activate()
+					#IF TARGET="html5"
+					SetColor(255, 255, 255)
+					#END
 					Font.DrawText(p.Name, _leftPadding + 3 + drawpos.X + 1, y + 1 + drawpos.Y + 3, 0)
 				EndIf
 				
@@ -272,6 +278,9 @@ Public
 					
 					Local str:= p.TypeConverter_.ConvertToString(p.Value)
 					ForeColor.Activate()
+					#IF TARGET="html5"
+					SetColor(255, 255, 255)
+					#END
 					Font.DrawText(str, _leftPadding + _leftWidth + drawpos.X + 3, y + 1 + drawpos.Y + 3, eDrawAlign.LEFT)
 					
 				EndIf

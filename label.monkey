@@ -8,11 +8,11 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 			DrawRect(drawingPos.X,drawingPos.Y,Size.X,Size.Y)
 		Endif
 		
-		SetColor(Self.ForeColor.r,ForeColor.g,ForeColor.b)
-		Local textHeight:Int = Font.GetTxtHeight(Text)
-		'SetColor(0, 0, 0)	'Bottleneck
-		Font.DrawText(Text,drawingPos.X,Int(drawingPos.Y + Size.Y/2 - textHeight/2))
-		if _border Then
+		'SetColor(Self.ForeColor.r,ForeColor.g,ForeColor.b)
+		'Local textHeight:Int = Font.GetTxtHeight(Text)
+		'Font.DrawText(Text, drawingPos.X, Int(drawingPos.Y + Size.Y / 2 - textHeight / 2))
+		GetGui.Renderer.DrawLabelText(Status, drawingPos, Size, Text, TextAlign, Self.Font, Self)
+		If _border Then
 			BorderColor.Activate()
 			DrawBox(drawingPos,Self.Size)
 		EndIf

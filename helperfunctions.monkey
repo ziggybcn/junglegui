@@ -29,28 +29,28 @@ Function DrawRoundBox(x:Int, y:Int, width:Int, height:Int)
 	DrawRoundBox(float(x),float(y),float(width),float(height))
 End
 
-Function DrawRoundBox(position:GuiVector2D, size:GuiVector2D )
-	'DrawRect(position.X+1,position.Y,size.X-2,1) '---
-	'DrawRect(position.X,position.Y+1,1,size.Y-2) '|--
-	'DrawRect(position.X+size.X-1,position.Y+1,1,size.Y-2)'--|
-	'DrawRect(position.X+1,position.Y+size.Y-1,size.X-2,1) '___
+Function DrawRoundBox(position:GuiVector2D, size:GuiVector2D)
+	'DrawRect(position.X+1,position.Y,size.X-2,1) '--- 
+	'DrawRect(position.X,position.Y+1,1,size.Y-2) '|-- 
+	'DrawRect(position.X+size.X-1,position.Y+1,1,size.Y-2)'--| 
+	'DrawRect(position.X+1,position.Y+size.Y-1,size.X-2,1) '___ 
 	DrawRoundBox(position.X, position.Y, size.X, size.Y)
 End
 
 
-Function DrawFocusRect(control:Control, round:Bool = false)
+Function DrawFocusRect(control:Control, round:Bool = False)
 	Local alpha:Float = GetAlpha()
 	Local oldcolor:Float[] = GetColor()
-	SetAlpha(math.Abs(Sin(Millisecs()/5.0)))
+	SetAlpha(math.Abs(Sin(Millisecs() / 5.0)))
 	SystemColors.FocusColor.Activate()
-	Local pos:=control.CalculateRenderPosition()
-	Local size:= control.Size.Clone() 
-	if Not round then
-		DrawBox(pos,size)
+	Local pos:= control.CalculateRenderPosition()
+	Local size:= control.Size.Clone()
+	If Not round Then
+		DrawBox(pos, size)
 	Else
-		DrawRoundBox(pos,size)
+		DrawRoundBox(pos, size)
 	endif
-	SetColor 255,255,255
+	SetColor 255, 255, 255
 	SetAlpha(alpha)
 	SetColor oldcolor[0], oldcolor[1], oldcolor[2]
 End
@@ -68,11 +68,11 @@ End
 	Global SelectedItemBackColor:GuiColor = New GuiColor(1, 51, 153, 255)
 	Global HooverBackgroundColor:GuiColor = New GuiColor(1, 255, 255, 255)
 	#IF TARGET<>"html5"
-	Global WindowTextForeColor:GuiColor = New GuiColor(1, 0, 0, 0)
-	Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
+		Global WindowTextForeColor:GuiColor = New GuiColor(1, 0, 0, 0)
+		Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
 	#ELSE 
-	Global WindowTextForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
-	Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
+		Global WindowTextForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
+		Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
 	#END
 End
 

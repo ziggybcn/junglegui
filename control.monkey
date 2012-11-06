@@ -748,7 +748,7 @@ Class Gui
 	Global tipFont:BitmapFont
 	Method New()
 #IF TARGET="html5"
-		if systemFont = null Then systemFont = New BitmapFont("html5font.txt")	
+		If systemFont = Null Then systemFont = New BitmapFont("html5font.txt")
 		if tipFont = null Then tipFont = New BitmapFont("html5TipFont.txt")
 #ELSE
 		if systemFont = null Then systemFont = New BitmapFont("smallfont1.txt")	

@@ -8,7 +8,7 @@ Function Main()
 End
 
 Global gui:Gui
-
+ 
 Class Sample2 extends App
 
 	Field myForm:MyForm

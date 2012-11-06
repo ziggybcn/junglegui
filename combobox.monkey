@@ -108,7 +108,10 @@ Class ComboBox extends BaseLabel implements guiinterfaces.TextualAlignItem
 			Text = _listBox.SelectedItem.Text
 			
 			SetColor(Self.ForeColor.r, ForeColor.g, ForeColor.b)
-	
+			#IF TARGET="html5"
+			SetColor(255, 255, 255)
+			#END
+
 			Select TextAlign
 				Case eTextAlign.CENTER 
 					Font.DrawText(Text, int(drawingPos.X + Size.X / 2), int(drawingPos.Y + Size.Y / 2 - Font.GetFontHeight() / 2), eDrawAlign.CENTER)
