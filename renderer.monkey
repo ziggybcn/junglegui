@@ -165,55 +165,6 @@ Class GuiRenderer
 		EndIf
 
 	End
-	
-	Method DrawRadioBoxcontrol(control:Control, position:GuiVector2D, size:GuiVector2D, checked:bool)
-	
-	End
-	
-
-	Method DrawPanelBackground(control:Control, position:GuiVector2D, size:GuiVector2D)
 		
-	End
-	
-	Method DrawProgressBar(control:Control, position:GuiVector2D, size:GuiVector2D)
-		
-	End
-	
-	Method DrawHorizontalSliderGrabber(control:Control, position:GuiVector2D, size:GuiVector2D)
-		
-	End
-	
-	
-	Method DrawVerticalSliderGrabber(control:Control, position:GuiVector2D, size:GuiVector2D)
-		
-	End
-	
-	Method GetSliderGrabberSizes:GuiVector2D()
-		
-	End
-	
-	Method SetDefaultFormPadding(form:Form)
-		
-	End
-	
-	Method ActivateRenderer()
-		
-	End
-	
 End
 
-Class eControlStatus 
-
-	'summary: Represents a regular control status
-	Const NONE:Int = 0
-
-	'summary: Represents a focused status
-	Const FOCUSED:Int = 1
-
-	'summary: Represents a Focused status
-	Const HOOVER:Int = 2
-
-	'summary: Represents a disabled status
-	Const DISABLED:Int = 4
-	
-End Class
