@@ -10,6 +10,7 @@ Class Game Extends App
 	Field background:Image
 	Method OnCreate()
 		SetUpdateRate(60)
+		EnableAutoSize()
 		gui = New Gui
 		gui.Renderer = New MySkin
 		Local mainForm:= New ToolBox
@@ -19,7 +20,12 @@ Class Game Extends App
 	
 	Method OnRender()
 		Cls(255, 255, 255)
-		DrawImage(background, 0, 0)
+
+		'Render a background desktop image:
+		Local ScaleX:Float = Max(Float(DeviceWidth) / Float(background.Width), 1.0)
+		Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height),1.0)
+		DrawImage(background,0,0,0,ScaleX, ScaleY,0 )
+
 		gui.Render
 	End
 	
@@ -57,16 +63,19 @@ Class MySkin Extends renderer.GuiRenderer
 		DrawRect(position.X, position.Y, size.X, size.Y)	'We draw the form rectangle
 		SetAlpha(1)	'We set alpha back to 1
 		
-		'Now we render the form "caption", the form "text" using the system font:
-		Local font:= Gui.systemFont
-		font.DrawText(text, position.X, position.Y)
 		
-		'Now we're adding a small gradient on the top area of the form, using the fontheight as the gradient size:
-		For Local i:Int = 0 To font.GetFontHeight
-			SetAlpha(1 - float(i) / float(font.GetFontHeight))
+		'We render for form caption (header):
+		
+		'First a small gradient:
+		For Local i:Int = 0 To Gui.systemFont.GetFontHeight
+			SetAlpha(1 - float(i) / float(Gui.systemFont.GetFontHeight))
 			DrawLine(position.X, position.Y + i, position.X + size.X, position.Y + i)
 		Next
+		'Then the text:
 		SetAlpha 1
+		Gui.systemFont.DrawText(text, position.X + 1, position.Y + 1)
+		
+		
 		
 		'Now we're rendering the form "container" area, where controls are placed:
 		Local backcolor:guicolor.GuiColor
@@ -96,8 +105,10 @@ Class MySkin Extends renderer.GuiRenderer
 				position.Y +padding.Top + i)
 			
 		Next		
+		SetAlpha(0.5)
+		SystemColors.FormBorder.Activate()
+		DrawBox(position, size)
 		SetAlpha(1)
-		
 	End
 
 	Method DrawButtonBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control)
@@ -185,7 +196,7 @@ Class ToolBox extends form.Form
 		explosionButton = New Button
 		explosionButton.Parent = self
 		explosionButton.Text = "Explosion!"
-		explosionButton.Size.Y = explosionButton.Font.GetFontHeight()
+		explosionButton.Size.Y = explosionButton.Font.GetFontHeight() +30
 		explosionButton.Position.SetValues(10, height)
 		explosionButton.TipText = "Click here to generate an explosion"
 		explosionButton.Name = "explosionButton"
