@@ -79,56 +79,62 @@ Class ComboBox Extends BaseLabel Implements guiinterfaces.TextualAlignItem
 	Method Render:Void()
 		Local drawingPos:=CalculateRenderPosition()
 		
-		if GetGui.GetMousePointedControl() = Self Then
-			SetColor(HooverColor.r,HooverColor.g,HooverColor.b)
-		else
-			SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
-		EndIf
+		'if GetGui.GetMousePointedControl() = Self Then
+		'	SetColor(HooverColor.r,HooverColor.g,HooverColor.b)
+		'else
+		'	SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+		'EndIf
 		
-		DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y - 2)
+		'DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y - 2)
 		
-		SetAlpha(.5)
-		SetColor(255,255,255)
-		DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y / 2)
-		SetAlpha(1)
+		'SetAlpha(.5)
+		'SetColor(255,255,255)
+		'DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y / 2)
+		'SetAlpha(1)
 		
-		SetColor(BorderColor.r,BorderColor.g,BorderColor.b) 
+		GetGui.Renderer.DrawButtonBackground(Status, drawingPos, Size, Self)
 		
-		DrawRoundBox(drawingPos,Size)
+		'SetColor(BorderColor.r,BorderColor.g,BorderColor.b) 
+		
+		'DrawRoundBox(drawingPos,Size)
+		
+		GetGui.Renderer.DrawControlBorder(Status, drawingPos, Size, Self)
 		
 		if HasFocus Then
-			SetAlpha 0.2
-			SystemColors.FocusColor.Activate
-			DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y - 2)
-			SetAlpha 1
+			'SetAlpha 0.2
+			'SystemColors.FocusColor.Activate
+			'DrawRect(drawingPos.X + 1, drawingPos.Y + 1, Size.X - 2, Size.Y - 2)
+			'SetAlpha 1
+			GetGui.Renderer.DrawButtonFocusRect(Status, drawingPos, Size, Self)
 		EndIf
 
 		if _listBox.SelectedIndex >= 0 Then
 			
 			Text = _listBox.SelectedItem.Text
-			
-			SetColor(Self.ForeColor.r, ForeColor.g, ForeColor.b)
-			#IF TARGET="html5"
-			SetColor(255, 255, 255)
-			#END
-
-			Select TextAlign
-				Case eTextAlign.CENTER 
-					Font.DrawText(Text, int(drawingPos.X + Size.X / 2), int(drawingPos.Y + Size.Y / 2 - Font.GetFontHeight() / 2), eDrawAlign.CENTER)
-				Case eTextAlign.LEFT 
-					Font.DrawText(Text, int(2 + drawingPos.X), int(drawingPos.Y + Size.Y / 2 - Font.GetFontHeight() / 2), eDrawAlign.LEFT)
-				Case eTextAlign.RIGHT
-					Font.DrawText(Text, int(drawingPos.X + Size.X - 18), int(drawingPos.Y + Size.Y / 2 - Font.GetFontHeight() / 2), eDrawAlign.RIGHT)
-			End
-		
+'			
+'			SetColor(Self.ForeColor.r, ForeColor.g, ForeColor.b)
+'			#IF TARGET="html5"
+'			SetColor(255, 255, 255)
+'			#END
+'
+'			Select TextAlign
+'				Case eTextAlign.CENTER 
+'					Font.DrawText(Text, int(drawingPos.X + Size.X / 2), int(drawingPos.Y + Size.Y / 2 - Font.GetFontHeight() / 2), eDrawAlign.CENTER)
+'				Case eTextAlign.LEFT 
+'					Font.DrawText(Text, int(2 + drawingPos.X), int(drawingPos.Y + Size.Y / 2 - Font.GetFontHeight() / 2), eDrawAlign.LEFT)
+'				Case eTextAlign.RIGHT
+'					Font.DrawText(Text, int(drawingPos.X + Size.X - 18), int(drawingPos.Y + Size.Y / 2 - Font.GetFontHeight() / 2), eDrawAlign.RIGHT)
+'			End
+			GetGui.Renderer.DrawComboText(Status, drawingPos, Size, Self.Text, Self.TextAlign, Self.Font, Self)
 		EndIf
 	
-		SetColor 0,0,0
-		DrawRect drawingPos.X + Size.X - 10, drawingPos.Y + Size.Y / 2 - 0, 1, 1
-		DrawRect drawingPos.X + Size.X - 10 - 1, drawingPos.Y + Size.Y / 2 - 1 - 0, 3, 1
-		DrawRect drawingPos.X + Size.X - 10 - 2, drawingPos.Y + Size.Y / 2 - 1 - 1, 5, 1
+		'SetColor 0,0,0
+		'DrawRect drawingPos.X + Size.X - 10, drawingPos.Y + Size.Y / 2 - 0, 1, 1
+		'DrawRect drawingPos.X + Size.X - 10 - 1, drawingPos.Y + Size.Y / 2 - 1 - 0, 3, 1
+		'DrawRect drawingPos.X + Size.X - 10 - 2, drawingPos.Y + Size.Y / 2 - 1 - 1, 5, 1
+		GetGui.Renderer.DrawComboArrow(Status, drawingPos, Size, Self)
 		
-		if HasFocus Then DrawFocusRect(Self, true)
+		If HasFocus Then GetGui.Renderer.DrawFocusRect(Self, True)
 	End
 	
 	Method Update()
@@ -174,7 +180,7 @@ Private
 	
 	Const DEFAULT_HEIGHT = 20
 		
-	Field _textAlign:Int = eTextAlign.RIGHT
+	Field _textAlign:Int = eTextAlign.LEFT
 	Field _listBox:ListBox
 	Field _dropDownHeight:int = 200
 	Field _selectedIndexChanged:= new EventHandler<EventArgs>

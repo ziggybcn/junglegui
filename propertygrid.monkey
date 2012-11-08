@@ -319,7 +319,7 @@ Public
 		
 		
 		if HasFocus Then
-			DrawFocusRect(Self, True)
+			GetGui.Renderer.DrawFocusRect(Self, True)
 		Else
 			' bottom outline could be overwritten?
 			SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)

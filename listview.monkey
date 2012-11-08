@@ -194,7 +194,7 @@ Public
 		End 
 		
 		if HasFocus Then
-			DrawFocusRect(Self, True)
+			GetGui.Renderer.DrawFocusRect(Self, True)
 		End			 
 	End 
 End
@@ -468,7 +468,7 @@ Public
 		Super.Render()
 		
 		if HasFocus Then
-			DrawFocusRect(Self, True)
+			GetGui.Renderer.DrawFocusRect(Self, True)
 		End
 		
 	End 

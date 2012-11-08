@@ -22,9 +22,9 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 		Local drawingPos:= CalculateRenderPosition()
 		GetGui.Renderer.DrawButtonBackground(Self.Status, drawingPos, Self.Size, Self)
 		GetGui.Renderer.DrawControlBorder(Self.Status, drawingPos, Self.Size, Self)
-		if Self.HasFocus Then GetGui.Renderer.DrawButtonFocusRect(Self.Status, drawingPos, Self.Size, Self)
+		If Self.HasFocus Then GetGui.Renderer.DrawButtonFocusRect(Self.Status, drawingPos, Self.Size, Self)
 		GetGui.Renderer.DrawLabelText(Self.Status, drawingPos, Self.Size, Self.Text, Self.TextAlign, Self.Font, Self)
-		if HasFocus Then DrawFocusRect(Self, true)
+		If HasFocus Then GetGui.Renderer.DrawFocusRect(Self, True)
 	End
 	
 	Method AdjustSize:GuiVector2D()

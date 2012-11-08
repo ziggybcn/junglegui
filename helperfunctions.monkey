@@ -38,22 +38,22 @@ Function DrawRoundBox(position:GuiVector2D, size:GuiVector2D)
 End
 
 
-Function DrawFocusRect(control:Control, round:Bool = False)
-	Local alpha:Float = GetAlpha()
-	Local oldcolor:Float[] = GetColor()
-	SetAlpha(math.Abs(Sin(Millisecs() / 5.0)))
-	SystemColors.FocusColor.Activate()
-	Local pos:= control.CalculateRenderPosition()
-	Local size:= control.Size.Clone()
-	If Not round Then
-		DrawBox(pos, size)
-	Else
-		DrawRoundBox(pos, size)
-	endif
-	SetColor 255, 255, 255
-	SetAlpha(alpha)
-	SetColor oldcolor[0], oldcolor[1], oldcolor[2]
-End
+'Function DrawFocusRect(control:Control, round:Bool = False)
+'	Local alpha:Float = GetAlpha()
+'	Local oldcolor:Float[] = GetColor()
+'	SetAlpha(math.Abs(Sin(Millisecs() / 5.0)))
+'	SystemColors.FocusColor.Activate()
+'	Local pos:= control.CalculateRenderPosition()
+'	Local size:= control.Size.Clone()
+'	If Not round Then
+'		DrawBox(pos, size)
+'	Else
+'		DrawRoundBox(pos, size)
+'	endif
+'	SetColor 255, 255, 255
+'	SetAlpha(alpha)
+'	SetColor oldcolor[0], oldcolor[1], oldcolor[2]
+'End
 
    Class SystemColors
 	Global ControlFace:GuiColor = New GuiColor(1,220,220,220)
