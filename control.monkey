@@ -5,6 +5,7 @@ Import viewportstack
 Import helperfunctions
 Import eventhandler
 Import padding
+Import econtrolstatus
 
 Private
 Import mojo
@@ -778,7 +779,7 @@ Class Gui
 
 	'summary: This method has to be called whenever the Gui has to be rendered.
 	Method Render()
-	
+		If _renderer = Null Then Renderer = Null	'Set default renderer in case it has not been set.
 		local scissor:Float[] = GetScissor()
 		For Local c:Control = eachin _components
 			if c.Visible = False Then Continue
@@ -793,8 +794,16 @@ Class Gui
 		EndIf
 	End
 	
-	Method Renderer:GuiRenderer()
+	Method Renderer:GuiRenderer() Property
 		Return _renderer
+	End
+	Method Renderer:Void(renderer:GuiRenderer) Property
+		If renderer = Null Then
+			_renderer = New GuiRenderer
+		Else
+			_renderer = renderer
+		EndIf
+		_renderer.InitRenderer()
 	End
 
 	'summary: This method will clear all controls contained in this Gui.
@@ -932,7 +941,7 @@ Class Gui
 	
 	Private
 	
-	Field _renderer:GuiRenderer = New GuiRenderer
+	Field _renderer:GuiRenderer '= New GuiRenderer
 	Field _renderTipAlpha:Float = 0
 	Method RenderTip()
 		Local control:=GetMousePointedControl()
