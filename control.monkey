@@ -622,7 +622,7 @@ Class ContainerControl extends Control
 	end
 
 	Method DrawFocus()
-		DrawFocusRect(Self)
+		GetGui.Renderer.DrawFocusRect(Self)
 	End
 	'summary: This method renders all the contained controls, in the required order.
 	Method RenderChildren()

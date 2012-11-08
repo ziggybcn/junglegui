@@ -64,7 +64,7 @@ Class TextField extends BaseLabel
 			#END
 			Font.DrawText(text2, Position.X + xsize - _drawOffset, TextY)
 			
-			DrawFocusRect(Self)
+			GetGui.Renderer.DrawFocusRect(Self)
 			Local caretXPos:Int = xsize - _drawOffset
 			if caretXPos >= (Size.X - Size.X / 4)
 				Local sum:Int = (caretXPos - Size.X) / 2

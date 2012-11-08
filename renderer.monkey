@@ -19,9 +19,11 @@ Class GuiRenderer
 		EndIf
 		backColor.Activate
 		
-		DrawRect(position.X + 1, position.Y + 1, size.X - 2, size.Y - 2)		
+		DrawRect(position.X + 1, position.Y + 1, size.X - 2, size.Y - 2)
+		
 		backColor.ActivateBright()
 		DrawRect(position.X + 1, position.Y + 1, size.X - 2, size.Y / 2)
+
 	End
 	
 	Method DrawControlBorder(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
@@ -30,13 +32,39 @@ Class GuiRenderer
 	End
 	
 	Method DrawButtonFocusRect(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
-		SetAlpha 0.2
 		SystemColors.FocusColor.Activate
+		SetAlpha 0.2
 		DrawRect(position.X + 1, position.Y + 1, size.X - 2, size.Y - 2)
 		SetAlpha 1
 	End
 	 
-	Method DrawLabelText(status:Int, position:GuiVector2D, size:GuiVector2D, text:String, align:Int, Font:BitmapFont, context:Control = Null)
+	Method DrawComboArrow(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
+		SetColor 0,0,0
+		DrawRect position.X + size.X - 10, position.Y + size.Y / 2 - 0, 1, 1
+		DrawRect position.X + size.X - 10 - 1, position.Y + size.Y / 2 - 1 - 0, 3, 1
+		DrawRect position.X + size.X - 10 - 2, position.Y + size.Y / 2 - 1 - 1, 5, 1
+	End
+
+	Method DrawFocusRect(control:Control, round:Bool = False)
+		Local alpha:Float = GetAlpha()
+		Local oldcolor:Float[] = GetColor()
+		SetAlpha(math.Abs(Sin(Millisecs() / 5.0)))
+		SystemColors.FocusColor.Activate()
+		Local pos:= control.CalculateRenderPosition()
+		Local size:= control.Size.Clone()
+		If Not round Then
+			DrawBox(pos, size)
+		Else
+			DrawRoundBox(pos, size)
+		EndIf
+		SetColor 255, 255, 255
+		SetAlpha(alpha)
+		SetColor oldcolor[0], oldcolor[1], oldcolor[2]
+
+	End
+	
+	
+	Method DrawLabelText(status:Int, position:GuiVector2D, size:GuiVector2D, text:String, align:Int, font:BitmapFont, context:Control = Null)
 		'SetColor(Self.ForeColor.r, ForeColor.g, ForeColor.b)
 			
 		if context then
@@ -49,15 +77,38 @@ Class GuiRenderer
 		#END
 		Select align
 			Case eTextAlign.CENTER 
-				Font.DrawText(text, int(position.X + size.X / 2), int(position.Y + size.Y / 2 - Font.GetFontHeight() / 2), eDrawAlign.CENTER)
+				font.DrawText(text, int(position.X + size.X / 2), int(position.Y + size.Y / 2 - font.GetFontHeight() / 2), eDrawAlign.CENTER)
 			Case eTextAlign.LEFT 
-				Font.DrawText(text, int(position.X), int(position.Y + size.Y / 2 - Font.GetFontHeight() / 2), eDrawAlign.LEFT)
+				font.DrawText(text, int(position.X), int(position.Y + size.Y / 2 - font.GetFontHeight() / 2), eDrawAlign.LEFT)
 			Case eTextAlign.RIGHT
-				Font.DrawText(text, int(position.X + size.X), int(position.Y + size.Y / 2 - Font.GetFontHeight() / 2), eDrawAlign.RIGHT)
+				font.DrawText(text, int(position.X + size.X), int(position.Y + size.Y / 2 - font.GetFontHeight() / 2), eDrawAlign.RIGHT)
 		End
 	
 	End
 	
+	Method DrawComboText(status:Int, position:GuiVector2D, size:GuiVector2D, text:String, align:Int, font:BitmapFont, context:Control = Null)
+		'SetColor(Self.ForeColor.r, ForeColor.g, ForeColor.b)
+			
+		if context then
+			context.ForeColor.Activate()
+		Else
+			SystemColors.WindowTextForeColor.Activate()
+		Endif
+		#IF TARGET="html5" 
+			SetColor(255, 255, 255)
+		#END
+		Select align
+			Case eTextAlign.CENTER
+				font.DrawText(text, int(position.X + size.X / 2), int(position.Y + size.Y / 2 - font.GetFontHeight() / 2), eDrawAlign.CENTER)
+			Case eTextAlign.LEFT
+				font.DrawText(text, int(2 + position.X), int(position.Y + size.Y / 2 - font.GetFontHeight() / 2), eDrawAlign.LEFT)
+			Case eTextAlign.RIGHT
+				font.DrawText(text, int(position.X + size.X - 18), int(position.Y + size.Y / 2 - font.GetFontHeight() / 2), eDrawAlign.RIGHT)
+		End
+	
+	End
+
+
 	Method DrawControlBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = null)
 		If context <> null And context.BackgroundColor <> Null Then
 			context.BackgroundColor.Activate()

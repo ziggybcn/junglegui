@@ -197,13 +197,20 @@ Class SampleForm extends Form
 		panel.Name = "panel"
 		HCenterControl(panel)
 
+		Local combo:ComboBox = New ComboBox(panel, 0, 0, 150)
+		Local li:ListItem
+		li = New ListItem("Item 1"); combo.Items.AddLast(li)
+		li = New ListItem("Item 2"); combo.Items.AddLast(li)
+		li = New ListItem("Item 3"); combo.Items.AddLast(li)
+		combo.SelectedIndex = 0
+				
 		'''
 		''' add random radio buttons
 		'''
 		For Local i:Int = 0 to 5
 			Local radio:RadioButton = New RadioButton
 			radio.Parent = panel
-			radio.Position.SetValues(10, 10 + i * 20)
+			radio.Position.SetValues(10, 20 + i * 20)
 			radio.Size.SetValues(200, 20)
 			radio.Text = "Option " + (i + 1)
 			radio.TipText = "This is a selectable option #" + (i + 1)

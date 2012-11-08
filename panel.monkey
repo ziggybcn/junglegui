@@ -12,7 +12,7 @@ Class Panel extends ContainerControl
 		DrawRect(position.X + 1, position.Y + 1, Size.X - 2, Size.Y - 2)
 		BorderColor.Activate()
 		DrawRoundBox(position, Size)
-		if HasFocus Then DrawFocusRect(Self, true)
+		If HasFocus Then GetGui.Renderer.DrawFocusRect(Self, True)
 		
 	End
 	
