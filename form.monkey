@@ -47,10 +47,6 @@ Class Form Extends TopLevelControl
 				_cacheDrawPos.X = FormScreenPos.X + Self.Size.X - ControlBoxMetrics.Size.X - ControlBoxMetrics.Offset.X	
 				_cacheDrawPos.Y = FormScreenPos.Y +  ControlBoxMetrics.Offset.Y	
 		End
-		'DrawRect(_cacheDrawPos.X ,_cacheDrawPos.Y,ControlBoxMetrics.Size.X, ControlBoxMetrics.Size.Y)
-		'SystemColors.FocusColor.Activate()
-		'DrawBox(_cacheDrawPos,ControlBoxMetrics.Size)
-		'Gui.systemFont.DrawText("X",_cacheDrawPos.X+ControlBoxMetrics.Size.X/2, _cacheDrawPos.Y, eDrawAlign.CENTER )
 		SetColor(255,255,255)
 		SetAlpha(.3)
 		DrawImage(_imageCloseButton,_cacheDrawPos.X, _cacheDrawPos.Y)

@@ -1,3 +1,4 @@
+
 Class eControlStatus
 
 	'summary: Represents a regular control status

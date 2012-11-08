@@ -1,5 +1,5 @@
 Import junglegui
- 
+
 Class GuiRenderer
 
 	Method DrawButtonBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
@@ -164,6 +164,10 @@ Class GuiRenderer
 			DrawRect(position.X + 4, position.Y + 4 + yOffset, BoxSize - 9, BoxSize - 8)
 		EndIf
 
+	End
+	
+	Method InitRenderer()
+		
 	End
 		
 End

@@ -32,9 +32,9 @@ Class GuiColor
 	'Activates this color with additional bright (more white)
 	Method ActivateBright(brightness:Int = 15)
 		graphics.SetColor(
-			Max(Min(r + 15, 255), 0),
-			Max(Min(g + 15, 255), 0),
-			Max(Min(b + 15, 255), 0))
+			Max(Min(r + brightness, 255), 0),
+			Max(Min(g + brightness, 255), 0),
+			Max(Min(b + brightness, 255), 0))
 	End
 	
 	'Activates this color with additional dark (more black)
