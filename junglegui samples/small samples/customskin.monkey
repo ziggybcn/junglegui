@@ -1,4 +1,5 @@
 Import junglegui
+
 #REFLECTION_FILTER+="customskin"
 Function Main()
 	New Game
@@ -40,6 +41,11 @@ Class MySkin Extends renderer.GuiRenderer
 		SystemColors.FocusColor.SetColor(255, 255, 255, 255)
 		SystemColors.FormBorder.SetColor(255, 250, 250, 230)
 		SystemColors.SelectedItemBackColor.SetColor(255, 200, 200, 180)
+		#IF TARGET="html5"
+			Gui.systemFont = New bitmapfont.BitmapFont("skinfont_html5.txt")
+		#ELSE
+			Gui.systemFont = New bitmapfont.BitmapFont("skinfont.txt")
+		#END
 	End
 
 	Method DrawFormBackground(status:Int, position:GuiVector2D, size:GuiVector2D, padding:Padding, text:String, context:Control)
@@ -93,6 +99,7 @@ Class MySkin Extends renderer.GuiRenderer
 		SetAlpha(1)
 		
 	End
+
 	Method DrawButtonBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control)
 		Local backColor:GuiColor
 		If HasFlag(status, eControlStatus.HOOVER) Then
