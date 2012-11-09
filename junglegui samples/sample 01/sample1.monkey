@@ -10,6 +10,8 @@
 
 'We import the module, otherwise nothing will work:  
 Import junglegui
+Import junglegui.renderers.concretejungle
+
 'It's important to set a reflection filter to avoid this application getting way too big: (I would love this to be more elegant)
 #REFLECTION_FILTER="sample1*|junglegui*"
 
@@ -26,7 +28,9 @@ Class Sample extends App
 		SetUpdateRate(60)
 	
 		'We create a gui, wich is the component that handles all the gui:
-		if gui = null Then gui = New Gui
+		If gui = Null Then gui = New Gui
+		gui.Renderer = New ConcreteJungle
+		
 		EnableAutoSize()
 		
 		'We create a SampleForm, and we attach it to the gui component:

@@ -2,6 +2,8 @@ Import junglegui
 Import toolbox
 Import simpleparticles
 Import debugform
+Import junglegui.renderers.concretejungle
+
 #REFLECTION_FILTER="particlessample*|toolbox*|junglegui*|debugform*" 
 Global ParticlesSample:Sample
 
@@ -18,7 +20,8 @@ Class Sample extends App
 		EnableAutoSize()
 		emiter = New Emiter
 		
-		If gui = null Then gui = New Gui
+		If gui = Null Then gui = New Gui
+		gui.Renderer = New ConcreteJungle
 		toolBox = New ToolBox
 		toolBox.InitForm(gui)
 		
