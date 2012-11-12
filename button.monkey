@@ -54,9 +54,9 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 
 	Method _InitComponent()
 		ForeColor.SetColor(1, 0, 0, 0)
-		BackgroundColor = SystemColors.ControlFace.Clone()
-		BorderColor = SystemColors.ButtonBorderColor.Clone()
-		HooverColor = SystemColors.HooverBackgroundColor.Clone()
+		BackgroundColor = SystemColors.ControlFace
+		BorderColor = SystemColors.ButtonBorderColor
+		HooverColor = SystemColors.HooverBackgroundColor
 		TabStop = true
 	End
 End

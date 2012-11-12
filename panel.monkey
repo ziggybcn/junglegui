@@ -18,8 +18,8 @@ Class Panel extends ContainerControl
 	
 	Private
 	Method _InitComponent()
-		BorderColor = SystemColors.FormBorder.Clone()
-		BackgroundColor = SystemColors.ControlFace.Clone()
+		BorderColor = SystemColors.FormBorder
+		BackgroundColor = SystemColors.ControlFace
 		Size.X = 200
 		Size.Y = 200		
 	End

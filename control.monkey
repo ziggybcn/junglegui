@@ -522,8 +522,8 @@ Class Control
 	Field _GuiVector2D:ControlGuiVector2D = New ControlGuiVector2D
 	Field _parentControl:ContainerControl 
 	Field _drawingSize:ControlGuiVector2D = New ControlGuiVector2D
-	Field _backgroundColor:GuiColor = SystemColors.ControlFace.Clone() 'new GuiColor(1,170,170,170)
-	Field _foreColor:GuiColor = SystemColors.WindowTextForeColor.Clone()
+	Field _backgroundColor:GuiColor = SystemColors.ControlFace 'new GuiColor(1,170,170,170)
+	Field _foreColor:GuiColor = SystemColors.WindowTextForeColor
 	Global _htmlforecolor:GuiColor = New GuiColor(1, 255, 255, 255)
 	Field _gui:Gui 
 	Field _tabStop:Bool = true
@@ -768,13 +768,6 @@ Class Gui
 	Global systemFont:BitmapFont
 	Global tipFont:BitmapFont
 	Method New()
-#IF TARGET="html5"
-		If systemFont = Null Then systemFont = New BitmapFont("html5font.txt")
-		if tipFont = null Then tipFont = New BitmapFont("html5TipFont.txt")
-#ELSE
-		if systemFont = null Then systemFont = New BitmapFont("smallfont1.txt")	
-		if tipFont = null Then tipFont = New BitmapFont("TipFont.txt")
-#END
 	End
 
 	'summary: This method has to be called whenever the Gui has to be rendered.
@@ -782,7 +775,7 @@ Class Gui
 		If _renderer = Null Then Renderer = Null	'Set default renderer in case it has not been set.
 		local scissor:Float[] = GetScissor()
 		For Local c:Control = eachin _components
-			if c.Visible = False Then Continue
+			If c.Visible = False Then Continue
 			c.Render()
 			SetScissor(scissor[0], scissor[1], scissor[2], scissor[3])
 		Next

@@ -55,24 +55,25 @@ End
 '	SetColor oldcolor[0], oldcolor[1], oldcolor[2]
 'End
 
-   Class SystemColors
-	Global ControlFace:GuiColor = New GuiColor(1,220,220,220)
-	Global ButtonBorderColor:GuiColor = New GuiColor(1, 182, 182, 182)
-	Global FocussedButtonBorderColor:GuiColor = New GuiColor(1, 69, 216, 251)
-	Global AppWorkspace:GuiColor = New GuiColor(1,171,171,171) 
-	Global FocusColor:GuiColor = New GuiColor(1,60,127,177)
-	Global FormBorder:GuiColor = New GuiColor(1,185,209,234)
-	Global WindowColor:GuiColor = New GuiColor(1,255,255,255)
-	Global FormMargin:GuiColor = New GuiColor(1,174,199,225)
-	Global InactiveFormBorder:GuiColor = New GuiColor(1, 120, 120, 120)
-	Global SelectedItemBackColor:GuiColor = New GuiColor(1, 51, 153, 255)
-	Global HooverBackgroundColor:GuiColor = New GuiColor(1, 255, 255, 255)
+Class SystemColors
+	'Color values are now set at the renderer initialization, so they are kept between renderer changes
+	Global ControlFace:GuiColor = New GuiColor
+	Global ButtonBorderColor:GuiColor = New GuiColor
+	Global FocussedButtonBorderColor:GuiColor = New GuiColor
+	Global AppWorkspace:GuiColor = New GuiColor
+	Global FocusColor:GuiColor = New GuiColor
+	Global FormBorder:GuiColor = New GuiColor
+	Global WindowColor:GuiColor = New GuiColor
+	Global FormMargin:GuiColor = New GuiColor
+	Global InactiveFormBorder:GuiColor = New GuiColor
+	Global SelectedItemBackColor:GuiColor = New GuiColor
+	Global HooverBackgroundColor:GuiColor = New GuiColor
 	#IF TARGET<>"html5"
-		Global WindowTextForeColor:GuiColor = New GuiColor(1, 0, 0, 0)
-		Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
+		Global WindowTextForeColor:GuiColor = New GuiColor
+		Global SelectedItemForeColor:GuiColor = New GuiColor
 	#ELSE 
-		Global WindowTextForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
-		Global SelectedItemForeColor:GuiColor = New GuiColor(1, 255, 255, 255)
+		Global WindowTextForeColor:GuiColor = New GuiColor
+		Global SelectedItemForeColor:GuiColor = New GuiColor
 	#END
 End
 

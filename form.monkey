@@ -5,7 +5,7 @@ Import "data/close_button.png"
 Class Form Extends TopLevelControl
 	
 	Method New()
-		BackgroundColor = SystemColors.AppWorkspace.Clone()
+		BackgroundColor = SystemColors.AppWorkspace
 		Size.SetValues(400, 400)
 		Padding.Left = 5
 		Padding.Top = 25
@@ -110,7 +110,7 @@ Class Form Extends TopLevelControl
 		_BoxPos.align = BoxMetrics.HALIGN_RIGHT 
 		if _imageCloseButton = null then _imageCloseButton = LoadImage("close_button.png")
 		_BoxPos.Size.SetValues(_imageCloseButton.Width ,_imageCloseButton.Height)
-		BackgroundColor = SystemColors.WindowColor.Clone()
+		BackgroundColor = SystemColors.WindowColor
 	End
 	
 	Field mouseIsDown:Bool = false, _mouseHitPos:GuiVector2D

@@ -243,7 +243,7 @@ Public
 
 	Method New()
 		if Not _trackBarImage Then _trackBarImage = LoadImage("trackbar.png", 10, 18, 3, Image.MidHandle)
-		BackgroundColor = SystemColors.WindowColor.Clone()
+		BackgroundColor = SystemColors.WindowColor
 		Size.SetValues(200, 40)
 		Orientation = eOrientation.HORIZONTAL
 	End
