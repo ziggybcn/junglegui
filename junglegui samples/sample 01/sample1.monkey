@@ -11,14 +11,13 @@
 'We import the module, otherwise nothing will work:  
 Import junglegui
 Import junglegui.renderers.concretejungle
-
-'It's important to set a reflection filter to avoid this application getting way too big: (I would love this to be more elegant)
-#REFLECTION_FILTER="sample1*|junglegui*"
+'It's important to add this file to the reflection filter if we want it to be able to process event handlers
+#REFLECTION_FILTER+="sample1"
 
 'Start the application
 Function Main()
 	New Sample  
-End 
+End
 
 Class Sample extends App
 	Field gui:Gui

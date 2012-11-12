@@ -1,7 +1,7 @@
 'This is a very small minimal sample
 
 Import junglegui
-#REFLECTION_FILTER="slidersample*|junglegui*"
+#REFLECTION_FILTER+="slidersample"
 
 Function Main()
 	New Sample2
@@ -23,16 +23,10 @@ Class Sample2 extends App
 			Print "Form could not be initialized becouse of an exception:"
 			Print jge.ToString()
 		End
-
-'		For Local i:Int = 0 to 20
-'			Local mf:= New MyForm
-'			mf.InitForm(gui)
-'			mf.Position.SetValues(int(Rnd(0, DeviceWidth - mf.Size.X)), Int(Rnd(0, DeviceHeight - mf.Size.Y)))
-'		Next
 	End
 	
 	Method OnUpdate()
-		try
+		Try
 			gui.Update()
 		Catch jge:JungleGuiException
 			Print "Error updating the Gui component:"
@@ -109,8 +103,8 @@ Class MyForm extends Form
 		slider.Size.SetValues(230, 10)
 		slider.Maximum = 255
 		slider.Value = 255
-		'Events.Add(slider, eMsgKinds.SLIDING_VALUE_CHANGED, "Slider_Value_Changed")
 		slider.Event_ValueChanged.Add(Self, "Slider_Value_Changed")
+		
 		Local label:= New Label
 		label.Parent = self
 		label.Text = name
