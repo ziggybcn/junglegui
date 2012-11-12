@@ -33,7 +33,8 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 
 		'We render the form "main" box:
 		SystemColors.FormMargin.Activate()	'Select the form margin color
-		SetAlpha(0.4)	'Oue new skin has transparent form borders, so we set alpha to 0.2
+		SetAlpha(0.4)	'Oue new skin has transparent form borders, so we set alpha
+		'SetAlpha 1
 		DrawRect(position.X, position.Y, size.X, size.Y)	'We draw the form rectangle
 		SetAlpha(1)	'We set alpha back to 1
 		
@@ -46,8 +47,13 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		Next
 		'Then the text:
 		SetAlpha 1
+		#IF TARGET="html5" 
+			SetColor(255, 255, 255)
+		#ELSE
+			SystemColors.WindowTextForeColor.Activate()
+		#END
 		Gui.systemFont.DrawText(text, position.X + 1, position.Y + 1)
-		
+				
 		
 		
 		'Now we're rendering the form "container" area, where controls are placed:
@@ -62,15 +68,16 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		
 		'Now we're adding a small gradient at the top and at the bottom of the form container area:
 		For Local i:Int = 0 To 20
-			SetAlpha(1 - i / 20.0)
-			backcolor.ActivateDark(55)
+			'SetAlpha(1 - i / 20.0)
+			
+			backcolor.ActivateDark(2 * (40 - i * 2))'55)
 			
 			DrawLine(position.X + padding.Left,
 				position.Y +size.Y - padding.Bottom - i,
 				position.X +size.X - padding.Right,
 				position.Y +size.Y - padding.Bottom - i)
 			
-			backcolor.ActivateBright(55)
+			backcolor.ActivateBright(2 * (40 - i * 2))'55)
 			'SetColor(255, 0, 0)
 			DrawLine(position.X + padding.Left,
 				position.Y +padding.Top + i,
