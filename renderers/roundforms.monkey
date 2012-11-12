@@ -3,8 +3,8 @@ Class RoundForms Extends renderer.GuiRenderer
 
 	Method InitRenderer()
 '		'We modify some systemcolors when the Renderer is activated:
-		SystemColors.FormMargin.SetColor(255, 120, 170, 30)
-		SystemColors.FormBorder.SetColor(255, 100, 120, 0)
+		SystemColors.FormMargin.SetColor(1, 120, 170, 30)
+		SystemColors.FormBorder.SetColor(1, 100, 120, 0)
 
 		SystemColors.ControlFace.SetColor(1, 220, 220, 220)
 		SystemColors.ButtonBorderColor.SetColor(1, 182, 182, 182)
@@ -29,12 +29,14 @@ Class RoundForms Extends renderer.GuiRenderer
 
 		'We render the form "main" box:
 		SystemColors.FormBorder.Activate()	'Select the form margin color
+		SetAlpha(1)
 		DrawRect(position.X + 15, position.Y, size.X - 30, 15)
 		DrawRect(position.X, position.Y + 15, size.X, size.Y - 15)
 		DrawOval(position.X, position.Y, 30, 30)
 		DrawOval(position.X + size.X - 30, position.Y, 30, 30)
 
 		SystemColors.FormMargin.Activate()	'Select the form margin color
+		SetAlpha(1)
 		DrawRect(position.X + 15 + 1, position.Y + 1, size.X - 30 - 1, 15 - 1)
 		DrawRect(position.X + 1, position.Y + 15, size.X - 2, size.Y - 15 - 1)
 		DrawOval(position.X + 1, position.Y + 1, 28, 28)
