@@ -11,6 +11,7 @@
 'We import the module, otherwise nothing will work:  
 Import junglegui
 Import junglegui.renderers.concretejungle
+Import junglegui.renderers.roundforms
 'It's important to add this file to the reflection filter if we want it to be able to process event handlers
 #REFLECTION_FILTER+="sample1"
 
@@ -29,7 +30,7 @@ Class Sample extends App
 	
 		'We create a gui, wich is the component that handles all the gui:
 		If gui = Null Then gui = New Gui
-		gui.Renderer = New ConcreteJungle
+		gui.Renderer = New RoundForms 'ConcreteJungle
 		
 		EnableAutoSize()
 		
@@ -59,6 +60,8 @@ Class Sample extends App
 			gui.Renderer = Null
 		ElseIf KeyHit(KEY_2) Then
 			gui.Renderer = New concretejungle.ConcreteJungle
+		ElseIf KeyHit(KEY_3) Then
+			gui.Renderer = New roundforms.RoundForms
 		EndIf
 	End
 	
@@ -96,7 +99,7 @@ Class InstructionsPanel Extends WindowFrame
 		'Self.Transparent = True
 		Local lbl:Label = New Label
 		lbl.Parent = Self
-		lbl.Text = "1.- Default renderer, 2.- Jungle Concrete renderer"
+		lbl.Text = "1.- Default, 2.- Jungle Concrete, 3.- RoundForm"
 		lbl.AutoAdjustSize = False
 		lbl.Size.SetValues(400, 20)
 	End
