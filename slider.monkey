@@ -117,7 +117,7 @@ Class Slider extends Control
 		
 	Method New()
 		Size.SetValues(250, 20)
-		BackgroundColor = SystemColors.WindowColor.Clone()
+		BackgroundColor = SystemColors.WindowColor
 	End
 	
 	Method Msg(msg:BoxedMsg)

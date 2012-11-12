@@ -84,7 +84,7 @@ Class BaseLabel Extends Control Implements TextualItem Abstract
 	Field _autoAdjust:Bool = true
 	Method _InitComponent()
 		'Self.ForeColor.SetColor(1,0,0,0)
-		Self.BackgroundColor = SystemColors.ControlFace.Clone()
+		Self.BackgroundColor = SystemColors.ControlFace
 		TabStop = false
 	end
 End

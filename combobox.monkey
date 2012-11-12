@@ -187,9 +187,9 @@ Private
 	
 	Method _InitComponent()
 		ForeColor.SetColor(1,0,0,0)
-		BackgroundColor = SystemColors.ControlFace.Clone()
-		BorderColor = SystemColors.ButtonBorderColor.Clone()
-		HooverColor = SystemColors.WindowColor.Clone()
+		BackgroundColor = SystemColors.ControlFace
+		BorderColor = SystemColors.ButtonBorderColor
+		HooverColor = SystemColors.WindowColor
 		TabStop = true
 		AutoAdjustSize = false
 		

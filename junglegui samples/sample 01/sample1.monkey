@@ -53,6 +53,11 @@ Class Sample extends App
 	Method OnUpdate()
 	
 		gui.Update()
+		If KeyHit(KEY_1) Then
+			gui.Renderer = Null
+		ElseIf KeyHit(KEY_2) Then
+			gui.Renderer = New concretejungle.ConcreteJungle
+		EndIf
 	End
 	
 	Method OnLoading()

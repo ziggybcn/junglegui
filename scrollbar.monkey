@@ -154,9 +154,9 @@ Class ScrollBarContainer
 	Method Render(drawPos:GuiVector2D, size:GuiVector2D)
 	
 		local ForeColor:= new GuiColor(1, 0, 0, 0)
-		local BackgroundColor:= SystemColors.ControlFace.Clone()
-		local BorderColor:= SystemColors.ButtonBorderColor.Clone()
-		local HooverColor:= SystemColors.WindowColor.Clone()
+		Local BackgroundColor:= SystemColors.ControlFace
+		Local BorderColor:= SystemColors.ButtonBorderColor
+		Local HooverColor:= SystemColors.WindowColor
 		
 		' background
 		SetColor 235, 235, 235' lightborder

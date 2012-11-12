@@ -3,13 +3,13 @@ Import junglegui
 Class WindowFrame Extends TopLevelControl
 	
 	Method New()
-		BackgroundColor = SystemColors.AppWorkspace.Clone()
+		BackgroundColor = SystemColors.AppWorkspace
 		Size.SetValues(400, 400)
 		Padding.Left = 0
 		Padding.Top = 0
 		Padding.Right = 0
 		Padding.Bottom = 0
-		BackgroundColor = SystemColors.WindowColor.Clone()
+		BackgroundColor = SystemColors.WindowColor
 	End
 	
 	Method RenderBackground()

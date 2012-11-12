@@ -77,8 +77,8 @@ Class ProgressBar extends Control
 	End
 	
 	Method New()
-		BackgroundColor = SystemColors.InactiveFormBorder.Clone()
-		_barColor = SystemColors.FormBorder.Clone()
+		BackgroundColor = SystemColors.InactiveFormBorder
+		_barColor = SystemColors.FormBorder
 		Size.SetValues(250,20)
 	End
 	

@@ -2,6 +2,10 @@ Import junglegui
 
 Class GuiRenderer
 
+	Method New()
+		ResetRendererValues()
+	End
+
 	Method DrawButtonBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
 		Local backColor:GuiColor
 		If HasFlag(status, eControlStatus.HOOVER) Then
@@ -148,27 +152,101 @@ Class GuiRenderer
 
 	End
  
-	Method DrawCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = null, BoxSize:Int = 16, checked:Bool = True)
+	Method DrawCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, checked:Bool = True)
 		SystemColors.ControlFace.Activate()
-		Local yOffset:Int = size.Y / 2 - BoxSize / 2
-		DrawRect(position.X + 1, position.Y + 1 + yOffset, BoxSize - 2, BoxSize - 2)
+		Local yOffset:Int = size.Y / 2 - CheckBoxSize.Y / 2
+		DrawRect(position.X + 1, position.Y + 1 + yOffset, CheckBoxSize.X - 2, CheckBoxSize.Y - 2)
 		If HasFlag(status, eControlStatus.HOOVER) Then
 			SystemColors.FocusColor.Activate()
 		Else
 			SystemColors.ButtonBorderColor.Activate()
 		EndIf
 		
-		DrawRoundBox(int(position.X), int(position.Y + yOffset), BoxSize, BoxSize)
+		DrawRoundBox(int(position.X), int(position.Y + yOffset), CheckBoxSize.X, CheckBoxSize.Y)
 		If checked Then
 			SystemColors.AppWorkspace.Activate()
-			DrawRect(position.X + 4, position.Y + 4 + yOffset, BoxSize - 9, BoxSize - 8)
+			DrawRect(position.X + 4, position.Y + 4 + yOffset, CheckBoxSize.X - 9, CheckBoxSize.Y - 8)
 		EndIf
 
+	End
+	
+	Method DrawRadioCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, checked:Bool = True)
+		Local yOffset:Int = size.Y / 2 - RadioBoxSize.Y / 2
+		If HasFlag(status, eControlStatus.HOOVER) Then
+			SystemColors.FocusColor.Activate()
+		else
+			SystemColors.ButtonBorderColor.Activate()
+		EndIf
+		DrawOval(position.X, position.Y + yOffset, RadioBoxSize.X, RadioBoxSize.Y)
+
+		SystemColors.ControlFace.Activate()
+		DrawOval(position.X + 1, position.Y + 1 + yOffset, RadioBoxSize.X - 2, RadioBoxSize.Y - 2)
+		'DrawRoundBox(int(drawPos.X), int(drawPos.Y + yOffset), BoxSize, BoxSize)
+		If checked Then
+			SystemColors.FocusColor.Activate()
+			DrawOval(position.X + 2, position.Y + 2 + yOffset, RadioBoxSize.X - 4, RadioBoxSize.Y - 4)
+		EndIf
+	End
+	
+	Method RadioBoxSize:GuiVector2D() Property
+		Return _radioBoxSize
+	End
+	
+	Method CheckBoxSize:GuiVector2D() Property
+		Return _checkBoxSize
 	End
 	
 	Method InitRenderer()
 		
 	End
+	
+	Private
+	Field _radioBoxSize:= New GuiVector2D
+	Field _checkBoxSize:= New GuiVector2D
+	
+	Global defaultSystemFont:BitmapFont
+	Global defaultTipFont:BitmapFont
+	 
+	'Private
+	Method ResetRendererValues()
+		'Reset Renderer metrics:
+		_radioBoxSize.SetValues(12, 12)
+		_checkBoxSize.SetValues(12, 12)
 		
-End
+		'Reset Renderer typo:
+		
+		If defaultSystemFont = Null Then
+			#IF TARGET="html5"
+				defaultSystemFont = New BitmapFont("html5font.txt")
+				defaultTipFont = New BitmapFont("html5TipFont.txt")
+			#ELSE
+				defaultSystemFont = New BitmapFont("smallfont1.txt")
+				defaultTipFont = New BitmapFont("TipFont.txt")
+			#END
+		End
+		If Gui.systemFont <> defaultSystemFont Then Gui.systemFont = defaultSystemFont
+		If Gui.tipFont <> defaultTipFont Then Gui.tipFont = defaultTipFont
 
+		'Reset Renderer colors:
+		
+		SystemColors.ControlFace.SetColor(1, 220, 220, 220)
+		SystemColors.ButtonBorderColor.SetColor(1, 182, 182, 182)
+		SystemColors.FocussedButtonBorderColor.SetColor(1, 69, 216, 251)
+		SystemColors.AppWorkspace.SetColor(1, 171, 171, 171)
+		SystemColors.FocusColor.SetColor(1, 60, 127, 177)
+		SystemColors.FormBorder.SetColor(1, 185, 209, 234)
+		SystemColors.WindowColor.SetColor(1, 255, 255, 255)
+		SystemColors.FormMargin.SetColor(1, 174, 199, 225)
+		SystemColors.InactiveFormBorder.SetColor(1, 120, 120, 120)
+		SystemColors.SelectedItemBackColor.SetColor(1, 51, 153, 255)
+		SystemColors.HooverBackgroundColor.SetColor(1, 255, 255, 255)
+		#IF TARGET<>"html5"
+			SystemColors.WindowTextForeColor.SetColor(1, 0, 0, 0)
+			SystemColors.SelectedItemForeColor.SetColor(1, 255, 255, 255)
+		#ELSE 
+			SystemColors.WindowTextForeColor.SetColor(1, 255, 255, 255)
+			SystemColors.SelectedItemForeColor.SetColor(1, 255, 255, 255)
+		#END
+
+	End
+End

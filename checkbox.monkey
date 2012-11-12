@@ -7,8 +7,8 @@ Class CheckBox extends BaseLabel
 
 		If Not _transparent Then GetGui.Renderer.DrawControlBackground(Status, drawPos, Size, Self)
 
-		GetGui.Renderer.DrawCheckBox(Status, drawPos, Size, Self, BoxSize, Checked)
-		drawPos.X += BoxSize
+		GetGui.Renderer.DrawCheckBox(Status, drawPos, Size, Self, Checked)
+		drawPos.X += GetGui.Renderer.CheckBoxSize.X
 		GetGui.Renderer.DrawLabelText(Status, drawPos, Size, Text, eTextAlign.LEFT, Self.Font, Self)
 	End
 
@@ -54,5 +54,4 @@ Class CheckBox extends BaseLabel
 	
 	Field _checked:Bool = False
 	Field _transparent:Bool = true
-	Const BoxSize:Int = 16
 End

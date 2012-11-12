@@ -141,8 +141,8 @@ Class TextField extends BaseLabel
 	Field _drawOffset:Int = 0
 	Field _selectionLength:Int = 0
 	Method _InitComponent()
-		_bordercolor = SystemColors.FormBorder.Clone()
-		BackgroundColor = SystemColors.WindowColor.Clone()
+		_bordercolor = SystemColors.FormBorder
+		BackgroundColor = SystemColors.WindowColor
 		TabStop = true
 		ForeColor.SetColor(1,0,0,0)
 	End

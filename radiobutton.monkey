@@ -21,35 +21,33 @@ Class RadioButton extends CheckBox
 	
 	
 	Method Render:Void()
-		Super.Render
-		local points:= CalculateRenderPosition
-		if HasFocus Then
-			SystemColors.FocusColor.Activate
-			SetAlpha(0.1)
-			DrawRect(points.X, points.Y, Size.X, Size.Y)
-			SetAlpha(1)
-			'DrawFocusRect(self)
-		EndIf
+		
+		Local drawPos:= CalculateRenderPosition()
+
+		If Not Transparent Then GetGui.Renderer.DrawControlBackground(Status, drawPos, Size, Self)
+
+		GetGui.Renderer.DrawRadioCheckBox(Status, drawPos, Size, Self, Checked)
+		drawPos.X += GetGui.Renderer.RadioBoxSize.X
+		GetGui.Renderer.DrawLabelText(Status, drawPos, Size, Text, eTextAlign.LEFT, Self.Font, Self)
+
 	End
-	
+ 	
 	Method RenderCheckBox(drawPos:GuiVector2D)
-		Local yOffset:Int = Size.Y / 2 - BoxSize / 2
+		Local yOffset:Int = Size.Y / 2 - GetGui.Renderer.RadioBoxSize.Y / 2
 		if GetGui.GetMousePointedControl = Self Then
 			SystemColors.FocusColor.Activate()
 		else
 			SystemColors.ButtonBorderColor.Activate()
 		EndIf
-		DrawOval(drawPos.X, drawPos.Y + yOffset, BoxSize, BoxSize)
+		DrawOval(drawPos.X, drawPos.Y + yOffset, GetGui.Renderer.RadioBoxSize.X, GetGui.Renderer.RadioBoxSize.Y)
 
 		SystemColors.ControlFace.Activate()
-		DrawOval(drawPos.X + 1, drawPos.Y + 1 + yOffset, BoxSize - 2, BoxSize - 2)
+		DrawOval(drawPos.X + 1, drawPos.Y + 1 + yOffset, GetGui.Renderer.RadioBoxSize.X - 2, GetGui.Renderer.RadioBoxSize.Y - 2)
 		'DrawRoundBox(int(drawPos.X), int(drawPos.Y + yOffset), BoxSize, BoxSize)
 		if Checked Then
 			SystemColors.FocusColor.Activate()
-			DrawOval(drawPos.X + 2, drawPos.Y + 2 + yOffset, BoxSize - 4, BoxSize - 4)
+			DrawOval(drawPos.X + 2, drawPos.Y + 2 + yOffset, GetGui.Renderer.RadioBoxSize.X - 4, GetGui.Renderer.RadioBoxSize.Y - 4)
 		EndIf
 		
 	End
-	Private
-	Const BoxSize:Int = 10
 End

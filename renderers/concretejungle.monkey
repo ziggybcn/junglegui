@@ -36,7 +36,6 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		SetAlpha(0.4)	'Oue new skin has transparent form borders, so we set alpha to 0.2
 		DrawRect(position.X, position.Y, size.X, size.Y)	'We draw the form rectangle
 		SetAlpha(1)	'We set alpha back to 1
-		SetColor(255, 0, 0)
 		
 		'We render for form caption (header):
 		
@@ -118,22 +117,22 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		DrawBox(pos, size)
 	End
 	
-	Method DrawCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, BoxSize:Int = 16, checked:Bool = True)
+	Method DrawCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, checked:Bool = True)
 		SystemColors.ControlFace.Activate()
-		Local yOffset:Int = size.Y / 2 - BoxSize / 2
-		DrawRect(position.X + 1, position.Y + 1 + yOffset, BoxSize - 2, BoxSize - 2)
+		Local yOffset:Int = size.Y / 2 - CheckBoxSize.Y / 2
+		DrawRect(position.X + 1, position.Y + 1 + yOffset, CheckBoxSize.X - 2, CheckBoxSize.Y - 2)
 		If HasFlag(status, eControlStatus.HOOVER) Then
 			SystemColors.FocusColor.Activate()
 		Else
 			SystemColors.ButtonBorderColor.Activate()
 		EndIf
 		
-		DrawRoundBox(int(position.X), int(position.Y + yOffset), BoxSize, BoxSize)
+		DrawRoundBox(int(position.X), int(position.Y + yOffset), CheckBoxSize.X, CheckBoxSize.Y)
 		If checked Then
 			SystemColors.FocusColor.Activate()
 			SetAlpha(Abs(Sin(Millisecs() / 10.0)))
 			'DrawRect(position.X + 4, position.Y + 4 + yOffset, BoxSize - 9, BoxSize - 8)
-			DrawOval(position.X + 4, position.Y + 4 + yOffset, BoxSize - 8, BoxSize - 7)
+			DrawOval(position.X + 4, position.Y + 4 + yOffset, CheckBoxSize.X - 8, CheckBoxSize.Y - 7)
 			SetAlpha 1
 		EndIf
 
