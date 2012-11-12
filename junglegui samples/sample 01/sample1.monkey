@@ -247,7 +247,7 @@ Class SampleForm extends Form
 	End
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
-		Self.BackgroundColor = New GuiColor(255, Rnd(200, 255), Rnd(200, 255), Rnd(200, 255))
+		Self.BackgroundColor = New GuiColor(1, Rnd(200, 255), Rnd(200, 255), Rnd(200, 255))
 	End
 
 	Method Timer_Click(sender:Object, e:EventArgs)
