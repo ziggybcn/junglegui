@@ -24,6 +24,7 @@ Class Sample extends App
 	Field gui:Gui
 	Field background:Image
 	Field MyForm:SampleForm
+	Field instructions:InstructionsPanel
 	Method OnCreate()
 		SetUpdateRate(60)
 	
@@ -37,7 +38,9 @@ Class Sample extends App
 		MyForm = New SampleForm
 		Try
 		MyForm.InitForm(gui)
-		For Local i:int = 0 until 3
+		instructions = New InstructionsPanel
+		instructions.InitForm(gui)
+		For Local i:int = 0 Until 3
 			Const Margin:Int = 15
 			local sm:=New SampleForm
 			sm.InitForm(gui)
@@ -83,7 +86,20 @@ Class Sample extends App
 		DrawImage(background,0,0,0,ScaleX, ScaleY,0 )
 
 		gui.Render
+		
 
+	End
+End
+
+Class InstructionsPanel Extends WindowFrame
+	Method OnInit()
+		Self.Size.SetValues(400, 20)
+		'Self.Transparent = True
+		Local lbl:Label = New Label
+		lbl.Parent = Self
+		lbl.Text = "1.- Default renderer, 2.- Jungle Concrete renderer"
+		lbl.AutoAdjustSize = False
+		lbl.Size.SetValues(400, 20)
 	End
 End
 

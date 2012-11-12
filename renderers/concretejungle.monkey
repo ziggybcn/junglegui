@@ -138,4 +138,24 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 
 	End
 
+	Method DrawRadioCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, checked:Bool = True)
+		Local yOffset:Int = size.Y / 2 - RadioBoxSize.Y / 2
+		If HasFlag(status, eControlStatus.HOOVER) Then
+			SystemColors.FocusColor.Activate()
+		Else
+			SystemColors.ButtonBorderColor.Activate()
+		EndIf
+		DrawOval(position.X, position.Y + yOffset, RadioBoxSize.X, RadioBoxSize.Y)
+
+		SystemColors.ControlFace.Activate()
+		DrawOval(position.X + 1, position.Y + 1 + yOffset, RadioBoxSize.X - 2, RadioBoxSize.Y - 2)
+		'DrawRoundBox(int(drawPos.X), int(drawPos.Y + yOffset), BoxSize, BoxSize)
+		If checked Then
+			SystemColors.FocusColor.Activate()
+			SetAlpha(Abs(Sin(Millisecs() / 10.0)))
+			DrawOval(position.X + 2, position.Y + 2 + yOffset, RadioBoxSize.X - 4, RadioBoxSize.Y - 4)
+		EndIf
+	End
+
+	
 End
