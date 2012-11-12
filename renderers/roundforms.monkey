@@ -51,7 +51,9 @@ Class RoundForms Extends renderer.GuiRenderer
 		EndIf
 		backcolor.Activate
 		DrawRect(position.X + padding.Left, position.Y + padding.Top, size.X - padding.Left - padding.Right, size.Y - padding.Top - padding.Bottom)
-
+		backcolor.ActivateDark(150)
+		'SetColor(0, 0, 0)
+		DrawBox(position.X + padding.Left, position.Y + padding.Top, size.X - padding.Left - padding.Right, size.Y - padding.Top - padding.Bottom)
 
 		SetAlpha(1)	'We set alpha back to 1
 		
