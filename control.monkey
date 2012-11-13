@@ -768,6 +768,7 @@ Class Gui
 	Global systemFont:BitmapFont
 	Global tipFont:BitmapFont
 	Method New()
+		Renderer = Null	'Force default renderer
 	End
 
 	'summary: This method has to be called whenever the Gui has to be rendered.
