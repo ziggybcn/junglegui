@@ -24,7 +24,6 @@ Class Sample extends App
 	Field gui:Gui
 	Field background:Image
 	Field MyForm:SampleForm
-	Field instructions:InstructionsPanel
 	Method OnCreate()
 		SetUpdateRate(60)
 	
@@ -38,11 +37,9 @@ Class Sample extends App
 		MyForm = New SampleForm
 		Try
 		MyForm.InitForm(gui)
-		instructions = New InstructionsPanel
-		instructions.InitForm(gui)
 		For Local i:int = 0 Until 3
 			Const Margin:Int = 15
-			local sm:=New SampleForm
+			Local sm:= New SampleForm
 			sm.InitForm(gui)
 			sm.Position.X = Margin + i * (sm.Size.X + Margin)
 		Next
@@ -87,21 +84,11 @@ Class Sample extends App
 		Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height),1.0)
 		DrawImage(background,0,0,0,ScaleX, ScaleY,0 )
 
+		SetColor(255, 255, 255)
+		Gui.systemFont.DrawText("1.- Default skin, 2.- JungleConcrete skin", 0, 0)
+
 		gui.Render
-		
 
-	End
-End
-
-Class InstructionsPanel Extends WindowFrame
-	Method OnInit()
-		Self.Size.SetValues(400, 20)
-		'Self.Transparent = True
-		Local lbl:Label = New Label
-		lbl.Parent = Self
-		lbl.Text = "1.- Default, 2.- Jungle Concrete, 3.- RoundForm"
-		lbl.AutoAdjustSize = False
-		lbl.Size.SetValues(400, 20)
 	End
 End
 
