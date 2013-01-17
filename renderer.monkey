@@ -2,8 +2,11 @@ Import junglegui
 
 Class GuiRenderer
 
+	Method Event_GuiAttached:EventHandler<EventArgs>() Property; Return _guiAttached; End
+	Method Event_GuiDetached:EventHandler<EventArgs>() Property; Return _guiDetached; End
+
 	Method New()
-		ResetRendererValues()
+		ResetRendererValues(Self)
 	End
 
 	Method DrawButtonBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
@@ -207,25 +210,32 @@ Class GuiRenderer
 	Global defaultSystemFont:BitmapFont
 	Global defaultTipFont:BitmapFont
 	 
-	'Private
-	Method ResetRendererValues()
+	Private
+	Field _guiAttached:= New EventHandler<EventArgs>
+	Field _guiDetached:= New EventHandler<EventArgs>
+	'Method ResetRendererValues()
+	'	renderer.ResetRendererValues(Self)
+	'End
+End
+
+Function ResetRendererValues(renderer:GuiRenderer)
 		'Reset Renderer metrics:
-		_radioBoxSize.SetValues(12, 12)
-		_checkBoxSize.SetValues(12, 12)
+		renderer._radioBoxSize.SetValues(12, 12)
+		renderer._checkBoxSize.SetValues(12, 12)
 		
 		'Reset Renderer typo:
 		
-		If defaultSystemFont = Null Then
+		If GuiRenderer.defaultSystemFont = Null Then
 			#IF TARGET="html5"
-				defaultSystemFont = New BitmapFont("html5font.txt")
-				defaultTipFont = New BitmapFont("html5TipFont.txt")
+				GuiRenderer.defaultSystemFont = New BitmapFont("html5font.txt")
+				GuiRenderer.defaultTipFont = New BitmapFont("html5TipFont.txt")
 			#ELSE
-				defaultSystemFont = New BitmapFont("smallfont1.txt")
-				defaultTipFont = New BitmapFont("TipFont.txt")
+				GuiRenderer.defaultSystemFont = New BitmapFont("smallfont1.txt")
+				GuiRenderer.defaultTipFont = New BitmapFont("TipFont.txt")
 			#END
 		End
-		If Gui.systemFont <> defaultSystemFont Then Gui.systemFont = defaultSystemFont
-		If Gui.tipFont <> defaultTipFont Then Gui.tipFont = defaultTipFont
+		If Gui.systemFont <> GuiRenderer.defaultSystemFont Then Gui.systemFont = GuiRenderer.defaultSystemFont
+		If Gui.tipFont <> GuiRenderer.defaultTipFont Then Gui.tipFont = GuiRenderer.defaultTipFont
 
 		'Reset Renderer colors:
 		
@@ -248,5 +258,6 @@ Class GuiRenderer
 			SystemColors.SelectedItemForeColor.SetColor(1, 255, 255, 255)
 		#END
 
-	End
+
+	
 End

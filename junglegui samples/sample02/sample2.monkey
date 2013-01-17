@@ -1,9 +1,8 @@
 'This is a very small minimal sample
 
 Import junglegui
-Import junglegui.renderers.concretejungle
 
-Import trans 
+Import trans
 
 #REFLECTION_FILTER+="sample2*"
 
@@ -20,9 +19,8 @@ Class Sample2 extends App
 		SetUpdateRate(60)
 		EnableAutoSize()
 		gui = New Gui	'We create the Gui manager.
-		gui.Renderer = New ConcreteJungle
 		myForm = New MyForm
-		try
+		Try
 			myForm.InitForm(gui)
 		Catch jge:JungleGuiException
 			Print "Form could not be initialized becouse of an exception:"
