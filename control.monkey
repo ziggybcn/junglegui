@@ -768,6 +768,7 @@ Class Gui
 	Global systemFont:BitmapFont
 	Global tipFont:BitmapFont
 	Method New()
+		Renderer = Null	'Force default renderer
 	End
 
 	'summary: This method has to be called whenever the Gui has to be rendered.
@@ -791,12 +792,17 @@ Class Gui
 		Return _renderer
 	End
 	Method Renderer:Void(renderer:GuiRenderer) Property
+		If _renderer <> Null Then
+			_renderer.Event_GuiDetached.RaiseEvent(Self, New EventArgs(eMsgKinds.RENDERER_DETACHED))
+		EndIf
 		If renderer = Null Then
 			_renderer = New GuiRenderer
 		Else
 			_renderer = renderer
 		EndIf
+		ResetRendererValues(_renderer)
 		_renderer.InitRenderer()
+		_renderer.Event_GuiAttached.RaiseEvent(Self, New EventArgs(eMsgKinds.RENDERER_ATTACHED))
 	End
 
 	'summary: This method will clear all controls contained in this Gui.

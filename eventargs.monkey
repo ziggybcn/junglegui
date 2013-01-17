@@ -143,6 +143,12 @@ Class eMsgKinds Abstract
 	'summary: This msg indicates that a sliding control has changed its maximum allowed value.
 	Const SLIDING_MAXIMUM_CHANGED:Int = 26
 	
+	'summary: This msg indicates that a renderer is attached to a Gui instance
+	Const RENDERER_ATTACHED:Int = 27
+	
+	'summary: This msg indicates that a renderer is detached to a Gui instance
+	Const RENDERER_DETACHED:Int = 28
+	
 End
 
 Interface CallInfo
