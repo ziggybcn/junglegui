@@ -2,6 +2,7 @@ Import junglegui
 Private
 Import mojo
 Public
+'summary: This is the button class. This class represents a button on the JungleGui library
 Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 	
 	Method New()
@@ -27,10 +28,11 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 		If HasFocus Then GetGui.Renderer.DrawFocusRect(Self, True)
 	End
 	
+	'summary: This method will auto adjust the size of the control according to the contained text
 	Method AdjustSize:GuiVector2D()
 		Local size:GuiVector2D = New GuiVector2D 
 		size.X = Font.GetTxtWidth(Text) + 19
-		size.Y = Font.GetFontHeight() + 19
+		size.Y = Font.GetTxtHeight(Text) + 19
 		Self.Size.SetValues(size.X,size.Y)
 		Return size
 	End
