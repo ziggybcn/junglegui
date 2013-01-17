@@ -24,6 +24,7 @@ Class Sample extends App
 	Field gui:Gui
 	Field background:Image
 	Field MyForm:SampleForm
+	Field instructions:InstructionsPanel
 	Method OnCreate()
 		SetUpdateRate(60)
 	
@@ -36,18 +37,21 @@ Class Sample extends App
 		'We create a SampleForm, and we attach it to the gui component:
 		MyForm = New SampleForm
 		Try
-		MyForm.InitForm(gui)
-		For Local i:int = 0 Until 3
-			Const Margin:Int = 15
-			Local sm:= New SampleForm
-			sm.InitForm(gui)
-			sm.Position.X = Margin + i * (sm.Size.X + Margin)
-		Next
+			MyForm.InitForm(gui)
+			For Local i:int = 0 Until 3
+				Const Margin:Int = 15
+				Local sm:= New SampleForm
+				sm.InitForm(gui)
+				sm.Position.X = Margin + i * (sm.Size.X + Margin)
+			Next
 		Catch jge:JungleGuiException
 			Print "Form could not be initialized becouse of an exception:"
 			Print jge.ToString()
 		End try
-		background =  LoadImage("background.jpg")
+		background = LoadImage("background.jpg")
+		
+		instructions = New InstructionsPanel
+		instructions.InitForm(gui)
 	End
 	
 	Method OnUpdate()
@@ -84,9 +88,6 @@ Class Sample extends App
 		Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height),1.0)
 		DrawImage(background,0,0,0,ScaleX, ScaleY,0 )
 
-		SetColor(255, 255, 255)
-		Gui.systemFont.DrawText("1.- Default skin, 2.- JungleConcrete skin", 0, 0)
-
 		gui.Render
 	End
 End
@@ -100,6 +101,7 @@ Class InstructionsPanel Extends WindowFrame
 		lbl.Text = "1.- Default, 2.- Jungle Concrete, 3.- RoundForm"
 		lbl.AutoAdjustSize = False
 		lbl.Size.SetValues(400, 20)
+		lbl.TipText = "This is just a quick instructions panel~nPress this keys to change the current Jungle Gui renderer."
 	End
 End
 
