@@ -103,7 +103,8 @@ Class SampleForm extends Form
 	Field butRight:Button
 	Field label:Label
 	Field panel:Panel
-
+	Field check:CheckBox
+	
 			
 	'This is called by the gui engine whenever the Form is suposed to create its internal components:
 	Method OnInit()
@@ -180,6 +181,15 @@ Class SampleForm extends Form
 		label.Size.Y = 25
 		label.TipText = "This is a label."
 		label.Name = "label1"
+		
+		''' 
+		''' check
+		'''
+		check = New CheckBox
+		check.Parent = Self
+		check.Text = "Click me!"
+		check.Position.SetValues(2, 2)
+		check.Event_Click.Add(Self, "Check_Clicked")
 
 		'''
 		''' ButLeft, right and center
@@ -235,6 +245,10 @@ Class SampleForm extends Form
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.BackgroundColor = New GuiColor(1, Rnd(200, 255), Rnd(200, 255), Rnd(200, 255))
+	End
+	
+	Method Check_Clicked(sender:Object, e:MouseEventArgs)
+		check.Checked = Not check.Checked
 	End
 
 	Method Timer_Click(sender:Object, e:EventArgs)
