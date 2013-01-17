@@ -114,6 +114,7 @@ Public
 		_selectedIndexChanged.RaiseEvent(Self, new EventArgs(0))
 		
 	End
+
 	
 	'
 	' events

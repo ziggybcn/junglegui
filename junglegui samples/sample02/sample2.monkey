@@ -32,7 +32,6 @@ Class Sample2 extends App
 	
 	Method OnUpdate()
 	
-		
 		try
 			gui.Update()
 		Catch jge:JungleGuiException
@@ -171,11 +170,12 @@ Class MyForm Extends Form
 		Local map3:= LoadImage("map3.png") 
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map1))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map2))
-		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map3))
+		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map3))		
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map1))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map2))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map3))
-		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", img1))
+		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", img1))	
+		
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", img2))
 		listView2.Parent = tabPage2 
 		listView2.Position.SetValues(10,10)

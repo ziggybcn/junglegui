@@ -77,41 +77,6 @@ Class RoundForms Extends renderer.GuiRenderer
 		Else
 			Gui.systemFont.DrawText(text, position.X + size.X / 2, position.Y + 1 - Gui.systemFont.GetFontHeight / 2, eDrawAlign.CENTER)
 		EndIf
-'				
-'		
-'		
-'		'Now we're rendering the form "container" area, where controls are placed:
-'		Local backcolor:guicolor.GuiColor
-'		If context = Null Then	'If we're just calling this to be used with systemcolors:
-'			backcolor = SystemColors.WindowColor
-'		Else	'If we're caling this to be used with a given real form, we use its background color instead:
-'			backcolor = context.BackgroundColor
-'		EndIf
-'		backcolor.Activate
-'		DrawRect(position.X + padding.Left, position.Y + padding.Top, size.X - padding.Left - padding.Right, size.Y - padding.Top - padding.Bottom)
-'		
-'		'Now we're adding a small gradient at the top and at the bottom of the form container area:
-'		For Local i:Int = 0 To 20
-'			'SetAlpha(1 - i / 20.0)
-'			
-'			backcolor.ActivateDark(2 * (40 - i * 2))'55)
-'			
-'			DrawLine(position.X + padding.Left,
-'				position.Y +size.Y - padding.Bottom - i,
-'				position.X +size.X - padding.Right,
-'				position.Y +size.Y - padding.Bottom - i)
-'			
-'			backcolor.ActivateBright(2 * (40 - i * 2))'55)
-'			'SetColor(255, 0, 0)
-'			DrawLine(position.X + padding.Left,
-'				position.Y +padding.Top + i,
-'				position.X +size.X - padding.Right,
-'				position.Y +padding.Top + i)
-'			
-'		Next		
-'		SetAlpha(0.5)
-'		SystemColors.FormBorder.Activate()
-'		DrawBox(position, size)
-'		SetAlpha(1)
+
 	End
 End
