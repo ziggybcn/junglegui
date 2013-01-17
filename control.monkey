@@ -15,7 +15,7 @@ public
 Class Control
 
 	Public
-	'summary: This property is meant to contain the runtime name of the control.
+	'summary: This property is meant to contain the runtime name of the control. This information can be useful when debugging the application and can also be retrieved by the usage of reflection.
 	Method Name:String() Property
 		Return _name
 	End
@@ -97,7 +97,8 @@ Class Control
 		DrawRect(renderPos.X,renderPos.Y,Size.X,Size.Y)
 		SetColor(color[0],color[1],color[2])
 	End
-	'summary: <font color=red><b>Advanced usage only</b></font><br>This method is internally used to build and control the internal status changes messaging sustem of the Gui system.
+	
+	'summary: <font color=red><b>Advanced usage only</b></font><br>This method is internally used to build and control the internal status changes messaging system of the Gui system.
 	Method Msg(msg:BoxedMsg)
 		if Not _gui Then return
 		if Self._parentControl <> null Then
@@ -107,7 +108,7 @@ Class Control
 			Dispatch(msg)
 		EndIf
 	End
-	'summary: This returns the Gui component where this control is running.
+	'summary: This returns the Gui engine where this control is running.
 	Method GetGui:Gui()
 		Return _gui
 	End
@@ -117,19 +118,19 @@ Class Control
 		Return false
 	End
 	
-	'summary: This returns TRUE if this control is a control container that has child controls.
+	'summary: This returns TRUE if this control is a control container that can contain child controls.
 	Method IsContainer?()
 		Return false
 	End
 
-	'summary: This is a Get/Set property that allows us to control the parent of this control. That is, the control where this control is located.
+	'summary: This property returns the parent control where this control is located.
 	'On top level controls (windows) this method returns NULL and can't be set to anything other than NULL
 	Method Parent:ContainerControl() Property
 		Return _parentControl
 	End
 
 
-	'summary: A control'l parent container
+	'summary: You can use this property to set the container for this control.
 	Method Parent:ContainerControl(parentControl:ContainerControl) Property
 		If parentControl = Null And _parentControl = Null Then Return
 		If _parentControl = parentControl Then
@@ -191,7 +192,7 @@ Class Control
 		Return _cacheRenderPosCalcuation
 	End
 	
-	'summary: This is automatically called by the Gui engine when the control needs to be updated.
+	'summary: This is automatically called by the Gui engine when the control needs to be updated and process its internal logic.
 	Method Update()
 		
 	End
@@ -217,7 +218,7 @@ Class Control
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.GOT_FOCUS)))
 	End
 	
-	'summary:This method will give the focus to the next control that can take it.
+	'summary:This method will give the focus to the next control that can take it. It has the same effect that pressing the TAB key on keyboard navigation.
 	Method FocusNext()
 		if Parent = null Then return	'Unparented controls can't do focus next.
 		Local currentheight = 16000000 'self.Position.Y-1
@@ -267,20 +268,23 @@ Class Control
 			_NavigationGotFocus()
 		EndIf
 	End
+
 	'summary: This will return True for all controls that are based on a graphical interface such as buttons, labels, etc.<br>Non graphical controls, such as Timer, return False.
 	Method HasGraphicalInterface:Bool() property
 		Return True
 	end
+
 	'summary: Returs True if the control is currently the Gui focused control.
 	Method HasFocus:Bool()
 		Return _gui._focusedControl = self
 	End
 	
-	'summary: This property ca be set to True or False to make to show or hide this control.
+	'summary: This property can be set to True or False in order to show or hide this control.
 	Method Visible:Bool() Property
 		Return _visible
 	End
 	
+	'summary: This property can be set to True or False in order to show or hide this control.
 	Method Visible:Void(value:Bool) Property
 		if value<> _visible then
 			_visible = value
@@ -293,11 +297,11 @@ Class Control
 		_tipText = value
 	End
 	
+	'summary: This property returns the text that will be displayed as a control hint pop-up when the mouse is over the control.
 	Method TipText:String() Property
 		Return _tipText
 	End
-	
-	
+		
 	'summary: This is the color used to draw the control background when the mouse is over the control. 
 	Method HooverColor:GuiColor() Property
 		if _hooveColor <> null Then Return _hooveColor Else Return SystemColors.HooverBackgroundColor
@@ -323,7 +327,11 @@ Class Control
 
 
 	
-		'summary: Low level method that deals with event signatures. This method is part of the core functionality of the control.
+	#Rem
+		summary: Low level method that deals with event signatures. This method is part of the internal core functionality of the control.
+		The Dispach method is internally used to convert low level messages to high level events. This method is automatically called by the internal Jungle Gui core engine whenever a message has been validated in all the message-parent-control chain and it hasn't been handled by any parent control.
+		For more information, read the Jungle Gui wiki at googlecode here: <a http://code.google.com/p/junglegui/wiki/WelcomePage?tm=6>Jungle Gui wiki</a>.
+	 #END
 	Method Dispatch(msg:BoxedMsg)
 		if Not _gui Then return
 		Select msg.e.eventSignature
@@ -433,6 +441,15 @@ Class Control
 	'summary: This event is raised whenever the control is resized.
 	Method Event_Resized:EventHandler<EventArgs>() Property; Return _resized; end
 	
+	
+	#REM
+		 summary:This method returns the current state of the control. The result is an integer that can have any of the flags defined in eControlStatus.
+		 Current available values are:
+		 eControlStatus.FOCUSED
+		 eControlStatus.HOOVER
+		 eControlStatus.DISABLED
+		 eControlStatus.NONDE
+	 #END
 	Method Status:Int() Property
 		Local status:Int = eControlStatus.NONE
 		if _gui.ActiveControl = Self Then status = status | eControlStatus.FOCUSED
