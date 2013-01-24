@@ -791,6 +791,9 @@ Class Gui
 	'summary: This method has to be called whenever the Gui has to be rendered.
 	Method Render()
 		If _renderer = Null Then Renderer = Null	'Set default renderer in case it has not been set.
+		'Self._renderMatrix = GetMatrix()
+		PushMatrix()
+		graphics.SetMatrix(1, 0, 0, 1, 0, 0)
 		local scissor:Float[] = GetScissor()
 		For Local c:Control = eachin _components
 			If c.Visible = False Then Continue
@@ -803,6 +806,7 @@ Class Gui
 			_waitingTipCount = 10 + 1
 			RenderTip()
 		EndIf
+		PopMatrix()
 	End
 	
 	Method Renderer:GuiRenderer() Property
@@ -838,6 +842,7 @@ Class Gui
 		_oldMousePos.SetValues(_mousePos.X, _mousePos.Y)
 		
 		_mousePos.SetValues(MouseX(), MouseY())
+		'_mousePos = GetWorldPos(MouseX(), MouseY())
 		
 		if _mousePos.X < 0 Then _mousePos.X = 0 ElseIf _mousePos.X > DeviceWidth then _mousePos.X = DeviceWidth
 		
@@ -934,10 +939,26 @@ Class Gui
 			_waitingTipCount+=1
 		EndIf
 	End
+	
+'	Method GetWorldPos:GuiVector2D(DeviceX:Int, DeviceY:Int)
+'		Local mat:Float[] = _renderMatrix 'GetMatrix()
+'		If mat.Length = 0 Then
+'			Local dp:= New GuiVector2D
+'			dp.SetValues(DeviceX, DeviceY)
+'			Return dp
+'		Else
+'			Local wx:Float = DeviceX * mat[0] + DeviceY * mat[2] + mat[4]
+'			Local wy:Float = DeviceX * mat[1] + DeviceY * mat[3] + mat[5]
+'			Local dp:= New GuiVector2D
+'			dp.SetValues(wx, wy)
+'			Return dp
+'		EndIf
+'	End
+	
 	'summary: This method returns TRUE if a given key is pressed.
 	Method IsKeydown?(keyCode:Int)
 		if keyCode<_oldKeys.Length Then
-			Return _oldKeys[keyCode]>0
+			Return _oldKeys[keyCode] > 0
 		Else 
 			Return false
 		EndIf
@@ -1012,5 +1033,6 @@ Class Gui
 	Field _oldKeys:Int[]
 	Field _guiSize:GuiVector2D = New GuiVector2D
 	Field _waitingTipCount:Int = 0
+	'Field _renderMatrix:Float[]
 	
 End

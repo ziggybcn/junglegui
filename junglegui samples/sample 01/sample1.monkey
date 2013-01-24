@@ -82,12 +82,10 @@ Class Sample extends App
 	
 	Method OnRender()
 		Cls(0, 0, 0)
-
 		'Render a background desktop image:
-		Local ScaleX:Float = Max(Float(DeviceWidth) / Float(background.Width),1.0)
-		Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height),1.0)
+		Local ScaleX:Float = Max(Float(DeviceWidth) / Float(background.Width), 1.0)
+		Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height), 1.0)
 		DrawImage(background,0,0,0,ScaleX, ScaleY,0 )
-
 		gui.Render
 	End
 End
@@ -116,8 +114,6 @@ Class SampleForm Extends Form
 	Field butRight:Button
 	Field label:Label
 	Field panel:Panel
-	Field check:CheckBox
-	
 			
 	'This is called by the gui engine whenever the Form is suposed to create its internal components:
 	Method OnInit()
@@ -194,18 +190,7 @@ Class SampleForm Extends Form
 		label.Size.Y = 25
 		label.TipText = "This is a label."
 		label.Name = "label1"
-		
-		'''
-		''' check
-		'''
-		check = New CheckBox
-		check.Parent = Self
-		check.Text = "Hello world"
-		check.Name = "CheckBox"
-		check.Position.SetValues(0, 0)
-		check.Size.SetValues(200, 20)
-		check.Event_Click.Add(Self, "Check_Clicked")
-
+	
 		'''
 		''' ButLeft, right and center
 		'''
@@ -261,10 +246,7 @@ Class SampleForm Extends Form
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.BackgroundColor = New GuiColor(1, Rnd(200, 255), Rnd(200, 255), Rnd(200, 255))
 	End
-	
-	Method Check_Clicked(sender:Object, e:MouseEventArgs)
-		check.Checked = Not check.Checked
-	End
+
 
 	Method Timer_Click(sender:Object, e:EventArgs)
 		Self.progBar.Value += 0.1
