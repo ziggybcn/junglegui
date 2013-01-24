@@ -15,11 +15,12 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		'We modify some systemcolors when the Renderer is activated:
 		SystemColors.FormMargin.SetColor(1, 200, 200, 190)
 		SystemColors.WindowColor.SetColor(1, 220, 220, 200)
-		SystemColors.ButtonBorderColor.SetColor(1, 255, 255, 235)
+		SystemColors.ButtonBorderColor.SetColor(1, 55, 55, 35)
 		SystemColors.ControlFace.SetColor(1, 180, 170, 160)
 		SystemColors.HooverBackgroundColor.SetColor(1, 235, 235, 190)
 		SystemColors.FocusColor.SetColor(1, 255, 255, 255)
-		SystemColors.FormBorder.SetColor(1, 250, 250, 230)
+		'SystemColors.FormBorder.SetColor(1, 250, 250, 230)
+		SystemColors.FormBorder.SetColor(1, 0, 0, 0)
 		SystemColors.SelectedItemBackColor.SetColor(1, 200, 200, 180)
 		#IF TARGET="html5"
 			Gui.systemFont = New bitmapfont.BitmapFont("concretejunglefont_html5.txt")
