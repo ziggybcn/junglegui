@@ -20,7 +20,7 @@ Function Main()
 	New Sample  
 End
 
-Class Sample extends App
+Class Sample Extends App
 	Field gui:Gui
 	Field background:Image
 	Field MyForm:SampleForm
