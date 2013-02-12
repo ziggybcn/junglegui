@@ -124,12 +124,13 @@ Class Control
 	End
 
 	'summary: This property returns the parent control where this control is located.
-	'On top level controls (windows) this method returns NULL and can't be set to anything other than NULL
+	'On top level controls (windows) this method returns NULL and can't be set to anything other than NULL 
 	Method Parent:ContainerControl() Property
 		Return _parentControl
 	End
-
-
+  
+	
+	
 	'summary: You can use this property to set the container for this control.
 	Method Parent:ContainerControl(parentControl:ContainerControl) Property
 		If parentControl = Null And _parentControl = Null Then Return
@@ -262,7 +263,7 @@ Class Control
 			Else
 				_NavigationGotFocus()		
 			endif
-		ElseIf focused <> Self Then 
+		ElseIf focused <> Self Then
 			focused._NavigationGotFocus()
 		Else
 			_NavigationGotFocus()
@@ -274,6 +275,41 @@ Class Control
 		Return True
 	end
 
+	'summary: This method returns the client area location on the current mojo canvas. That is, the canvas X and Y location of the control contents.
+	Method GetClientAreaLocation:GuiVector2D()
+		Local location:GuiVector2D
+		location = CalculateRenderPosition().Clone()
+		If ContainerControl(Self) Then
+			Local container:= ContainerControl(Self)
+			location.X += container.Padding.Left
+			location.Y += container.Padding.Top
+		EndIf
+		Return location
+	End
+
+	'summary: This method returns the client area size of the control on the current mojo canvas. That is, the canvas X and Y size of the control contents.
+	Method GetClientAreaSize:GuiVector2D()
+		Local size:GuiVector2D
+		size = Size.Clone()
+		If ContainerControl(Self) Then
+			Local container:= ContainerControl(Self)
+			size.X -= container.Padding.Left + container.Padding.Right
+			size.Y -= container.Padding.Top + container.Padding.Bottom
+		EndIf
+		Return size
+	End
+
+	'summary: This method returns the control location on the current mojo canvas. That is, the canvas X and Y location of the control location.
+	Method GetCanvasLocation:GuiVector2D()
+		Return CalculateRenderPosition.Clone()
+	End
+	
+	'summary: This method returns the control size on the current mojo canvas. That is, the canvas X and Y size of the control.
+	Method GetCanvasSize:GuiVector2D()
+		Return Size.Clone()
+	End
+
+	
 	'summary: Returs True if the control is currently the Gui focused control.
 	Method HasFocus:Bool()
 		Return _gui._focusedControl = self
