@@ -63,6 +63,11 @@ Class Sample Extends App
 			gui.Renderer = New concretejungle.ConcreteJungle
 		ElseIf KeyHit(KEY_3) Then
 			gui.Renderer = New roundforms.RoundForms
+		ElseIf KeyHit(KEY_DOWN)
+			Print "Form location:" + MyForm.GetCanvasLocation.X + ", " + MyForm.GetCanvasLocation.Y
+			Print "Form size:" + MyForm.GetCanvasSize.X + ", " + MyForm.GetCanvasSize.Y
+			Print "Form client area location:" + MyForm.GetClientAreaLocation.X + ", " + MyForm.GetClientAreaLocation.Y
+			Print "Form client area size:" + MyForm.GetClientAreaSize.X + ", " + MyForm.GetClientAreaSize.Y
 		EndIf
 	End
 	
