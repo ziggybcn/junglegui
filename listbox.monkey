@@ -179,7 +179,7 @@ Public
 				Case eMsgKinds.RESIZED
 					_scrollbar.UpdateFaderPosition()
 					UpdateScrollBar(False)
-					ScrollSelectedItem()
+					'ScrollSelectedItem()
 					If _scrollbar.Value > _scrollbar.ItemsCount - _scrollbar.VisibleItems Then
 						_scrollbar.Value = _scrollbar.ItemsCount - _scrollbar.VisibleItems
 					EndIf
