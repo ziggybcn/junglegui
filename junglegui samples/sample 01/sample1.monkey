@@ -32,8 +32,8 @@ Class Sample Extends App
 		If gui = Null Then gui = New Gui
 		gui.Renderer = New RoundForms 'ConcreteJungle
 		
-		EnableAutoSize()
-		
+		'EnableAutoSize()
+
 		'We create a SampleForm, and we attach it to the gui component:
 		MyForm = New SampleForm
 		Try
@@ -133,6 +133,7 @@ Class SampleForm Extends Form
 		Self.Size.Y = 340
 		Self.TipText = "This is a form that can be dragged."
 		Self.Name = "MyForm"
+		Self.BorderStyle = eFormBorder.RESIZABLE
 
 		'''
 		''' button: 
