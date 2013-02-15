@@ -1,4 +1,4 @@
-Import junglegui
+﻿Import junglegui
 Import mojo.input
 Import "data/close_button.png"
 
@@ -55,10 +55,29 @@ Class Form Extends TopLevelControl
 	 
 	Method Update()
 		Super.Update()
-		if mouseIsDown Then
-			Self.Position.X = GetGui.MousePos.X - _mouseHitPos.X
-			Self.Position.Y = GetGui.MousePos.Y - _mouseHitPos.Y
-		EndIf		
+		
+		If resizeStatus = eResizeStatus.NONE
+				If mouseIsDown Then	'Añadir propiedad "resizable true or false"
+					Self.Position.X = GetGui.MousePos.X - _mouseHitPos.X
+					Self.Position.Y = GetGui.MousePos.Y - _mouseHitPos.Y
+				EndIf
+			
+		Else
+			If HasFlag(resizeStatus, eResizeStatus.RESIZE_RIGHT)
+				Local dif:Int = mouseHitSize.X - _mouseHitPos.X
+				Local newSize:Int = GetGui.MousePos.X - Self.Position.X + dif
+				If newSize < minimumSize.X Then newSize = minimumSize.X
+				If newSize < 10 Then newSize = 10
+				Self.Size.X = newSize
+			End
+			If HasFlag(resizeStatus, eResizeStatus.RESIZE_BOTTOM)
+				Local dif:Int = mouseHitSize.Y - _mouseHitPos.Y
+				Local newSize:Int = GetGui.MousePos.Y - Self.Position.Y + dif
+				If newSize < minimumSize.Y Then newSize = minimumSize.Y
+				If newSize < 10 Then newSize = 10
+				Self.Size.Y = newSize
+			End
+		End
 	End
 	
 	Method Text:String() Property
@@ -98,6 +117,14 @@ Class Form Extends TopLevelControl
 		Return _BoxPos
 	End
 	
+	'Summary: This property is the form border style (resizable or fixed).<br>The constants are defined as <u>eFormBorder</u>.<b>FIXED</b> and <u>eFormBorder</u>.<b>RESIZABLE</b> 
+	Method BorderStyle:Int() Property
+		Return borderKind
+	End
+	
+	Method BorderStyle:Void(value:Int) Property
+		borderKind = value
+	End
 	
 	Private
 	
@@ -107,23 +134,38 @@ Class Form Extends TopLevelControl
 	
 	Method _InitInternalForm()
 		_BoxPos.Offset.SetValues(5,5)
-		_BoxPos.align = BoxMetrics.HALIGN_RIGHT 
+		_BoxPos.align = BoxMetrics.HALIGN_RIGHT
+		minimumSize.SetValues(50, 50)
 		if _imageCloseButton = null then _imageCloseButton = LoadImage("close_button.png")
 		_BoxPos.Size.SetValues(_imageCloseButton.Width ,_imageCloseButton.Height)
 		BackgroundColor = SystemColors.WindowColor
 	End
 	
-	Field mouseIsDown:Bool = false, _mouseHitPos:GuiVector2D
+	Field mouseIsDown:Bool = False, _mouseHitPos:GuiVector2D
+	Field mouseHitSize:= New GuiVector2D
 	Method _CheckMouseDown(sender:Object, e:EventArgs)
+			
 		BringToFront()
+				
 		Local mousee:MouseEventArgs = MouseEventArgs(e)
 		if mousee = null Then Return
 		mouseIsDown = true
-		_mouseHitPos = New GuiVector2D
+		If _mouseHitPos = Null Then _mouseHitPos = New GuiVector2D
 		_mouseHitPos.SetValues(mousee.position.X, mousee.position.Y)
+		mouseHitSize.SetValues(Size.X, Size.Y)
+		
+		'Determine click area:
+		If borderKind = eFormBorder.RESIZABLE Then
+			If mousee.position.X > Self.Size.X - SIZEMARGIN Then resizeStatus |= eResizeStatus.RESIZE_RIGHT
+			If mousee.position.Y > Self.Size.Y - SIZEMARGIN Then resizeStatus |= eResizeStatus.RESIZE_BOTTOM
+		EndIf
+		
+		
 	End
 	
+	
 	Method _CheckMouseUp(Sender:Object, e:EventArgs)
+		If resizeStatus <> eResizeStatus.NONE Then resizeStatus = eResizeStatus.NONE
 		mouseIsDown = false		
 	End
 	
@@ -131,8 +173,27 @@ Class Form Extends TopLevelControl
 	
 	Field _controlBox:Bool = true
 	
+	Const SIZEMARGIN:Int = 10
+	
+	Field resizeStatus:Int = eResizeStatus.NONE
+	
+	Field minimumSize:= New GuiVector2D
+	
+	Field borderKind = eFormBorder.RESIZABLE
+	
 End
 
+Class eResizeStatus
+	Const NONE:Int = 0
+	Const RESIZE_RIGHT:Int = 1
+	Const RESIZE_BOTTOM:Int = 2
+End
+
+
+Class eFormBorder
+	Const FIXED:Int = 1
+	Const RESIZABLE:Int = 0
+End
 Class BoxMetrics
 	Field align:Int = BoxMetrics.HALIGN_RIGHT 
 	Const HALIGN_RIGHT:Int = 0
