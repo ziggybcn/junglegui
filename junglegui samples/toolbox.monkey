@@ -27,6 +27,7 @@ Class ToolBox extends form.Form
 		Self.TipText = "This is jsut a sample toolbar"
 		Self.Event_ParentResized.Add(Self, "Canvas_Resized")
 		Self.Name = "ToolBox"
+		Self.BorderStyle = eFormBorder.FIXED
 		
 		'''
 		''' starCount

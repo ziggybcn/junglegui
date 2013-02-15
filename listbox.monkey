@@ -132,6 +132,7 @@ Public
 		InitControl()
 	End
 	
+	
 	Method New(x:Float, y:Float, width:Float, height:Float, parent:ContainerControl)
 		Position.SetValues(x, y)
 		Size.SetValues(width, height)
@@ -151,6 +152,7 @@ Public
 				_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth, 0)
 			
 				_scrollbar.MouseDown(New MouseEventArgs(eMsgKinds.MOUSE_DOWN, _cachedPosition, 0))
+				
 			Else
 			
 				Local calculateRenderPos:= self.CalculateRenderPosition
@@ -174,7 +176,14 @@ Public
 			
 			Select msg.e.eventSignature
 			
-				Case eMsgKinds.RESIZED, eMsgKinds.MOVED
+				Case eMsgKinds.RESIZED
+					_scrollbar.UpdateFaderPosition()
+					UpdateScrollBar(False)
+					ScrollSelectedItem()
+					If _scrollbar.Value > _scrollbar.ItemsCount - _scrollbar.VisibleItems Then
+						_scrollbar.Value = _scrollbar.ItemsCount - _scrollbar.VisibleItems
+					EndIf
+				Case eMsgKinds.MOVED
 			
 				Case eMsgKinds.MOUSE_MOVE
 					if ScrollbarVisible then
@@ -361,7 +370,7 @@ Private
 	End
 	
 	Method UpdateScrollBar(recountItems:Bool)
-		if recountItems then _itemsCount = _items.Count
+		If recountItems and _items <> Null Then _itemsCount = _items.Count
 		_visibleItems = Max(0, Min(_itemsCount, int(Size.Y / _itemHeight)))
 		_scrollbar.ItemsCount = _itemsCount
 		_scrollbar.VisibleItems = _visibleItems
