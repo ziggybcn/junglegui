@@ -9,6 +9,7 @@ Class GuiVector2D
 		Return _x
 	End
 	Method X:Void(value:Int) Property
+		If value = _x Then Return
 		_x = value
 		PositionChanged()
 	End
@@ -18,12 +19,14 @@ Class GuiVector2D
 		Return _y
 	End
 	Method Y:Void(value:Int) Property
+		If _y = value Then Return
 		_y = value
 		PositionChanged()
 	End
 	
 	'summary: This method allows you to set the X and Y values of this vector in one call
 	Method SetValues:Void(x:Int, y:Int)
+		If _x = x And _y = y Then Return
 		_x = x
 		_y = y
 		PositionChanged()
