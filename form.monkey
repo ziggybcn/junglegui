@@ -126,6 +126,11 @@ Class Form Extends TopLevelControl
 		borderKind = value
 	End
 	
+	'summary: This readonly property returns the minimum size that the user will be able to give to this form when it has a resizable border. Notice this does not affect programatical resizing of the form. It affects only interactive resizing made by the application user.
+	Method MinumumSize:GuiVector2D() Property
+		Return minimumSize
+	End
+	
 	Private
 	
 	Field _text:String = "Untitled form"
