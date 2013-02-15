@@ -8,6 +8,8 @@ Class DebugForm extends Form
 		Self.Size.SetValues(500, 100)
 		Self.Position.SetValues(10, 300)
 		Self.Event_ParentResized.Add(Self, "Canvas_Resized")
+		Self.Event_Resized.Add(Self, "Form_Resized")
+		
 			
 		msgInspector = New ListBox
 		msgInspector.Parent = Self
@@ -35,5 +37,9 @@ Class DebugForm extends Form
 	Method Canvas_Resized(sender:Object, e:EventArgs)
 		if Self.Position.X > DeviceWidth - Self.Size.X - 10 Then Self.Position.X = DeviceWidth - Self.Size.X - 10
 		if Self.Position.Y > DeviceHeight - Self.Size.Y - 10 Then Self.Position.Y = DeviceHeight - Self.Size.Y - 10
+	End
+	
+	Method Form_Resized(sender:Object, e:EventArgs)
+		Self.msgInspector.Size.SetValues(Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y)
 	End
 End
