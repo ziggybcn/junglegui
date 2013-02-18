@@ -178,7 +178,6 @@ Class Form Extends TopLevelControl
 		Local mousee:MouseEventArgs = MouseEventArgs(e)
 		if mousee = null Then Return
 		mouseOverStatus = _getMouseOverResizingStatus(mousee)
-		Self.Text = mouseOverStatus
 	End
 	
 	Method _getMouseOverResizingStatus:Int(mousee:MouseEventArgs)
