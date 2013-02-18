@@ -6,12 +6,11 @@
 '
 '
 
-
-
 'We import the module, otherwise nothing will work:  
 Import junglegui
 Import junglegui.renderers.concretejungle
 Import junglegui.renderers.roundforms
+
 'It's important to add this file to the reflection filter if we want it to be able to process event handlers
 #REFLECTION_FILTER+="sample1"
 
@@ -240,7 +239,7 @@ Class SampleForm Extends Form
 			radio.TipText = "This is a selectable option #" + (i + 1)
 			radio.Name = "radio" + i
 		Next
-		
+		 
 	End
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
@@ -272,4 +271,5 @@ Function HCenterControl(control:Control)
 	if control.Parent = Null Then Return
 	control.Position.X = control.Parent.Size.X / 2 - control.Size.X / 2
 End
+
 

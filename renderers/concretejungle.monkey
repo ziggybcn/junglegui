@@ -143,7 +143,6 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 			DrawOval(position.X + 4, position.Y + 4 + yOffset, CheckBoxSize.X - 8, CheckBoxSize.Y - 7)
 			SetAlpha 1
 		EndIf
-
 	End
 
 	Method DrawRadioCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, checked:Bool = True)
@@ -163,6 +162,7 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 			SetAlpha(Abs(Sin(Millisecs() / 10.0)))
 			DrawOval(position.X + 2, position.Y + 2 + yOffset, RadioBoxSize.X - 4, RadioBoxSize.Y - 4)
 		EndIf
+		
 	End
 
 	
