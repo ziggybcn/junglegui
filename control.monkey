@@ -383,10 +383,8 @@ Class Control
 
 			Case eMsgKinds.GOT_FOCUS
 				If _requiresVirtualKeyboard Then
-					Print "GOT FOCUS AND ENABLE!"
 					EnableKeyboard()
 				Else
-					Print "GOT FOCUS AND DISABLE!"
 					DisableKeyboard()
 				EndIf
 				_gotFocus.RaiseEvent(Self, msg.e)
