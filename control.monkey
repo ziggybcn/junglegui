@@ -1012,6 +1012,25 @@ Class Gui
 		Return _focusedControl 
 	End
 	
+	#Rem 
+		summary: <b>(advanced)</b> This method gives access to the TopLevelControl components list currently being handled by the gui element.
+		About the secure parameter:
+		[list]
+		[*]TRUE: This method will return a copy if the interal list used by the gui control.
+		[*]FALSE: This parameter will give [b]direct access[/b] to the internal list being used by the gui system.
+		[/list]
+		In general therms, while creating a copy of the list is usually fast, it is a bit more CPU heavy than using the internal list. However, modifying the internal list directly can leave the GUI system on an inconsistent status if it is not properly done.
+		So, all in all, it is not recommended to use an unsafe "GetComponentsList" [b]unless you know exactly what you're doing[/b].
+	#END
+	Method GetComponentsList:List<TopLevelControl>(secure:Bool = True)
+		If secure = False Then Return Self._components
+		Local copylist:= New List<TopLevelControl>
+		For Local c:TopLevelControl = EachIn _components
+			If c <> Null Then copylist.AddLast(c)
+		Next
+		Return copylist
+	End
+
 	Private
 	
 	Field _renderer:GuiRenderer '= New GuiRenderer
@@ -1044,6 +1063,7 @@ Class Gui
 		'Border:
 		SetColor(100,100,100)
 		DrawRoundBox(DrawX,DrawY,Width,Height)
+		
 		
 		'Text:
 #IF TARGET="html5" then
