@@ -24,7 +24,6 @@ Class Sample extends App
 		gui.Renderer = New ConcreteJungle
 		toolBox = New ToolBox
 		toolBox.InitForm(gui)
-		
 	End
 	Method OnUpdate()
 		emiter.Update()
