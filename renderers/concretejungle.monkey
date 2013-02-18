@@ -55,13 +55,17 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		Gui.systemFont.DrawText(text, position.X + 1, position.Y + 1)
 				
 		
-		
+		Local resizeStatus = eResizeStatus.NONE
 		'Now we're rendering the form "container" area, where controls are placed:
 		Local backcolor:guicolor.GuiColor
 		If context = Null Then	'If we're just calling this to be used with systemcolors:
 			backcolor = SystemColors.WindowColor
 		Else	'If we're caling this to be used with a given real form, we use its background color instead:
 			backcolor = context.BackgroundColor
+			If Form(context) <> Null Then
+				Local f:= Form(context)
+				If HasFlag(status, eControlStatus.HOOVER) Then resizeStatus = f.GetMouseOverReisingStatus()
+			EndIf
 		EndIf
 		backcolor.Activate
 		DrawRect(position.X + padding.Left, position.Y + padding.Top, size.X - padding.Left - padding.Right, size.Y - padding.Top - padding.Bottom)
@@ -85,10 +89,23 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 				position.Y +padding.Top + i)
 			
 		Next		
+
+		SetAlpha(Abs(Sin(Millisecs() / 2.0)))
+		If HasFlag(resizeStatus, eResizeStatus.RESIZE_RIGHT)
+			SetColor(255, 255, 255)
+			DrawRect(position.X + size.X - 5, position.Y, 5, size.Y)
+		EndIf
+		If HasFlag(resizeStatus, eResizeStatus.RESIZE_BOTTOM)
+			SetColor(255, 255, 255)
+			DrawRect(position.X, position.Y + size.Y - 5, size.X, 5)
+		EndIf
+
 		SetAlpha(0.5)
 		SystemColors.FormBorder.Activate()
 		DrawBox(position, size)
+
 		SetAlpha(1)
+		
 	End
 
 	Method DrawButtonBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control)

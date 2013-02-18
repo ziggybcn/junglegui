@@ -100,6 +100,8 @@ Class Form Extends TopLevelControl
 					_CheckMouseUp(msg.sender, msg.e)
 				Case eMsgKinds.GOT_FOCUS
 					Self.BringToFront()
+				Case eMsgKinds.MOUSE_MOVE
+					_CheckMouseMove(msg.sender, msg.e)
 			end
 		endif
 		Super.Msg(msg)
@@ -131,6 +133,11 @@ Class Form Extends TopLevelControl
 		Return minimumSize
 	End
 	
+	'summary: Returns the eResizeStatus const that informs on mouse-over resizing status.<br>That's useful to draw resizing interactive media on a form border.
+	Method GetMouseOverReisingStatus:Int()
+		Return Self.mouseOverStatus
+	End
+	
 	Private
 	
 	Field _text:String = "Untitled form"
@@ -160,14 +167,26 @@ Class Form Extends TopLevelControl
 		mouseHitSize.SetValues(Size.X, Size.Y)
 		
 		'Determine click area:
-		If borderKind = eFormBorder.RESIZABLE Then
-			If mousee.position.X > Self.Size.X - SIZEMARGIN Then resizeStatus |= eResizeStatus.RESIZE_RIGHT
-			If mousee.position.Y > Self.Size.Y - SIZEMARGIN Then resizeStatus |= eResizeStatus.RESIZE_BOTTOM
-		EndIf
+		resizeStatus = _getMouseOverResizingStatus(mousee)
 		
 		
 	End
 	
+	Method _CheckMouseMove(sender:Object, e:EventArgs)
+		'Determine click area:
+		Local mousee:MouseEventArgs = MouseEventArgs(e)
+		if mousee = null Then Return
+		mouseOverStatus = _getMouseOverResizingStatus(mousee)
+	End
+	
+	Method _getMouseOverResizingStatus:Int(mousee:MouseEventArgs)
+		Local status:Int = eResizeStatus.NONE
+		If borderKind = eFormBorder.RESIZABLE Then
+			If mousee.position.X > Self.Size.X - SIZEMARGIN Then status |= eResizeStatus.RESIZE_RIGHT
+			If mousee.position.Y > Self.Size.Y - SIZEMARGIN Then status |= eResizeStatus.RESIZE_BOTTOM
+		EndIf
+		Return status
+	End
 	
 	Method _CheckMouseUp(Sender:Object, e:EventArgs)
 		If resizeStatus <> eResizeStatus.NONE Then resizeStatus = eResizeStatus.NONE
@@ -181,6 +200,8 @@ Class Form Extends TopLevelControl
 	Const SIZEMARGIN:Int = 10
 	
 	Field resizeStatus:Int = eResizeStatus.NONE
+	
+	Field mouseOverStatus:Int = eResizeStatus.NONE
 	
 	Field minimumSize:= New GuiVector2D
 	
