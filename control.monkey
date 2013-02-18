@@ -694,6 +694,7 @@ Class ContainerControl extends Control
 		Super.Render()
 	end
 
+	'summary: This method is called by the Gui system when a control container has to render its Focus rect.
 	Method DrawFocus()
 		GetGui.Renderer.DrawFocusRect(Self)
 	End

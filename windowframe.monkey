@@ -1,4 +1,9 @@
 Import junglegui
+#Rem
+	summary: This control is a TopLevelControl that can be used to place controls in it.
+	As oposite to what happens with a Form, this control does not have any borders or caption. It's just a plain control container.
+	This is the perfect Gui component to be placed Over a game, as it can be Transparent, while it keeps its contained controls perfectly rendered.
+#END
 
 Class WindowFrame Extends TopLevelControl
 	
@@ -32,9 +37,9 @@ Class WindowFrame Extends TopLevelControl
 		_transparent = value
 	End
 	
+	'summary: This will bring the WindowFrame to the top of the Z-Order.<br>Notice that WindowFrames do always get behind regular forms on the Z-Order.
 	Method BringToFront()
 		Super.BringToFront
-		'Red lights, red lights! We're accessing directly the internal gui components list:
 		Local list:= GetGui.GetComponentsList(False)
 		Local tarray:TopLevelControl[] = list.ToArray()
 		Local current:Int = tarray.Length - 1
