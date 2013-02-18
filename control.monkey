@@ -104,7 +104,7 @@ Class Control
 		if Self._parentControl <> null Then
 			_parentControl.Msg(msg)
 		EndIf
-		if msg.sender = Self And msg.status = eMsgStatus.Sent Then
+		If msg.sender = Self And msg.status = eMsgStatus.Sent Then
 			Dispatch(msg)
 		EndIf
 	End
@@ -382,9 +382,15 @@ Class Control
 				_eventClick.RaiseEvent(Self, MouseEventArgs(msg.e))
 
 			Case eMsgKinds.GOT_FOCUS
+				If _requiresVirtualKeyboard Then
+					Print "GOT FOCUS AND ENABLE!"
+					EnableKeyboard()
+				Else
+					Print "GOT FOCUS AND DISABLE!"
+					DisableKeyboard()
+				EndIf
 				_gotFocus.RaiseEvent(Self, msg.e)
-
-				
+								
 			Case eMsgKinds.INIT_FORM		'Set on TopLevel control
 
 			
@@ -484,7 +490,7 @@ Class Control
 		 eControlStatus.FOCUSED
 		 eControlStatus.HOOVER
 		 eControlStatus.DISABLED
-		 eControlStatus.NONDE
+		 eControlStatus.NONE
 	 #END
 	Method Status:Int() Property
 		Local status:Int = eControlStatus.NONE
@@ -493,6 +499,15 @@ Class Control
 		Return status
 	end
 	
+	'summary: Set this property to true if the control requires virtualkeyboard to be shown on devices supporting virtual keyboards.
+	Method RequiresVirtualKeyboard:Bool() Property
+		Return _requiresVirtualKeyboard
+	End
+
+
+	Method RequiresVirtualKeyboard:Void(value:Bool) Property
+		_requiresVirtualKeyboard = value
+	End
 	
 	Private
 
@@ -520,7 +535,9 @@ Class Control
 		
 'OTHER PRIVATES:	
 	Field _tipText:String
-	Field _visible:Bool = true
+	Field _visible:Bool = True
+	Field _requiresVirtualKeyboard:Bool = False
+	
 	Method _FocusChecks()
 		
 		if Self.Visible = False Then return
@@ -875,12 +892,12 @@ Class Gui
 
 		if _mousePos = Null then _mousePos = New GuiVector2D
 
+		_oldMousePos.SetValues(_mousePos.X, _mousePos.Y)
 		If TouchDown(1) Then
 			_mousePos.SetValues(TouchX(1), TouchY(1))
 		Else
 			_mousePos.SetValues(MouseX(), MouseY())
 		EndIf
-		_oldMousePos.SetValues(_mousePos.X, _mousePos.Y)
 		
 		'_mousePos = GetWorldPos(MouseX(), MouseY())
 		

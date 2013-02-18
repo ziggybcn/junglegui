@@ -144,7 +144,8 @@ Class TextField extends BaseLabel
 		_bordercolor = SystemColors.FormBorder
 		BackgroundColor = SystemColors.WindowColor
 		TabStop = true
-		ForeColor.SetColor(1,0,0,0)
+		ForeColor.SetColor(1, 0, 0, 0)
+		RequiresVirtualKeyboard = True
 	End
 	
 	Method _controlClicked(e:MouseEventArgs)
