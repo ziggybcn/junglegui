@@ -9,6 +9,10 @@ Class GuiRenderer
 		ResetRendererValues(Self)
 	End
 
+	Method DefaultFormPadding:Padding()
+		Return _defaultFormPadding
+	End
+	
 	Method DrawButtonBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
 		Local backColor:GuiColor
 		If HasFlag(status, eControlStatus.HOOVER) Then
@@ -227,6 +231,8 @@ Class GuiRenderer
 	Private
 	Field _guiAttached:= New EventHandler<EventArgs>
 	Field _guiDetached:= New EventHandler<EventArgs>
+	
+	Global _defaultFormPadding:= New Padding
 	'Method ResetRendererValues()
 	'	renderer.ResetRendererValues(Self)
 	'End
@@ -250,6 +256,16 @@ Function ResetRendererValues(renderer:GuiRenderer)
 		End
 		If Gui.systemFont <> GuiRenderer.defaultSystemFont Then Gui.systemFont = GuiRenderer.defaultSystemFont
 		If Gui.tipFont <> GuiRenderer.defaultTipFont Then Gui.tipFont = GuiRenderer.defaultTipFont
+
+		If renderer._defaultFormPadding = Null Then
+			renderer._defaultFormPadding = New Padding
+		EndIf
+		renderer._defaultFormPadding.Left = 7 ' Gui.systemFont.
+		renderer._defaultFormPadding.Right = 7 ' Gui.systemFont.
+		renderer._defaultFormPadding.Bottom = 7 ' Gui.systemFont.
+		renderer._defaultFormPadding.Top = Gui.systemFont.GetFontHeight + 5
+
+
 
 		'Reset Renderer colors:
 		

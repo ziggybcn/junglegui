@@ -7,11 +7,17 @@ Class Form Extends TopLevelControl
 	Method New()
 		BackgroundColor = SystemColors.AppWorkspace
 		Size.SetValues(400, 400)
-		Padding.Left = 5
-		Padding.Top = 25
-		Padding.Right = 5
-		Padding.Bottom = 5
+		'Padding.Left = 5
+		'Padding.Top = 25
+		'Padding.Right = 5
+		'Padding.Bottom = 5
+		'Padding = GetGui.Renderer.DefaultFormPadding
 	End
+	Method InitForm(gui:Gui)
+		Super.InitForm(gui)
+		Padding = gui.Renderer.DefaultFormPadding
+	End
+	
 	Method RenderBackground()
 		Local drawPos:GuiVector2D = CalculateRenderPosition()
 		
@@ -183,8 +189,8 @@ Class Form Extends TopLevelControl
 	Method _getMouseOverResizingStatus:Int(mousee:MouseEventArgs)
 		Local status:Int = eResizeStatus.NONE
 		If borderKind = eFormBorder.RESIZABLE Then
-			If mousee.position.X > Self.Size.X - SIZEMARGIN Then status |= eResizeStatus.RESIZE_RIGHT
-			If mousee.position.Y > Self.Size.Y - SIZEMARGIN Then status |= eResizeStatus.RESIZE_BOTTOM
+			If mousee.position.X > Self.Size.X - Padding.Right Then status |= eResizeStatus.RESIZE_RIGHT
+			If mousee.position.Y > Self.Size.Y - Padding.Bottom Then status |= eResizeStatus.RESIZE_BOTTOM
 		EndIf
 		Return status
 	End
@@ -198,7 +204,7 @@ Class Form Extends TopLevelControl
 	
 	Field _controlBox:Bool = true
 	
-	Const SIZEMARGIN:Int = 10
+	'Const SIZEMARGIN:Int = 10
 	
 	Field resizeStatus:Int = eResizeStatus.NONE
 	
