@@ -3,9 +3,12 @@ Private
 Import mojo
 Public
 Const TEXTVALIDCHARS:String = "+-*/=~q!@#$%&()?[]çÇñÑáéíóúàèìòùâêîôûäëïöüÁÉÍÓÚÀÈIÒÙÄËÏÖÜÂÊÎÔÛýÝ€0123456789,.:;{}¨'`´~~|\ºª<>"
-
+#Rem
+	summary: This is the TextField control. This control allows keyboard input using a standard single line text box.
+#END
 Class TextField extends BaseLabel
 
+	'summary: This property allows you to get/set the character position of the caret in the control.
 	Method CaretPos:Int() Property
 		Return _caretPos
 	End
@@ -17,6 +20,7 @@ Class TextField extends BaseLabel
 	End
 
 	
+	'summary: This property allows you to set/get the BorderColor of this control
 	Method BorderColor:GuiColor() Property
 		Return _bordercolor
 	End
@@ -24,6 +28,7 @@ Class TextField extends BaseLabel
 		if value <> null then _bordercolor = value
 		Return _bordercolor
 	End
+
 	Method Render:Void()
 		Const LEFTMARGIN:Int = 12
 		Local Position:= CalculateRenderPosition
@@ -86,11 +91,11 @@ Class TextField extends BaseLabel
 		EndIf
 		'Font.DrawText(
 	End
+
 	Method New()
 		_InitComponent()
 	End
 
-	
 	Method Msg(msg:BoxedMsg)
 		'Print("Got event!")
 		if msg.e.eventSignature = eMsgKinds.KEY_PRESS Then
@@ -125,6 +130,7 @@ Class TextField extends BaseLabel
 		Super.Msg(msg)
 	End
 	
+	'summary: This property allows you to get/set the length (in chars) of the selected text in the text box.
 	Method SelectionLength:Int() Property
 		return _selectionLength
 	End

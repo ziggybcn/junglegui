@@ -9,7 +9,7 @@
 'We import the module, otherwise nothing will work:  
 Import junglegui
 Import junglegui.renderers.concretejungle
-Import junglegui.renderers.touch
+Import junglegui.renderers.roundforms
 
 'It's important to add this file to the reflection filter if we want it to be able to process event handlers
 #REFLECTION_FILTER+="sample1"
@@ -61,7 +61,7 @@ Class Sample Extends App
 		ElseIf KeyHit(KEY_2) Then
 			gui.Renderer = New concretejungle.ConcreteJungle
 		ElseIf KeyHit(KEY_3) Then
-			gui.Renderer = New Touch
+			gui.Renderer = New RoundForms
 		ElseIf KeyHit(KEY_DOWN)
 			Print "Form location:" + MyForm.GetCanvasLocation.X + ", " + MyForm.GetCanvasLocation.Y
 			Print "Form size:" + MyForm.GetCanvasSize.X + ", " + MyForm.GetCanvasSize.Y
