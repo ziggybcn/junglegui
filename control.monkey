@@ -875,9 +875,13 @@ Class Gui
 
 		if _mousePos = Null then _mousePos = New GuiVector2D
 
+		If TouchDown(1) Then
+			_mousePos.SetValues(TouchX(1), TouchY(1))
+		Else
+			_mousePos.SetValues(MouseX(), MouseY())
+		EndIf
 		_oldMousePos.SetValues(_mousePos.X, _mousePos.Y)
 		
-		_mousePos.SetValues(MouseX(), MouseY())
 		'_mousePos = GetWorldPos(MouseX(), MouseY())
 		
 		if _mousePos.X < 0 Then _mousePos.X = 0 ElseIf _mousePos.X > DeviceWidth then _mousePos.X = DeviceWidth
