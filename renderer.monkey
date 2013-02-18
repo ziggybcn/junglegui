@@ -138,14 +138,28 @@ Class GuiRenderer
 		SetColor(255, 255, 255)
 		#END
 		Gui.systemFont.DrawText(text, int(position.X + size.X / 2), TextY, eDrawAlign.CENTER)
-		
+		Local resizeStatus:Int = eResizeStatus.NONE
 		If context <> null Then
 			context.BackgroundColor.Activate()
+			If Form(context) <> Null Then
+				Local f:= Form(context)
+				If HasFlag(status, eControlStatus.HOOVER) Then resizeStatus = f.GetMouseOverReisingStatus()
+			EndIf
 		Else
 			SystemColors.WindowColor.Activate()
 		EndIf
 		
 		DrawRect(position.X + padding.Left, position.Y + padding.Top, size.X - padding.Left - padding.Right, size.Y - padding.Bottom - padding.Top)
+		
+		If HasFlag(resizeStatus, eResizeStatus.RESIZE_RIGHT)
+			SystemColors.HooverBackgroundColor.Activate()
+			DrawRect(position.X + size.X - 5, position.Y, 5, size.Y)
+		EndIf
+		If HasFlag(resizeStatus, eResizeStatus.RESIZE_BOTTOM)
+			SystemColors.HooverBackgroundColor.Activate()
+			DrawRect(position.X, position.Y + size.Y - 5, size.X, 5)
+		EndIf
+		
 		If HasFlag(status, eControlStatus.FOCUSED) Then
 			DrawFocusRect(context)
 		Else

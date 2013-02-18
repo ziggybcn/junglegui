@@ -21,7 +21,7 @@ Class Sample extends App
 		emiter = New Emiter
 		
 		If gui = Null Then gui = New Gui
-		gui.Renderer = New ConcreteJungle
+		'gui.Renderer = New ConcreteJungle
 		toolBox = New ToolBox
 		toolBox.InitForm(gui)
 		
