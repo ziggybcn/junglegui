@@ -15,11 +15,12 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		'We modify some systemcolors when the Renderer is activated:
 		SystemColors.FormMargin.SetColor(1, 200, 200, 190)
 		SystemColors.WindowColor.SetColor(1, 220, 220, 200)
-		SystemColors.ButtonBorderColor.SetColor(1, 255, 255, 235)
+		SystemColors.ButtonBorderColor.SetColor(1, 55, 55, 35)
 		SystemColors.ControlFace.SetColor(1, 180, 170, 160)
 		SystemColors.HooverBackgroundColor.SetColor(1, 235, 235, 190)
 		SystemColors.FocusColor.SetColor(1, 255, 255, 255)
-		SystemColors.FormBorder.SetColor(1, 250, 250, 230)
+		'SystemColors.FormBorder.SetColor(1, 250, 250, 230)
+		SystemColors.FormBorder.SetColor(1, 0, 0, 0)
 		SystemColors.SelectedItemBackColor.SetColor(1, 200, 200, 180)
 		#IF TARGET="html5"
 			Gui.systemFont = New bitmapfont.BitmapFont("concretejunglefont_html5.txt")
@@ -159,7 +160,6 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 			DrawOval(position.X + 4, position.Y + 4 + yOffset, CheckBoxSize.X - 8, CheckBoxSize.Y - 7)
 			SetAlpha 1
 		EndIf
-
 	End
 
 	Method DrawRadioCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, checked:Bool = True)
@@ -179,6 +179,7 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 			SetAlpha(Abs(Sin(Millisecs() / 10.0)))
 			DrawOval(position.X + 2, position.Y + 2 + yOffset, RadioBoxSize.X - 4, RadioBoxSize.Y - 4)
 		EndIf
+		
 	End
 
 	

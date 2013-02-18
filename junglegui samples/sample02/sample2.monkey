@@ -281,3 +281,4 @@ Class GameListView extends ListView
 		SetItemSpacing(5, 5)
 	End
 End
+
