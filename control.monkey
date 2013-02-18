@@ -606,8 +606,12 @@ End
 Class ContainerControl extends Control
 
 	'summary: This is a Get/Set property that is useful to set the control container internal Padding space.
-	Method Padding:Padding()
+	Method Padding:Padding() Property
 		Return _padding
+	End
+	
+	Method Padding:Void(value:Padding)
+		If value <> Null Then _padding = value Else _padding = New Padding
 	End
 	
 	'summary: This method returns TRUE if the control is a container control.
