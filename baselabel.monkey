@@ -86,5 +86,5 @@ Class BaseLabel Extends Control Implements TextualItem Abstract
 		'Self.ForeColor.SetColor(1,0,0,0)
 		Self.BackgroundColor = SystemColors.ControlFace
 		TabStop = false
-	end
+	End
 End

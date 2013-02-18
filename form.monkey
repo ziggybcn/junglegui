@@ -78,6 +78,7 @@ Class Form Extends TopLevelControl
 				Self.Size.Y = newSize
 			End
 		End
+		'Self.Text = GetGui.MousePos.X + ", " + GetGui.MousePos.Y
 	End
 	
 	Method Text:String() Property
@@ -102,7 +103,7 @@ Class Form Extends TopLevelControl
 					Self.BringToFront()
 				Case eMsgKinds.MOUSE_MOVE
 					_CheckMouseMove(msg.sender, msg.e)
-			end
+			End
 		endif
 		Super.Msg(msg)
 	End
@@ -177,6 +178,7 @@ Class Form Extends TopLevelControl
 		Local mousee:MouseEventArgs = MouseEventArgs(e)
 		if mousee = null Then Return
 		mouseOverStatus = _getMouseOverResizingStatus(mousee)
+		Self.Text = mouseOverStatus
 	End
 	
 	Method _getMouseOverResizingStatus:Int(mousee:MouseEventArgs)
