@@ -29,7 +29,7 @@ Class Sample Extends App
 	
 		'We create a gui, wich is the component that handles all the gui:
 		If gui = Null Then gui = New Gui
-		gui.Renderer = New RoundForms 'ConcreteJungle
+		'gui.Renderer = New RoundForms 'ConcreteJungle
 		
 		EnableAutoSize()
 
