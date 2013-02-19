@@ -718,8 +718,18 @@ Class ContainerControl extends Control
 	End
 	
 	Method Update()
-		For Local c:=EachIn self.controls 
-			c.Update()
+		For Local c:Control = EachIn Self.controls
+			If c.HasGraphicalInterface = False Then
+				c.Update()
+			Else
+				If c.Visible = True Then
+					'if c.enabled then
+						c.Update()
+					'end
+				Else
+					'We don't update invisible controls
+				EndIf
+			EndIf
 		Next
 	End
 	
@@ -919,10 +929,12 @@ Class Gui
 		
 		Local oldMouseDown = _mouseDown
 		_mouseDown = MouseDown()
-		For Local c:Control = eachin _components
-			c._FocusChecks()	'update control under mouse.
-			c.Update()
-			if c._gui = null Then Continue
+		For Local c:Control = EachIn _components
+			If c.Visible Then
+				c._FocusChecks()	'update control under mouse.
+				c.Update()
+				If c._gui = Null Then Continue
+			End
 			if sendParentResize Then c.Msg(New BoxedMsg(c, New EventArgs(eMsgKinds.PARENT_RESIZED)))
 		Next
 		Local oldControl:= _mousePointerControl
