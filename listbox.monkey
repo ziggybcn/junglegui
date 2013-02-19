@@ -343,7 +343,11 @@ Public
 		if ScrollbarVisible then
 			_scrollbar.Render(_scrollbar._pos, _scrollbar._size)
 		endif
-		If HasFocus Then GetGui.Renderer.DrawFocusRect(Self, True)
+		If HasFocus Then
+			GetGui.Renderer.DrawFocusRect(Self, True)
+		Else
+			GetGui.Renderer.DrawControlBorder(Status, drawpos, Size, Self)
+		EndIf
 	End
 
 Private
