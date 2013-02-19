@@ -24,8 +24,6 @@ Import propertygrid
 Import scrollablecontrol
 Import renderer
 Import windowframe
-'Import tabcontrol 
-
 Import reflection
 #REFLECTION_FILTER+="junglegui*"
 
