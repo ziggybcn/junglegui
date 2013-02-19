@@ -120,14 +120,35 @@ Class GuiRenderer
 	End
 
 
-	Method DrawControlBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = null)
-		If context <> null And context.BackgroundColor <> Null Then
+	Method DrawControlBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
+		If context <> Null And context.BackgroundColor <> Null Then
 			context.BackgroundColor.Activate()
 		Else
 			SystemColors.ControlFace.Activate()
 		EndIf
 		DrawRect(position.X, position.Y, size.X, size.Y)
+	End
+	
+	Method DrawHooverSelectableBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, selected:Bool)
+		If selected = False And HasFlag(status, eControlStatus.HOOVER) = False Then
+			DrawControlBackground(status, position, size, context)
+		Else
+			If selected Then
+				SystemColors.ItemsListSelectedBackColor.Activate()
+			Else
+				SystemColors.ItemsListHooverBackColor.Activate()
+			EndIf
+			DrawRect(position.X, position.Y, size.X, size.Y)
+			
+			If selected Then
+				SystemColors.ItemsListSelectedBorderColor.Activate()
+			Else
+				SystemColors.ItemsListHooverBorderColor.Activate()
+			EndIf
+			DrawBox(position.X, position.Y, size.X, size.Y)
 
+						
+		EndIf
 	End
 	
 	Method DrawFormBackground(status:Int, position:GuiVector2D, size:GuiVector2D, padding:Padding, text:String, context:Control)
@@ -287,6 +308,10 @@ Function ResetRendererValues(renderer:GuiRenderer)
 			SystemColors.WindowTextForeColor.SetColor(1, 255, 255, 255)
 			SystemColors.SelectedItemForeColor.SetColor(1, 255, 255, 255)
 		#END
+		SystemColors.ItemsListHooverBackColor.SetColor(1, 236, 244, 253)
+		SystemColors.ItemsListSelectedBackColor.SetColor(1, 202, 225, 252)
+		SystemColors.ItemsListHooverBorderColor.SetColor(1, 184, 214, 251)
+		SystemColors.ItemsListSelectedBorderColor.SetColor(1, 125, 162, 206)
 
 
 	

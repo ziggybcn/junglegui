@@ -75,6 +75,11 @@ Class SystemColors
 		Global WindowTextForeColor:GuiColor = New GuiColor
 		Global SelectedItemForeColor:GuiColor = New GuiColor
 	#END
+	Global ItemsListHooverBackColor:= New GuiColor
+	Global ItemsListSelectedBackColor:= New GuiColor
+	Global ItemsListHooverBorderColor:= New GuiColor
+	Global ItemsListSelectedBorderColor:= New GuiColor
+
 End
 
 

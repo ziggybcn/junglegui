@@ -46,7 +46,20 @@ Public
 		'Event_MouseLeave.Add( Self, "OnLeave" )
 		'Event_Click.Add(Self, "OnClick" )
 	'End
-	Method Dispatch(msg:BoxedMsg)
+'	Method Dispatch(msg:BoxedMsg)
+'		Select msg.e.messageSignature
+'			Case eMsgKinds.MOUSE_ENTER
+'				OnEnter(msg.sender, msg.e)
+'			Case eMsgKinds.MOUSE_LEAVE
+'				OnLeave(msg.sender, msg.e)
+'			Case eMsgKinds.CLICK
+'				OnClick(msg.sender, MouseEventArgs(msg.e))
+'		End
+'		
+'		Super.Dispatch(msg)
+'	End
+	
+	Method Msg(msg:BoxedMsg)
 		Select msg.e.messageSignature
 			Case eMsgKinds.MOUSE_ENTER
 				OnEnter(msg.sender, msg.e)
@@ -55,8 +68,7 @@ Public
 			Case eMsgKinds.CLICK
 				OnClick(msg.sender, MouseEventArgs(msg.e))
 		End
-		
-		Super.Dispatch(msg)
+		Super.Msg(msg)
 	End
 	'</MANEL>
 	
@@ -64,28 +76,26 @@ Public
 		Return _owner 
 	End
 	
-	Method Render:Void()
-		
-		if _owner.SelectedItem = Self Then 
-			BackgroundColor.SetColor(255,184,214,251)
-		else If HasFlag(Self.Status, eControlStatus.HOOVER) Then
-			BackgroundColor.SetColor(255,236,244,253)
-		Else
-			BackgroundColor.SetColor(255,255,255,255)
-		EndIf
 	
-		Super.Render()
+	Method RenderBackground()
+
+		If _owner._overControl = Self Then	'That means we're over the control OR any control contained inside the control, so it's technically still a Hoover.
+			GetGui.Renderer.DrawHooverSelectableBackground(Status | eControlStatus.HOOVER, CalculateRenderPosition, Size, Self, _owner.SelectedItem = Self)
+		Else
+			GetGui.Renderer.DrawHooverSelectableBackground(Status, CalculateRenderPosition, Size, Self, _owner.SelectedItem = Self)
+		End If
+		
 	End
 	
 	Method Text:String() Property
-		Return _text 
+		Return _text
 	End
 	
 	Method Text:Void(val:String) Property
 		_text = val 
 	End
 	
-End 
+End
 
 '' summary: Represents an item in a ListView control.
 Class DefaultListViewItem extends ListViewItem 
@@ -322,7 +332,8 @@ Private
 	End
 	
 	Method InitControl()
-		_items = new ListViewItemCollection(Self)
+		_items = New ListViewItemCollection(Self)
+		Padding.Right = ScrollBarContainer.DefaultWidth
 	End
 	
 Public 	
@@ -417,7 +428,7 @@ Public
 		
 		if Items And Items.Count > 0 Then 
 		
-			_countX = Max( 1, Size.X / (_itemWidth + _vSpacing ) )
+			_countX = Max(1, GetClientAreaSize.X / (_itemWidth + _vSpacing))
 			_countY = Items.Count  / _countX  + 1 
 	
 			
@@ -444,10 +455,13 @@ Public
 			'' update scrollbar -  TODO: Does not work, needs to be fixed...
 			''
 			
-			local _visibleItems:= Max(0, int(Size.Y / (_itemHeight+ _vSpacing )))
+			Local _visibleItems:= Max(0, int(GetClientAreaSize.Y / (_itemHeight + _vSpacing)))
 			_scrollbar.ItemsCount = _countY*_itemHeight / _hScrollStep
 			_scrollbar.VisibleItems = _visibleItems*_itemHeight / _hScrollStep 
 
+			If _scrollbar.Value > _scrollbar._itemsCount - _scrollbar._visibleItems Then
+				_scrollbar.Value = _scrollbar._itemsCount - _scrollbar._visibleItems
+			EndIf
 		End 
 	End
 	
@@ -474,6 +488,10 @@ Public
 		'End
 	End
 	Method RenderForeground()
-		If HasFocus Then GetGui.Renderer.DrawFocusRect(Self, True)
+		If HasFocus Then
+			GetGui.Renderer.DrawFocusRect(Self, True)
+		Else
+			GetGui.Renderer.DrawControlBorder(Self.Status, CalculateRenderPosition, Size, Self)
+		EndIf
 	End
 End

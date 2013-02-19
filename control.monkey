@@ -659,7 +659,11 @@ Class ContainerControl extends Control
 		'Los ajustamos al viewport padre:
 		if _gui.viewPortStack.Stack.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 		
-		SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+		If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
+			SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+		Else
+			Return 'Nothing to draw!
+		EndIf
 		
 		'Añadimos el viewport a la cola:
 		_gui.viewPortStack.Stack.AddLast(viewPort)
@@ -689,7 +693,7 @@ Class ContainerControl extends Control
 	'summary: This method is called by the Gui system when a control container has to render its background, that is, the part of the component that is drawn behind the contained controls.
 	Method RenderBackground()
 		Super.Render()
-	end
+	End
 
 	'summary: This method is used to allow rendering over the the container control, and over its children. 
 	Method RenderForeground()
@@ -708,8 +712,12 @@ Class ContainerControl extends Control
 			if _gui.viewPortStack.Stack.IsEmpty = False Then
 				viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 			EndIf
-			SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
-			if viewPort.size.X > 0 And viewPort.size.Y > 0 then c.Render()
+			If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
+				SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+				c.Render()
+				SetColor(255, 255, 255)
+				If GetAlpha <> 1 Then SetAlpha(1)
+			EndIf
 		Next
 		if _gui.viewPortStack.Stack.IsEmpty = False Then
 			Local viewPort:ViewPort = _gui.viewPortStack.Stack.Last()
@@ -980,6 +988,7 @@ Class Gui
 				if newControl._gui <> null then newControl.GetFocus()
 			EndIf
 		EndIf
+		
 		Local keys:Int[] = New Int[256]
 		Local doCheck:Bool = keys.Length = _oldKeys.Length And self._focusedControl <> null
 		For Local i:Int = 0 to 255 'to name something
