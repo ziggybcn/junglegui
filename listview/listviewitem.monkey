@@ -12,12 +12,10 @@ Private
 	Field _text:String 
 	
 	Method OnEnter(sender:Object, e:EventArgs)
-		Print "Enter"
 		Owner.HoverItem = Self
 	End
 	
 	Method OnLeave(sender:Object, e:EventArgs)
-		Print "LEAVE"
 		Owner.HoverItem = Null
 	End
 	
