@@ -1,6 +1,7 @@
 Import junglegui 
 Import mojo 
 
+#REFLECTION_FILTER+="junglegui.listview*"
 #Rem
 	summary: This is a ListViewItem control.
 	The current implementation is based on the Controlclass
