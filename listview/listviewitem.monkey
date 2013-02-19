@@ -12,10 +12,12 @@ Private
 	Field _text:String 
 	
 	Method OnEnter(sender:Object, e:EventArgs)
+		Print "Enter"
 		Owner.HoverItem = Self
 	End
 	
 	Method OnLeave(sender:Object, e:EventArgs)
+		Print "LEAVE"
 		Owner.HoverItem = Null
 	End
 	
@@ -46,11 +48,11 @@ Public
 	
 	Method RenderBackground()
 
-		'If Owner._overControl = Self Then	'That means we're over the control OR any control contained inside the control, so it's technically still a Hoover.
-		'	GetGui.Renderer.DrawHooverSelectableBackground(Status | eControlStatus.HOOVER, CalculateRenderPosition, Size, Self, _owner.SelectedItem = Self)
-		'Else
+		If Owner.HoverItem = Self Then	'That means we're over the control OR any control contained inside the control, so it's technically still a Hoover.
+			GetGui.Renderer.DrawHooverSelectableBackground(Status | eControlStatus.HOOVER, CalculateRenderPosition, Size, Self, Owner.SelectedItem = Self)
+		Else
 			GetGui.Renderer.DrawHooverSelectableBackground(Status, CalculateRenderPosition, Size, Self, Owner.SelectedItem = Self)
-		'End If
+		End If
 		
 	End
 	
