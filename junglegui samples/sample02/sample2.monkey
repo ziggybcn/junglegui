@@ -17,7 +17,7 @@ Class Sample2 extends App
 	Field myForm:MyForm
 	Method OnCreate()
 		SetUpdateRate(60)
-		EnableAutoSize()
+		'EnableAutoSize()
 		gui = New Gui	'We create the Gui manager.
 		myForm = New MyForm
 		Try

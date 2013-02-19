@@ -94,7 +94,7 @@ Class Control
 		Local color:Float[] = GetColor()
 		SetColor(Self.BackgroundColor.r, Self.BackgroundColor.g,Self.BackgroundColor.b)
 		Local renderPos:GuiVector2D = self.CalculateRenderPosition()
-		DrawRect(renderPos.X,renderPos.Y,Size.X,Size.Y)
+		DrawRect(renderPos.X, renderPos.Y, Size.X, Size.Y)
 		SetColor(color[0],color[1],color[2])
 	End
 	
@@ -659,34 +659,31 @@ Class ContainerControl extends Control
 		'Los ajustamos al viewport padre:
 		if _gui.viewPortStack.Stack.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 		
-'		SetAlpha(0.0200)
-'		SetColor(0, 0, 0)
-'		Const max:Int = 12
-'		For Local i:Int = 1 to max
-'		SetAlpha(1.0 - (float(i) / float(max))) / 8.0
-'			DrawRect(viewPort.position.X - i, viewPort.position.Y - i, Size.X + i * 2, Size.Y + i * 2)
-'		next
-'		SetAlpha(1)
-		
-		'Hacemos tijeretazo:
 		SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		
 		'Añadimos el viewport a la cola:
 		_gui.viewPortStack.Stack.AddLast(viewPort)
 		RenderBackground()
 
+		'We set the children viewport:
 		viewPort = New ViewPort
 		viewPort.SetValuesFromControl(Self,Padding)
 		viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 		_gui.viewPortStack.Stack.AddLast(viewPort)
 		SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
-		
 		RenderChildren()
+		
+		'we remove the children viewport
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el post-padding
+		
+		'We get the regular control viewport again and set it to render the foreground component:
+		viewPort = _gui.viewPortStack.Stack.Last()
+		SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+		RenderForeground()
+		
+		'We now remove the control viewport from the stack
 		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el borde del control
-				
-		'Is done by derived controls.
-		''If _gui._focusedControl = Self Then DrawFocus
+			
 	End
 
 	'summary: This method is called by the Gui system when a control container has to render its background, that is, the part of the component that is drawn behind the contained controls.
@@ -694,6 +691,10 @@ Class ContainerControl extends Control
 		Super.Render()
 	end
 
+	'summary: This method is used to allow rendering over the the container control, and over its children. 
+	Method RenderForeground()
+		
+	End
 	'summary: This method is called by the Gui system when a control container has to render its Focus rect.
 	Method DrawFocus()
 		GetGui.Renderer.DrawFocusRect(Self)

@@ -468,9 +468,11 @@ Public
 
 		Super.Render()
 		
-		if HasFocus Then
-			GetGui.Renderer.DrawFocusRect(Self, True)
-		End
-		
-	End 
+		'if HasFocus Then
+		'	GetGui.Renderer.DrawFocusRect(Self, True)
+		'End
+	End
+	Method RenderForeground()
+		If HasFocus Then GetGui.Renderer.DrawFocusRect(Self, True)
+	End
 End

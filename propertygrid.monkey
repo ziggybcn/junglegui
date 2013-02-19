@@ -37,6 +37,7 @@ Class ScrollableControl extends ContainerControl
 			if Self.HasFocus = False Then Self.GetFocus()
 			
 		EndIf
+		If _scrollbarVisible Then Self.Padding.Right = _scrollbar._size.X
 		Super.Update()
 	End
 	
@@ -89,23 +90,17 @@ Class ScrollableControl extends ContainerControl
 		Super.Msg(msg)
 	End
 
-	
-	Method Render:Void()
-	
-		Super.Render()
-		
+	Method RenderBackground()
+		Super.RenderBackground()
 		Local drawpos:= CalculateRenderPosition()
 		_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
 		_scrollbar._pos.SetValues(drawpos.X + Size.X - _scrollbar.DefaultWidth - 1, drawpos.Y + 1)
-		'_scrollbar._pos.SetValues(drawpos.X + Size.X - _scrollbar.DefaultWidth - 0, drawpos.Y + 1)
-		if ScrollbarVisible then
+		If ScrollbarVisible Then
 			_scrollbar.Render(_scrollbar._pos, _scrollbar._size)
-		endif
+		EndIf
+		
 	End
-	
-	Method RenderBackground()
-	end
-	
+		
 End
 
 'summary: Provides a user interface for browsing the properties of an object.
@@ -319,7 +314,7 @@ Public
 		
 		
 		if HasFocus Then
-			GetGui.Renderer.DrawFocusRect(Self, True)
+			'GetGui.Renderer.DrawFocusRect(Self, True)
 		Else
 			' bottom outline could be overwritten?
 			SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
@@ -327,6 +322,15 @@ Public
 			DrawLine drawpos.X, drawpos.Y + Size.Y, drawpos.X + Size.X, drawpos.Y + Size.Y
 		End
 		Super.Render()
+	End
+	
+	Method RenderBackground()
+		Super.RenderBackground()
+		If HasFocus Then GetGui.Renderer.DrawFocusRect(Self, True)
+'		Local drawpos:= CalculateRenderPosition
+'		SetColor(255, 0, 0)
+'		DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)
+'		SetColor(255, 255, 255)
 	End
 	
 	Method SelectedItemPosition:GuiVector2D()
