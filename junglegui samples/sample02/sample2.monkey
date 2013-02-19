@@ -190,7 +190,7 @@ Class MyForm Extends Form
 	
 	Method Trackbar2_ValueChanged(sender:Object, e:EventArgs)
 		Self.Text = "trackbar2 value changed: " + TrackBar(sender).Value
-		listView1.SetItemSpacing(TrackBar(sender).Value, TrackBar(sender).Value)
+		listView1.ItemSpacing.SetValues(TrackBar(sender).Value, TrackBar(sender).Value)
 	End
 
 	Method MyForm_Moved(sender:Object, e:EventArgs)
@@ -285,7 +285,11 @@ Class GameListView extends ListView
 		Super.New(x, y, width, height, parent)
 		ItemHeight = GameListViewItem.HEIGHT
 		ItemWidth = GameListViewItem.WIDTH
-		SetItemSpacing(5, 5)
+		ItemSpacing.SetValues(5, 5)
+		
+		
+		
+		
 	End
 End
 
