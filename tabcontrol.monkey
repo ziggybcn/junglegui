@@ -79,7 +79,7 @@ Public
 	End
 	
 	Method Dispatch(msg:BoxedMsg)
-		Select msg.e.eventSignature
+		Select msg.e.messageSignature
 
 			Case eMsgKinds.RESIZED
 				

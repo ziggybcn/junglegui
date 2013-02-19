@@ -370,7 +370,7 @@ Class Control
 	 #END
 	Method Dispatch(msg:BoxedMsg)
 		if Not _gui Then return
-		Select msg.e.eventSignature
+		Select msg.e.messageSignature
 			Case eMsgKinds.BRING_TO_FRONT
 				_bringToFront.RaiseEvent(msg.sender, msg.e)
 
@@ -641,7 +641,7 @@ Class ContainerControl extends Control
 		Next
 	End	
 	Method Msg(msg:BoxedMsg)
-		if msg.e.eventSignature = eMsgKinds.RESIZED Then
+		if msg.e.messageSignature = eMsgKinds.RESIZED Then
 			For local control:Control = EachIn Self.controls
 				Local resizeMsg:= New BoxedMsg(control, eMsgKinds.PARENT_RESIZED)
 				control.Msg(resizeMsg)
@@ -758,7 +758,7 @@ End
 'summary: This is the TopLevelControl class, that extends the ControlConainer class. This class represents the base of any Form control.
 Class TopLevelControl extends ContainerControl
  
-	'summary: This method inits the Top Level Control internals. This method has to be called BEFORE the form is used to actually do anything, including attaching controls to it, etc.
+	'summary: This method inits the Top Level Control internals. This method has to be called BEFORE the TopLevelControl is used to actually do anything, including attaching controls to it, etc.
 	'Be sure to call it whenever a TopLevelControl has to be used. 
 	'This initialization will also cause a call to the OnInit method of the given TopLevelControl
 	Method InitForm(gui:Gui)
@@ -772,7 +772,7 @@ Class TopLevelControl extends ContainerControl
 	End
 	
 	Method Msg(msg:BoxedMsg)
-		Select msg.e.eventSignature
+		Select msg.e.messageSignature
 			Case eMsgKinds.INIT_FORM
 				OnInit()
 			Case eMsgKinds.GOT_FOCUS, eMsgKinds.MOUSE_DOWN, eMsgKinds.KEY_PRESS
@@ -820,7 +820,7 @@ Class TopLevelControl extends ContainerControl
 	
 	Method Dispatch(msg:BoxedMsg)
 		Super.Dispatch(msg)
-		Select msg.e.eventSignature
+		Select msg.e.messageSignature
 			Case eMsgKinds.INIT_FORM
 				_initForm.RaiseEvent(msg.sender, msg.e)
 		End

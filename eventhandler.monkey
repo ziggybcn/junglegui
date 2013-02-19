@@ -22,15 +22,6 @@ Class Delegate<T>
 		Local newT:= New T
 		Local methodInfo:= classInfo.GetMethod(methodName,[GetClass("Object"), GetClass(newT)])
 		If Not methodInfo Then
-'			Local exceptionText:String =
-'				"Could not generate delegate with the given signature (methodname = '" + methodName + "').~n" +
-'				"Maybe the reflection filter is not properly set, or the Method is not properly written."
-'			if Control(context) <> null And Control(context).Name <> "" Then
-'				exceptionText += "~n~tThe context that caused the exception is named: ~q" + Control(context).Name + "~q"
-'			EndIf
-'			if CallInfo(newT) <> null then
-'				exceptionText += "~n~tIMPORTANT:Be sure that the Method associated with this event has the following signature:~n~t" + CallInfo(newT).SignatureDescription()
-'			EndIf
 
 			Local exceptionText:String = ""
 			if CallInfo(newT) <> null then
@@ -42,7 +33,6 @@ Class Delegate<T>
 				exceptionText += "~n~tThe context that caused the exception is named: ~q" + Control(context).Name + "~q"
 			EndIf
 
-			'Throw New JungleGuiException(exceptionText, Control(context))
 			Error(exceptionText)
 		EndIf
 		

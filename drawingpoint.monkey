@@ -50,9 +50,9 @@ End
 
 Class ControlGuiVector2D extends GuiVector2D
 	'summary:<b>Internal method used by Control.</b><br>Don't use unless you know what you're doing.
-	Method SetNotifyControl(control:Control, eventSignature:Int)
+	Method SetNotifyControl(control:Control, messageSignature:Int)
 		_notifyControl = control
-		_eventSignature = eventSignature
+		_eventSignature = messageSignature
 	end
 	Private 
 	Field _notifyControl:Control

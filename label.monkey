@@ -1,4 +1,7 @@
 Import junglegui
+#Rem
+	summary: This control shows a text label. It's useful to display text.
+#END
 Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem 
 
 	Method Render:Void()
@@ -8,16 +11,14 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 			DrawRect(drawingPos.X,drawingPos.Y,Size.X,Size.Y)
 		Endif
 		
-		'SetColor(Self.ForeColor.r,ForeColor.g,ForeColor.b)
-		'Local textHeight:Int = Font.GetTxtHeight(Text)
-		'Font.DrawText(Text, drawingPos.X, Int(drawingPos.Y + Size.Y / 2 - textHeight / 2))
 		GetGui.Renderer.DrawLabelText(Status, drawingPos, Size, Text, TextAlign, Self.Font, Self)
 		If _border Then
 			BorderColor.Activate()
-			DrawBox(drawingPos,Self.Size)
+			DrawBox(drawingPos, Self.Size)
 		EndIf
 	End
 
+	'summary: This property allows to set the text align property to one of the values defined in eTextAlign
 	Method TextAlign:Int() Property
 		Return _textAlign	
 	End
@@ -31,18 +32,7 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 		End
 	End
 	
-'	Method BorderColor:GuiColor() Property
-'		Return _borderColor
-'	End
-'	
-'	Method BorderColor:Void(color:GuiColor) Property
-'		if color<> null then
-'			_borderColor = color
-'		Else
-'			Throw New JungleGuiException("Border color can't be null.",Self)
-'		endif
-'	End
-	
+	'summary: This control can have a transparent background. Set this boolean property to true or false accordingly
 	Method Transparent:Bool() Property
 		Return _transparent 
 	End
@@ -53,5 +43,5 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 	Private
 	Field _textAlign:Int = eTextAlign.LEFT 
 	Field _border:Bool = false
-	Field _transparent:Bool = true
+	Field _transparent:Bool = True
 end

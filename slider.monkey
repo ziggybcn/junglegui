@@ -122,7 +122,7 @@ Class Slider extends Control
 	
 	Method Msg(msg:BoxedMsg)
 		if msg.sender = Self Then
-			Select msg.e.eventSignature
+			Select msg.e.messageSignature
 				Case eMsgKinds.MOUSE_DOWN
 					Mouse_Down(MouseEventArgs(msg.e))
 				Case eMsgKinds.MOUSE_UP
@@ -136,7 +136,7 @@ Class Slider extends Control
 	
 	Method Dispatch(msg:BoxedMsg)
 		Super.Dispatch(msg)
-		Select msg.e.eventSignature
+		Select msg.e.messageSignature
 			Case eMsgKinds.SLIDING_VALUE_CHANGED
 				_sliderValueChanged.RaiseEvent(msg.sender, msg.e)
 			Case eMsgKinds.SLIDING_MAXIMUM_CHANGED

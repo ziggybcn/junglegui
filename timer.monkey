@@ -12,7 +12,7 @@ Class Timer extends Control
 	
 	Method Dispatch(msg:BoxedMsg)
 		Super.Dispatch(msg)
-		Select msg.e.eventSignature
+		Select msg.e.messageSignature
 			Case eMsgKinds.TIMER_TICK
 			_timerTick.RaiseEvent(msg.sender, msg.e)
 		End
