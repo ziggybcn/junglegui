@@ -1,7 +1,8 @@
 'This is a very small minimal sample
 
 Import junglegui
-
+Import junglegui.listview
+Import junglegui.tabcontrol 
 Import trans
 
 #REFLECTION_FILTER+="sample2*"
@@ -160,6 +161,8 @@ Class MyForm Extends Form
 		listView1.Parent = tabPage1 
 		listView1.Position.SetValues(10,80)
 		listView1.Size.SetValues(tabPage1.Size.X-20, tabPage1.Size.Y-85)
+
+
 		'''
 		''' listView2
 		'''
@@ -194,6 +197,10 @@ Class MyForm Extends Form
 		Self.Text = "Moved to: " + Self.Position.X + ", " + Self.Position.Y
 	End
 	
+	
+	Method ListBox1_Click(sender:Object, e:MouseEventArgs)
+		Self.Text = "click clack!"
+	End
 End
 
 '################################################################

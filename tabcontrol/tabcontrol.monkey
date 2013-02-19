@@ -1,4 +1,10 @@
 Import junglegui
+#REFLECTION_FILTER+="junglegui.tabcontrol*"
+#REM
+	header: This control is [b]highly in development[/b]. It's not yet complete and not ready for production.
+	Feel free to use it at your own risk, but current implementation is highly subject to change.
+#End
+
 
 Class eTabSizeMode
 	'summary: The width of each tab is sized to accommodate what is displayed on the tab
