@@ -50,7 +50,7 @@ Public
 		_scrollbar._size = Size
 		_scrollbar._pos = _pos
 		
-		Select msg.e.eventSignature
+		Select msg.e.messageSignature
 			Case eMsgKinds.MOUSE_MOVE
 				_scrollbar.MouseMove(MouseEventArgs(msg.e))
 			Case eMsgKinds.MOUSE_UP

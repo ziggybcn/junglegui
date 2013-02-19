@@ -2,6 +2,10 @@
 Import mojo.input
 Import "data/close_button.png"
 
+#Rem
+	summary: This is the Form control
+	A Form is a TopLevelControl, so it can be used as the parent control for any other controls. That is, a Form can contain Buttons, Labels, Listboxes, etc.
+#END
 Class Form Extends TopLevelControl
 	
 	Method New()
@@ -13,6 +17,10 @@ Class Form Extends TopLevelControl
 		'Padding.Bottom = 5
 		'Padding = GetGui.Renderer.DefaultFormPadding
 	End
+	#Rem 
+		summary: This is the method that MUST be called in order to init the Form component and attach it to the corresponding gui element.
+		It is VERY important to init the form BEFORE any other operation is done with it. Once the form is initialized, the OnInit method will be automatically called.
+	#END
 	Method InitForm(gui:Gui)
 		Super.InitForm(gui)
 		Padding = gui.Renderer.DefaultFormPadding
@@ -23,24 +31,6 @@ Class Form Extends TopLevelControl
 		
 		GetGui.Renderer.DrawFormBackground(Status, drawPos, Size, Padding, Text, Self)
 		
-		'SystemColors.FormMargin.Activate()
-		'DrawRect(drawPos.X, drawPos.Y, Size.X, Size.Y)
-		'SetColor(255, 255, 255)
-		'SetAlpha(0.2)
-		'DrawRect(drawPos.X + 2, drawPos.Y + 2, Size.X - 4, Padding.Top / 2 - 2)
-		'SetAlpha(1)
-		'ForeColor.Activate()
-		'Local TextY:Int = drawPos.Y + Padding.Top / 2 - Gui.systemFont.GetFontHeight / 2
-		'Gui.systemFont.DrawText(Text, int(drawPos.X + Self.Size.X / 2), TextY, eDrawAlign.CENTER)
-		
-		'BackgroundColor.Activate()
-		'DrawRect(drawPos.X + Padding.Left, drawPos.Y + Padding.Top, Size.X - Padding.Left - Padding.Right, Size.Y - Padding.Bottom - Padding.Top)
-		'if HasFocus Then
-		'	DrawFocusRect(Self)
-		'Else
-		'	SystemColors.InactiveFormBorder.Activate()
-		'	DrawBox(drawPos, Self.Size)
-		'EndIf
 		If ControlBox then RenderControlBox(drawPos)
 	End
 	Method RenderControlBox(FormScreenPos:GuiVector2D)
@@ -60,6 +50,7 @@ Class Form Extends TopLevelControl
 	End
 	 
 	Method Update()
+
 		Super.Update()
 		
 		If resizeStatus = eResizeStatus.NONE
@@ -84,9 +75,8 @@ Class Form Extends TopLevelControl
 				Self.Size.Y = newSize
 			End
 		End
-		'Self.Text = GetGui.MousePos.X + ", " + GetGui.MousePos.Y
 	End
-	
+	'summary:This property can be used to set/get the Form caption
 	Method Text:String() Property
 		Return _text
 	End
@@ -98,7 +88,7 @@ Class Form Extends TopLevelControl
 		
 	Method Msg(msg:BoxedMsg)
 		if msg.sender = Self Then
-			Select msg.e.eventSignature
+			Select msg.e.messageSignature
 				Case  eMsgKinds.INIT_FORM 
 					_InitInternalForm
 				Case eMsgKinds.MOUSE_DOWN
@@ -114,6 +104,7 @@ Class Form Extends TopLevelControl
 		Super.Msg(msg)
 	End
 	
+	'summary:This property can be used to specify if the Form has a ControlBox in it.
 	Method ControlBox:Bool() Property
 		Return _controlBox
 	End
@@ -122,6 +113,7 @@ Class Form Extends TopLevelControl
 		_controlBox = value
 	End
 	
+	'summary:This property returns the ControlBox metrics for the current Form
 	Method ControlBoxMetrics:BoxMetrics() Property
 		Return _BoxPos
 	End
@@ -216,25 +208,45 @@ Class Form Extends TopLevelControl
 	
 End
 
+#Rem
+	summary: This class is a collection of available resize status for a Form-
+#END
 Class eResizeStatus
+	'summary: This indicates the form is not being resized.
 	Const NONE:Int = 0
+	'summary: This indicates the form is being resized from its right edge.
 	Const RESIZE_RIGHT:Int = 1
+	'summary: This indicates the form is being resized from its bottom edge
 	Const RESIZE_BOTTOM:Int = 2
 End
 
-
+#Rem
+	summary: This class is a collection of available border styles for Forms
+#END
 Class eFormBorder
+	'summary: This indicates that the border of a form is not resizable
 	Const FIXED:Int = 1
+	'summary: This indicates that the border of a form is resizable
 	Const RESIZABLE:Int = 0
 End
+
+'summary: This class represents a rectngle metrics structure, used to locate the form ControlBox
 Class BoxMetrics
-	Field align:Int = BoxMetrics.HALIGN_RIGHT 
+	'summary: This is the controlbox align
+	Field align:Int = BoxMetrics.HALIGN_RIGHT
+
+	'summary: This is indicates the control box is aligned to the right
 	Const HALIGN_RIGHT:Int = 0
+	
+	'summary: This is indicates the control box is aligned to the left
 	Const HALIGN_LEFT:Int = 1
-	'summary: Readonly Offset position for the ControlBox sub-component
+	
+	'summary: Readonly Offset position for the ControlBox sub-component from the nearest edge (left/top or right/top depending on the align property)
 	Method Offset:GuiVector2D() Property
 		Return _offset
 	End
+
+	'summary: This is the Size of the controlbox visible element
 	Method Size:GuiVector2D() Property
 		Return _size
 	End

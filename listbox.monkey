@@ -9,6 +9,7 @@ End
 'summary: Represents a Windows control to display a list of items.
 Class ListBox extends Control
 
+'#Region Private
 Private
 
 	Global _cachedPosition:= New GuiVector2D
@@ -32,13 +33,18 @@ Private
 	Field _selectedIndexChanged:= new EventHandler<EventArgs>
 	
 Public
-
+'#End Region
 	'
 	' properties
 	'
-	
+	'summary: This property alows you to get/set the font used to dipslay this control contents
 	Method Font:BitmapFont() property
-		if _font<>null Then Return _font Else Return GetGui.systemFont
+		If _font <> Null Then
+			Return _font
+		Else
+			_itemHeight = GetGui.systemFont.GetFontHeight + ItemMargin 'This will get _font or SytemFont if _font is null.
+			Return GetGui.systemFont
+		EndIf
 	End
 	
 	Method Font(value:BitmapFont) Property
@@ -46,10 +52,12 @@ Public
 		_itemHeight = Font.GetFontHeight + ItemMargin 'This will get _font or SytemFont if _font is null.
 	End
 	
+	'summary: This readonly property returns the lists of items that have been included in the control contents.
 	Method Items:ListItemCollection() Property
 		Return _items
 	End
 	
+	'summary: This property alows you to get/set the selected item.
 	Method SelectedItem:ListItem() Property
 		Return _selectedItem
 	End
@@ -70,27 +78,12 @@ Public
 		Return false
 	End
 	
+	'summary: This property allows you to get/set the index of the currently selected item. If no item is selected, it will return -1.
 	Method SelectedIndex:Int() Property
 		Return _selectedIndex
 	End
 	
 	Method SelectedIndex:Void(value:Int) Property
-'		Local newVal:int = Max(0, Min(value, _items.Count))	'Bottleneck??
-'		if newVal <> _selectedIndex Then
-'			_selectedIndex = newVal
-'			if newVal >= 0 And newVal < _items.Count Then	'_items.Count bottleneck?
-'				_selectedItem = _items.ToArray()[newVal]		'_items to array bottleneck??
-'			Else
-'				_selectedIndex = -1
-'				_selectedItem = null
-'			End
-'			_selectedIndexChanged.RaiseEvent(Self, new EventArgs(0))
-'		EndIf
-
-		'Optimized implementation:
-		'	Each _items.Count call iterates the whole list, so we need to avoid it.
-		'	Each _items.ToArray iterates the whole list, creates an array and fills it, so it is a very very slow operation
-		'	This is a single pass implementation that just iterates once in the worst case:
 
 		Local i:Int = 0
 		Local node:= _items.FirstNode(), done:Bool = false
@@ -119,7 +112,7 @@ Public
 	'
 	' events
 	'
-	
+	'summary: This event is fired when the selected index has changed.	
 	Method Event_SelectedIndexChanged:EventHandler<EventArgs>() Property
 		return _selectedIndexChanged
 	End
@@ -174,7 +167,7 @@ Public
 			_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
 			_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth + 1, 0)
 			
-			Select msg.e.eventSignature
+			Select msg.e.messageSignature
 			
 				Case eMsgKinds.RESIZED
 					_scrollbar.UpdateFaderPosition()

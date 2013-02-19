@@ -2,8 +2,11 @@ Import junglegui
 Private
 Import mojo
 Public
+#Rem
+	summary: This is the BaseLabel class. This class is used by controls displaying and handling Text.
+	This class is inherited by regular controls like Label or Textfield.
+#END
 
-'summary: This is the BaseLabel class. This class is used by controls displaying and handling Text
 Class BaseLabel Extends Control Implements TextualItem Abstract
 	'summary: This is the text displayed by the control
 	Method Text:String() property
@@ -70,13 +73,15 @@ Class BaseLabel Extends Control Implements TextualItem Abstract
 	
 	Method Dispatch(msg:BoxedMsg)
 		Super.Dispatch(msg)
-		Select msg.e.eventSignature
+		Select msg.e.messageSignature
 			Case eMsgKinds.TEXT_CHANGED
 			_textModified.RaiseEvent(msg.sender, msg.e)
+
 		End
 	End
 	'summary: This event is raised whenever the text contained in this control is modified.
 	Method Event_TextModified:EventHandler<EventArgs>() Property; Return _textModified; End
+
 	Private
 	Field _textModified:= New EventHandler<EventArgs>
 	Field _text:String

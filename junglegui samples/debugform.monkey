@@ -20,8 +20,8 @@ Class DebugForm extends Form
 	End
 
 	Method ShowDebugMsg(msg:BoxedMsg)
-		if msg.e.eventSignature = eMsgKinds.MOUSE_MOVE Then Return
-		if msg.e.eventSignature = eMsgKinds.PARENT_RESIZED Then return
+		if msg.e.messageSignature = eMsgKinds.MOUSE_MOVE Then Return
+		if msg.e.messageSignature = eMsgKinds.PARENT_RESIZED Then return
 		if msg.sender <> msgInspector and msgInspector <> null Then
 			if msgInspector.Items.EstimatedCount > 1000 Then msgInspector.Items.RemoveFirst()
 			Local name:String = "<no name>"

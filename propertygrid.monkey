@@ -46,7 +46,7 @@ Class ScrollableControl extends ContainerControl
 		Local control:= Control(msg.sender)
 		If control <> Null And control.Parent = Self Then isChild = True
 		If isChild Then
-			Select msg.e.eventSignature
+			Select msg.e.messageSignature
 				Case eMsgKinds.RESIZED, eMsgKinds.MOVED
 					'Scrolling has to be recalculated when a child control changes its size or its location into the parent.
 					
@@ -56,7 +56,7 @@ Class ScrollableControl extends ContainerControl
 			_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
 			_scrollbar._pos.SetValues(Size.X - _scrollbar.DefaultWidth + 1, 0)
 			
-			Select msg.e.eventSignature
+			Select msg.e.messageSignature
 			
 				Case eMsgKinds.RESIZED, eMsgKinds.MOVED
 			
@@ -202,7 +202,7 @@ Public
 		if Editable Then 
 			if msg.sender = Self Then
 			
-				Select msg.e.eventSignature
+				Select msg.e.messageSignature
 				
 					Case eMsgKinds.MOUSE_DOWN
 						

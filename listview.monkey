@@ -1,8 +1,11 @@
 Import junglegui 
 Import mojo 
 
-
-Class ListViewItem extends ContainerControl 
+#Rem
+	summary: This is a ListViewItem control.
+	The current implementation is based on the Controlclass
+#END
+Class ListViewItem Extends ContainerControl
 
 Private 
 
@@ -32,8 +35,8 @@ Private
 
 Public 
 
-	Method New()
-		'<MANEL>
+	'<MANEL>
+	'Method New()
 		'If the user clears the eventhandler contents, the control would become unstable.
 		'We should not rely on eventhandlers for internal controls functionality.
 		'This has ben reworked to use the Dispatch method (See just below)
@@ -41,11 +44,9 @@ Public
 		'Event_MouseEnter.Add( Self, "OnEnter" )
 		'Event_MouseLeave.Add( Self, "OnLeave" )
 		'Event_Click.Add(Self, "OnClick" )
-		'</MANEL>
-	End
-	'<MANEL>
+	'End
 	Method Dispatch(msg:BoxedMsg)
-		Select msg.e.eventSignature
+		Select msg.e.messageSignature
 			Case eMsgKinds.MOUSE_ENTER
 				OnEnter(msg.sender, msg.e)
 			Case eMsgKinds.MOUSE_LEAVE

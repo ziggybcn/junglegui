@@ -1,4 +1,4 @@
-
+'summary:This class contains a list of available control status
 Class eControlStatus
 
 	'summary: Represents a regular control status
