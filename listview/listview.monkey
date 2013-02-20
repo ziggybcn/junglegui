@@ -227,17 +227,20 @@ Public
 	End
 	
 	Method SelectedIndex:Void(value:Int) Property
+		If value = _selectedIndex Then Return
 		Local count:Int = 0
 		For Local i:ListViewItem = EachIn _items
 			If count = value Then
 				 _selectedItem = i
 				 _selectedIndex = count
+				 Self.Event_SelectedIndexChanged.RaiseEvent(Self, New EventArgs)
 				 Return
 			 EndIf
 			 count += 1
 		Next
 		_selectedItem = Null
 		_selectedIndex = -1
+		 Self.Event_SelectedIndexChanged.RaiseEvent(Self, New EventArgs)
 	End
 	
 	'' summary:  Gets the items that are selected in the control.
@@ -246,17 +249,20 @@ Public
 	End
 	
 	Method SelectedItem:Void(value:ListViewItem) Property
+		If value = _selectedItem Then Return
 		Local count:Int = 0
 		For Local i:ListViewItem = EachIn _items
 			If i = value Then
 				 _selectedItem = value
 				 _selectedIndex = count
+				 Self.Event_SelectedIndexChanged.RaiseEvent(Self, New EventArgs)
 				 Return
 			 EndIf
 			 count += 1
 		Next
 		_selectedItem = Null
 		_selectedIndex = -1
+		 Self.Event_SelectedIndexChanged.RaiseEvent(Self, New EventArgs)
 	End
 	
 	'' summary:  Gets a collection containing all items in the control.

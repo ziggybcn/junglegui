@@ -107,8 +107,11 @@ Public
 					Exit 
 				EndIf
 			Wend  
-
+#IF TARGET<>"html5"
 			ForeColor.Activate()
+#ELSE
+			SystemColors.WindowTextForeColor.Activate()
+#END
 			Font.DrawText(displayStr, drawpos.X + Size.X / 2, drawpos.Y + Size.Y - _textHeight , eDrawAlign.CENTER )
 		End 
 		
