@@ -25,7 +25,6 @@ Private
 
 Public 
 	
-	
 	'TODO: Cambiar a MOUSE_INSIDE / MOUSE_OUTSIDE 
 	Method Msg(msg:BoxedMsg)
 		Select msg.e.messageSignature

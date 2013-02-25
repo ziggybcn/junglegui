@@ -4,6 +4,8 @@ Import junglegui.listview
 
 #GLFW_WINDOW_RESIZABLE=true
 #GLFW_WINDOW_TITLE="Jungle Gui Sample"
+
+
 Function Main()
 	New Demo
 End
@@ -49,6 +51,7 @@ Class MyApp Extends WindowFrame
 		Self.Position.SetValues(0, 0)
 		Self.Size.SetValues(DeviceWidth, DeviceHeight)
 		Self.Event_Resized.Add(Self, "MyApp_Resized")
+		Self.Name = "MyApp"
 
 		'''
 		''' iconImage
@@ -62,9 +65,11 @@ Class MyApp Extends WindowFrame
 		list.BackgroundColor = SystemColors.WindowColor
 		For Local i:Int = 0 To 10
 			Local item:= New DefaultListViewItem("Item " + i, iconImage)
+			item.Name = "item" + i
 			list.Items.AddLast(item)
 		Next
 		list.Event_SelectedIndexChanged.Add(Self, "list_SelectionChanged")
+		list.Name = "list"
 		
 		'''
 		''' commands
@@ -75,13 +80,16 @@ Class MyApp Extends WindowFrame
 		commands.BackgroundColor = SystemColors.WindowColor
 		commands.BorderColor = commands.BackgroundColor
 		commands.Event_Resized.Add(Self, "Commands_Resized")
+		commands.Name = "commands"
 
 		'''
 		''' butOk
 		'''
 		butOk = New Button(commands, 0, 0, "Ok", 100, 30)
+		butOk.Name = "butOk"
+		
 		'We force a layout calculation:
-		MyApp_Resized(Self, Null)
+		Self.Event_Resized.RaiseEvent(Self, New EventArgs)
 	End
 	
 	Method Msg(msg:BoxedMsg)
