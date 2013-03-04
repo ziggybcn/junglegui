@@ -32,10 +32,12 @@ Class BlobMonster
 	Field canvas:Blob_Monster
 
 	Method DeviceWidth()
+		canvas.LogicSize.X = canvas.Size.X
 		Return canvas.LogicSize.X
 	End
 	
 	Method DeviceHeight()
+		canvas.LogicSize.Y = canvas.Size.Y
 		Return canvas.LogicSize.Y
 	End
 	

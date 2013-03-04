@@ -6,6 +6,7 @@ Import monkenstein
 Import blobmonster
  
 #REFLECTION_FILTER+="breakout"
+#GLFW_WINDOW_RESIZABLE=true
 
 Class BrickGame Extends Canvas 'App
 
@@ -856,11 +857,15 @@ Class SampleForm Extends Form
 		
 		Self.Size.SetValues(640, 480)
 		Self.Event_Resized.Add(Self, "Form_Resized")
-		Self.Text = "Breakout by fredi (Resize me!)"
+		Self.Text = "Breakout by fredi"
+		Self.BorderStyle = eFormBorder.FIXED
 		
 		Form_Resized(Self, New EventArgs)
 	End
 	Method Form_Resized(sender:Object, e:EventArgs)
+		If Self.Size.X <> 640 or Self.Size.Y <> 480 Then
+			Self.Size.SetValues(640, 480)
+		EndIf
 		Local clientSize:= Self.GetClientAreaSize
 		game.Size.SetValues(clientSize.X, clientSize.Y)
 	End

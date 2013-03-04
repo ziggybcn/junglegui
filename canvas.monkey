@@ -23,10 +23,16 @@ Class Canvas Extends Control
 		Translate(drawpos.X, drawpos.Y)
 		Scale(scalex, scaley)
 		PushMatrix()
+		SetColor(255, 255, 255)
+		SetAlpha(1)
+		SetBlend AlphaBlend
 		Event_Render.RaiseEvent(Self, voidEventArgs)
 		OnRender()
 		PopMatrix()
 		PopMatrix()
+		SetColor(255, 255, 255)
+		SetAlpha(1)
+		SetBlend AlphaBlend
 	End
 	
 	Method Update()
