@@ -175,7 +175,9 @@ Public
 	'
 	
 	Method Msg(msg:BoxedMsg)
-		If msg.sender = Self And msg.e.messageSignature = ListView.SPACE_MODIFIED Then UpdateScrollBar()
+		If msg.sender = Self And msg.e.messageSignature = ListView.SPACE_MODIFIED Then
+			UpdateScrollBar()
+		EndIf
 		Super.Msg(msg)
 		If msg.sender = Self And msg.e.messageSignature = eMsgKinds.RESIZED Then UpdateScrollBar()
 	End
@@ -290,9 +292,14 @@ Public
 				
 				item.Size.SetValues(_itemWidth,_itemHeight)
 	
+'				item.Position.SetValues(
+'					_spacing.Y + (_itemWidth + _spacing.Y) * ix,
+'					_spacing.X - _scrollbar.Value * _hScrollStep + (_itemHeight + _spacing.X) * rows)
+'		
 				item.Position.SetValues(
-					_spacing.Y + (_itemWidth + _spacing.Y ) * ix,
-					_spacing.X -_scrollbar.Value *_hScrollStep + (_itemHeight + _spacing.X ) * rows )
+					_spacing.X + (_itemWidth + _spacing.X) * ix,
+					_spacing.Y -_scrollbar.Value * _hScrollStep + (_itemHeight + _spacing.Y) * rows)
+					'_spacing.X -_scrollbar.Value * _hScrollStep + (_itemHeight + _spacing.X) * rows)
 		
 				ix+=1
 				index+=1

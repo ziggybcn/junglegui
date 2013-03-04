@@ -726,6 +726,10 @@ Class ContainerControl extends Control
 	End
 	
 	Method Update()
+		If _initialized = False Then
+			_initialized = True
+			OnInit()
+		EndIf
 		For Local c:Control = EachIn Self.controls
 			If c.HasGraphicalInterface = False Then
 				c.Update()
@@ -739,6 +743,10 @@ Class ContainerControl extends Control
 				EndIf
 			EndIf
 		Next
+	End
+	'summary: This method will be called when the container control has to be initialized.
+	Method OnInit()
+		
 	End
 	
 	Method GenerateControlsList:List<Control>()
@@ -772,6 +780,7 @@ Class ContainerControl extends Control
 
 	Field controls:List<Control> = new List<Control>
 	Field _padding:= New Padding
+	Field _initialized:Bool = False
 End
 
 'summary: This is the TopLevelControl class, that extends the ControlConainer class. This class represents the base of any Form control.
