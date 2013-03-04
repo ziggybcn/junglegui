@@ -828,7 +828,7 @@ Class TopLevelControl extends ContainerControl
 			_gui = gui
 			_gui._components.AddFirst(Self)
 			_InformGui(gui)
-		endif
+		EndIf
 	End
 	
 	'summary: This method will bring this Top Level Control to the top of the rendering z-order.
