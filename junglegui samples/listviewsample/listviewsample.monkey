@@ -125,7 +125,7 @@ Class MyApp Extends WindowFrame
 		list.Size.SetValues(Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y - commands.Size.Y)
 		list.ItemHeight = 55
 		list.ItemWidth = list.GetClientAreaSize.X - list.ItemSpacing.X * 2
-		list.ItemSpacing.Y = 0
+		list.ItemSpacing.Y = 5
 		
 	End
 
@@ -145,12 +145,19 @@ Class ModuleListItem Extends DefaultListViewItem
 	Field availableVers:Label
 	
 	Method OnInit()
+		
 		lblName = New Label
-		lblName.Text = "This is the name"
+		lblName.Text = "Module name"
 		lblName.Parent = Self
 		lblName.AdjustSize()
 		lblName.Position.SetValues(0, 0)
 		lblName.Transparent = False
+		
+		Self.Padding.Top = 1
+		Self.Padding.Left = 1
+		Self.Padding.Right = 1
+		Self.Padding.Bottom = 1
+		
 	End
 	
 End
