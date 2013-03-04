@@ -22,8 +22,8 @@ Class Form Extends TopLevelControl
 		It is VERY important to init the form BEFORE any other operation is done with it. Once the form is initialized, the OnInit method will be automatically called.
 	#END
 	Method InitForm(gui:Gui)
-		Super.InitForm(gui)
 		Padding = gui.Renderer.DefaultFormPadding
+		Super.InitForm(gui)
 	End
 	
 	Method RenderBackground()

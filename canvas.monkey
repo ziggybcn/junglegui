@@ -56,14 +56,18 @@ Class Canvas Extends Control
 	End
 	
 	Method MouseX:Float()
+		Local gui:= GetGui
+		If Not gui Then Return 0
 		Local drawpos:= CalculateRenderPosition()
-		Local mousex = GetGui.MousePos.X
+		Local mousex = gui.MousePos.X
 		Local result:Float = mousex - drawpos.X
 		Return result / scalex
 	End
 	Method MouseY:Float()
+		Local gui:= GetGui
+		If Not gui Then Return 0
 		Local drawpos:= CalculateRenderPosition()
-		Local mousey = GetGui.MousePos.Y
+		Local mousey = gui.MousePos.Y
 		Local result:Float = mousey - drawpos.Y
 		Return result / scaley
 	End
@@ -75,7 +79,7 @@ Class Canvas Extends Control
 	Field _onRender:= New EventHandler<EventArgs>
 	Field _onUpdate:= New EventHandler<EventArgs>
 	Field _logicsize:= New GuiVector2D
-	Field scalex:Float, scaley:Float
+	Field scalex:Float = 1, scaley:Float = 1
 	Global voidEventArgs:EventArgs = New EventArgs
 	
 End

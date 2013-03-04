@@ -850,6 +850,7 @@ Class TopLevelControl extends ContainerControl
 		Super.Dispatch(msg)
 		Select msg.e.messageSignature
 			Case eMsgKinds.INIT_FORM
+				Self._initialized = True
 				_initForm.RaiseEvent(msg.sender, msg.e)
 		End
 	End
@@ -1133,7 +1134,7 @@ Class Gui
 		SetAlpha(1)
 	End
 	Field _components:List<TopLevelControl> = new List<TopLevelControl>	
-	Field _mousePos:GuiVector2D 
+	Field _mousePos:= New GuiVector2D
 	Field _oldMousePos:= New GuiVector2D
 	Field _mouseControl:Control
 	Field _mousePointerControl:Control
