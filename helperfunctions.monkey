@@ -4,29 +4,29 @@ Import mojo
 public
 
 Function DrawBox(x:Int, y:Int, width:Int, height:Int)
-	DrawBox(float(x),float(y),float(width),float(height))
+	DrawBox(float(x), float(y), float(width), float(height))
 End
 
 Function DrawBox(x:Float, y:Float, width:Float, height:Float)
-	DrawRect(x,y,width-1,1) '---
-	DrawRect(x,y,1,height-1) '|--
-	DrawRect(x + width - 1, y, 1, height - 1)'--|
-	DrawRect(x,y+height-1,width,1) '___	
+	DrawRect(x, y, width - 1, 1) '---
+	DrawRect(x, y, 1, height - 1) '|--
+	DrawRect(x + width - 1, y, 1, height - 1)'--| 
+	DrawRect(x, y + height - 1, width, 1) '___	
 End
 
 Function DrawBox(position:GuiVector2D, size:GuiVector2D )
-	DrawBox(position.X, position.Y,size.X,size.Y)
+	DrawBox(position.X, position.Y, size.X, size.Y)
 End
 
 Function DrawRoundBox(x:Float, y:Float, width:Float, height:Float)
 	DrawRect(x + 1, y, width - 2, 1) '---
-	DrawRect(x,y+1,1,height-2) '|--
-	DrawRect(x + width - 1, y + 1, 1, height - 2)'--|
+	DrawRect(x, y + 1, 1, height - 2) '|--
+	DrawRect(x + width - 1, y + 1, 1, height - 2)'--| 
 	DrawRect(x + 1, y + height - 1, width - 2, 1) '___
 End
 
 Function DrawRoundBox(x:Int, y:Int, width:Int, height:Int)
-	DrawRoundBox(float(x),float(y),float(width),float(height))
+	DrawRoundBox(float(x), float(y), float(width), float(height))
 End
 
 Function DrawRoundBox(position:GuiVector2D, size:GuiVector2D)

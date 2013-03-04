@@ -286,10 +286,6 @@ Class GameListView extends ListView
 		ItemHeight = GameListViewItem.HEIGHT
 		ItemWidth = GameListViewItem.WIDTH
 		ItemSpacing.SetValues(5, 5)
-		
-		
-		
-		
 	End
 End
 
