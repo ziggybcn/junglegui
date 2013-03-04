@@ -14,19 +14,19 @@ Class GuiColor
 		Self.a = a
 	End
 	'summary: Creates the JungleGui color with the given parameters (alpha, red, green and blue)
-	Method New(a,r,g,b)
-		SetColor(a,r,g,b)
+	Method New(a, r, g, b)
+		SetColor(a, r, g, b)
 	End
 	
 	'summary: Activates current color
 	Method Activate()
 		SetAlpha(a)
-		graphics.SetColor(r,g,b)
+		graphics.SetColor(r, g, b)
 	End
 	
 	'summary: Returns a clone of this color
 	Method Clone:GuiColor()
-		Return New GuiColor(a,r,g,b)
+		Return New GuiColor(a, r, g, b)
 	End
 	
 	'Activates this color with additional bright (more white)
@@ -42,4 +42,3 @@ Class GuiColor
 		ActivateBright(-darkness)
 	End
 End
-

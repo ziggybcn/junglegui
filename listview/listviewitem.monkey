@@ -58,7 +58,7 @@ Public
 	End
 	
 	Method Text:Void(val:String) Property
-		_text = val 
+		_text = val
 	End
 	
 	

@@ -40,6 +40,8 @@ Class MyApp Extends WindowFrame
 
 	Field butOk:Button
 	
+	Field debug:Bool = False
+	
 	Global iconImage:Image
 	
 	Method OnInit()
@@ -64,12 +66,15 @@ Class MyApp Extends WindowFrame
 		list = New ListView(0, 0, Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y, Self)
 		list.BackgroundColor = SystemColors.WindowColor
 		For Local i:Int = 0 To 10
-			Local item:= New DefaultListViewItem("Item " + i, iconImage)
-			item.Name = "item" + i
+			Local item:= New ModuleListItem 'DefaultListViewItem("Item " + i, iconImage)
+			item.Text = "" '"Item " + i
+			item.Name = "item" + i			
 			list.Items.AddLast(item)
 		Next
 		list.Event_SelectedIndexChanged.Add(Self, "list_SelectionChanged")
 		list.Name = "list"
+		list.ItemHeight = 20
+		list.ItemWidth = 200
 		
 		'''
 		''' commands
@@ -94,6 +99,9 @@ Class MyApp Extends WindowFrame
 	
 	Method Msg(msg:BoxedMsg)
 		Super.Msg(msg)
+		
+		'Just used for debug purposes. 
+		If Not debug Return
 		Local details:= GetClass(msg.sender)
 		Local additional:String
 		If details <> Null Then
@@ -115,6 +123,10 @@ Class MyApp Extends WindowFrame
 		commands.Size.Y = 50
 		commands.Position.Y = Self.GetClientAreaSize.Y - commands.Size.Y
 		list.Size.SetValues(Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y - commands.Size.Y)
+		list.ItemHeight = 55
+		list.ItemWidth = list.GetClientAreaSize.X - list.ItemSpacing.X * 2
+		list.ItemSpacing.Y = 0
+		
 	End
 
 	Method Commands_Resized(sender:Object, e:EventArgs)
@@ -125,4 +137,20 @@ Class MyApp Extends WindowFrame
 	Method list_SelectionChanged(sender:Object, e:EventArgs)
 		butOk.Text = "Selected: " + list.SelectedIndex
 	End
+End
+
+Class ModuleListItem Extends DefaultListViewItem
+	Field lblName:Label
+	Field installedVers:Label
+	Field availableVers:Label
+	
+	Method OnInit()
+		lblName = New Label
+		lblName.Text = "This is the name"
+		lblName.Parent = Self
+		lblName.AdjustSize()
+		lblName.Position.SetValues(0, 0)
+		lblName.Transparent = False
+	End
+	
 End

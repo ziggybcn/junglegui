@@ -16,7 +16,15 @@ Public
 		'_text = text 
 		Text = text
 		_img = img
-		_textHeight = Font.GetFontHeight + 4
+	End
+	
+	'summary: This is a get/set property for the image associated to this listview item.
+	Method Image:Image() Property
+		Return Self._img
+	End
+	
+	Method Image:Void(value:Image) Property
+		Self._img = value
 	End
 	
 Private 
@@ -33,14 +41,23 @@ Public
 	
 	Method Font(value:BitmapFont) Property
 		_font = value
-		_textHeight = Font.GetFontHeight + 4 'This will get _font or SytemFont if _font is null.
+		_textHeight = Font.GetTxtHeight(Self.Text) + 4 'Font.GetFontHeight + 4 'This will get _font or SytemFont if _font is null.
 	End
 	
 	Method Font:BitmapFont() property
 		if _font<>null Then Return _font Else Return GetGui.systemFont
 	End
+	
+	Method Text:String() Property
+		Return Super.Text
+	End
+	
+	Method Text:Void(value:String) Property
+		Super.Text(value)
+		_textHeight = Font.GetTxtHeight(Self.Text) + 4
+	End
 
-	Method Render:Void()
+	Method RenderBackground()
 		Local drawpos:= CalculateRenderPosition()
 
 		'' over effect
@@ -72,12 +89,14 @@ Public
 	
 		
 
+		
+		
+	End
+	Method RenderChildren()
+		Local drawpos:= CalculateRenderPosition()
+		'Draw Contents:
 		if _img <> null Then 
 			
-			'' Calculate image scaling factor
-'			Local scale# = Min( 
-'				float(Size.X - Owner._iconSpacing * 2) / float(_img.Width),
-'				float(Size.X - Owner._iconSpacing * 2) / float(_img.Height + _textHeight))
 		Local scale:Float = Min(
 				float(Size.X - 10.0 * 2.0) / float(_img.Width),
 				float(Size.X - 10.0 * 2.0) / float(_img.Height + _textHeight))
@@ -113,10 +132,15 @@ Public
 			SystemColors.WindowTextForeColor.Activate()
 #END
 			Font.DrawText(displayStr, drawpos.X + Size.X / 2, drawpos.Y + Size.Y - _textHeight , eDrawAlign.CENTER )
-		End 
-		
-		if HasFocus Then
+		End
+		SetColor(255, 255, 255)
+		Super.RenderChildren()
+	End
+	
+	Method RenderForeground()
+		If HasFocus Then
 			GetGui.Renderer.DrawFocusRect(Self, True)
-		End			 
-	End 
+		End
+		
+	End
 End
