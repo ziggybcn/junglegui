@@ -24,6 +24,7 @@ Import propertygrid
 Import scrollablecontrol
 Import renderer
 Import windowframe
+Import canvas
 Import reflection
 #REFLECTION_FILTER+="junglegui*"
 
