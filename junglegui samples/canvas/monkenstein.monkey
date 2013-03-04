@@ -309,7 +309,7 @@ Class MonkensteinForm Extends Form
 		
 		Self.Size.SetValues(800, 500)
 		Self.Event_Resized.Add(Self, "Form_Resized")
-		Self.Text = "Monkenstein by skn3 (Resize me!)"
+		Self.Text = "Monkenstein by skn3 (Resize me to scale me)"
 		
 		Form_Resized(Self, New EventArgs)
 	End
