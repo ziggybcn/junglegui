@@ -51,7 +51,6 @@ Class Form Extends TopLevelControl
 	 
 	Method Update()
 
-		Super.Update()
 		
 		If resizeStatus = eResizeStatus.NONE
 				If mouseIsDown Then	'Añadir propiedad "resizable true or false"
@@ -75,6 +74,9 @@ Class Form Extends TopLevelControl
 				Self.Size.Y = newSize
 			End
 		End
+
+		Super.Update()
+
 	End
 	'summary:This property can be used to set/get the Form caption
 	Method Text:String() Property
