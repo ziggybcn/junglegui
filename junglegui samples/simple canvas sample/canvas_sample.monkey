@@ -1,33 +1,22 @@
 Import junglegui
 #REFLECTION_FILTER+="canvas_sample"
+
+'We start the application here
 Function Main()
-	New SampleApp
+	ExecuteApp(New AppLauncher, "CreateForm")
 End
 
-
-'We setup a GUI application:
-Class SampleApp Extends App
-	Field gui:Gui
-	Field form:MyForm
-	Method OnCreate()
-		SetUpdateRate 60
-		gui = New Gui
-		form = New MyForm
-		form.InitForm(gui)
-	End
-	Method OnUpdate()
-		gui.Update()
-	End
-	
-	Method OnRender()
-		'Cls(255, 255, 255)
-		Cls(SystemColors.AppWorkspace.r, SystemColors.AppWorkspace.g, SystemColors.AppWorkspace.b)
-		gui.Render()
+'This is the application launcher:
+Class AppLauncher
+	Method CreateForm(sender:Object, e:InitializeAppEvent)
+		e.mainForm = New MyForm
 	End
 End
+
 
 Class MyForm Extends Form
 	Field myCanvas:Canvas
+
 	Method OnInit()
 		myCanvas = New Canvas
 		myCanvas.Parent = Self

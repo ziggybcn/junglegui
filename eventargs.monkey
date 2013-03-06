@@ -65,6 +65,19 @@ Class MouseEventArgs Extends EventArgs
 	
 End
 
+Class InitializeAppEvent Extends EventArgs
+	Field mainForm:TopLevelControl
+	Method GetEventName:String()
+		Local result:= Super.GetEventName() '+ ", Position  = (" + position.X + ", " + position.Y + "), Clicks: " + clicks
+		Return result
+	End
+	Method SignatureDescription:String()
+		Return "(sender:Object, e:InitializeAppEvent)"
+	End
+
+End
+
+
 'summary: This class represents a Key event arguments structure.
 Class KeyEventArgs Extends EventArgs
 	'summary: This is the key involved in the event.

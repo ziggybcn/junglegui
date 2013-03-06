@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<JiProj xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryPoint=".\junglegui.monkey" Name="junglegui">
+<JiProj xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EntryPoint=".\junglegui.monkey" Name="junglegui">
   <Files>
     <Document Filename=".\listview\defaultlistviewitem.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
@@ -121,6 +121,13 @@
       </CursorPos>
     </Document>
     <Document Filename=".\form.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
+    <Document Filename=".\guiapp.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>
         <X>0</X>
@@ -268,5 +275,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="debug" BuildMode="run" Target="html5" />
+  <CompilerConfig Configuration="debug" BuildMode="run" Target="Html5_Game" />
 </JiProj>
