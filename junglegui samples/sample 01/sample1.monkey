@@ -63,8 +63,8 @@ Class Sample Extends App
 		ElseIf KeyHit(KEY_3) Then
 			gui.Renderer = New RoundForms
 		ElseIf KeyHit(KEY_DOWN)
-			Print "Form location:" + MyForm.GetCanvasLocation.X + ", " + MyForm.GetCanvasLocation.Y
-			Print "Form size:" + MyForm.GetCanvasSize.X + ", " + MyForm.GetCanvasSize.Y
+			Print "Form location:" + MyForm.LocationInDevice.X + ", " + MyForm.LocationInDevice.Y
+			Print "Form size:" + MyForm.SizeInDevice.X + ", " + MyForm.SizeInDevice.Y
 			Print "Form client area location:" + MyForm.GetClientAreaLocation.X + ", " + MyForm.GetClientAreaLocation.Y
 			Print "Form client area size:" + MyForm.GetClientAreaSize.X + ", " + MyForm.GetClientAreaSize.Y
 		EndIf
@@ -132,7 +132,7 @@ Class SampleForm Extends Form
 		Self.Size.Y = 340
 		Self.TipText = "This is a form that can be dragged."
 		Self.Name = "MyForm"
-		Self.BorderStyle = eFormBorder.RESIZABLE
+		Self.BorderStyle = eFormBorder.FIXED
 
 		'''
 		''' button: 

@@ -299,13 +299,13 @@ Class Control
 		Return size
 	End
 
-	'summary: This method returns the control location on the current mojo canvas. That is, the canvas X and Y location of the control location.
-	Method GetCanvasLocation:GuiVector2D()
+	'summary: This method returns the control location on the current mojo device. That is, the canvas X and Y location of the control location.
+	Method LocationInDevice:GuiVector2D()
 		Return CalculateRenderPosition.Clone()
 	End
 	
-	'summary: This method returns the control size on the current mojo canvas. That is, the canvas X and Y size of the control.
-	Method GetCanvasSize:GuiVector2D()
+	'summary: This method returns the control size on the current mojo device. That is, the canvas X and Y size of the control.
+	Method SizeInDevice:GuiVector2D()
 		Return Size.Clone()
 	End
 

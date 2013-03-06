@@ -177,11 +177,11 @@ Class GuiRenderer
 		DrawRect(position.X + padding.Left, position.Y + padding.Top, size.X - padding.Left - padding.Right, size.Y - padding.Bottom - padding.Top)
 		
 		If HasFlag(resizeStatus, eResizeStatus.RESIZE_RIGHT)
-			SystemColors.HooverBackgroundColor.Activate()
+			SystemColors.HooverBackgroundColor.ActivateBright(Sin(Millisecs() / 2.0) * 40)
 			DrawRect(position.X + size.X - 5, position.Y, 5, size.Y)
 		EndIf
 		If HasFlag(resizeStatus, eResizeStatus.RESIZE_BOTTOM)
-			SystemColors.HooverBackgroundColor.Activate()
+			SystemColors.HooverBackgroundColor.ActivateBright(Sin(Millisecs() / 2.0) * 40)
 			DrawRect(position.X, position.Y + size.Y - 5, size.X, 5)
 		EndIf
 		
