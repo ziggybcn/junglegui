@@ -834,6 +834,7 @@ Class TopLevelControl extends ContainerControl
 	'summary: This method will bring this Top Level Control to the top of the rendering z-order.
 	Method BringToFront()
 		'Print "Called!"
+		If _gui._components.Last() = Self Then Return
 		_gui._components.Remove(Self)
 		_gui._components.AddLast(Self)
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.BRING_TO_FRONT)))
@@ -841,6 +842,7 @@ Class TopLevelControl extends ContainerControl
 
 	'summary: This method will send this Top Level Control to the bottom of the rendering z-order.
 	Method SendToBack()
+		If _gui._components.First() = Self Then Return
 		_gui._components.Remove(Self)
 		_gui._components.AddFirst(Self)
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.SEND_TO_BACK)))
@@ -955,6 +957,7 @@ Class Gui
 			End
 			if sendParentResize Then c.Msg(New BoxedMsg(c, New EventArgs(eMsgKinds.PARENT_RESIZED)))
 		Next
+				
 		Local oldControl:= _mousePointerControl
 		Local newControl:= _mouseControl
 		Local mouseMoved:Bool = False
@@ -1111,7 +1114,7 @@ Class Gui
 		'Background:
 		SetAlpha(_renderTipAlpha)
 		SetColor(230,230,230)
-		Local MidPoint:Int = Height/2-1
+		Local MidPoint:Int = (Height / 2.0 + 0.5) - 1
 		DrawRect(DrawX+1,DrawY+1+MidPoint,Width-2,MidPoint)
 		SetColor(242,242,242)
 		DrawRect(DrawX+1,DrawY+1,Width-2,MidPoint)
