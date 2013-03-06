@@ -20,12 +20,11 @@ Private
 	End
 	
 	Method OnClick(sender:Object, e:MouseEventArgs )
-		Owner.SelectedItem = Self
+		If Owner.SelectedItem <> Self Then Owner.SelectedItem = Self
 	End
 
 Public 
 	
-	'TODO: Cambiar a MOUSE_INSIDE / MOUSE_OUTSIDE 
 	Method Msg(msg:BoxedMsg)
 		Select msg.e.messageSignature
 			Case eMsgKinds.MOUSE_ENTER
@@ -34,6 +33,7 @@ Public
 				OnLeave(msg.sender, msg.e)
 			Case eMsgKinds.CLICK
 				OnClick(msg.sender, MouseEventArgs(msg.e))
+				Print "Clicked!"
 		End
 		Super.Msg(msg)
 	End

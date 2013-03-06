@@ -8,9 +8,8 @@ End
 
 
 Class JungleGuiApplication Extends App
-	Field gui:Gui
 	Field mainForm:TopLevelControl
-	
+	Global gui:Gui
 	Method OnCreate()
 		SetUpdateRate(60)
 		gui = New Gui
