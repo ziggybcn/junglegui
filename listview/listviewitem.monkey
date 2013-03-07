@@ -33,7 +33,6 @@ Public
 				OnLeave(msg.sender, msg.e)
 			Case eMsgKinds.CLICK
 				OnClick(msg.sender, MouseEventArgs(msg.e))
-				Print "Clicked!"
 		End
 		Super.Msg(msg)
 	End

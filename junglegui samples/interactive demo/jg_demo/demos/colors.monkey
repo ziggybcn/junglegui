@@ -9,6 +9,8 @@ Class SliderSample Extends Form
 
 	Field panel:Panel
 	
+	
+	
 	Method OnInit()
 		'''
 		''' MyForm
@@ -16,6 +18,7 @@ Class SliderSample Extends Form
 		Self.Name = "MyForm"
 		Self.Text = "Color Mixer"
 		Self.Size.SetValues(380, 100)
+		Self.BorderStyle = eFormBorder.FIXED
 		
 		'''
 		''' red
