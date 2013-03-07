@@ -57,6 +57,7 @@ Class DemoListItem Extends DefaultListViewItem
 		If demoform.GetGui = Null Then
 			demoform.InitForm(JungleGuiApplication.gui)
 		EndIf
+		'DebugStop()
 		demoform.BringToFront()
 	End
 	

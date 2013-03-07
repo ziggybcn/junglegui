@@ -997,8 +997,8 @@ Class Gui
 				local pos:GuiVector2D
 				pos= newControl.CalculateRenderPosition()
 				pos.SetValues(_mousePos.X-pos.X,_mousePos.Y-pos.Y)
-				if newControl._gui <> null then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
 				if newControl._gui <> null then newControl.GetFocus()
+				If newControl._gui <> Null Then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
 			EndIf
 		EndIf
 		
