@@ -850,6 +850,7 @@ Class BrickSample Extends Form
 		game.Parent = Self
 		game.Size.SetValues(200, 200)
 		game.LogicSize.SetValues(640, 480)
+		game.Name = "Breakout_Canvas"
 		
 		game.TipText = "Arkanoid like game into a JungleGui canvas!"
 		
@@ -857,6 +858,7 @@ Class BrickSample Extends Form
 		Self.Event_Resized.Add(Self, "Form_Resized")
 		Self.Text = "Breakout by fredi"
 		Self.BorderStyle = eFormBorder.FIXED
+		Self.Name = "Breakout_Form"
 		
 		Form_Resized(Self, New EventArgs)
 	End

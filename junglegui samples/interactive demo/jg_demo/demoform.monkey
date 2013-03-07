@@ -4,6 +4,7 @@ Import junglegui.listview
 
 Import demos.colors
 Import demos.breakout
+Import demos.debugform
 
 #REFLECTION_FILTER+="demoform"
 
@@ -14,12 +15,17 @@ Class DemoForm Extends Form
 	Method OnInit()
 		list = New ListView
 		list.Parent = Self
+		list.Name = "Demos_List"
 		AddDemo("breackout", New BrickSample)
 		AddDemo("Sliders sample", New SliderSample)
+		AddDemo("Debug Form", New DebugForm)
 		
-		Self.Size.SetValues(100, 300)
+		Self.Size.SetValues(190, 300)
 		Self.Text = "Demo selector"
 		Self.Event_Resized.Add(Self, "Form_Resized")
+		Self.Name = "Demos_Form"
+		
+		Self.Position.X = DeviceWidth - Self.Size.X
 		
 		Layout()
 		
@@ -38,6 +44,7 @@ Class DemoForm Extends Form
 	
 	Method AddDemo(demoName:String, demoForm:TopLevelControl)
 		Local item:= New DemoListItem
+		item.Name = demoName + "_ListViewItem"
 		item.Text = demoName
 		list.Items.AddLast(item)
 		item.demoform = demoForm
@@ -59,6 +66,7 @@ Class DemoListItem Extends DefaultListViewItem
 		EndIf
 		'DebugStop()
 		demoform.BringToFront()
+		Self.GetTopLevelContainer.BringToFront()
 	End
 	
 	Method Item_Clicked(sender:Object, e:MouseEventArgs)

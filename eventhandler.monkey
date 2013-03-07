@@ -98,7 +98,7 @@ Class EventHandler<T>
 		#rem
 		Local source:= New List<Delegate<T>>
 	
-		For Local del:Delegate<T> = Eachin _events
+		For Local del:Delegate<T> = Eachin _events 
 			'del.Call(sender, e)  
 			source.AddLast(del)
 		Next
@@ -117,6 +117,10 @@ Class EventHandler<T>
 	#END
 	Method Clear()
 		_events.Clear()
+	End
+	
+	Method HasHandlers:Bool()
+		Return Not _events.IsEmpty
 	End
 	
 	Private

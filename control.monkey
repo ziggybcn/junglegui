@@ -171,6 +171,14 @@ Class Control
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.SEND_TO_BACK)))
 	End
 	
+	Method GetTopLevelContainer:TopLevelControl()
+		Local p:Control = Self
+		While p.Parent <> Null
+			p = p.Parent
+		Wend
+		Return TopLevelControl(p)
+	End
+	
 	'summary: Clear all resources used by the control and its child controls. This is automatically called by the Gui system when the control needs to "die".
 	Method Dispose()
 		Parent = null
@@ -806,6 +814,7 @@ Class TopLevelControl extends ContainerControl
 			Case eMsgKinds.GOT_FOCUS, eMsgKinds.MOUSE_DOWN, eMsgKinds.KEY_PRESS
 				if _gui._components.Last() <> Self then BringToFront()
 			End
+		If _gui <> Null Then _gui.Msg(msg)
 		Super.Msg(msg)
 	End
 	
@@ -1035,6 +1044,14 @@ Class Gui
 		EndIf
 	End
 	
+	Method Msg(msg:BoxedMsg)
+		If _event_Msg.HasHandlers Then _event_Msg.RaiseEvent(msg.sender, msg.e)
+	End
+	'summary: This event is fired whenever a low level msg is being processed by the Gui messaging system.
+	Method Event_Msg:EventHandler<EventArgs>()
+		Return _event_Msg
+	End
+	
 '	Method GetWorldPos:GuiVector2D(DeviceX:Int, DeviceY:Int)
 '		Local mat:Float[] = _renderMatrix 'GetMatrix()
 '		If mat.Length = 0 Then
@@ -1148,6 +1165,7 @@ Class Gui
 	Field _oldKeys:Int[]
 	Field _guiSize:GuiVector2D = New GuiVector2D
 	Field _waitingTipCount:Int = 0
+	Field _event_Msg:= New EventHandler<EventArgs>
 	'Field _renderMatrix:Float[]
 	
 End
