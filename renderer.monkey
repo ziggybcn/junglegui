@@ -1,5 +1,7 @@
 Import junglegui
-
+Import "data/sombra01.png"
+Import "data/sombra02.png"
+ 
 Class GuiRenderer
 
 	Method Event_GuiAttached:EventHandler<EventArgs>() Property; Return _guiAttached; End
@@ -152,6 +154,8 @@ Class GuiRenderer
 	End
 	
 	Method DrawFormBackground(status:Int, position:GuiVector2D, size:GuiVector2D, padding:Padding, text:String, context:Control)
+
+	
 		SystemColors.FormMargin.Activate()
 		DrawRect(position.X, position.Y, size.X, size.Y)
 		'SetColor(SystemColors.FormMargin.r + 10, SystemColors.FormMargin.g + 10, SystemColors.FormMargin.b + 10)
@@ -192,6 +196,32 @@ Class GuiRenderer
 			DrawBox(position, size)
 		EndIf
 
+		SetScissor(0, 0, DeviceWidth, DeviceHeight)
+		
+		If context <> Null And context = context.GetGui.ActiveTopLevelControl Then
+			Const ShadowSize:Float = 2
+			If shadow2 = Null Then shadow2 = LoadImage("sombra02.png")
+			If shadow1 = Null Then shadow1 = LoadImage("sombra01.png")
+			'SetAlpha(1)
+			If shadow2 <> Null Then
+				'Up and down:
+				DrawImage(shadow2, position.X, position.Y + size.Y, 0, Float(size.X) / shadow2.Width, ShadowSize)
+				DrawImage(shadow2, position.X + size.X, position.Y, 180, Float(size.X) / shadow2.Width, ShadowSize)
+				
+				'Right:
+				DrawImage(shadow2, position.X + size.X, position.Y + size.Y, 90, Float(size.Y) / shadow2.Width, ShadowSize)
+				
+				'Left:
+				DrawImage(shadow2, position.X, position.Y, 270, Float(size.Y) / shadow2.Width, ShadowSize)
+			End
+			If shadow1 <> Null Then
+				DrawImage(shadow1, position.X, position.Y, 180, ShadowSize, ShadowSize)
+				DrawImage(shadow1, position.X, position.Y + size.Y, 270, ShadowSize, ShadowSize)
+				DrawImage(shadow1, position.X + size.X, position.Y + size.Y, 0, ShadowSize, ShadowSize)
+				DrawImage(shadow1, position.X + size.X, position.Y, 90, ShadowSize, ShadowSize)
+			EndIf
+			'SetAlpha(1)
+		EndIf
 	End
  
 	Method DrawCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, checked:Bool = True)
@@ -242,6 +272,13 @@ Class GuiRenderer
 		
 	End
 	
+	Method FreeResources()
+		If shadow1 <> Null Then shadow1.Discard()
+		If shadow2 <> Null Then shadow2.Discard()
+		shadow1 = Null
+		shadow2 = Null
+	End
+	
 	Private
 	Field _radioBoxSize:= New GuiVector2D
 	Field _checkBoxSize:= New GuiVector2D
@@ -252,6 +289,9 @@ Class GuiRenderer
 	Private
 	Field _guiAttached:= New EventHandler<EventArgs>
 	Field _guiDetached:= New EventHandler<EventArgs>
+	
+	Field shadow1:Image
+	Field shadow2:Image
 	
 	Global _defaultFormPadding:= New Padding
 	'Method ResetRendererValues()
@@ -286,8 +326,6 @@ Function ResetRendererValues(renderer:GuiRenderer)
 		renderer._defaultFormPadding.Bottom = 7 ' Gui.systemFont.
 		renderer._defaultFormPadding.Top = Gui.systemFont.GetFontHeight + 5
 
-
-
 		'Reset Renderer colors:
 		
 		SystemColors.ControlFace.SetColor(1, 220, 220, 220)
@@ -312,7 +350,4 @@ Function ResetRendererValues(renderer:GuiRenderer)
 		SystemColors.ItemsListSelectedBackColor.SetColor(1, 202, 225, 252)
 		SystemColors.ItemsListHooverBorderColor.SetColor(1, 184, 214, 251)
 		SystemColors.ItemsListSelectedBorderColor.SetColor(1, 125, 162, 206)
-
-
-	
 End

@@ -17,7 +17,7 @@ Class Sample extends App
 	Global gui:Gui
 	Method OnCreate()
 		SetUpdateRate(60)
-		'EnableAutoSize()
+		EnableAutoSize()
 		emiter = New Emiter
 		
 		If gui = Null Then gui = New Gui

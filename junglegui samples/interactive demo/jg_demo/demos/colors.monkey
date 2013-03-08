@@ -46,7 +46,8 @@ Class SliderSample Extends Form
 		panel.Position.SetValues(310, 10)
 		panel.Size.SetValues(50, 50)
 		panel.BorderColor = SystemColors.FormBorder.Clone()
-
+		panel.Name = "Color_Panel"
+		
 		panel.BackgroundColor = New GuiColor
 		panel.BackgroundColor.SetColor(1, red.Value, green.Value, blue.Value)
 		

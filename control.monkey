@@ -910,6 +910,7 @@ Class Gui
 	End
 	Method Renderer:Void(renderer:GuiRenderer) Property
 		If _renderer <> Null Then
+			_renderer.FreeResources()
 			_renderer.Event_GuiDetached.RaiseEvent(Self, New EventArgs(eMsgKinds.RENDERER_DETACHED))
 		EndIf
 		If renderer = Null Then
@@ -1107,6 +1108,10 @@ Class Gui
 		Return copylist
 	End
 
+	Method ActiveTopLevelControl:TopLevelControl()
+		If _components.IsEmpty = False Then Return _components.Last() Else Return Null
+	End
+	
 	Private
 	
 	Field _renderer:GuiRenderer '= New GuiRenderer
