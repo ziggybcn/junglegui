@@ -198,9 +198,14 @@ Class GuiRenderer
 
 		SetScissor(0, 0, DeviceWidth, DeviceHeight)
 		
-		If context <> Null And context = context.GetGui.ActiveTopLevelControl Then
+		If context <> Null Then
+			If context = context.GetGui.ActiveTopLevelControl Then
+				SetAlpha(1)
+			Else
+				SetAlpha(0.5)
+			EndIf
 			SetColor(255, 255, 255)
-			Const ShadowSize:Float = 2
+			Const ShadowSize:Float = 1
 			If shadow2 = Null Then shadow2 = LoadImage("sombra02.png")
 			If shadow1 = Null Then shadow1 = LoadImage("sombra01.png")
 			'SetAlpha(1)
