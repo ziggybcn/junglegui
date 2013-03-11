@@ -1,8 +1,11 @@
 'This file was edited with Jungle IDE
 Import junglegui
 Import demoform
+Import junglegui.renderers.concretejungle
 
 #REFLECTION_FILTER+="demo"
+
+#GLFW_WINDOW_RESIZABLE=true
 
 Function Main()
 	Local demo:= New Demo
@@ -13,7 +16,9 @@ End
 Class Demo
 	Method Launch_Demo(sender:Object, e:InitializeAppEvent)
 		EnableAutoSize()
+		
 		e.mainForm = New DemoForm
+		JungleApp.gui.Renderer = New ConcreteJungle
 	End
 	
 	Method Render_Background(sender:Object, e:EventArgs)

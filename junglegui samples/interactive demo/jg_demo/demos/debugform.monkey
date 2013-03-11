@@ -33,7 +33,7 @@ Class DebugForm Extends WindowFrame
 	Method ShowDebugMsg(msg:BoxedMsg)
 		if msg.e.messageSignature = eMsgKinds.MOUSE_MOVE Then Return
 		if msg.e.messageSignature = eMsgKinds.PARENT_RESIZED Then return
-		if msg.sender <> msgInspector and msgInspector <> null Then
+		If msg.sender <> msgInspector and msgInspector <> Null and msg.sender <> Self Then
 			if msgInspector.Items.EstimatedCount > 1000 Then msgInspector.Items.RemoveFirst()
 			Local name:String = "<no name>"
 			If Control(msg.sender) <> Null Then
