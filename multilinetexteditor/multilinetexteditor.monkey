@@ -1,6 +1,7 @@
 Import junglegui
+
 Class MultilineTextbox Extends BaseLabel
-	
+	Const CR:= "~n"
 	Method Render:Void()
 		'Super.Render()
 		
@@ -13,14 +14,15 @@ Class MultilineTextbox Extends BaseLabel
 		#ELSE
 			Self.ForeColor.Activate()
 		#END
+		SetAlpha(1)
 		For Local tl:TextLine = EachIn lines
 			For Local interval:TxtInterval = EachIn tl.Intervals.contents
-				
-				'Self.Font.DrawText(tl.text[interval.InitOffset .. interval.EndOffset], drawpos.X, drawpos.Y + i * Font.GetFontHeight,eDrawAlign.LEFT)
+				If (i + 1) * Font.GetFontHeight > drawpos.Y + Size.Y Then Exit
 				Self.Font.DrawText(tl.text, drawpos.X, drawpos.Y + i * Font.GetFontHeight, eDrawAlign.LEFT, interval.InitOffset + 1, interval.EndOffset)
-				
 				i += 1
 			Next
+			If (i + 1) * Font.GetFontHeight > drawpos.Y + Size.Y Then Exit
+			i += 1
 		Next
 	End
 
@@ -32,14 +34,14 @@ Class MultilineTextbox Extends BaseLabel
 				result = tl.text
 				done = True
 			Else
-				result += String.FromChar(13) + tl.text
+				result += CR + tl.text
 			EndIf
 		Next
 		Return result
 	End
 	Method Text:Void(value:String) Property
 		lines.Clear()
-		Local Stringlines:= value.Split(String.FromChar(13))
+		Local Stringlines:= value.Split(CR)
 		For Local s:String = EachIn Stringlines
 			Local tl:= New TextLine
 			tl.text = s

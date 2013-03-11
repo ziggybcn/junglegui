@@ -21,7 +21,7 @@ Class JungleGuiApplication Extends App
 		SetUpdateRate(60)
 		gui = New Gui
 		Local appEvent:= New InitializeAppEvent
-	
+		
 		'We raise the initialize form event here:
 		_event_Instantiate.RaiseEvent(Self, appEvent)
 		
