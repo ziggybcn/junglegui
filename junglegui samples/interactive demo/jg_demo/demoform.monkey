@@ -5,6 +5,7 @@ Import junglegui.listview
 Import demos.colors
 Import demos.breakout
 Import demos.debugform
+Import demos.textbox
 
 #REFLECTION_FILTER+="demoform"
 
@@ -19,6 +20,7 @@ Class DemoForm Extends Form
 		AddDemo("breackout", New BrickSample)
 		AddDemo("Sliders sample", New SliderSample)
 		AddDemo("Debug Form", New DebugForm)
+		AddDemo("TextBox", New TextBoxForm)
 		
 		Self.Size.SetValues(190, 300)
 		Self.Text = "Demo selector"

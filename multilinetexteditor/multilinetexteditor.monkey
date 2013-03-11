@@ -7,11 +7,18 @@ Class MultilineTextbox Extends BaseLabel
 		Local i:int = 0
 		Local drawpos:= CalculateRenderPosition
 		GetGui.Renderer.DrawControlBackground(Self.Status, drawpos, Size, Self)
-		Self.ForeColor.Activate()
+		
+		#IF TARGET="html5"
+			SetColor(255, 255, 255)
+		#ELSE
+			Self.ForeColor.Activate()
+		#END
 		For Local tl:TextLine = EachIn lines
 			For Local interval:TxtInterval = EachIn tl.Intervals.contents
 				
-				Self.Font.DrawText(tl.text[interval.InitOffset .. interval.EndOffset], drawpos.X, drawpos.Y + i * Font.GetFontHeight)
+				'Self.Font.DrawText(tl.text[interval.InitOffset .. interval.EndOffset], drawpos.X, drawpos.Y + i * Font.GetFontHeight,eDrawAlign.LEFT)
+				Self.Font.DrawText(tl.text, drawpos.X, drawpos.Y + i * Font.GetFontHeight, eDrawAlign.LEFT, interval.InitOffset + 1, interval.EndOffset)
+				
 				i += 1
 			Next
 		Next
@@ -67,6 +74,7 @@ Class TextLine
 		Local tokeninit:Int = 0
 		Local linestart:Int = 0
 		Local linesize:Int = 0
+		Local previousIsSeparator:Bool = False
 		Intervals.Clear()
 		For Local i:Int = 0 Until text.Length
 			Local char:Int = text[i]
@@ -74,13 +82,20 @@ Class TextLine
 			Local tokensize:Int = font.GetTxtWidth(text, tokeninit, i) '- font.GetTxtWidth(text, i, i)
 
 			If (char >= "a"[0] And char <= "z"[0]) or (char >= "A"[0] And char <= "Z"[0]) or (char >= "0"[0] And char <= "9"[0]) Then
-
+				If previousIsSeparator Then
+					previousIsSeparator = False
+					linesize += GetTxtSpacing(text, font, tokeninit, i)
+					tokeninit = i
+					tokensize = font.GetTxtWidth(text, tokeninit, i) '- font.GetTxtWidth(text, i, i)
+				EndIf
 			Else
 				'This calculates text spacing:
 				tokensize = GetTxtSpacing(text, font, tokeninit, i)
 				linesize += tokensize
-				tokeninit = i 	'We begin next token
+				tokeninit = i  	'We begin next token
+				
 				tokensize = 0	'No token, it was a separator
+				previousIsSeparator = True
 			EndIf
 			
 			
