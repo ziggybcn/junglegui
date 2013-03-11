@@ -8,7 +8,6 @@ Function Main()
 	Local demo:= New Demo
 	ExecuteApp(demo, "Launch_Demo")
 	JungleApp.Event_RenderBackground.Add(demo, "Render_Background")
-	JungleApp.Transparent = True
 End
 
 Class Demo
