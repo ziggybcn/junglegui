@@ -1,7 +1,7 @@
 'This file was edited with Jungle IDE
 Import junglegui
 Import demoform
-Import junglegui.renderers.concretejungle
+'Import junglegui.renderers.concretejungle
 
 #REFLECTION_FILTER+="demo"
 
@@ -18,7 +18,7 @@ Class Demo
 		EnableAutoSize()
 		
 		e.mainForm = New DemoForm
-		JungleApp.gui.Renderer = New ConcreteJungle
+'		JungleApp.gui.Renderer = New Touch
 	End
 	
 	Method Render_Background(sender:Object, e:EventArgs)

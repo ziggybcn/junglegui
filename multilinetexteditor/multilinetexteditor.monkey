@@ -2,8 +2,8 @@ Import junglegui
 
 Class MultilineTextbox Extends BaseLabel
 	Const CR:= "~n"
+	Field caretPos:= New GuiVector2D
 	Method Render:Void()
-		'Super.Render()
 		
 		Local i:int = 0
 		Local drawpos:= CalculateRenderPosition
@@ -15,17 +15,105 @@ Class MultilineTextbox Extends BaseLabel
 			Self.ForeColor.Activate()
 		#END
 		SetAlpha(1)
-		For Local tl:TextLine = EachIn lines
+		Local curline = 0
+		For Local index:Int = 0 Until Self.Lines
+			Local tl:TextLine = GetLine(index)
 			For Local interval:TxtInterval = EachIn tl.Intervals.contents
 				If (i + 1) * Font.GetFontHeight > drawpos.Y + Size.Y Then Exit
 				Self.Font.DrawText(tl.text, drawpos.X, drawpos.Y + i * Font.GetFontHeight, eDrawAlign.LEFT, interval.InitOffset + 1, interval.EndOffset)
+
+				'Draw caret!
+				If caretPos.Y = curline and GetGui.ActiveControl = Self Then
+					If caretPos.X >= interval.InitOffset And caretPos.X < interval.EndOffset Then
+						Local caretOffset:Int = tl.GetTxtSpacing(tl.text, Font, interval.InitOffset, caretPos.X) + 1'  Font.GetTxtWidth(tl.text, interval.InitOffset + 1, interval.InitOffset + caretPos.X)
+						If Millisecs Mod 1000 < 500
+							ForeColor.Activate()
+							DrawRect(drawpos.X + caretOffset, drawpos.Y + i * Font.GetFontHeight, 2, Font.GetFontHeight)
+							SetColor(255, 255, 255)
+						EndIf
+					EndIf
+				End
 				i += 1
 			Next
+			'i -= 1
 			If (i + 1) * Font.GetFontHeight > drawpos.Y + Size.Y Then Exit
-			i += 1
+			curline += 1
 		Next
 	End
 
+	Method Msg(msg:BoxedMsg)
+		If msg.sender = Self
+			If msg.e.messageSignature = eMsgKinds.KEY_PRESS Then
+				Local kpe:= KeyEventArgs(msg.e)
+				If kpe <> Null Then
+					Select kpe.key
+						Case KEY_RIGHT, 65575
+							MoveCaretRight()
+						Case KEY_LEFT, 65573
+							MoveCaretLeft()
+						Case KEY_DOWN, 65576
+							MoveCaretDown()
+					End
+					
+				EndIf
+			EndIf
+		EndIf
+		
+		If msg.sender = Self And msg.e.messageSignature = eMsgKinds.RESIZED Then
+			For Local i:Int = 0 Until Lines
+				Local tl:= GetLine(i)
+				tl.AdjustLine(Self.Font, Self.GetClientAreaSize.X)
+			Next
+		EndIf
+
+		Super.Msg(msg)
+	End
+	
+	Method MoveCaretRight()
+		caretPos.X += 1
+		If caretPos.X >= GetLine(caretPos.Y).text.Length Then
+			If caretPos.Y < Lines
+				caretPos.Y += 1
+				caretPos.X = 0
+			EndIf
+		EndIf
+	End
+	
+	Method MoveCaretLeft()
+		caretPos.X -= 1
+		If caretPos.X < 0 Then
+			caretPos.Y -= 1
+			If caretPos.Y < 0 Then
+				caretPos.Y = 0
+			Else
+				caretPos.X = GetLine(caretPos.Y).text.Length - 1
+			EndIf
+		EndIf
+	End
+	
+	Method MoveCaretDown()
+		Local line:= GetLine(caretPos.Y)
+		Local getNext:Bool = False, prevOffset:Int, lastInter:TxtInterval
+		For Local inter:TxtInterval = EachIn line.Intervals.contents
+			If getNext Then
+				caretPos.X = caretPos.X - prevOffset + inter.InitOffset
+				If caretPos.X >= line.text.Length Then caretPos.X = line.text.Length - 1
+				Return
+			ElseIf caretPos.X >= inter.InitOffset And caretPos.X < inter.EndOffset Then
+				prevOffset = inter.InitOffset
+				getNext = True
+				lastInter = inter
+			EndIf
+		Next
+		If lastInter = Null Then Return
+		If caretPos.Y < Lines Then
+			caretPos.Y += 1
+			caretPos.X = caretPos.X - lastInter.InitOffset
+		Else
+			'beeeep!
+		EndIf
+	End
+	
 	
 	Method Text:String() Property
 		Local result:String, done:Bool = False
@@ -40,27 +128,48 @@ Class MultilineTextbox Extends BaseLabel
 		Return result
 	End
 	Method Text:Void(value:String) Property
-		lines.Clear()
+		Clear()
 		Local Stringlines:= value.Split(CR)
 		For Local s:String = EachIn Stringlines
-			Local tl:= New TextLine
+			Local tl:= AppendLine()
+			'Local tl:= New TextLine
 			tl.text = s
 			tl.AdjustLine(Self.Font, Self.GetClientAreaSize.X)
-			lines.AddLast(tl)
 		Next
 	End
 
-	Method Msg(msg:BoxedMsg)
-		If msg.sender = Self And msg.e.messageSignature = eMsgKinds.RESIZED Then
-			For Local tl:TextLine = EachIn lines
-				tl.AdjustLine(Self.Font, Self.GetClientAreaSize.X)
-			Next
-		EndIf
-		Super.Msg(msg)
+	Method AppendLine:TextLine()
+		linesCount += 1
+		If linesCount >= lines.Length - 1 Then lines = lines.Resize(linesCount + LINES_RESIZING_FACTOR) 'lines[ .. lines.Length + 100]
+		If lines[linesCount] = Null Then lines[linesCount] = New TextLine
+		lines[linesCount].text = ""
+		Return lines[linesCount]
+	End
+	
+	Method Lines:Int()
+		Return linesCount + 1
+	End
+	
+	Method RemoveLastLine()
+		linesCount -= 1
+		If linesCount < - 1 Then linesCount = -1
+	End
+
+	Method GetLine:TextLine(index:Int)
+		Return lines[index]
+	End
+
+	Method Clear()
+		linesCount = -1
 	End
 		
 	Private
-	Field lines:= New List<TextLine>
+	Field lines:= New TextLine[LINES_RESIZING_FACTOR]
+	Field linesCount:Int = -1
+	Const LINES_RESIZING_FACTOR = 1024
+	Method InitComponent()
+		Self.BackgroundColor = SystemColors.WindowColor
+	End
 End
 
 Class TextLine
