@@ -53,21 +53,8 @@ Class Sample Extends App
 		instructions.InitForm(gui)
 	End
 	
-	Method OnUpdate()
-	
+	Method OnUpdate()	
 		gui.Update()
-		If KeyHit(KEY_1) Then
-			gui.Renderer = Null
-		ElseIf KeyHit(KEY_2) Then
-			gui.Renderer = New concretejungle.ConcreteJungle
-		ElseIf KeyHit(KEY_3) Then
-			gui.Renderer = New RoundForms
-		'ElseIf KeyHit(KEY_DOWN)
-			'Print "Form location:" + MyForm.LocationInDevice.X + ", " + MyForm.LocationInDevice.Y
-			'Print "Form size:" + MyForm.SizeInDevice.X + ", " + MyForm.SizeInDevice.Y
-			'Print "Form client area location:" + MyForm.GetClientAreaLocation.X + ", " + MyForm.GetClientAreaLocation.Y
-			'Print "Form client area size:" + MyForm.GetClientAreaSize.X + ", " + MyForm.GetClientAreaSize.Y
-		EndIf
 	End
 	
 	Method OnLoading()
