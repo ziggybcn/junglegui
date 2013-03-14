@@ -62,11 +62,11 @@ Class Sample Extends App
 			gui.Renderer = New concretejungle.ConcreteJungle
 		ElseIf KeyHit(KEY_3) Then
 			gui.Renderer = New RoundForms
-		ElseIf KeyHit(KEY_DOWN)
-			Print "Form location:" + MyForm.LocationInDevice.X + ", " + MyForm.LocationInDevice.Y
-			Print "Form size:" + MyForm.SizeInDevice.X + ", " + MyForm.SizeInDevice.Y
-			Print "Form client area location:" + MyForm.GetClientAreaLocation.X + ", " + MyForm.GetClientAreaLocation.Y
-			Print "Form client area size:" + MyForm.GetClientAreaSize.X + ", " + MyForm.GetClientAreaSize.Y
+		'ElseIf KeyHit(KEY_DOWN)
+			'Print "Form location:" + MyForm.LocationInDevice.X + ", " + MyForm.LocationInDevice.Y
+			'Print "Form size:" + MyForm.SizeInDevice.X + ", " + MyForm.SizeInDevice.Y
+			'Print "Form client area location:" + MyForm.GetClientAreaLocation.X + ", " + MyForm.GetClientAreaLocation.Y
+			'Print "Form client area size:" + MyForm.GetClientAreaSize.X + ", " + MyForm.GetClientAreaSize.Y
 		EndIf
 	End
 	
@@ -95,16 +95,60 @@ Class Sample Extends App
 End
 
 Class InstructionsPanel Extends WindowFrame
+	Field ButDefault:Button
+	Field ButConcrete:Button
+	Field ButRound:Button
 	Method OnInit()
 		Self.Size.SetValues(400, 20)
 		'Self.Transparent = True
-		Local lbl:Label = New Label
-		lbl.Parent = Self
-		lbl.Text = "1.- Default, 2.- Jungle Concrete, 3.- RoundForm"
-		lbl.AutoAdjustSize = False
-		lbl.Size.SetValues(400, 20)
-		lbl.TipText = "This is just a quick instructions panel~nPress this keys to change the current Jungle Gui renderer."
+		'Local lbl:Label = New Label
+		'lbl.Parent = Self
+		'lbl.Text = "1.- Default, 2.- Jungle Concrete, 3.- RoundForm"
+		'lbl.AutoAdjustSize = False
+		'lbl.Size.SetValues(400, 20)
+		'lbl.TipText = "This is just a quick instructions panel~nPress this keys to change the current Jungle Gui renderer."
+		
+		ButDefault = New Button
+		ButDefault.Parent = Self
+		ButDefault.Text = "Default"
+		ButDefault.AdjustSize()
+		ButDefault.Position.SetValues(5, 5)
+		ButDefault.Event_Click.Add(Self, "Button_Clicked")
+		ButDefault.TipText = "Select the default Jungle Gui skin"
+				
+		ButConcrete = New Button
+		ButConcrete.Parent = Self
+		ButConcrete.Text = "Concrete"
+		ButConcrete.AdjustSize()
+		ButConcrete.Position.SetValues( ButDefault.Position.X + ButDefault.Size.X + 5,5)
+		ButConcrete.Event_Click.Add(Self, "Button_Clicked")
+		ButConcrete.TipText = "Select the concrete Jungle Gui skin"
+		
+		ButRound = New Button
+		ButRound.Parent = Self
+		ButRound.Text = "RoundForms"
+		ButRound.AdjustSize()
+		ButRound.Position.SetValues(ButConcrete.Position.X + ButConcrete.Size.X + 5, 5)
+		ButRound.Event_Click.Add(Self, "Button_Clicked")
+		ButRound.TipText = "Select the RoundForms Jungle Gui skin"
+		
+		Self.Size.Y = ButDefault.Size.Y + 10
+		
 	End
+	
+	Method Button_Clicked(sender:Object, e:MouseEventArgs)
+		
+
+		Select sender
+			Case ButDefault
+				GetGui.Renderer = Null
+			Case ButConcrete
+				GetGui.Renderer = New ConcreteJungle
+			Case ButRound
+				GetGui.Renderer = New RoundForms
+		End
+	End
+	
 End
 
 Class SampleForm Extends Form
