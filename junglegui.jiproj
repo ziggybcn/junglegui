@@ -282,5 +282,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="debug" BuildMode="run" Target="Html5_Game" />
+  <CompilerConfig Configuration="debug" BuildMode="bypass" Target="Html5_Game" />
 </JiProj>
