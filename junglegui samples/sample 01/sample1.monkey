@@ -165,6 +165,7 @@ Class SampleForm Extends Form
 		Self.Name = "MyForm"
 		Self.BorderStyle = eFormBorder.FIXED
 
+
 		'''
 		''' button: 
 		'''
@@ -282,8 +283,7 @@ Class SampleForm Extends Form
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.BackgroundColor = New GuiColor(1, Rnd(200, 255), Rnd(200, 255), Rnd(200, 255))
 	End
-
-
+	
 	Method Timer_Click(sender:Object, e:EventArgs)
 		Self.progBar.Value += 0.1
 		if progBar.Value >= progBar.Maximum Then progBar.Value = 0
@@ -303,10 +303,10 @@ Class SampleForm Extends Form
 	End
 End
 
+
+
 Function HCenterControl(control:Control)
 	if control.IsTopLevelControl = True Then Return
 	if control.Parent = Null Then Return
 	control.Position.X = control.Parent.Size.X / 2 - control.Size.X / 2
 End
-
-

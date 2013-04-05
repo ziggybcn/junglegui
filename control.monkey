@@ -93,20 +93,28 @@ Class Control
 	Method Render:Void()
 		Local color:Float[] = GetColor()
 		SetColor(Self.BackgroundColor.r, Self.BackgroundColor.g,Self.BackgroundColor.b)
-		Local renderPos:GuiVector2D = self.CalculateRenderPosition()
+		Local renderPos:GuiVector2D = Self.CalculateRenderPosition()
 		DrawRect(renderPos.X, renderPos.Y, Size.X, Size.Y)
 		SetColor(color[0],color[1],color[2])
 	End
 	
 	'summary: <font color=red><b>Advanced usage only</b></font><br>This method is internally used to build and control the internal status changes messaging system of the Gui system.
 	Method Msg(msg:BoxedMsg)
-		if Not _gui Then return
+		If Not _gui Then Return
+		If msg.sender = Self Then
+			Select msg.e.messageSignature
+				Case eMsgKinds.MOVED, eMsgKinds.PADDING_MODIFIED, eMsgKinds.MOUSE_DOWN, eMsgKinds.PARENT_SET,
+				eMsgKinds.PARENT_REMOVED, eMsgKinds.VISIBLE_CHANGED
+				PerformRenderPositionCalculation()
+			End
+		EndIf
 		if Self._parentControl <> null Then
 			_parentControl.Msg(msg)
 		EndIf
 		If msg.sender = Self And msg.status = eMsgStatus.Sent Then
 			Dispatch(msg)
 		EndIf
+		
 	End
 	'summary: This returns the Gui engine where this control is running.
 	Method GetGui:Gui()
@@ -190,17 +198,37 @@ Class Control
 	
 	'summary: This returns the rendering position of this control. The result is presented on Device coordinates. (screen pixels)
 	Method CalculateRenderPosition:GuiVector2D()
-		if _cacheRenderPosCalcuation = null then _cacheRenderPosCalcuation = new GuiVector2D
-		_cacheRenderPosCalcuation.SetValues (Position.X, Position.Y)
-		Local parent:ContainerControl = _parentControl
-		While parent<>null
-			_cacheRenderPosCalcuation.X += parent.Position.X + parent.Padding.Left
-			_cacheRenderPosCalcuation.Y += parent.Position.Y + parent.Padding.Top
-			parent = parent._parentControl
-		Wend
-		Return _cacheRenderPosCalcuation
+		If _cacheRenderPosCalcuation = Null Then Return RefreshRenderPosition '.Clone()
+		Return _cacheRenderPosCalcuation '.Clone()
 	End
 	
+	Method RefreshRenderPosition:GuiVector2D()
+		If _cacheRenderPosCalcuation = Null Then _cacheRenderPosCalcuation = New GuiVector2D
+		_cacheRenderPosCalcuation.SetValues (Position.X, Position.Y)
+		Local parent:ContainerControl = _parentControl
+		If parent <> Null Then
+			_cacheRenderPosCalcuation.X += parent.CalculateRenderPosition.X + parent.Padding.Left
+			_cacheRenderPosCalcuation.Y += parent.CalculateRenderPosition.Y + parent.Padding.Top
+		EndIf
+		Return _cacheRenderPosCalcuation
+'		While parent<>null
+'			_cacheRenderPosCalcuation.X += parent.Position.X + parent.Padding.Left
+'			_cacheRenderPosCalcuation.Y += parent.Position.Y + parent.Padding.Top
+'			parent = parent._parentControl
+'		Wend
+'		Return _cacheRenderPosCalcuation
+	End
+
+	Method PerformRenderPositionCalculation()
+		_cacheRenderPosCalcuation = Null
+		Local container:ContainerControl = ContainerControl(Self)
+		If container <> Null Then
+			For Local c:Control = EachIn container.controls
+				c.PerformRenderPositionCalculation
+			Next
+		EndIf
+	End
+		
 	'summary: This is automatically called by the Gui engine when the control needs to be updated and process its internal logic.
 	Method Update()
 		
@@ -552,7 +580,8 @@ Class Control
 		if _gui = null Then
 			return
 		EndIf
-
+		RefreshRenderPosition()
+		
 		Local viewPort:ViewPort = new ViewPort
 		'Ponemos los valores del control
 		viewPort.SetValuesFromControl(Self)
@@ -562,6 +591,7 @@ Class Control
 			
 		'Añadimos el viewport a la cola:
 		_gui.viewPortStack.Stack.AddLast(viewPort)
+		If _gui._mousePos = Null Then _gui._mousePos = New GuiVector2D'(0, 0)
 		if HasGraphicalInterface Then 	'And is visible
 			if _gui._mousePos.X>= viewPort.position.X And _gui._mousePos.X<= (viewPort.position.X + viewPort.size.X) Then
 				if _gui._mousePos.Y>=viewPort.position.Y And _gui._mousePos.Y<=(viewPort.position.Y + viewPort.size.Y) then
@@ -715,9 +745,9 @@ Class ContainerControl extends Control
 	Method RenderChildren()
 		For Local c:Control = EachIn controls
 			if c.Visible = False Then Continue
-			Local viewPort:ViewPort = new ViewPort
+			Local viewPort:ViewPort = New ViewPort
 			viewPort.SetValuesFromControl(c)
-			if _gui.viewPortStack.Stack.IsEmpty = False Then
+			If _gui.viewPortStack.Stack.IsEmpty = False Then
 				viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 			EndIf
 			If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
@@ -961,11 +991,11 @@ Class Gui
 		_mouseDown = MouseDown()
 		For Local c:Control = EachIn _components
 			If c.Visible Then
+				If c._gui = Null Then Continue
 				c._FocusChecks()	'update control under mouse.
 				c.Update()
-				If c._gui = Null Then Continue
 			End
-			if sendParentResize Then c.Msg(New BoxedMsg(c, New EventArgs(eMsgKinds.PARENT_RESIZED)))
+			If sendParentResize Then c.Msg(New BoxedMsg(c, New EventArgs(eMsgKinds.PARENT_RESIZED)))
 		Next
 				
 		Local oldControl:= _mousePointerControl
@@ -980,10 +1010,10 @@ Class Gui
 		end
 		
 		if _mousePointerControl <> null And (_oldMousePos.X <> _mousePos.X or _oldMousePos.Y <> _mousePos.Y) and _mousePointerControl._gui <> null Then
-			local cords:= _mousePointerControl.CalculateRenderPosition()
+			Local cords:= _mousePointerControl.RefreshRenderPosition.Clone()
 			cords.X = _mousePos.X - cords.X
 			cords.Y = _mousePos.Y - cords.Y
-			Local eArgs:=New MouseEventArgs(eMsgKinds.MOUSE_MOVE,cords,0)
+			Local eArgs:= New MouseEventArgs(eMsgKinds.MOUSE_MOVE, cords, 0)
 			_mousePointerControl.Msg(New BoxedMsg(_mousePointerControl, eArgs))
 		EndIf
 		
@@ -991,7 +1021,7 @@ Class Gui
 			'this is a MouseDownEvent
 			if newControl <> null Then
 				'local pos:=New GuiVector2D
-				Local controlPos:= newControl.CalculateRenderPosition()
+				Local controlPos:= newControl.RefreshRenderPosition.Clone() 'CalculateRenderPosition().Clone()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
 				if newControl._gui <> null then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.MOUSE_DOWN, controlPos, 1)))
 				_DownControl = newControl
@@ -999,13 +1029,13 @@ Class Gui
 		ElseIf oldMouseDown = True And _mouseDown = False Then
 			'Mouse up and possible click:
 			if _DownControl <> null and _DownControl._gui <> null Then
-				Local controlPos:= _DownControl.CalculateRenderPosition()
+				Local controlPos:= _DownControl.RefreshRenderPosition.Clone()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
 				if _DownControl._gui <> null then _DownControl.Msg(New BoxedMsg(_DownControl, New MouseEventArgs(eMsgKinds.MOUSE_UP, controlPos, 1)))
 			EndIf
 			if _DownControl = newControl And _DownControl <> null Then
 				local pos:GuiVector2D
-				pos= newControl.CalculateRenderPosition()
+				pos = newControl.RefreshRenderPosition.Clone()
 				pos.SetValues(_mousePos.X-pos.X,_mousePos.Y-pos.Y)
 				if newControl._gui <> null then newControl.GetFocus()
 				If newControl._gui <> Null Then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
@@ -1144,7 +1174,6 @@ Class Gui
 		'Border:
 		SetColor(100,100,100)
 		DrawRoundBox(DrawX,DrawY,Width,Height)
-		
 		
 		'Text:
 #IF TARGET="html5" then

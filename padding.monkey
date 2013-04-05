@@ -55,4 +55,3 @@ Class Padding
 	Field bottom:int
 End
 
-

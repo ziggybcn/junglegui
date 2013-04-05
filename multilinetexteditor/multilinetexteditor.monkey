@@ -232,6 +232,7 @@ Class TextLine
 	
 End
 
+
 Class IntervalsList
 
 	Field count:Int = 0

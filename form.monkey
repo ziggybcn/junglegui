@@ -50,7 +50,8 @@ Class Form Extends TopLevelControl
 	End
 	 
 	Method Update()
-
+	
+		Super.Update()
 		
 		If resizeStatus = eResizeStatus.NONE
 				If mouseIsDown Then	'Añadir propiedad "resizable true or false"
@@ -75,7 +76,6 @@ Class Form Extends TopLevelControl
 			End
 		End
 
-		Super.Update()
 
 	End
 	'summary:This property can be used to set/get the Form caption
@@ -232,6 +232,7 @@ Class eFormBorder
 	Const RESIZABLE:Int = 0
 End
 
+
 'summary: This class represents a rectngle metrics structure, used to locate the form ControlBox
 Class BoxMetrics
 	'summary: This is the controlbox align
@@ -257,3 +258,4 @@ Class BoxMetrics
 	Field _offset:=New GuiVector2D
 	Field _size:=New GuiVector2D
 End
+

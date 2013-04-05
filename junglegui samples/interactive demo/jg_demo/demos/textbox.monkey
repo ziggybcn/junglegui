@@ -14,7 +14,6 @@ Class TextBoxForm Extends Form
 		Self.Text = "Resize me!"
 		Self.Event_Resized.Add(Self, "Form_Resized")
 		
-		
 		DoLayout()
 	End
 	
