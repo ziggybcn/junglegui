@@ -1,5 +1,8 @@
-Import junglegui
-
+'Import junglegui
+Import reflection
+Import junglegui.guiexception
+'Import junglegui
+Import junglegui.eventargs
 #Rem
 	summary: This is the Delegate class. This class contains a reflection-based pointer to a method of a class instance with the signature: Sender:Obect, e:T, where T is a class defined generic.
 #end
@@ -84,7 +87,7 @@ Class EventHandler<T>
 		Next
 		Local result:Bool = false
 		For Local del:Delegate<T> = EachIn remover
-			_events.Remove(del)
+			_events.RemoveEach(del)
 			result = true
 		Next
 		Return result

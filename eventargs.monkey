@@ -1,5 +1,6 @@
 Import junglegui
 Import reflection
+Import junglegui.drawingpoint
 #REFLECTION_FILER+="junglegui*"
 #Rem
 	summary: This class contains the details of an event.

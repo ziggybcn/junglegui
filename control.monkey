@@ -108,8 +108,8 @@ Class Control
 				PerformRenderPositionCalculation()
 			End
 		EndIf
-		if Self._parentControl <> null Then
-			_parentControl.Msg(msg)
+		If _parentControl <> Null Then
+			Control(_parentControl).Msg(msg)
 		EndIf
 		If msg.sender = Self And msg.status = eMsgStatus.Sent Then
 			Dispatch(msg)
@@ -147,7 +147,7 @@ Class Control
 			Return
 		EndIf
 		If _parentControl <> Null Then
-			_parentControl.controls.Remove(Self)
+			_parentControl.controls.RemoveEach(Self)
 			'Msg(Self,New EventArgs(eMsgKinds.PARENT_REMOVED))
 			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.PARENT_REMOVED)))
 		EndIf
@@ -166,7 +166,7 @@ Class Control
 	'summary: Bring a control to the front of the Z-Order
 	Method BringToFront()
 		if _parentControl = null Then Return
-		_parentControl.controls.Remove(Self)
+		_parentControl.controls.RemoveEach(Self)
 		_parentControl.controls.AddLast(Self)
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.BRING_TO_FRONT)))
 	End
@@ -174,7 +174,7 @@ Class Control
 	'summary: send a control to the back of the Z-Order
 	Method SendToBack()
 		if _parentControl = null Then Return
-		_parentControl.controls.Remove(Self)
+		_parentControl.controls.RemoveEach(Self)
 		_parentControl.controls.AddFirst(Self)
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.SEND_TO_BACK)))
 	End
@@ -675,7 +675,7 @@ Class ContainerControl extends Control
 		Next
 	End	
 	Method Msg(msg:BoxedMsg)
-		if msg.e.messageSignature = eMsgKinds.RESIZED Then
+		If msg.e.messageSignature = eMsgKinds.RESIZED And msg.sender = Self Then
 			For local control:Control = EachIn Self.controls
 				Local resizeMsg:= New BoxedMsg(control, eMsgKinds.PARENT_RESIZED)
 				control.Msg(resizeMsg)
@@ -850,7 +850,7 @@ Class TopLevelControl extends ContainerControl
 		Return true
 	end
 	Method Dispose()
-		_gui._components.Remove(Self)
+		_gui._components.RemoveEach(Self)
 		Super.Dispose()
 	End
 	
@@ -859,7 +859,7 @@ Class TopLevelControl extends ContainerControl
 		if gui = null Then
 			Throw New JungleGuiException("A form can't be set to a null Gui manager", Self)
 		else
-			if _gui <> null Then _gui._components.Remove(Self)
+			If _gui <> Null Then _gui._components.RemoveEach(Self)
 			_gui = gui
 			_gui._components.AddFirst(Self)
 			_InformGui(gui)
@@ -870,7 +870,7 @@ Class TopLevelControl extends ContainerControl
 	Method BringToFront()
 		'Print "Called!"
 		If _gui._components.Last() = Self Then Return
-		_gui._components.Remove(Self)
+		_gui._components.RemoveEach(Self)
 		_gui._components.AddLast(Self)
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.BRING_TO_FRONT)))
 	End
@@ -878,7 +878,7 @@ Class TopLevelControl extends ContainerControl
 	'summary: This method will send this Top Level Control to the bottom of the rendering z-order.
 	Method SendToBack()
 		If _gui._components.First() = Self Then Return
-		_gui._components.Remove(Self)
+		_gui._components.RemoveEach(Self)
 		_gui._components.AddFirst(Self)
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.SEND_TO_BACK)))
 	End
