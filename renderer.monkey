@@ -155,7 +155,6 @@ Class GuiRenderer
 	
 	Method DrawFormBackground(status:Int, position:GuiVector2D, size:GuiVector2D, padding:Padding, text:String, context:Control)
 
-	
 		SystemColors.FormMargin.Activate()
 		DrawRect(position.X, position.Y, size.X, size.Y)
 		'SetColor(SystemColors.FormMargin.r + 10, SystemColors.FormMargin.g + 10, SystemColors.FormMargin.b + 10)

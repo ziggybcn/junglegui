@@ -161,8 +161,7 @@ Class MyForm Extends Form
 		listView1.Parent = tabPage1 
 		listView1.Position.SetValues(10,80)
 		listView1.Size.SetValues(tabPage1.Size.X-20, tabPage1.Size.Y-85)
-
-
+		
 		'''
 		''' listView2
 		'''
