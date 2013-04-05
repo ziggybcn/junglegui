@@ -144,6 +144,28 @@ Class MySkin Extends renderer.GuiRenderer
 		DrawBox(pos, size)
 	End
 	
+	
+	Method DrawCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, checked:Bool = True)
+		SystemColors.ControlFace.Activate()
+		Local yOffset:Int = size.Y / 2 - CheckBoxSize.Y / 2
+		DrawRect(position.X + 1, position.Y + 1 + yOffset, CheckBoxSize.X - 2, CheckBoxSize.Y - 2)
+		If HasFlag(status, eControlStatus.HOOVER) Then
+			SystemColors.FocusColor.Activate()
+		Else
+			SystemColors.ButtonBorderColor.Activate()
+		EndIf
+		
+		DrawRoundBox(int(position.X), int(position.Y + yOffset), CheckBoxSize.X, CheckBoxSize.Y)
+		If checked Then
+			SystemColors.SelectedItemForeColor.Activate()
+			SetAlpha(Abs(Sin(Millisecs() / 10.0)))
+			'DrawRect(position.X + 4, position.Y + 4 + yOffset, BoxSize - 9, BoxSize - 8)
+			DrawOval(position.X + 4, position.Y + 4 + yOffset, CheckBoxSize.X - 8, CheckBoxSize.Y - 7)
+			SetAlpha 1
+		EndIf
+	End
+
+
 End
 
 
@@ -267,6 +289,7 @@ Class ToolBox extends form.Form
 		randomizeColors.Position.SetValues(10, height)
 		randomizeColors.Size.Y = 18
 		randomizeColors.Name = "RandomizeColors"
+		randomizeColors.Checked = True
 		height = GetNextHeight(randomizeColors)
 		
 		tmpLabel = New Label

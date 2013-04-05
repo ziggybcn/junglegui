@@ -11,8 +11,10 @@ Class CheckBox Extends BaseLabel
 		If Not _transparent Then GetGui.Renderer.DrawControlBackground(Status, drawPos, Size, Self)
 
 		GetGui.Renderer.DrawCheckBox(Status, drawPos, Size, Self, Checked)
-		drawPos.X += GetGui.Renderer.CheckBoxSize.X
+		Local offset:Int = GetGui.Renderer.CheckBoxSize.X
+		drawPos.X += offset
 		GetGui.Renderer.DrawLabelText(Status, drawPos, Size, Text, eTextAlign.LEFT, Self.Font, Self)
+		drawPos.X -= offset
 	End
 
 	'summary: Set this property to true/false in order to make the checkbox background transparent.
