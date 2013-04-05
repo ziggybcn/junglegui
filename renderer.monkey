@@ -63,7 +63,7 @@ Class GuiRenderer
 		Local oldcolor:Float[] = GetColor()
 		SetAlpha(math.Abs(Sin(Millisecs() / 5.0)))
 		SystemColors.FocusColor.Activate()
-		Local pos:= control.CalculateRenderPosition()
+		Local pos:= control.UnsafeRenderPosition()
 		Local size:= control.Size.Clone()
 		If Not round Then
 			DrawBox(pos, size)

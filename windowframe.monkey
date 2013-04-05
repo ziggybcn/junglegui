@@ -19,7 +19,7 @@ Class WindowFrame Extends TopLevelControl
 	
 	Method RenderBackground()
 		If Not Transparent Then
-			Local drawPos:GuiVector2D = CalculateRenderPosition()
+			Local drawPos:GuiVector2D = UnsafeRenderPosition()
 			GetGui.Renderer.DrawControlBackground(Status, drawPos, Size, Self)
 		End
 	End

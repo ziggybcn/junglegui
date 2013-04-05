@@ -236,7 +236,7 @@ Public
 
 	Method Render:Void()
 	
-		Local drawpos:= CalculateRenderPosition()
+		Local drawpos:= UnsafeRenderPosition()
 		Super.Render()
 		
 		Local index:= 0

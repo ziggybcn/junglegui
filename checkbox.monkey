@@ -4,9 +4,9 @@ Import junglegui
 	summary: This control is a checkbox. It's useful to represent a GUI element that can have a checked/unchecked status.
 #END
 Class CheckBox Extends BaseLabel
-
+ 
 	Method Render:Void()
-		Local drawPos:= CalculateRenderPosition()
+		Local drawPos:= Self.UnsafeRenderPosition()
 
 		If Not _transparent Then GetGui.Renderer.DrawControlBackground(Status, drawPos, Size, Self)
 

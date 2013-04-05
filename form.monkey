@@ -27,7 +27,7 @@ Class Form Extends TopLevelControl
 	End
 	
 	Method RenderBackground()
-		Local drawPos:GuiVector2D = CalculateRenderPosition()
+		Local drawPos:GuiVector2D = UnsafeRenderPosition()
 		
 		GetGui.Renderer.DrawFormBackground(Status, drawPos, Size, Padding, Text, Self)
 		

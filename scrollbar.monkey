@@ -26,7 +26,7 @@ Public
 	
 	Method Update()
 		if _scrollbar._mouseDown Then
-			Local calculateRenderPos:= self.CalculateRenderPosition
+			Local calculateRenderPos:= self.UnsafeRenderPosition
 			_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
 			_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
 			if _scrollbar._fastMove Or _scrollbar._topButtonState = eButtonState.BUTTON_DOWN Or _scrollbar._bottomButtonState = eButtonState.BUTTON_DOWN Then
@@ -41,7 +41,7 @@ Public
 	End
 	
 	Method Render:Void()
-		Local drawpos:= CalculateRenderPosition()
+		Local drawpos:= UnsafeRenderPosition()
 		_scrollbar.Render(drawpos, Self.Size)
 	End
 	

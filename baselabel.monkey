@@ -47,7 +47,7 @@ Class BaseLabel Extends Control Implements TextualItem Abstract
 
 	
 	Method Render:Void()
-		Local drawingPos:= CalculateRenderPosition()
+		Local drawingPos:= UnsafeRenderPosition()
 		
 		GetGui.Renderer.DrawControlBackground(Self.Status, drawingPos, Size, Self)
 		GetGui.Renderer.DrawLabelText(Self.Status, drawingPos, Size, Self.Text, eTextAlign.LEFT, Self.Font, Self)

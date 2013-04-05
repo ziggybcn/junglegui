@@ -5,7 +5,7 @@ Import junglegui
 Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem 
 
 	Method Render:Void()
-		Local drawingPos:=CalculateRenderPosition()
+		Local drawingPos:=UnsafeRenderPosition()
 		if Not Transparent then
 			SetColor(BackgroundColor.r,BackgroundColor.g,BackgroundColor.b)
 			DrawRect(drawingPos.X,drawingPos.Y,Size.X,Size.Y)

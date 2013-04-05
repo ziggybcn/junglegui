@@ -31,7 +31,7 @@ Class TextField extends BaseLabel
 
 	Method Render:Void()
 		Const LEFTMARGIN:Int = 12
-		Local Position:= CalculateRenderPosition
+		Local Position:= UnsafeRenderPosition
 		Self.BackgroundColor.Activate()
 		DrawRect(Position.X, Position.Y, Size.X, Size.Y)
 		if GetGui.GetMousePointedControl = self and HasFocus = False Then

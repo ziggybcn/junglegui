@@ -137,7 +137,7 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 	
 	Method DrawFocusRect(control:Control, round:Bool = False)
 		SystemColors.FocusColor.Activate()
-		Local pos:= control.CalculateRenderPosition()
+		Local pos:= control.UnsafeRenderPosition()
 		Local size:= control.Size
 		DrawBox(pos, size)
 	End

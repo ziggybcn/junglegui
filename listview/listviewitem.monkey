@@ -45,9 +45,9 @@ Public
 	Method RenderBackground()
 
 		If Owner.HoverItem = Self Then	'That means we're over the control OR any control contained inside the control, so it's technically still a Hoover.
-			GetGui.Renderer.DrawHooverSelectableBackground(Status | eControlStatus.HOOVER, CalculateRenderPosition, Size, Self, Owner.SelectedItem = Self)
+			GetGui.Renderer.DrawHooverSelectableBackground(Status | eControlStatus.HOOVER, UnsafeRenderPosition, Size, Self, Owner.SelectedItem = Self)
 		Else
-			GetGui.Renderer.DrawHooverSelectableBackground(Status, CalculateRenderPosition, Size, Self, Owner.SelectedItem = Self)
+			GetGui.Renderer.DrawHooverSelectableBackground(Status, UnsafeRenderPosition, Size, Self, Owner.SelectedItem = Self)
 		End If
 		
 	End

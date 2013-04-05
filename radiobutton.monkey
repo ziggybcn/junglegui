@@ -22,7 +22,7 @@ Class RadioButton extends CheckBox
 	
 	Method Render:Void()
 		
-		Local drawPos:= CalculateRenderPosition()
+		Local drawPos:= UnsafeRenderPosition()
 
 		If Not Transparent Then GetGui.Renderer.DrawControlBackground(Status, drawPos, Size, Self)
 

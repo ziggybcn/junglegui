@@ -258,7 +258,7 @@ Public
 	Method Render:Void()
 		Super.Render()
 		
-		Local drawpos:= CalculateRenderPosition()
+		Local drawpos:= UnsafeRenderPosition()
 		
 		'' Calculate image scaling factor
 		Local scale:Float = Min(

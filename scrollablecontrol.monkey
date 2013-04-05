@@ -16,7 +16,7 @@ Class ScrollableControl extends ContainerControl
 
 			if _scrollbar._fastMove Or _scrollbar._topButtonState = eButtonState.BUTTON_DOWN Or _scrollbar._bottomButtonState = eButtonState.BUTTON_DOWN Then
 				
-				Local calculateRenderPos:= self.CalculateRenderPosition
+				Local calculateRenderPos:= self.UnsafeRenderPosition
 				_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
 				_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
 				_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
@@ -25,7 +25,7 @@ Class ScrollableControl extends ContainerControl
 				_scrollbar.MouseDown(New MouseEventArgs(eMsgKinds.MOUSE_DOWN, _cachedPosition, 0))
 			Else
 			
-				Local calculateRenderPos:= self.CalculateRenderPosition
+				Local calculateRenderPos:= self.UnsafeRenderPosition
 				_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
 				_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
 				_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
@@ -92,7 +92,7 @@ Class ScrollableControl extends ContainerControl
 
 	Method RenderBackground()
 		Super.RenderBackground()
-		Local drawpos:= CalculateRenderPosition()
+		Local drawpos:= UnsafeRenderPosition()
 		_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
 		_scrollbar._pos.SetValues(drawpos.X + Size.X - _scrollbar.DefaultWidth - 1, drawpos.Y + 1)
 		If ScrollbarVisible Then
