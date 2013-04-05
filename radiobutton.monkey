@@ -27,9 +27,10 @@ Class RadioButton extends CheckBox
 		If Not Transparent Then GetGui.Renderer.DrawControlBackground(Status, drawPos, Size, Self)
 
 		GetGui.Renderer.DrawRadioCheckBox(Status, drawPos, Size, Self, Checked)
-		drawPos.X += GetGui.Renderer.RadioBoxSize.X
+		Local offset:Int = GetGui.Renderer.RadioBoxSize.X
+		drawPos.X += offset
 		GetGui.Renderer.DrawLabelText(Status, drawPos, Size, Text, eTextAlign.LEFT, Self.Font, Self)
-
+		drawPos.X -= offset
 	End
  	
 	Method RenderCheckBox(drawPos:GuiVector2D)

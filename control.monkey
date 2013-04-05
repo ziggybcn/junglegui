@@ -580,7 +580,7 @@ Class Control
 		if _gui = null Then
 			return
 		EndIf
-		RefreshRenderPosition()
+		'RefreshRenderPosition()
 		
 		Local viewPort:ViewPort = new ViewPort
 		'Ponemos los valores del control
