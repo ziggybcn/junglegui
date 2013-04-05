@@ -33,13 +33,13 @@ Class ViewPort
 	End
 	
 	Method SetValuesFromControl(control:Control)
-		position = control.CalculateRenderPosition().Clone()
+		position = control.UnsafeRenderPosition().Clone()
 		size = New GuiVector2D
 		size.SetValues(control.Size.X,control.Size.Y)
 	End
 
 	method SetValuesFromControl(control:ContainerControl,padding:Padding) 
-		position = control.CalculateRenderPosition().Clone()
+		position = control.UnsafeRenderPosition().Clone()
 		position.X+=control.Padding.Left 
 		position.Y+=control.Padding.Top 
 		size = New GuiVector2D

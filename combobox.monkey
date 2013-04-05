@@ -77,7 +77,7 @@ Class ComboBox Extends BaseLabel Implements guiinterfaces.TextualAlignItem
 	End
 		
 	Method Render:Void()
-		Local drawingPos:=CalculateRenderPosition()
+		Local drawingPos:=UnsafeRenderPosition()
 		
 
 		GetGui.Renderer.DrawButtonBackground(Status, drawingPos, Size, Self)

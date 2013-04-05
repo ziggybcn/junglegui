@@ -178,7 +178,7 @@ Public
 	
 	Method Update()
 		if _down Then
-			Local calculateRenderPos:= self.CalculateRenderPosition
+			Local calculateRenderPos:= self.UnsafeRenderPosition
 			_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
 			_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
 			_MouseMove(New MouseEventArgs(eMsgKinds.MOUSE_MOVE, _cachedPosition, 0))
@@ -222,7 +222,7 @@ Public
 	
 	Method Render:Void()
 
-		Local drawpos := CalculateRenderPosition()
+		Local drawpos := UnsafeRenderPosition()
 
 		SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
 		DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)

@@ -6,7 +6,7 @@ Class MultilineTextbox Extends BaseLabel
 	Method Render:Void()
 		
 		Local i:int = 0
-		Local drawpos:= CalculateRenderPosition
+		Local drawpos:= UnsafeRenderPosition
 		GetGui.Renderer.DrawControlBackground(Self.Status, drawpos, Size, Self)
 		
 		#IF TARGET="html5"

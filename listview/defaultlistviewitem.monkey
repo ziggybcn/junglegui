@@ -58,7 +58,7 @@ Public
 	End
 
 	Method RenderBackground()
-		Local drawpos:= CalculateRenderPosition()
+		Local drawpos:= UnsafeRenderPosition()
 
 		'' over effect
 		If Owner.HoverItem = Self Then
@@ -93,7 +93,7 @@ Public
 		
 	End
 	Method RenderChildren()
-		Local drawpos:= CalculateRenderPosition()
+		Local drawpos:= UnsafeRenderPosition()
 		'Draw Contents:
 		if _img <> null Then 
 			

@@ -20,7 +20,7 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 	End
 	
 	Method Render:Void()
-		Local drawingPos:= CalculateRenderPosition()
+		Local drawingPos:= UnsafeRenderPosition()
 		GetGui.Renderer.DrawButtonBackground(Self.Status, drawingPos, Self.Size, Self)
 		GetGui.Renderer.DrawControlBorder(Self.Status, drawingPos, Self.Size, Self)
 		If Self.HasFocus Then GetGui.Renderer.DrawButtonFocusRect(Self.Status, drawingPos, Self.Size, Self)

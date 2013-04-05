@@ -3,7 +3,7 @@ Import junglegui
 Class ProgressBar extends Control
 
 	Method Render:Void()
-		Local drawpos := CalculateRenderPosition()
+		Local drawpos := UnsafeRenderPosition()
 		BackgroundColor.Activate 
 		DrawRect(drawpos.X,drawpos.Y,Size.X,Size.Y)
 		

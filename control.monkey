@@ -93,7 +93,7 @@ Class Control
 	Method Render:Void()
 		Local color:Float[] = GetColor()
 		SetColor(Self.BackgroundColor.r, Self.BackgroundColor.g,Self.BackgroundColor.b)
-		Local renderPos:GuiVector2D = Self.CalculateRenderPosition()
+		Local renderPos:GuiVector2D = Self.UnsafeRenderPosition()
 		DrawRect(renderPos.X, renderPos.Y, Size.X, Size.Y)
 		SetColor(color[0],color[1],color[2])
 	End
@@ -196,38 +196,12 @@ Class Control
 		_gui = Null
 	End
 	
-	'summary: This returns the rendering position of this control. The result is presented on Device coordinates. (screen pixels)
-	Method CalculateRenderPosition:GuiVector2D()
+	'summary: This returns the internal GuiVector2D that contains the precalculated control render position on screen. While this information is useful to perform quick render operations, modifying this vector values can cause rendering artifacts. To use a safe way to manipulate this vector see LocationInDevice
+	Method UnsafeRenderPosition:GuiVector2D()	
 		If _cacheRenderPosCalcuation = Null Then Return RefreshRenderPosition '.Clone()
 		Return _cacheRenderPosCalcuation '.Clone()
 	End
 	
-	Method RefreshRenderPosition:GuiVector2D()
-		If _cacheRenderPosCalcuation = Null Then _cacheRenderPosCalcuation = New GuiVector2D
-		_cacheRenderPosCalcuation.SetValues (Position.X, Position.Y)
-		Local parent:ContainerControl = _parentControl
-		If parent <> Null Then
-			_cacheRenderPosCalcuation.X += parent.CalculateRenderPosition.X + parent.Padding.Left
-			_cacheRenderPosCalcuation.Y += parent.CalculateRenderPosition.Y + parent.Padding.Top
-		EndIf
-		Return _cacheRenderPosCalcuation
-'		While parent<>null
-'			_cacheRenderPosCalcuation.X += parent.Position.X + parent.Padding.Left
-'			_cacheRenderPosCalcuation.Y += parent.Position.Y + parent.Padding.Top
-'			parent = parent._parentControl
-'		Wend
-'		Return _cacheRenderPosCalcuation
-	End
-
-	Method PerformRenderPositionCalculation()
-		_cacheRenderPosCalcuation = Null
-		Local container:ContainerControl = ContainerControl(Self)
-		If container <> Null Then
-			For Local c:Control = EachIn container.controls
-				c.PerformRenderPositionCalculation
-			Next
-		EndIf
-	End
 		
 	'summary: This is automatically called by the Gui engine when the control needs to be updated and process its internal logic.
 	Method Update()
@@ -248,7 +222,7 @@ Class Control
 	Method GetFocus()
 		if Not _gui Then return
 		if _gui._focusedControl = Self Return
-		if _gui._focusedControl <> null Then
+		If _gui._focusedControl <> Null Then
 			_gui._focusedControl.Msg(New BoxedMsg(_gui._focusedControl, New EventArgs(eMsgKinds.LOST_FOCUS)))
 		EndIf
 		_gui._focusedControl = self
@@ -314,7 +288,7 @@ Class Control
 	'summary: This method returns the client area location on the current mojo canvas. That is, the canvas X and Y location of the control contents.
 	Method GetClientAreaLocation:GuiVector2D()
 		Local location:GuiVector2D
-		location = CalculateRenderPosition().Clone()
+		location = UnsafeRenderPosition().Clone()
 		If ContainerControl(Self) Then
 			Local container:= ContainerControl(Self)
 			location.X += container.Padding.Left
@@ -337,7 +311,7 @@ Class Control
 
 	'summary: This method returns the control location on the current mojo device. That is, the canvas X and Y location of the control location.
 	Method LocationInDevice:GuiVector2D()
-		Return CalculateRenderPosition.Clone()
+		Return UnsafeRenderPosition.Clone()
 	End
 	
 	'summary: This method returns the control size on the current mojo device. That is, the canvas X and Y size of the control.
@@ -571,6 +545,28 @@ Class Control
 	Field _tipText:String
 	Field _visible:Bool = True
 	Field _requiresVirtualKeyboard:Bool = False
+	
+	Method RefreshRenderPosition:GuiVector2D()
+		If _cacheRenderPosCalcuation = Null Then _cacheRenderPosCalcuation = New GuiVector2D
+		_cacheRenderPosCalcuation.SetValues (Position.X, Position.Y)
+		Local parent:ContainerControl = _parentControl
+		If parent <> Null Then
+			_cacheRenderPosCalcuation.X += parent.UnsafeRenderPosition.X + parent.Padding.Left
+			_cacheRenderPosCalcuation.Y += parent.UnsafeRenderPosition.Y + parent.Padding.Top
+		EndIf
+		Return _cacheRenderPosCalcuation
+	End
+
+	Method PerformRenderPositionCalculation()
+		_cacheRenderPosCalcuation = Null
+		Local container:ContainerControl = ContainerControl(Self)
+		If container <> Null Then
+			For Local c:Control = EachIn container.controls
+				c.PerformRenderPositionCalculation
+			Next
+		EndIf
+	End
+
 	
 	Method _FocusChecks()
 		
@@ -1021,7 +1017,7 @@ Class Gui
 			'this is a MouseDownEvent
 			if newControl <> null Then
 				'local pos:=New GuiVector2D
-				Local controlPos:= newControl.RefreshRenderPosition.Clone() 'CalculateRenderPosition().Clone()
+				Local controlPos:= newControl.RefreshRenderPosition.Clone() 'UnsafeRenderPosition().Clone()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
 				if newControl._gui <> null then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.MOUSE_DOWN, controlPos, 1)))
 				_DownControl = newControl

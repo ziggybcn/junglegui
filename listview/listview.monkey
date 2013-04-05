@@ -330,7 +330,7 @@ Public
 	End
 	
 	Method Render:Void()
-		Local drawpos:= CalculateRenderPosition()
+		Local drawpos:= UnsafeRenderPosition()
 		
 		SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
 		DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)
@@ -347,7 +347,7 @@ Public
 		If HasFocus Then
 			GetGui.Renderer.DrawFocusRect(Self, True)
 		Else
-			GetGui.Renderer.DrawControlBorder(Self.Status, CalculateRenderPosition, Size, Self)
+			GetGui.Renderer.DrawControlBorder(Self.Status, UnsafeRenderPosition, Size, Self)
 		EndIf
 	End
 	

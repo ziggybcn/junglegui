@@ -19,7 +19,7 @@ Class Canvas Extends Control
 		'Get the scale factor:
 		'Local scalex:Float, scaley:Float
 		PushMatrix()
-		Local drawpos:GuiVector2D = Self.CalculateRenderPosition()
+		Local drawpos:GuiVector2D = Self.UnsafeRenderPosition()
 		Translate(drawpos.X, drawpos.Y)
 		Scale(scalex, scaley)
 		PushMatrix()
@@ -58,7 +58,7 @@ Class Canvas Extends Control
 	Method MouseX:Float()
 		Local gui:= GetGui
 		If Not gui Then Return 0
-		Local drawpos:= CalculateRenderPosition()
+		Local drawpos:= UnsafeRenderPosition()
 		Local mousex = gui.MousePos.X
 		Local result:Float = mousex - drawpos.X
 		Return result / scalex
@@ -66,7 +66,7 @@ Class Canvas Extends Control
 	Method MouseY:Float()
 		Local gui:= GetGui
 		If Not gui Then Return 0
-		Local drawpos:= CalculateRenderPosition()
+		Local drawpos:= UnsafeRenderPosition()
 		Local mousey = gui.MousePos.Y
 		Local result:Float = mousey - drawpos.Y
 		Return result / scaley

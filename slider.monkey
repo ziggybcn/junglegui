@@ -14,7 +14,7 @@ Class Slider extends Control
 	End
 		
 	Method Render:Void()
-		Local renderPos:= CalculateRenderPosition()
+		Local renderPos:= UnsafeRenderPosition()
 		BackgroundColor.Activate()
 		DrawRect(Int(renderPos.X), Int(renderPos.Y), Int(Size.X), Int(Size.Y))
 		RenderLine(renderPos)
@@ -46,7 +46,7 @@ Class Slider extends Control
 	
 	Method Update()
 		if _sliding Then
-			Local calculateRenderPos:= self.CalculateRenderPosition
+			Local calculateRenderPos:= self.UnsafeRenderPosition
 			_cachedPosition.X = GetGui.MousePos.X - calculateRenderPos.X
 			_cachedPosition.Y = GetGui.MousePos.Y - calculateRenderPos.Y
 			Mouse_Move(New MouseEventArgs(eMsgKinds.MOUSE_MOVE, _cachedPosition, 0))
