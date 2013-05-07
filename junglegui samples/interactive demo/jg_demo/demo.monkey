@@ -16,7 +16,8 @@ End
 Class Demo
 	Method Launch_Demo(sender:Object, e:InitializeAppEvent)
 		EnableAutoSize()
-		
+		JungleGuiApplication.gui.ScaleX = 1.5
+		JungleGuiApplication.gui.ScaleY = 0.5
 		e.mainForm = New DemoForm
 '		JungleApp.gui.Renderer = New Touch
 	End

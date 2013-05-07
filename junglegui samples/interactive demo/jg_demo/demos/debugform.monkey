@@ -52,8 +52,11 @@ Class DebugForm Extends WindowFrame
 	End
 	
 	Method Canvas_Resized(sender:Object, e:EventArgs)
-		if Self.Position.X > DeviceWidth - Self.Size.X - 10 Then Self.Position.X = DeviceWidth - Self.Size.X - 10
-		if Self.Position.Y > DeviceHeight - Self.Size.Y - 10 Then Self.Position.Y = DeviceHeight - Self.Size.Y - 10
+		If Self.Position.X > GetGui.DeviceToGuiX(DeviceWidth) - Self.Size.X - 10 Then Self.Position.X = GetGui.DeviceToGuiX(DeviceWidth) - Self.Size.X - 10
+		If Self.Position.Y > GetGui.DeviceToGuiY(DeviceHeight) - Self.Size.Y - 10 Then Self.Position.Y = GetGui.DeviceToGuiY(DeviceHeight) - Self.Size.Y - 10
+		
+		'if Self.Position.X > DeviceWidth - Self.Size.X - 10 Then Self.Position.X = DeviceWidth - Self.Size.X - 10
+		'if Self.Position.Y > DeviceHeight - Self.Size.Y - 10 Then Self.Position.Y = DeviceHeight - Self.Size.Y - 10
 	End
 	
 	Method Form_Resized(sender:Object, e:EventArgs)
@@ -65,8 +68,8 @@ Class DebugForm Extends WindowFrame
 	End
 	
 	Method LocateMe()
-		Self.Position.Y = DeviceHeight - Self.Size.Y
-		Self.Size.X = DeviceWidth
+		Self.Position.Y = GetGui.DeviceToGuiY(DeviceHeight) - Self.Size.Y
+		Self.Size.X = GetGui.DeviceToGuiX(DeviceWidth)
 		Self.Position.X = 0
 		
 	End

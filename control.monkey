@@ -2,11 +2,11 @@
 Import eventargs
 Import guicolor
 Import viewportstack
-Import helperfunctions
+Import mojoextensions.helperfunctions
 Import eventhandler
 Import padding
 Import econtrolstatus
-
+Import mojoextensions.scaledscrissor
 Private
 Import mojo
 public
@@ -196,7 +196,7 @@ Class Control
 		_gui = Null
 	End
 	
-	'summary: This returns the internal GuiVector2D that contains the precalculated control render position on screen. While this information is useful to perform quick render operations, modifying this vector values can cause rendering artifacts. To use a safe way to manipulate this vector see LocationInDevice
+	'summary: This returns the internal GuiVector2D that contains the precalculated control render position on screen.<br>While this information is useful to perform quick render operations, modifying this vector values can cause rendering artifacts.<br>To use a safe way to manipulate this vector see <b>LocationInDevice</b>
 	Method UnsafeRenderPosition:GuiVector2D()	
 		If _cacheRenderPosCalcuation = Null Then Return RefreshRenderPosition '.Clone()
 		Return _cacheRenderPosCalcuation '.Clone()
@@ -591,8 +591,10 @@ Class Control
 		if HasGraphicalInterface Then 	'And is visible
 			if _gui._mousePos.X>= viewPort.position.X And _gui._mousePos.X<= (viewPort.position.X + viewPort.size.X) Then
 				if _gui._mousePos.Y>=viewPort.position.Y And _gui._mousePos.Y<=(viewPort.position.Y + viewPort.size.Y) then
-					_gui._mouseControl = self
-				end
+					If _gui._mouseControl <> Self Then
+						_gui._mouseControl = Self
+					EndIf
+				End
 			End
 		endif
 		
@@ -694,7 +696,7 @@ Class ContainerControl extends Control
 		if _gui.viewPortStack.Stack.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 		
 		If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
-			SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+			SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		Else
 			Return 'Nothing to draw!
 		EndIf
@@ -708,7 +710,7 @@ Class ContainerControl extends Control
 		viewPort.SetValuesFromControl(Self,Padding)
 		viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 		_gui.viewPortStack.Stack.AddLast(viewPort)
-		SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+		SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		RenderChildren()
 		
 		'we remove the children viewport
@@ -716,7 +718,7 @@ Class ContainerControl extends Control
 		
 		'We get the regular control viewport again and set it to render the foreground component:
 		viewPort = _gui.viewPortStack.Stack.Last()
-		SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+		SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		RenderForeground()
 		
 		'We now remove the control viewport from the stack
@@ -747,7 +749,7 @@ Class ContainerControl extends Control
 				viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 			EndIf
 			If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
-				SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+				SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 				c.Render()
 				SetColor(255, 255, 255)
 				If GetAlpha <> 1 Then SetAlpha(1)
@@ -755,7 +757,7 @@ Class ContainerControl extends Control
 		Next
 		if _gui.viewPortStack.Stack.IsEmpty = False Then
 			Local viewPort:ViewPort = _gui.viewPortStack.Stack.Last()
-			SetScissor(viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+			SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		EndIf
 	End
 	
@@ -913,14 +915,14 @@ Class Gui
 	'summary: This method has to be called whenever the Gui has to be rendered.
 	Method Render()
 		If _renderer = Null Then Renderer = Null	'Set default renderer in case it has not been set.
-		'Self._renderMatrix = GetMatrix()
 		PushMatrix()
 		graphics.SetMatrix(1, 0, 0, 1, 0, 0)
-		local scissor:Float[] = GetScissor()
-		For Local c:Control = eachin _components
+		If scalex <> 1 or scaley <> 1 Then Scale(scalex, scaley)
+		Local scissor:Float[] = GetScissor()
+		For Local c:Control = EachIn _components
 			If c.Visible = False Then Continue
 			c.Render()
-			SetScissor(scissor[0], scissor[1], scissor[2], scissor[3])
+			SetGuiScissor(Self, scissor[0], scissor[1], scissor[2], scissor[3])
 		Next
 		SetScissor(scissor[0], scissor[1], scissor[2], scissor[3])
 		
@@ -931,6 +933,36 @@ Class Gui
 		PopMatrix()
 	End
 	
+	Method ScaleX:Float() Property
+		Return scalex
+	End
+	Method ScaleX:Void(value:Float) Property
+		scalex = value
+	End
+	
+	Method ScaleY:Float() Property
+		Return scaley
+	End
+	
+	Method ScaleY:Void(value:Float) Property
+		scaley = value
+	End
+	
+	Method DeviceToGuiX:Float(x:Float)
+		Return x / scalex
+	End
+	Method DeviceToGuiY:Float(y:Float)
+		Return y / scaley
+	End
+
+	Method GuiToDeviceX:Float(x:Float)
+		Return x * scalex
+	End
+	
+	Method GuiToDeviceY:Float(y:Float)
+		Return y * scaley
+	End
+
 	Method Renderer:GuiRenderer() Property
 		Return _renderer
 	End
@@ -963,20 +995,21 @@ Class Gui
 		if _mousePos = Null then _mousePos = New GuiVector2D
 
 		_oldMousePos.SetValues(_mousePos.X, _mousePos.Y)
+
 		If TouchDown(1) Then
-			_mousePos.SetValues(TouchX(1), TouchY(1))
+			_mousePos.SetValues(DeviceToGuiX(TouchX(1)), DeviceToGuiY(TouchY(1)))
 		Else
-			_mousePos.SetValues(MouseX(), MouseY())
+			_mousePos.SetValues(DeviceToGuiX(MouseX()), DeviceToGuiY(MouseY()))
 		EndIf
 		
 		'_mousePos = GetWorldPos(MouseX(), MouseY())
 		
-		if _mousePos.X < 0 Then _mousePos.X = 0 ElseIf _mousePos.X > DeviceWidth then _mousePos.X = DeviceWidth
+		If _mousePos.X < 0 Then _mousePos.X = 0 ElseIf _mousePos.X > DeviceWidth / scalex Then _mousePos.X = DeviceWidth / scalex
 		
-		if _mousePos.Y < 0 Then _mousePos.Y = 0 ElseIf _mousePos.Y > DeviceHeight Then _mousePos.Y = DeviceHeight
+		If _mousePos.Y < 0 Then _mousePos.Y = 0 ElseIf _mousePos.Y > DeviceHeight / scaley Then _mousePos.Y = DeviceHeight / scaley
 
-		Local devWidth:= DeviceWidth()
-		Local devHeight:= DeviceHeight()
+		Local devWidth:= DeviceWidth() / scalex
+		Local devHeight:= DeviceHeight() / scaley
 		Local sendParentResize:Bool = false
 		if devWidth <> Self._guiSize.X or devHeight <> Self._guiSize.Y Then
 			_guiSize.SetValues(devWidth, devHeight)
@@ -1142,8 +1175,10 @@ Class Gui
 	
 	Field _renderer:GuiRenderer '= New GuiRenderer
 	Field _renderTipAlpha:Float = 0
+	Field scalex:Float = 1
+	Field scaley:Float = 1
 	Method RenderTip()
-		Local control:=GetMousePointedControl()
+		Local control:= GetMousePointedControl()
 		if control  = null or control.TipText = "" Then 
 			_renderTipAlpha = 0
 			Return
@@ -1152,8 +1187,9 @@ Class Gui
 		Local Height:Int = Gui.tipFont.GetTxtHeight(control.TipText)+12
 		Local DrawX:Int = _mousePos.X
 		Local DrawY:Int = _mousePos.Y+10
-		if DrawX+Width > DeviceWidth Then DrawX-= DrawX+Width - DeviceWidth
-		if DrawY+Height> DeviceHeight Then DrawY-= DrawY+Height - DeviceHeight + (DeviceHeight-_mousePos.Y)
+		If DrawX + Width > _guiSize.X Then DrawX -= DrawX + Width - _guiSize.X
+		 If DrawY + Height > _guiSize.Y Then DrawY -= DrawY + Height - _guiSize.Y + (_guiSize.Y - _mousePos.Y)
+		
 		'Shadow;
 		SetAlpha(_renderTipAlpha*0.2)
 		SetColor(0,0,0)

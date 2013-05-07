@@ -26,7 +26,7 @@ Class Sample Extends App
 	Field instructions:InstructionsPanel
 	Method OnCreate()
 		SetUpdateRate(60)
-	
+
 		'We create a gui, wich is the component that handles all the gui:
 		If gui = Null Then gui = New Gui
 		'gui.Renderer = New RoundForms 'ConcreteJungle
@@ -51,6 +51,8 @@ Class Sample Extends App
 		
 		instructions = New InstructionsPanel
 		instructions.InitForm(gui)
+		gui.ScaleX = 1.5
+		gui.ScaleY = 2.4
 	End
 	
 	Method OnUpdate()	
@@ -76,7 +78,8 @@ Class Sample Extends App
 		'Render a background desktop image:
 		Local ScaleX:Float = Max(Float(DeviceWidth) / Float(background.Width), 1.0)
 		Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height), 1.0)
-		DrawImage(background,0,0,0,ScaleX, ScaleY,0 )
+		DrawImage(background, 0, 0, 0, ScaleX, ScaleY, 0)
+		Scale(1.5, 1.5)
 		gui.Render
 	End
 End
@@ -304,9 +307,9 @@ Class SampleForm Extends Form
 End
 
 
-
 Function HCenterControl(control:Control)
-	if control.IsTopLevelControl = True Then Return
+	If control.IsTopLevelControl = True Then Return
 	if control.Parent = Null Then Return
 	control.Position.X = control.Parent.Size.X / 2 - control.Size.X / 2
 End
+
