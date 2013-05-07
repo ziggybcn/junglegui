@@ -109,7 +109,7 @@ Class EventHandler<T>
 			del.Call(sender, e)
 		Next
 		#end
-		
+		If _events.IsEmpty Then Return
 		For Local del:= EachIn _events
 			del.Call(sender, e)
 		Next

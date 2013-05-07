@@ -22,6 +22,20 @@
         <Y>0</Y>
       </CursorPos>
     </Document>
+    <Document Filename=".\mojoextensions\helperfunctions.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
+    <Document Filename=".\mojoextensions\scaledscrissor.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
     <Document Filename=".\multilinetexteditor\multilinetexteditor.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>
@@ -162,13 +176,6 @@
         <Y>0</Y>
       </CursorPos>
     </Document>
-    <Document Filename=".\helperfunctions.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
-      <DocGUID />
-      <CursorPos>
-        <X>0</X>
-        <Y>0</Y>
-      </CursorPos>
-    </Document>
     <Document Filename=".\junglegui.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>
@@ -282,5 +289,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="debug" BuildMode="run" Target="Html5_Game" />
+  <CompilerConfig Configuration="debug" BuildMode="bypass" Target="Html5_Game" />
 </JiProj>

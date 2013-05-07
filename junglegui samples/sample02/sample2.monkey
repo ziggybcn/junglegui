@@ -26,7 +26,9 @@ Class Sample2 extends App
 		Catch jge:JungleGuiException
 			Print "Form could not be initialized becouse of an exception:"
 			Print jge.ToString()
-		End		
+		End
+		gui.ScaleX = .5
+		gui.ScaleY = 0.5
 	End
 	
 	Method OnUpdate()
