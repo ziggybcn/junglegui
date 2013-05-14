@@ -29,6 +29,15 @@ Class TextField extends BaseLabel
 		Return _bordercolor
 	End
 
+	
+	Method HasBorder:Bool() Property
+		Return hasBorder
+	End
+	
+	Method HasBorder:Void(value:Bool) Property
+		hasBorder = value
+	End
+
 	Method Render:Void()
 		Const LEFTMARGIN:Int = 12
 		Local Position:= UnsafeRenderPosition
@@ -39,7 +48,7 @@ Class TextField extends BaseLabel
 		Else
 			Self.BorderColor.Activate
 		EndIf
-		DrawBox(Position, Size)
+		If hasBorder Then DrawBox(Position, Size)
 		local TextY:Int = Position.Y + Size.Y / 2 - Font.GetFontHeight / 2
 		if HasFocus Then
 			Local text1:String = Text[ .. _caretPos]
@@ -55,11 +64,11 @@ Class TextField extends BaseLabel
 			
 			SetAlpha(Abs(Sin(Millisecs() / 3.0)))
 			BorderColor.Activate()
-			DrawRect(Position.X + xsize - _drawOffset + 3, Position.Y, 1, Size.Y)
+			DrawRect(Position.X + xsize - _drawOffset + 3, Position.Y, 1.5, Size.Y)
 			xsize += 4
 			if _drawOffset < 0 Then
 				SetAlpha(1)
-				DrawRect(Position.X, Position.Y, _drawOffset * -1, Size.Y)
+				If hasBorder Then DrawRect(Position.X, Position.Y, _drawOffset * -1, Size.Y)
 			EndIf
 			SetAlpha(1)
 			ForeColor.Activate()
@@ -69,7 +78,7 @@ Class TextField extends BaseLabel
 			#END
 			Font.DrawText(text2, Position.X + xsize - _drawOffset, TextY)
 			
-			GetGui.Renderer.DrawFocusRect(Self)
+			If hasBorder Then GetGui.Renderer.DrawFocusRect(Self)
 			Local caretXPos:Int = xsize - _drawOffset
 			if caretXPos >= (Size.X - Size.X / 4)
 				Local sum:Int = (caretXPos - Size.X) / 2
@@ -146,6 +155,8 @@ Class TextField extends BaseLabel
 	field _bordercolor:GuiColor
 	Field _drawOffset:Int = 0
 	Field _selectionLength:Int = 0
+	Field hasBorder:Bool = True
+	
 	Method _InitComponent()
 		_bordercolor = SystemColors.FormBorder
 		BackgroundColor = SystemColors.WindowColor
