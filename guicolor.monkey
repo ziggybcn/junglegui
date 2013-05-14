@@ -7,7 +7,12 @@ Class GuiColor
 
 	Field r:Int, g:Int, b:Int, a:Float
 	'summary: Sets the color values
-	method SetColor(a,r,g,b)
+	Method SetColor(a, r, g, b)
+		#IF CONFIG="debug" 
+			If a > 1 or a < 0 or r > 255 or r < 0 or g > 255 or g < 0 or b > 255 or b < 0 Then
+				Error("Color values are not valid.")
+			EndIf
+		#END
 		Self.r = r
 		Self.g = g
 		Self.b = b
@@ -15,6 +20,11 @@ Class GuiColor
 	End
 	'summary: Creates the JungleGui color with the given parameters (alpha, red, green and blue)
 	Method New(a, r, g, b)
+		#IF CONFIG="debug" 
+			If a > 1 or a < 0 or r > 255 or r < 0 or g > 255 or g < 0 or b > 255 or b < 0 Then
+				Error("Color values are not valid.")
+			EndIf
+		#END
 		SetColor(a, r, g, b)
 	End
 	

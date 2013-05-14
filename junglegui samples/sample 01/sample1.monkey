@@ -51,6 +51,8 @@ Class Sample Extends App
 		
 		instructions = New InstructionsPanel
 		instructions.InitForm(gui)
+		gui.ScaleX = 0.6
+		gui.ScaleY = 0.6
 	End
 	
 	Method OnUpdate()
