@@ -26,7 +26,7 @@ Class BaseLabel Extends Control Implements TextualItem Abstract
 	Method Font:BitmapFont() property
 		if _font<>null Then Return _font Else Return GetGui.systemFont
 	End
-	
+
 	Method Font:Void(value:BitmapFont) property 
 		_font = value
 	End

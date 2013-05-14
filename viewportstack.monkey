@@ -4,7 +4,7 @@ Class ViewPortStack
 End
 
 Class ViewPort
-	Field position:=New GuiVector2D 
+	Field position:= New GuiVector2D
 	Field size:= New GuiVector2D
 	Method Calculate:ViewPort(parent:ViewPort)
 		Local newView:= New ViewPort
@@ -22,7 +22,7 @@ Class ViewPort
 			newView.position.Y = parent.position.Y
 		endif
 		
-		if newView.position.X + newView.size.X > parent.position.X + parent.size.X Then
+		If newView.position.X + newView.size.X > parent.position.X + parent.size.X Then
 			newView.size.X = parent.position.X + parent.size.X - newView.position.X
 		EndIf
 		
@@ -37,8 +37,9 @@ Class ViewPort
 		size = New GuiVector2D
 		size.SetValues(control.Size.X,control.Size.Y)
 	End
-
-	method SetValuesFromControl(control:ContainerControl,padding:Padding) 
+ 
+	
+	Method SetValuesFromControl(control:ContainerControl, padding:Padding)
 		position = control.UnsafeRenderPosition().Clone()
 		position.X+=control.Padding.Left 
 		position.Y+=control.Padding.Top 

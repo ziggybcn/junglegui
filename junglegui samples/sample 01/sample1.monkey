@@ -31,7 +31,7 @@ Class Sample Extends App
 		If gui = Null Then gui = New Gui
 		'gui.Renderer = New RoundForms 'ConcreteJungle
 		
-		'EnableAutoSize()
+		EnableAutoSize()
 
 		'We create a SampleForm, and we attach it to the gui component:
 		MyForm = New SampleForm
@@ -266,6 +266,7 @@ Class SampleForm Extends Form
 		li = New ListItem("Item 3"); combo.Items.AddLast(li)
 		combo.SelectedIndex = 0
 				
+		
 		'''
 		''' add random radio buttons
 		'''
@@ -280,6 +281,7 @@ Class SampleForm Extends Form
 		Next
 		 
 	End
+
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.BackgroundColor = New GuiColor(1, Rnd(200, 255), Rnd(200, 255), Rnd(200, 255))
@@ -303,7 +305,6 @@ Class SampleForm Extends Form
 		End
 	End
 End
-
 
 Function HCenterControl(control:Control)
 	If control.IsTopLevelControl = True Then Return

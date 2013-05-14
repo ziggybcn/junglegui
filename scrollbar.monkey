@@ -40,7 +40,9 @@ Public
 		Super.Update()
 	End
 	
+	'note: TODO: Place all rendering into the abstracted renderer class
 	Method Render:Void()
+	
 		Local drawpos:= UnsafeRenderPosition()
 		_scrollbar.Render(drawpos, Self.Size)
 	End

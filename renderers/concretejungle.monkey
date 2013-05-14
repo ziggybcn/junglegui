@@ -33,8 +33,12 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		'We modify the way a form is renderer.
 
 		'We render the form "main" box:
-		SystemColors.FormMargin.Activate()	'Select the form margin color
-		SetAlpha(0.4)	'Oue new skin has transparent form borders, so we set alpha
+		If context <> Null And context = context.GetGui.ActiveTopLevelControl Then
+			SystemColors.FormMargin.ActivateBright(25)	'Select the form margin color
+		Else
+			SystemColors.FormMargin.ActivateDark(55)	'Select the form margin color
+		EndIf
+		SetAlpha(0.75)	'Oue new skin has transparent form borders, so we set alpha
 		'SetAlpha 1
 		DrawRect(position.X, position.Y, size.X, size.Y)	'We draw the form rectangle
 		SetAlpha(1)	'We set alpha back to 1
@@ -43,6 +47,7 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		
 		'First a small gradient:
 		For Local i:Int = 0 To Gui.systemFont.GetFontHeight
+			SystemColors.FormMargin.ActivateBright(50)
 			SetAlpha(1 - float(i) / float(Gui.systemFont.GetFontHeight))
 			DrawLine(position.X, position.Y + i, position.X + size.X, position.Y + i)
 		Next
@@ -54,7 +59,7 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		#ELSE
 			SystemColors.WindowTextForeColor.Activate()
 		#END
-		Gui.systemFont.DrawText(text, position.X + 1, position.Y + 1)
+		Gui.systemFont.DrawText(text, position.X + padding.Left + 1, position.Y + padding.Top / 2 - Gui.systemFont.GetFontHeight / 2)
 				
 		
 		Local resizeStatus = eResizeStatus.NONE
@@ -102,8 +107,8 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 			DrawRect(position.X, position.Y + size.Y - 5, size.X, 5)
 		EndIf
 
-		SetAlpha(0.5)
 		SystemColors.FormBorder.Activate()
+		SetAlpha(0.5)
 		DrawBox(position, size)
 
 		SetAlpha(1)

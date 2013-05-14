@@ -76,7 +76,7 @@ Class GuiRenderer
 
 	End
 	
-	
+		
 	Method DrawLabelText(status:Int, position:GuiVector2D, size:GuiVector2D, text:String, align:Int, font:BitmapFont, context:Control = Null)
 		'SetColor(Self.ForeColor.r, ForeColor.g, ForeColor.b)
 			
@@ -304,6 +304,7 @@ Class GuiRenderer
 	'End
 End
 
+'note: TODO: Check if object creation can be reduced
 Function ResetRendererValues(renderer:GuiRenderer)
 		'Reset Renderer metrics:
 		renderer._radioBoxSize.SetValues(12, 12)
