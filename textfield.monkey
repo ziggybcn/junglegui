@@ -1,8 +1,8 @@
 ﻿Import junglegui
 Private 
 Import mojo
-Public
 Const TEXTVALIDCHARS:String = "+-*/=~q!@#$%&()?[]çÇñÑáéíóúàèìòùâêîôûäëïöüÁÉÍÓÚÀÈIÒÙÄËÏÖÜÂÊÎÔÛýÝ€0123456789,.:;{}¨'`´~~|\ºª<>"
+Public
 #Rem
 	summary: This is the TextField control. This control allows keyboard input using a standard single line text box.
 #END
@@ -164,7 +164,7 @@ Class TextField extends BaseLabel
 		ForeColor.SetColor(1, 0, 0, 0)
 		RequiresVirtualKeyboard = True
 	End
-	
+	'note: OPTIMIZE: Revisit this later. It works slowly, but it works
 	Method _controlClicked(e:MouseEventArgs)
 		Local text:=Text, currentPos = -_drawOffset
 		For Local i:Int = 0 until text.Length

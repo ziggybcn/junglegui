@@ -326,4 +326,5 @@ End
 Class eOrientation Abstract
 	Const VERTICAL:Int = 0
 	Const HORIZONTAL:Int = 1
+	
 End
