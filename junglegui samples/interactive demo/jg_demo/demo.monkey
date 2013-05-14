@@ -1,10 +1,8 @@
 'This file was edited with Jungle IDE
 Import junglegui
 Import demoform
-'Import junglegui.renderers.concretejungle
 
 #REFLECTION_FILTER+="demo"
-
 #GLFW_WINDOW_RESIZABLE=true
 
 Function Main()
@@ -16,10 +14,9 @@ End
 Class Demo
 	Method Launch_Demo(sender:Object, e:InitializeAppEvent)
 		EnableAutoSize()
-		JungleGuiApplication.gui.ScaleX = 1.5
-		JungleGuiApplication.gui.ScaleY = 0.5
+		JungleGuiApplication.gui.ScaleX = 1
+		JungleGuiApplication.gui.ScaleY = 1
 		e.mainForm = New DemoForm
-'		JungleApp.gui.Renderer = New Touch
 	End
 	
 	Method Render_Background(sender:Object, e:EventArgs)
@@ -31,6 +28,5 @@ Class Demo
 			color.ActivateBright( (MAX - i) / 8.0)
 			DrawRect(0, i, DeviceWidth, SIZE)
 		Next
-		
 	End
 End

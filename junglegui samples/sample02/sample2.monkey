@@ -27,8 +27,8 @@ Class Sample2 extends App
 			Print "Form could not be initialized becouse of an exception:"
 			Print jge.ToString()
 		End
-		gui.ScaleX = .5
-		gui.ScaleY = 0.5
+		'gui.ScaleX = 1.25
+		'gui.ScaleY = 1.25
 	End
 	
 	Method OnUpdate()

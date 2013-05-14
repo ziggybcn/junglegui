@@ -58,13 +58,14 @@ Class Control
 		EndIf
 	End
 
+	
 	'summary: this is the background color of the control
 	Method BackgroundColor:GuiColor() Property 
 		Return _backgroundColor
 	end
 	
 	Method BackgroundColor:GuiColor(value:GuiColor) Property
-		if value<>null Then 
+		If value <> Null Then
 			_backgroundColor = value 
 		Else
 			Throw New JungleGuiException("Background color can't be set to null",Self)
@@ -1191,9 +1192,9 @@ Class Gui
 		 If DrawY + Height > _guiSize.Y Then DrawY -= DrawY + Height - _guiSize.Y + (_guiSize.Y - _mousePos.Y)
 		
 		'Shadow;
-		SetAlpha(_renderTipAlpha*0.2)
-		SetColor(0,0,0)
-		DrawRect(DrawX+2,DrawY+2,Width,Height)
+		'SetAlpha(_renderTipAlpha*0.2)
+		'SetColor(0,0,0)
+		'DrawRect(DrawX+2,DrawY+2,Width,Height)
 		
 		'Background:
 		SetAlpha(_renderTipAlpha)
@@ -1233,5 +1234,4 @@ Class Gui
 	Field _waitingTipCount:Int = 0
 	Field _event_Msg:= New EventHandler<EventArgs>
 	'Field _renderMatrix:Float[]
-	
 End

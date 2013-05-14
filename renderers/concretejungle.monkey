@@ -46,6 +46,7 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 			SetAlpha(1 - float(i) / float(Gui.systemFont.GetFontHeight))
 			DrawLine(position.X, position.Y + i, position.X + size.X, position.Y + i)
 		Next
+		
 		'Then the text:
 		SetAlpha 1
 		#IF TARGET="html5" 
@@ -75,14 +76,14 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		For Local i:Int = 0 To 20
 			'SetAlpha(1 - i / 20.0)
 			
-			backcolor.ActivateDark(2 * (40 - i * 2))'55)
+			backcolor.ActivateDark(1 * (40 - i * 2))'55)
 			
 			DrawLine(position.X + padding.Left,
 				position.Y +size.Y - padding.Bottom - i,
 				position.X +size.X - padding.Right,
 				position.Y +size.Y - padding.Bottom - i)
 			
-			backcolor.ActivateBright(2 * (40 - i * 2))'55)
+			backcolor.ActivateBright(1 * (40 - i * 2))'55)
 			'SetColor(255, 0, 0)
 			DrawLine(position.X + padding.Left,
 				position.Y +padding.Top + i,
@@ -181,7 +182,5 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		EndIf
 		
 	End
-
 	
 End
-

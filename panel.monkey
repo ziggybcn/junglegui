@@ -11,7 +11,8 @@ Class Panel extends ContainerControl
 		Local position:=self.UnsafeRenderPosition()
 		DrawRect(position.X + 1, position.Y + 1, Size.X - 2, Size.Y - 2)
 		BorderColor.Activate()
-		DrawRoundBox(position, Size)
+		'DrawRoundBox(position, Size)
+		GetGui.Renderer.DrawControlBorder(Status, position, Size, Self)
 		If HasFocus Then GetGui.Renderer.DrawFocusRect(Self, True)
 		
 	End
