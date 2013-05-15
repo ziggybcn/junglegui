@@ -1,6 +1,10 @@
 Import junglegui
 
 Class MultilineTextbox Extends BaseLabel
+	Method New()
+		InitComponent()
+	End
+	
 	Const CR:= "~n"
 	Field caretPos:= New GuiVector2D
 	Method Render:Void()
@@ -44,8 +48,23 @@ Class MultilineTextbox Extends BaseLabel
 	Method Msg(msg:BoxedMsg)
 		If msg.sender = Self
 			If msg.e.messageSignature = eMsgKinds.KEY_PRESS Then
+				Local text:String = lines[caretPos.Y].text
 				Local kpe:= KeyEventArgs(msg.e)
 				If kpe <> Null Then
+				
+					If (Font.GetFaceImage(kpe.key) <> Null) And (kpe.key <> 127)
+	
+						SetLine(caretPos.Y, text[ .. caretPos.X] + String.FromChar(kpe.key) + text[caretPos.X ..])
+						caretPos.X += 1
+						'AdjustWrap()
+	
+                	ElseIf kpe.key = 8      'Del
+                        If caretPos.X > 0 Then
+                                text = text[ .. caretPos.X - 1] + text[caretPos.X ..]
+                                SetLine(caretPos.Y, text)
+                                caretPos.X-=1
+                        EndIf
+					EndIf
 					Select kpe.key
 						Case KEY_RIGHT, 65575
 							MoveCaretRight()
@@ -53,17 +72,13 @@ Class MultilineTextbox Extends BaseLabel
 							MoveCaretLeft()
 						Case KEY_DOWN, 65576
 							MoveCaretDown()
-					End
-					
+					End				
 				EndIf
 			EndIf
 		EndIf
 		
 		If msg.sender = Self And msg.e.messageSignature = eMsgKinds.RESIZED Then
-			For Local i:Int = 0 Until Lines
-				Local tl:= GetLine(i)
-				tl.AdjustLine(Self.Font, Self.GetClientAreaSize.X)
-			Next
+			AdjustWrap()
 		EndIf
 
 		Super.Msg(msg)
@@ -91,6 +106,16 @@ Class MultilineTextbox Extends BaseLabel
 		EndIf
 	End
 	
+	Method SetLine(y:Int, text:String)
+		#IF CONFIG="debug"
+			If (y < 0) Error("SetLine with less than a 0 index.") 'Return;
+			If (y >= Lines) Error("SetLine out of bounds") 'Return;
+		#END
+		lines[y].text = text
+		lines[y].AdjustLine(Self.Font, Self.GetClientAreaSize.X)
+	End Method
+
+		
 	Method MoveCaretDown()
 		Local line:= GetLine(caretPos.Y)
 		Local getNext:Bool = False, prevOffset:Int, lastInter:TxtInterval
@@ -169,6 +194,13 @@ Class MultilineTextbox Extends BaseLabel
 	Const LINES_RESIZING_FACTOR = 1024
 	Method InitComponent()
 		Self.BackgroundColor = SystemColors.WindowColor
+	End
+	
+	Method AdjustWrap()
+		For Local i:Int = 0 Until Lines
+			Local tl:= GetLine(i)
+			tl.AdjustLine(Self.Font, Self.GetClientAreaSize.X)
+		Next
 	End
 End
 

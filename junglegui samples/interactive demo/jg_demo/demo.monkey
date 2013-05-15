@@ -13,7 +13,7 @@ End
 
 Class Demo
 	Method Launch_Demo(sender:Object, e:InitializeAppEvent)
-		EnableAutoSize()
+		'EnableAutoSize()
 		JungleGuiApplication.gui.ScaleX = 1
 		JungleGuiApplication.gui.ScaleY = 1
 		e.mainForm = New DemoForm
