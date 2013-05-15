@@ -159,7 +159,7 @@ Class GuiRenderer
 		DrawRect(position.X, position.Y, size.X, size.Y)
 		'SetColor(SystemColors.FormMargin.r + 10, SystemColors.FormMargin.g + 10, SystemColors.FormMargin.b + 10)
 		SystemColors.FormMargin.ActivateBright(15)
-		DrawRect(position.X + 2, position.Y + 2, size.X - 4, padding.Top / 2 - 2)	
+		DrawRect(position.X + 2, position.Y + 2, size.X - 4, padding.Top / 2 - 2)
 		SystemColors.WindowTextForeColor.Activate()
 		Local TextY:Int = position.Y + padding.Top / 2 - Gui.systemFont.GetFontHeight / 2
 		#IF TARGET="html5"

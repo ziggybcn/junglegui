@@ -55,7 +55,7 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 	Field _textAlign:Int = eTextAlign.CENTER 
 
 	Method _InitComponent()
-		ForeColor.SetColor(1, 0, 0, 0)
+		'ForeColor.SetColor(1, 0, 0, 0)
 		BackgroundColor = SystemColors.ControlFace
 		BorderColor = SystemColors.ButtonBorderColor
 		HooverColor = SystemColors.HooverBackgroundColor
