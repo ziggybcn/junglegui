@@ -55,7 +55,7 @@ Class Sample Extends App
 		
 		Local editform:= New EditorForm
 		editform.InitForm(gui)
-		
+		editform.Position.SetValues(10, 50)
 		gui.ScaleX = 1
 		gui.ScaleY = 1
 	End
@@ -327,7 +327,7 @@ Class EditorForm Extends Form
 		
 		EditBox = New MultilineTextbox
 		EditBox.Parent = Self
-		EditBox.Text = "Hello world!"
+		EditBox.Text = LoadString("loremipsum.txt")
 		ArrangeSize()
 	End
 	

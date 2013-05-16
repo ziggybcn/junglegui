@@ -32,7 +32,7 @@ Class MultilineTextbox Extends BaseLabel
 						Local caretOffset:Int = tl.GetTxtSpacing(tl.text, Font, interval.InitOffset, caretPos.X) + 1'  Font.GetTxtWidth(tl.text, interval.InitOffset + 1, interval.InitOffset + caretPos.X)
 						If Millisecs Mod 1000 < 500
 							ForeColor.Activate()
-							DrawRect(drawpos.X + caretOffset, drawpos.Y + i * Font.GetFontHeight, 2, Font.GetFontHeight)
+							DrawRect(drawpos.X + caretOffset, drawpos.Y + i * Font.GetFontHeight, Font.GetFaceInfo(32).drawingWidth / 2.0, Font.GetFontHeight)
 							#IF TARGET="html5"
 								SetColor(255, 255, 255)
 							#ELSE
