@@ -64,7 +64,7 @@ Class TextField extends BaseLabel
 			
 			SetAlpha(Abs(Sin(Millisecs() / 3.0)))
 			BorderColor.Activate()
-			DrawRect(Position.X + xsize - _drawOffset + 3, Position.Y, 1.5, Size.Y)
+			DrawRect(Position.X + xsize - _drawOffset + 3, Position.Y, Font.GetTxtWidth(" ") / 2.0, Size.Y)
 			xsize += 4
 			if _drawOffset < 0 Then
 				SetAlpha(1)
