@@ -15,6 +15,10 @@ Import junglegui.multilinetexteditor
 'It's important to add this file to the reflection filter if we want it to be able to process event handlers
 #REFLECTION_FILTER+="sample1"
 
+
+#GLFW_WINDOW_RESIZABLE=True
+#GLFW_WINDOW_TITTLE="Jungle Gui Sample"
+
 'Start the application
 Function Main()
 	New Sample  
@@ -133,7 +137,6 @@ Class InstructionsPanel Extends WindowFrame
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		
-
 		Select sender
 			Case ButDefault
 				GetGui.Renderer = Null
