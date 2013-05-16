@@ -72,11 +72,11 @@ Class MultilineTextbox Extends BaseLabel
                         EndIf
 					EndIf
 					Select kpe.key
-						Case KEY_RIGHT, 65575
+						Case 65575	'Key right
 							MoveCaretRight()
-						Case KEY_LEFT, 65573
+						Case 65573	'Key left
 							MoveCaretLeft()
-						Case KEY_DOWN, 65576
+						Case 65576 'Key down
 							MoveCaretDown()
 					End				
 				EndIf
