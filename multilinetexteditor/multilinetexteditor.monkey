@@ -28,12 +28,16 @@ Class MultilineTextbox Extends BaseLabel
 
 				'Draw caret!
 				If caretPos.Y = curline and GetGui.ActiveControl = Self Then
-					If caretPos.X >= interval.InitOffset And caretPos.X < interval.EndOffset Then
+					If caretPos.X >= interval.InitOffset And caretPos.X <= interval.EndOffset Then
 						Local caretOffset:Int = tl.GetTxtSpacing(tl.text, Font, interval.InitOffset, caretPos.X) + 1'  Font.GetTxtWidth(tl.text, interval.InitOffset + 1, interval.InitOffset + caretPos.X)
 						If Millisecs Mod 1000 < 500
 							ForeColor.Activate()
 							DrawRect(drawpos.X + caretOffset, drawpos.Y + i * Font.GetFontHeight, 2, Font.GetFontHeight)
-							SetColor(255, 255, 255)
+							#IF TARGET="html5"
+								SetColor(255, 255, 255)
+							#ELSE
+								Self.ForeColor.Activate()
+							#END							
 						EndIf
 					EndIf
 				End
@@ -45,6 +49,8 @@ Class MultilineTextbox Extends BaseLabel
 		Next
 	End
 
+	
+	
 	Method Msg(msg:BoxedMsg)
 		If msg.sender = Self
 			If msg.e.messageSignature = eMsgKinds.KEY_PRESS Then
@@ -86,11 +92,14 @@ Class MultilineTextbox Extends BaseLabel
 	
 	Method MoveCaretRight()
 		caretPos.X += 1
-		If caretPos.X >= GetLine(caretPos.Y).text.Length Then
-			If caretPos.Y < Lines
+		If caretPos.X > GetLine(caretPos.Y).text.Length Then
+			If caretPos.Y < Lines - 1
 				caretPos.Y += 1
 				caretPos.X = 0
+			Else
+				caretPos.X -= 1
 			EndIf
+			
 		EndIf
 	End
 	
