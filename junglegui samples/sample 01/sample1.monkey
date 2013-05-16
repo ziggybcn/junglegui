@@ -10,6 +10,7 @@
 Import junglegui
 Import junglegui.renderers.concretejungle
 Import junglegui.renderers.roundforms
+Import junglegui.multilinetexteditor
 
 'It's important to add this file to the reflection filter if we want it to be able to process event handlers
 #REFLECTION_FILTER+="sample1"
@@ -51,8 +52,12 @@ Class Sample Extends App
 		
 		instructions = New InstructionsPanel
 		instructions.InitForm(gui)
-		gui.ScaleX = 0.6
-		gui.ScaleY = 0.6
+		
+		Local editform:= New EditorForm
+		editform.InitForm(gui)
+		
+		gui.ScaleX = 1
+		gui.ScaleY = 1
 	End
 	
 	Method OnUpdate()
@@ -314,3 +319,24 @@ Function HCenterControl(control:Control)
 	control.Position.X = control.Parent.Size.X / 2 - control.Size.X / 2
 End
 
+
+Class EditorForm Extends Form
+	Field EditBox:MultilineTextbox
+	Method OnInit()
+		Self.Text = "Editor"
+		Self.Event_Resized.Add(Self, "Form_Resized")
+		
+		EditBox = New MultilineTextbox
+		EditBox.Parent = Self
+		EditBox.Text = "Hello world!"
+		ArrangeSize()
+	End
+	
+	Method Form_Resized(sender:Object, e:EventArgs)
+		ArrangeSize
+	End
+	
+	Method ArrangeSize()
+		EditBox.Size.SetValues(Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y)
+	End
+End
