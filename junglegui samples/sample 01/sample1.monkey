@@ -319,7 +319,6 @@ Function HCenterControl(control:Control)
 	control.Position.X = control.Parent.Size.X / 2 - control.Size.X / 2
 End
 
-
 Class EditorForm Extends Form
 	Field EditBox:MultilineTextbox
 	Method OnInit()
