@@ -51,5 +51,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="release" BuildMode="run" Target="Glfw_Game" />
+  <CompilerConfig Configuration="release" BuildMode="run" Target="Html5_Game" />
 </JiProj>

@@ -31,7 +31,7 @@ Class GuiColor
 	'summary: Activates current color
 	Method Activate()
 		Local a:Float = GetAlpha
-		Local col:Float[]
+		Local col:= New Float[3]
 		GetColor(col)
 		If a <> Self.a Then SetAlpha(a)
 		If col[0] <> r or col[1] <> g or col[2] <> b Then graphics.SetColor(r, g, b)
