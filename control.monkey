@@ -786,6 +786,15 @@ Class ContainerControl extends Control
 		
 	End
 	
+	Method InitializeNow()
+		If _initialized Then
+			Return
+		Else
+			_initialized = True
+			OnInit()
+		EndIf
+	End
+	
 	Method GenerateControlsList:List<Control>()
 		Local list:= New List<Control>
 		For Local control:= EachIn controls

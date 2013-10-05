@@ -36,6 +36,13 @@ Class Padding
 		'ValuesChanged
 		Return bottom
 	End
+	
+	Method SetAll(top:Int, left:Int, bottom:Int, right:Int)
+		Top = top
+		Left = left
+		Bottom = bottom
+		Right = right
+	End
 '	Method SetNotifyControl(control:Control)
 '		_notifyControl = control
 '	end

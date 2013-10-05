@@ -27,6 +27,7 @@ Import windowframe
 Import canvas
 Import reflection
 Import guiapp
+Import guiimage
 #REFLECTION_FILTER+="junglegui*"
 
 
