@@ -16,5 +16,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="debug" BuildMode="bypass" Target="Glfw_Game" />
+  <CompilerConfig Configuration="debug" BuildMode="run" Target="Glfw_Game" />
 </JiProj>

@@ -241,8 +241,14 @@ Class GuiRenderer
 		
 		DrawRoundBox(int(position.X), int(position.Y + yOffset), CheckBoxSize.X, CheckBoxSize.Y)
 		If checked Then
-			SystemColors.AppWorkspace.Activate()
-			DrawRect(position.X + 4, position.Y + 4 + yOffset, CheckBoxSize.X - 9, CheckBoxSize.Y - 8)
+			SystemColors.ButtonBorderColor.ActivateDark(50)
+			DrawRoundBox(position.X + 2, position.Y + 2 + yOffset, CheckBoxSize.X - 4, CheckBoxSize.Y - 4)
+			DrawRect(position.X + 3, position.Y + 3 + yOffset, CheckBoxSize.X - 6, CheckBoxSize.Y - 6)
+		Else
+			SystemColors.ControlFace.ActivateBright()
+			DrawRoundBox(position.X + 2, position.Y + 2 + yOffset, CheckBoxSize.X - 4, CheckBoxSize.Y - 4)
+			DrawRect(position.X + 3, position.Y + 3 + yOffset, CheckBoxSize.X - 6, CheckBoxSize.Y - 6)
+		
 		EndIf
 
 	End

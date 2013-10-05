@@ -27,17 +27,15 @@ Public
 		Self._img = value
 	End
 	
-Private 
 	
-	Method BorderVisible?() Property
+	Method DrawBorder:Bool() Property
 		Return _showBorder
 	End
 	
-	Method BorderVisible:Void(val?) Property 
+	Method DrawBorder:Void(val:Bool) Property
 		_showBorder = val 
 	End
 
-Public 
 	
 	Method Font(value:BitmapFont) Property
 		_font = value
@@ -70,11 +68,13 @@ Public
 			
 		Else if _showBorder Then 
 			
-			SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
-			DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)
-			SetColor(255, 255, 255)
+			BackgroundColor.Activate()
 			DrawRect(drawpos.X + 1, drawpos.Y + 1, Size.X - 2, Size.Y - 2)
-		
+			BorderColor.Activate()
+			DrawRoundBox(drawpos.X, drawpos.Y, Size.X, Size.Y)
+		Else
+			BackgroundColor.Activate()
+			DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)		
 		EndIf
 		
 		'' selected item
