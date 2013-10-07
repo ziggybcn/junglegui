@@ -338,9 +338,8 @@ Public
 		' render scrollbar
 		'
 		_scrollbar._size.SetValues(_scrollbar.DefaultWidth, Size.Y - 2)
-		'_scrollbar._pos.SetValues(drawpos.X + Size.X - _scrollbar.DefaultWidth - 1, drawpos.Y + 1)
 		_scrollbar._pos.SetValues(drawpos.X + Size.X - _scrollbar.DefaultWidth - 0, drawpos.Y + 1)
-		if ScrollbarVisible then
+		If ScrollbarVisible Then
 			_scrollbar.Render(_scrollbar._pos, _scrollbar._size)
 		endif
 		If HasFocus Then

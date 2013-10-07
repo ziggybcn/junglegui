@@ -546,6 +546,7 @@ Class Control
 	Field _tipText:String
 	Field _visible:Bool = True
 	Field _requiresVirtualKeyboard:Bool = False
+	Field _outOfView
 	
 	Method RefreshRenderPosition:GuiVector2D()
 		If _cacheRenderPosCalcuation = Null Then _cacheRenderPosCalcuation = New GuiVector2D
@@ -697,8 +698,10 @@ Class ContainerControl extends Control
 		if _gui.viewPortStack.Stack.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
 		
 		If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
+			_outOfView = False
 			SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		Else
+			_outOfView = True
 			Return 'Nothing to draw!
 		EndIf
 		
@@ -751,9 +754,13 @@ Class ContainerControl extends Control
 			EndIf
 			If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
 				SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+				c._outOfView = False
 				c.Render()
 				SetColor(255, 255, 255)
 				If GetAlpha <> 1 Then SetAlpha(1)
+			Else
+				c._outOfView = True
+				'Print "optimized!"
 			EndIf
 		Next
 		if _gui.viewPortStack.Stack.IsEmpty = False Then
@@ -771,10 +778,8 @@ Class ContainerControl extends Control
 			If c.HasGraphicalInterface = False Then
 				c.Update()
 			Else
-				If c.Visible = True Then
-					'if c.enabled then
-						c.Update()
-					'end
+				If c.Visible = True and _outOfView = False Then
+					c.Update()
 				Else
 					'We don't update invisible controls
 				EndIf
@@ -1029,12 +1034,12 @@ Class Gui
 		Local oldMouseDown = _mouseDown
 		_mouseDown = MouseDown()
 		For Local c:Control = EachIn _components
+			If sendParentResize Then c.Msg(New BoxedMsg(c, New EventArgs(eMsgKinds.PARENT_RESIZED)))
 			If c.Visible Then
-				If c._gui = Null Then Continue
+				If c._gui = Null or c._outOfView Then Continue
 				c._FocusChecks()	'update control under mouse.
 				c.Update()
 			End
-			If sendParentResize Then c.Msg(New BoxedMsg(c, New EventArgs(eMsgKinds.PARENT_RESIZED)))
 		Next
 				
 		Local oldControl:= _mousePointerControl
