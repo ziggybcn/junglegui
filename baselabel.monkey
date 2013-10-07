@@ -29,6 +29,7 @@ Class BaseLabel Extends Control Implements TextualItem Abstract
 
 	Method Font:Void(value:BitmapFont) property 
 		_font = value
+		If AutoAdjustSize Then AdjustSize()
 	End
 	
 	Method New()
