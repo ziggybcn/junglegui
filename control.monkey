@@ -585,12 +585,12 @@ Class Control
 		viewPort.SetValuesFromControl(Self)
 		
 		'Los ajustamos al viewport padre:
-		if _gui.viewPortStack.Stack.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
+		If _gui.viewPortStack.ports.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top())
 			
 		'Añadimos el viewport a la cola:
-		_gui.viewPortStack.Stack.AddLast(viewPort)
+		_gui.viewPortStack.ports.Push(viewPort)
 		If _gui._mousePos = Null Then _gui._mousePos = New GuiVector2D'(0, 0)
-		if HasGraphicalInterface Then 	'And is visible
+		If HasGraphicalInterface and _outOfView = False Then 	'And is visible
 			if _gui._mousePos.X>= viewPort.position.X And _gui._mousePos.X<= (viewPort.position.X + viewPort.size.X) Then
 				if _gui._mousePos.Y>=viewPort.position.Y And _gui._mousePos.Y<=(viewPort.position.Y + viewPort.size.Y) then
 					If _gui._mouseControl <> Self Then
@@ -600,19 +600,19 @@ Class Control
 			End
 		endif
 		
-		if Self.IsContainer then
+		If Self.IsContainer and _outOfView = False Then
 			Local container:= ContainerControl(Self)
 			viewPort = New ViewPort
 			viewPort.SetValuesFromControl(container,container.Padding)
-			viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
-			_gui.viewPortStack.Stack.AddLast(viewPort)
+			viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top())
+			_gui.viewPortStack.ports.Push(viewPort)
 			For local c:Control = EachIn container.controls
-				c._FocusChecks()
+				If c._outOfView = False Then c._FocusChecks()
 			Next
-			_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el post-padding
+			_gui.viewPortStack.ports.Pop()	'eliminamos el post-padding
 		endif
 	
-		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el borde del control
+		_gui.viewPortStack.ports.Pop()	'eliminamos el borde del control
 	
 	End
 	
@@ -695,7 +695,7 @@ Class ContainerControl extends Control
 		viewPort.SetValuesFromControl(Self)
 		
 		'Los ajustamos al viewport padre:
-		if _gui.viewPortStack.Stack.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
+		If _gui.viewPortStack.ports.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top)
 		
 		If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
 			_outOfView = False
@@ -706,27 +706,27 @@ Class ContainerControl extends Control
 		EndIf
 		
 		'Añadimos el viewport a la cola:
-		_gui.viewPortStack.Stack.AddLast(viewPort)
+		_gui.viewPortStack.ports.Push(viewPort)
 		RenderBackground()
 
 		'We set the children viewport:
 		viewPort = New ViewPort
 		viewPort.SetValuesFromControl(Self,Padding)
-		viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
-		_gui.viewPortStack.Stack.AddLast(viewPort)
+		viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top) 'Stack.Last())
+		_gui.viewPortStack.ports.Push(viewPort)
 		SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		RenderChildren()
 		
 		'we remove the children viewport
-		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el post-padding
+		_gui.viewPortStack.ports.Pop()	'eliminamos el post-padding
 		
 		'We get the regular control viewport again and set it to render the foreground component:
-		viewPort = _gui.viewPortStack.Stack.Last()
+		viewPort = _gui.viewPortStack.ports.Top
 		SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		RenderForeground()
 		
 		'We now remove the control viewport from the stack
-		_gui.viewPortStack.Stack.RemoveLast()	'eliminamos el borde del control
+		_gui.viewPortStack.ports.Pop()	'eliminamos el borde del control
 			
 	End
 
@@ -745,12 +745,12 @@ Class ContainerControl extends Control
 	End
 	'summary: This method renders all the contained controls, in the required order.
 	Method RenderChildren()
+		Local viewPort:ViewPort = New ViewPort
 		For Local c:Control = EachIn controls
 			if c.Visible = False Then Continue
-			Local viewPort:ViewPort = New ViewPort
 			viewPort.SetValuesFromControl(c)
-			If _gui.viewPortStack.Stack.IsEmpty = False Then
-				viewPort = viewPort.Calculate(_gui.viewPortStack.Stack.Last())
+			If _gui.viewPortStack.ports.IsEmpty = False Then
+				viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top) 'Stack.Last())
 			EndIf
 			If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
 				SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
@@ -763,8 +763,8 @@ Class ContainerControl extends Control
 				'Print "optimized!"
 			EndIf
 		Next
-		if _gui.viewPortStack.Stack.IsEmpty = False Then
-			Local viewPort:ViewPort = _gui.viewPortStack.Stack.Last()
+		if _gui.viewPortStack.ports.IsEmpty = False Then
+			Local viewPort:ViewPort = _gui.viewPortStack.ports.Top 'Stack.Last()
 			SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		EndIf
 	End
@@ -778,7 +778,7 @@ Class ContainerControl extends Control
 			If c.HasGraphicalInterface = False Then
 				c.Update()
 			Else
-				If c.Visible = True and _outOfView = False Then
+				If c.Visible = True and c._outOfView = False Then
 					c.Update()
 				Else
 					'We don't update invisible controls
