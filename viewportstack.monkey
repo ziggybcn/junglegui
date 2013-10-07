@@ -1,6 +1,8 @@
 Import junglegui
 Class ViewPortStack
-	Field Stack:List<ViewPort> = New List<ViewPort>
+	'Field Stack:List<ViewPort> = New List<ViewPort>
+	Field ports:= New Stack<ViewPort>
+	
 End
 
 Class ViewPort
@@ -34,7 +36,7 @@ Class ViewPort
 	
 	Method SetValuesFromControl(control:Control)
 		position = control.UnsafeRenderPosition().Clone()
-		size = New GuiVector2D
+		'size = New GuiVector2D
 		size.SetValues(control.Size.X,control.Size.Y)
 	End
  
@@ -43,7 +45,7 @@ Class ViewPort
 		position = control.UnsafeRenderPosition().Clone()
 		position.X+=control.Padding.Left 
 		position.Y+=control.Padding.Top 
-		size = New GuiVector2D
+		'size = New GuiVector2D
 		size.SetValues(control.Size.X,control.Size.Y)
 		size.X-= (control.Padding.Right + control.Padding.Left)
 		size.Y-= (control.Padding.Bottom + control.Padding.Top)
