@@ -312,7 +312,8 @@ Public
 			
 			Local _visibleItems:Int = Max(0, int(GetClientAreaSize.Y / (_itemHeight + _spacing.X) + 0.5))
 			
-			_scrollbar.ItemsCount = rows * (_itemHeight + _spacing.X) / _hScrollStep
+			'_scrollbar.ItemsCount = rows * (_itemHeight + _spacing.X) / _hScrollStep
+			_scrollbar.ItemsCount = rows * (_itemHeight + _spacing.Y) / _hScrollStep
 			_scrollbar.VisibleItems = _visibleItems * (_itemHeight + _spacing.X) / _hScrollStep
 
 			If _scrollbar.Value > _scrollbar._itemsCount - _scrollbar._visibleItems Then
