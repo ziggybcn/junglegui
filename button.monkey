@@ -30,11 +30,8 @@ Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 	
 	'summary: This method will auto adjust the size of the control according to the contained text
 	Method AdjustSize:GuiVector2D()
-		Local size:GuiVector2D = New GuiVector2D 
-		size.X = Font.GetTxtWidth(Text) + 19
-		size.Y = Font.GetTxtHeight(Text) + 19
-		Self.Size.SetValues(size.X,size.Y)
-		Return size
+		Self.Size.SetValues(Font.GetTxtWidth(Text) + 19, Font.GetTxtHeight(Text) + 19)
+		Return Size
 	End
 	'summary: This property allows you to set the desired text aligment for thsi control.
 	Method TextAlign:Int() Property

@@ -34,9 +34,14 @@ Class GuiVector2D
 	
 	'summary: This method returns a new GuiVector2D with the same X and Y values of this one
 	Method Clone:GuiVector2D()
-		Local vector:=New GuiVector2D
-		vector.SetValues(X,Y)
+		Local vector:= New GuiVector2D
+		CloneHere(vector)
 		Return vector
+	End
+	
+	'summary: Copy the contents to the given 2D Vector
+	Method CloneHere:Void(target:GuiVector2D)
+		target.SetValues(X, Y)
 	End
 
 	Private
