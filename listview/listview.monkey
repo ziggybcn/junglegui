@@ -272,13 +272,17 @@ Public
 		Return _items
 	End
 	
+	Private
+	Field _clientAreaSize:= New GuiVector2D
+	Public
 	Method UpdateScrollBar( )
 		Local _countX:Int
 		'Local _countY:Float	'Prevent rounding errors
-
+		
+		Self.GetClientAreaSizeHere(_clientAreaSize)
 		if Items And Items.Count > 0 Then 
 		
-			_countX = Max(1, GetClientAreaSize.X / (_itemWidth + _spacing.X))
+			_countX = Max(1, _clientAreaSize.X / (_itemWidth + _spacing.X))
 	
 			
 			Local index = 0
@@ -310,7 +314,7 @@ Public
 			'' update scrollbar 
 			''
 			
-			Local _visibleItems:Int = Max(0, int(GetClientAreaSize.Y / (_itemHeight + _spacing.X) + 0.5))
+			Local _visibleItems:Int = Max(0, int(_clientAreaSize.Y / (_itemHeight + _spacing.X) + 0.5))
 			
 			'_scrollbar.ItemsCount = rows * (_itemHeight + _spacing.X) / _hScrollStep
 			_scrollbar.ItemsCount = rows * (_itemHeight + _spacing.Y) / _hScrollStep

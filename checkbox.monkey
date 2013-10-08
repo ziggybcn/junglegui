@@ -27,10 +27,10 @@ Class CheckBox Extends BaseLabel
 	End
 
 	Method AdjustSize:GuiVector2D()
-		Local size:GuiVector2D = New GuiVector2D
-		size.X = Font.GetTxtWidth(Text) + 20
-		size.Y = Font.GetFontHeight() 
-		Self.Size.SetValues(size.X, size.Y)
+		'Local size:GuiVector2D = New GuiVector2D
+		'size.X = Font.GetTxtWidth(Text) + 20
+		'size.Y = Font.GetFontHeight() 
+		Self.Size.SetValues(Font.GetTxtWidth(Text) + 20, Font.GetFontHeight())
 		Return Self.Size
 	End
 	

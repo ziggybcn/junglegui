@@ -179,8 +179,9 @@ Class MultilineTextbox Extends BaseLabel
 			If (y < 0) Error("SetLine with less than a 0 index.") 'Return;
 			If (y >= Lines) Error("SetLine out of bounds") 'Return;
 		#END
+		GetClientAreaSizeHere(clientAreaSize)
 		lines[y].text = text
-		lines[y].AdjustLine(Self.Font, Self.GetClientAreaSize.X)
+		lines[y].AdjustLine(Self.Font, clientAreaSize.X)
 	End Method
 
 		
@@ -224,12 +225,13 @@ Class MultilineTextbox Extends BaseLabel
 	Method Text:Void(value:String) Property
 		Clear()
 		linesWithWrap = 0
+		GetClientAreaSizeHere(clientAreaSize)
 		Local Stringlines:= value.Split(CR)
 		For Local s:String = EachIn Stringlines
 			Local tl:= AppendLine()
 			'Local tl:= New TextLine
 			tl.text = s
-			tl.AdjustLine(Self.Font, Self.GetClientAreaSize.X)
+			tl.AdjustLine(Self.Font, clientAreaSize.X)
 			linesWithWrap += tl.Lines
 		Next
 		AdjustScrollBar
@@ -270,11 +272,14 @@ Class MultilineTextbox Extends BaseLabel
 		Self.BackgroundColor = SystemColors.WindowColor
 	End
 	
+	
+	
 	Method AdjustWrap()
 		linesWithWrap = 0
+		GetClientAreaSizeHere(clientAreaSize)
 		For Local i:Int = 0 Until Lines
 			Local tl:= GetLine(i)
-			tl.AdjustLine(Self.Font, Self.GetClientAreaSize.X - sBar._size.X)
+			tl.AdjustLine(Self.Font, clientAreaSize.X - sBar._size.X)
 			tl.Lines
 			linesWithWrap += tl.Lines
 		Next
@@ -292,6 +297,8 @@ Class MultilineTextbox Extends BaseLabel
 	
 	Field linesWithWrap:Int = 0
 	Field sBar:= New ScrollBarContainer
+	Private
+	Field clientAreaSize:= New GuiVector2D
 End
 
 Class TextLine

@@ -8,8 +8,8 @@ End
 Class ViewPort
 	Field position:= New GuiVector2D
 	Field size:= New GuiVector2D
-	Method Calculate:ViewPort(parent:ViewPort)
-		Local newView:= New ViewPort
+	Method Calculate:ViewPort(parent:ViewPort, result:ViewPort)
+		Local newView:= result 'New ViewPort
 		newView.position.X = position.X
 		newView.position.Y=position.Y
 		newView.size.X = size.X

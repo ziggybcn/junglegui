@@ -297,6 +297,15 @@ Class Control
 		EndIf
 		Return location
 	End
+	
+	Method GetClientAreaLocationHere:Void(target:GuiVector2D)
+		UnsafeRenderPosition().CloneHere(target)
+		If ContainerControl(Self) Then
+			Local container:= ContainerControl(Self)
+			target.X += container.Padding.Left
+			target.Y += container.Padding.Top
+		EndIf
+	End
 
 	'summary: This method returns the client area size of the control on the current mojo canvas. That is, the canvas X and Y size of the control contents.
 	Method GetClientAreaSize:GuiVector2D()
@@ -310,6 +319,15 @@ Class Control
 		Return size
 	End
 
+	Method GetClientAreaSizeHere(target:GuiVector2D)
+		Size.CloneHere(target)
+		If ContainerControl(Self) Then
+			Local container:= ContainerControl(Self)
+			target.X -= container.Padding.Left + container.Padding.Right
+			target.Y -= container.Padding.Top + container.Padding.Bottom
+		EndIf
+	End
+	
 	'summary: This method returns the control location on the current mojo device. That is, the canvas X and Y location of the control location.
 	Method LocationInDevice:GuiVector2D()
 		Return UnsafeRenderPosition.Clone()
@@ -569,6 +587,9 @@ Class Control
 		EndIf
 	End
 
+	Field _vp_focusChecks:ViewPort = New ViewPort
+	Field _vp_focusChecks2:ViewPort = New ViewPort
+	
 	
 	Method _FocusChecks()
 		
@@ -580,12 +601,12 @@ Class Control
 		EndIf
 		'RefreshRenderPosition()
 		
-		Local viewPort:ViewPort = new ViewPort
+		Local viewPort:= _vp_focusChecks 'new ViewPort
 		'Ponemos los valores del control
 		viewPort.SetValuesFromControl(Self)
 		
 		'Los ajustamos al viewport padre:
-		If _gui.viewPortStack.ports.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top())
+		If _gui.viewPortStack.ports.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top(), viewPort)
 			
 		'Añadimos el viewport a la cola:
 		_gui.viewPortStack.ports.Push(viewPort)
@@ -602,9 +623,9 @@ Class Control
 		
 		If Self.IsContainer and _outOfView = False Then
 			Local container:= ContainerControl(Self)
-			viewPort = New ViewPort
+			viewPort = _vp_focusChecks2  'New ViewPort
 			viewPort.SetValuesFromControl(container,container.Padding)
-			viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top())
+			viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top(), viewPort)
 			_gui.viewPortStack.ports.Push(viewPort)
 			For local c:Control = EachIn container.controls
 				If c._outOfView = False Then c._FocusChecks()
@@ -677,25 +698,35 @@ Class ContainerControl extends Control
 		For Local child:Control = EachIn Self.controls
 			child.Parent = Self
 		Next
-	End	
+	End
+	Private
+	Field _msg_ParentResized:= New BoxedMsg(Null, eMsgKinds.PARENT_RESIZED)
+	Public
 	Method Msg(msg:BoxedMsg)
 		If msg.e.messageSignature = eMsgKinds.RESIZED And msg.sender = Self Then
-			For local control:Control = EachIn Self.controls
-				Local resizeMsg:= New BoxedMsg(control, eMsgKinds.PARENT_RESIZED)
-				control.Msg(resizeMsg)
+			
+			For Local control:Control = EachIn Self.controls
+				_msg_ParentResized.sender = control
+				_msg_ParentResized.status = eMsgStatus.Sent
+				control.Msg(_msg_ParentResized)
 			Next
 		EndIf
 		Super.Msg(msg)
 		
 	End
 	
+	Private
+		Field _vp_render:ViewPort = New ViewPort
+		Field _vp_render2:ViewPort = New ViewPort
+	Public
+	
 	Method Render:Void()
-		Local viewPort:ViewPort = new ViewPort
+		Local viewPort:ViewPort = _vp_render
 		'Ponemos los valores del control
 		viewPort.SetValuesFromControl(Self)
 		
 		'Los ajustamos al viewport padre:
-		If _gui.viewPortStack.ports.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top)
+		If _gui.viewPortStack.ports.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top, viewPort)
 		
 		If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
 			_outOfView = False
@@ -710,9 +741,9 @@ Class ContainerControl extends Control
 		RenderBackground()
 
 		'We set the children viewport:
-		viewPort = New ViewPort
+		viewPort = _vp_render2 'New ViewPort
 		viewPort.SetValuesFromControl(Self,Padding)
-		viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top) 'Stack.Last())
+		viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top, viewPort) 'Stack.Last())
 		_gui.viewPortStack.ports.Push(viewPort)
 		SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		RenderChildren()
@@ -744,13 +775,16 @@ Class ContainerControl extends Control
 		GetGui.Renderer.DrawFocusRect(Self)
 	End
 	'summary: This method renders all the contained controls, in the required order.
+	Private
+		Field _vp_renderChildren:= New ViewPort
+	Public
 	Method RenderChildren()
-		Local viewPort:ViewPort = New ViewPort
+		Local viewPort:ViewPort = _vp_renderChildren 'New ViewPort
 		For Local c:Control = EachIn controls
 			if c.Visible = False Then Continue
 			viewPort.SetValuesFromControl(c)
 			If _gui.viewPortStack.ports.IsEmpty = False Then
-				viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top) 'Stack.Last())
+				viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top, viewPort) 'Stack.Last())
 			EndIf
 			If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
 				SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
@@ -1005,6 +1039,8 @@ Class Gui
 		_mousePointerControl = null
 	End
 	'summary: This method has to be called whenever the Gui has to be updated.
+	Private
+	Field _msg_parentResized:= New BoxedMsg(Null, New EventArgs(eMsgKinds.PARENT_RESIZED))
 	Method Update()
 
 		if _mousePos = Null then _mousePos = New GuiVector2D
@@ -1034,7 +1070,11 @@ Class Gui
 		Local oldMouseDown = _mouseDown
 		_mouseDown = MouseDown()
 		For Local c:Control = EachIn _components
-			If sendParentResize Then c.Msg(New BoxedMsg(c, New EventArgs(eMsgKinds.PARENT_RESIZED)))
+			_msg_parentResized.sender = c
+			_msg_parentResized.status = eMsgStatus.Sent
+			If sendParentResize Then c.Msg(_msg_parentResized)
+			Local e:EventArgs
+			
 			If c.Visible Then
 				If c._gui = Null or c._outOfView Then Continue
 				c._FocusChecks()	'update control under mouse.
