@@ -19,6 +19,8 @@ Import junglegui.multilinetexteditor
 #GLFW_WINDOW_RESIZABLE=True
 #GLFW_WINDOW_TITTLE="Jungle Gui Sample"
 
+
+
 'Start the application
 Function Main()
 	New Sample  
