@@ -979,8 +979,10 @@ Class Gui
 		Renderer = Null	'Force default renderer
 	End
 
+	
 	'summary: This method has to be called whenever the Gui has to be rendered.
 	Method Render()
+	'note:TODO: Modify the way render location is calculated. It should be calculated on every step, instead of stored and the recreated on every MOVE msg. This way it sohuld be faster and smaller on the mem footprint.
 		If _renderer = Null Then Renderer = Null	'Set default renderer in case it has not been set.
 		PushMatrix()
 		graphics.SetMatrix(1, 0, 0, 1, 0, 0)
@@ -990,7 +992,7 @@ Class Gui
 		For Local c:Control = EachIn _components
 			If c.Visible = False Then Continue
 			c.AddRenderPos()
-			c.StorePos()
+			'c.StorePos()
 			c.Render()
 			SetGuiScissor(Self, scissor[0], scissor[1], scissor[2], scissor[3])
 			c.RemoveRenderPos()
