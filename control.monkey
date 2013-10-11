@@ -93,22 +93,14 @@ Class Control
 	'summary: This is automatically called when the control needs to be drawn on the screen.
 	Method Render:Void()
 		Local color:Float[] = GetColor()
-		SetColor(Self.BackgroundColor.r, Self.BackgroundColor.g,Self.BackgroundColor.b)
-		Local renderPos:GuiVector2D = Self.UnsafeRenderPosition()
-		DrawRect(renderPos.X, renderPos.Y, Size.X, Size.Y)
-		SetColor(color[0],color[1],color[2])
+		SetColor(Self.BackgroundColor.r, Self.BackgroundColor.g, Self.BackgroundColor.b)
+		DrawRect(_gui.currentRenderPos.X, _gui.currentRenderPos.X, Size.X, Size.Y)		
+		SetColor(color[0], color[1], color[2])
 	End
 	
 	'summary: <font color=red><b>Advanced usage only</b></font><br>This method is internally used to build and control the internal status changes messaging system of the Gui system.
 	Method Msg(msg:BoxedMsg)
 		If Not _gui Then Return
-		If msg.sender = Self Then
-			Select msg.e.messageSignature
-				Case eMsgKinds.MOVED, eMsgKinds.PADDING_MODIFIED, eMsgKinds.MOUSE_DOWN, eMsgKinds.PARENT_SET,
-				eMsgKinds.PARENT_REMOVED, eMsgKinds.VISIBLE_CHANGED
-				PerformRenderPositionCalculation()
-			End
-		EndIf
 		If _parentControl <> Null Then
 			Control(_parentControl).Msg(msg)
 		EndIf
@@ -198,9 +190,12 @@ Class Control
 	End
 	
 	'summary: This returns the internal GuiVector2D that contains the precalculated control render position on screen.<br>While this information is useful to perform quick render operations, modifying this vector values can cause rendering artifacts.<br>To use a safe way to manipulate this vector see <b>LocationInDevice</b>
-	Method UnsafeRenderPosition:GuiVector2D()	
-		If _cacheRenderPosCalcuation = Null Then Return RefreshRenderPosition '.Clone()
-		Return _cacheRenderPosCalcuation '.Clone()
+	Method UnsafeRenderPosition:GuiVector2D()
+	
+		Return _lastRenderPos '_gui.currentRenderPos
+	
+		'If _cacheRenderPosCalcuation = Null Then Return RefreshRenderPosition '.Clone()
+		'Return _cacheRenderPosCalcuation '.Clone()
 	End
 	
 		
@@ -536,6 +531,10 @@ Class Control
 		_requiresVirtualKeyboard = value
 	End
 	
+	Method LastRenderPosOnCanvas:GuiVector2D() Property
+		Return _lastRenderPos
+	End
+	
 	Private
 
 'INTERNAL EVENT HANDLERS:
@@ -566,34 +565,30 @@ Class Control
 	Field _requiresVirtualKeyboard:Bool = False
 	Field _outOfView
 	
-	Method RefreshRenderPosition:GuiVector2D()
-		If _cacheRenderPosCalcuation = Null Then _cacheRenderPosCalcuation = New GuiVector2D
-		_cacheRenderPosCalcuation.SetValues (Position.X, Position.Y)
-		Local parent:ContainerControl = _parentControl
-		If parent <> Null Then
-			_cacheRenderPosCalcuation.X += parent.UnsafeRenderPosition.X + parent.Padding.Left
-			_cacheRenderPosCalcuation.Y += parent.UnsafeRenderPosition.Y + parent.Padding.Top
-		EndIf
-		Return _cacheRenderPosCalcuation
+	Field _lastRenderPos:= New GuiVector2D
+	
+	Method StorePos()
+		_gui.currentRenderPos.CloneHere(_lastRenderPos)
 	End
-
-	Method PerformRenderPositionCalculation()
-		_cacheRenderPosCalcuation = Null
-		Local container:ContainerControl = ContainerControl(Self)
-		If container <> Null Then
-			For Local c:Control = EachIn container.controls
-				c.PerformRenderPositionCalculation
-			Next
-		EndIf
+	
+	Method AddRenderPos()
+		_gui.currentRenderPos.X += Position.X
+		_gui.currentRenderPos.Y += Position.Y
+		StorePos()
 	End
-
+	
+	Method RemoveRenderPos()
+		_gui.currentRenderPos.X -= Position.X
+		_gui.currentRenderPos.Y -= Position.Y
+	End
+	
 	Field _vp_focusChecks:ViewPort = New ViewPort
 	Field _vp_focusChecks2:ViewPort = New ViewPort
 	
 	
 	Method _FocusChecks()
 		
-		if Self.Visible = False Then return
+		If Self.Visible = False Then Return
 		if Self.HasGraphicalInterface = False Then return
 		
 		if _gui = null Then
@@ -627,9 +622,13 @@ Class Control
 			viewPort.SetValuesFromControl(container,container.Padding)
 			viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top(), viewPort)
 			_gui.viewPortStack.ports.Push(viewPort)
-			For local c:Control = EachIn container.controls
+			'container.AddPaddingPos
+			For Local c:Control = EachIn container.controls
+				'c.AddRenderPos
 				If c._outOfView = False Then c._FocusChecks()
+				'c.RemoveRenderPos
 			Next
+			'container.RemovePaddingPos
 			_gui.viewPortStack.ports.Pop()	'eliminamos el post-padding
 		endif
 	
@@ -656,7 +655,7 @@ Class Control
 	Field _tabStop:Bool = true
 	Field _name:String = ""
 	'Cache items:
-	Field _cacheRenderPosCalcuation:GuiVector2D
+	'Field _cacheRenderPosCalcuation:GuiVector2D
 	Field _hooveColor:GuiColor = Null
 	Field _borderColor:GuiColor = Null
 
@@ -721,20 +720,21 @@ Class ContainerControl extends Control
 	Public
 	
 	Method Render:Void()
+	
 		Local viewPort:ViewPort = _vp_render
 		'Ponemos los valores del control
 		viewPort.SetValuesFromControl(Self)
 		
 		'Los ajustamos al viewport padre:
-		If _gui.viewPortStack.ports.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top, viewPort)
+		If _gui.viewPortStack.ports.IsEmpty = False Then viewPort.Calculate(_gui.viewPortStack.ports.Top, viewPort)
 		
-		If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
-			_outOfView = False
-			SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
-		Else
+		If viewPort.size.X < 1 or viewPort.size.Y < 1
 			_outOfView = True
 			Return 'Nothing to draw!
 		EndIf
+		_outOfView = False
+		SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
+			
 		
 		'Añadimos el viewport a la cola:
 		_gui.viewPortStack.ports.Push(viewPort)
@@ -780,8 +780,10 @@ Class ContainerControl extends Control
 	Public
 	Method RenderChildren()
 		Local viewPort:ViewPort = _vp_renderChildren 'New ViewPort
+		AddPaddingPos
 		For Local c:Control = EachIn controls
-			if c.Visible = False Then Continue
+			If c.Visible = False Then Continue
+			c.AddRenderPos()
 			viewPort.SetValuesFromControl(c)
 			If _gui.viewPortStack.ports.IsEmpty = False Then
 				viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top, viewPort) 'Stack.Last())
@@ -796,11 +798,23 @@ Class ContainerControl extends Control
 				c._outOfView = True
 				'Print "optimized!"
 			EndIf
+			c.RemoveRenderPos()
 		Next
 		if _gui.viewPortStack.ports.IsEmpty = False Then
 			Local viewPort:ViewPort = _gui.viewPortStack.ports.Top 'Stack.Last()
 			SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		EndIf
+		RemovePaddingPos
+	End
+	
+	Method AddPaddingPos()
+		_gui.currentRenderPos.X += Padding.Left
+		_gui.currentRenderPos.Y += Padding.Top
+	End
+	
+	Method RemovePaddingPos()
+		_gui.currentRenderPos.X -= Padding.Left
+		_gui.currentRenderPos.Y -= Padding.Top
 	End
 	
 	Method Update()
@@ -808,17 +822,21 @@ Class ContainerControl extends Control
 			_initialized = True
 			OnInit()
 		EndIf
+		'AddPaddingPos
 		For Local c:Control = EachIn Self.controls
 			If c.HasGraphicalInterface = False Then
 				c.Update()
 			Else
 				If c.Visible = True and c._outOfView = False Then
+					'c.AddRenderPos()
 					c.Update()
+					'c.RemoveRenderPos()
 				Else
 					'We don't update invisible controls
 				EndIf
 			EndIf
 		Next
+		'RemovePaddingPos
 	End
 	'summary: This method will be called when the container control has to be initialized.
 	Method OnInit()
@@ -966,12 +984,17 @@ Class Gui
 		If _renderer = Null Then Renderer = Null	'Set default renderer in case it has not been set.
 		PushMatrix()
 		graphics.SetMatrix(1, 0, 0, 1, 0, 0)
+		currentRenderPos.SetValues(0, 0)
 		If scalex <> 1 or scaley <> 1 Then Scale(scalex, scaley)
 		Local scissor:Float[] = GetScissor()
 		For Local c:Control = EachIn _components
 			If c.Visible = False Then Continue
+			c.AddRenderPos()
+			c.StorePos()
 			c.Render()
 			SetGuiScissor(Self, scissor[0], scissor[1], scissor[2], scissor[3])
+			c.RemoveRenderPos()
+			'Print currentRenderPos.X + ", " + currentRenderPos.Y
 		Next
 		SetScissor(scissor[0], scissor[1], scissor[2], scissor[3])
 		
@@ -1077,8 +1100,10 @@ Class Gui
 			
 			If c.Visible Then
 				If c._gui = Null or c._outOfView Then Continue
+				'c.AddRenderPos
 				c._FocusChecks()	'update control under mouse.
 				c.Update()
+				'c.RemoveRenderPos()
 			End
 		Next
 				
@@ -1094,7 +1119,7 @@ Class Gui
 		end
 		
 		if _mousePointerControl <> null And (_oldMousePos.X <> _mousePos.X or _oldMousePos.Y <> _mousePos.Y) and _mousePointerControl._gui <> null Then
-			Local cords:= _mousePointerControl.RefreshRenderPosition.Clone()
+			Local cords:= _mousePointerControl.LastRenderPosOnCanvas.Clone() 'RefreshRenderPosition.Clone()
 			cords.X = _mousePos.X - cords.X
 			cords.Y = _mousePos.Y - cords.Y
 			Local eArgs:= New MouseEventArgs(eMsgKinds.MOUSE_MOVE, cords, 0)
@@ -1105,7 +1130,7 @@ Class Gui
 			'this is a MouseDownEvent
 			if newControl <> null Then
 				'local pos:=New GuiVector2D
-				Local controlPos:= newControl.RefreshRenderPosition.Clone() 'UnsafeRenderPosition().Clone()
+				Local controlPos:= newControl.LastRenderPosOnCanvas.Clone() 'RefreshRenderPosition.Clone() 'UnsafeRenderPosition().Clone()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
 				if newControl._gui <> null then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.MOUSE_DOWN, controlPos, 1)))
 				_DownControl = newControl
@@ -1113,13 +1138,13 @@ Class Gui
 		ElseIf oldMouseDown = True And _mouseDown = False Then
 			'Mouse up and possible click:
 			if _DownControl <> null and _DownControl._gui <> null Then
-				Local controlPos:= _DownControl.RefreshRenderPosition.Clone()
+				Local controlPos:= _DownControl.LastRenderPosOnCanvas.Clone() 'RefreshRenderPosition.Clone()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
 				if _DownControl._gui <> null then _DownControl.Msg(New BoxedMsg(_DownControl, New MouseEventArgs(eMsgKinds.MOUSE_UP, controlPos, 1)))
 			EndIf
 			if _DownControl = newControl And _DownControl <> null Then
 				local pos:GuiVector2D
-				pos = newControl.RefreshRenderPosition.Clone()
+				pos = newControl.LastRenderPosOnCanvas.Clone() 'RefreshRenderPosition.Clone()
 				pos.SetValues(_mousePos.X-pos.X,_mousePos.Y-pos.Y)
 				if newControl._gui <> null then newControl.GetFocus()
 				If newControl._gui <> Null Then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
@@ -1227,6 +1252,7 @@ Class Gui
 	End
 	
 	Private
+	Field currentRenderPos:= New GuiVector2D
 	
 	Field _renderer:GuiRenderer '= New GuiRenderer
 	Field _renderTipAlpha:Float = 0

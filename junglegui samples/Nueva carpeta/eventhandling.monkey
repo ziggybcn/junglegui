@@ -5,19 +5,13 @@ Function Main()
 	New Demo
 End
 
-Class Manel
-	Method Draw()
-		
-	End
-End
-
 Class Demo Extends App
 	Field gui:Gui
 	Field form:MyForm
 	Method OnCreate()
-		For Local c:ClassInfo = EachIn GetClasses()
-			Print c.Name
-		Next
+		'For Local c:ClassInfo = EachIn GetClasses()
+		'	Print c.Name
+		'Next
 		SetUpdateRate(60)
 		gui = New Gui
 		form = New MyForm

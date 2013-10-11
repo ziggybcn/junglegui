@@ -5,6 +5,7 @@ Class GuiImage Extends Control
 	Field image:Image
 	Field transparent:Bool = False
 	Field _imageSet:= New EventHandler<EventArgs>
+	Field colorCache:= New Float[3]
 	Public
 	
 	Method Event_ImageSet:EventHandler<EventArgs>() Property;
@@ -16,8 +17,10 @@ Class GuiImage Extends Control
 	End
 	
 	Method Image:Void(image:Image) Property
-		_imageSet.RaiseEvent(Self, New EventArgs(eMsgKinds.EMPTYMSG))
-		Self.image = image
+		If image <> Self.image Then
+			_imageSet.RaiseEvent(Self, New EventArgs(eMsgKinds.EMPTYMSG))
+			Self.image = image
+		EndIf
 	End
 	
 	Method Transparent:Bool() Property
@@ -31,16 +34,24 @@ Class GuiImage Extends Control
 	Method Render:Void()
 
 		Local location:= Self.UnsafeRenderPosition()
-		Local color:= New Float[3]
-		GetColor(color)
+		'Local color:= New Float[3]
+		Local resetcolor:Bool = False
+		GetColor(colorCache)
 	
 		If Not transparent Then
+			If colorCache[0] <> BackgroundColor.r And colorCache[1] <> BackgroundColor.g And colorCache[2] <> BackgroundColor.b Then
+				SetColor(255, 255, 255)
+				resetcolor = True
+			EndIf
 			BackgroundColor.Activate()
 			DrawRect(location.X, location.Y, Size.X, Size.Y)
 		EndIf
 		
 		If image <> Null
-			SetColor(255, 255, 255)
+			If colorCache[0] <> 255 And colorCache[1] <> 255 And colorCache[2] <> 255 or resetcolor Then
+				SetColor(255, 255, 255)
+				resetcolor = True
+			EndIf
 			Local posx:Int, posy:Int
 			posx = location.X + Size.X / 2
 			posy = location.Y + Size.Y / 2
@@ -49,6 +60,6 @@ Class GuiImage Extends Control
 			DrawImage(image, posx, posy)
 			image.SetHandle(handlex, handley)
 		EndIf
-		SetColor(color[0], color[1], color[2])
+		SetColor(colorCache[0], colorCache[1], colorCache[2])
 	End
 End

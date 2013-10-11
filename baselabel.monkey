@@ -57,10 +57,10 @@ Class BaseLabel Extends Control Implements TextualItem Abstract
 	
 	'summary: This method will resize the control to the contained text size
 	Method AdjustSize:GuiVector2D()
-		Local size:GuiVector2D = New GuiVector2D
-		size.X = Font.GetTxtWidth(Text) 
-		size.Y = Font.GetTxtHeight(Text)
-		Self.Size.SetValues(size.X,size.Y)
+		'Local size:GuiVector2D = New GuiVector2D
+		'size.X = Font.GetTxtWidth(Text) 
+		'size.Y = Font.GetTxtHeight(Text)
+		Self.Size.SetValues(Font.GetTxtWidth(Text), Font.GetTxtHeight(Text))
 		Return Self.Size
 	End
 	

@@ -3,7 +3,6 @@
 Import junglegui
 Import junglegui.listview
 Import junglegui.tabcontrol 
-Import trans
 
 #REFLECTION_FILTER+="sample2*"
 
@@ -150,6 +149,7 @@ Class MyForm Extends Form
 		'''
 		''' listView1
 		'''
+		
 		Local img1:= LoadImage("icon1.png")
 		Local img2:= LoadImage("icon2.png")
 		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
@@ -169,7 +169,8 @@ Class MyForm Extends Form
 		'''
 		Local map1:= LoadImage("map1.png")
 		Local map2:= LoadImage("map2.png")
-		Local map3:= LoadImage("map3.png") 
+		Local map3:= LoadImage("map3.png")
+		
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map1))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map2))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map3))		
@@ -179,7 +180,7 @@ Class MyForm Extends Form
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", img1))	
 		
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", img2))
-		listView2.Parent = tabPage2 
+		listView2.Parent = tabPage2
 		listView2.Position.SetValues(10,10)
 		listView2.Size.SetValues(tabPage2.Size.X-20, tabPage2.Size.Y-20)
 	End
