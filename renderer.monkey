@@ -177,8 +177,11 @@ Class GuiRenderer
 			SystemColors.WindowColor.Activate()
 		EndIf
 		
-		DrawRect(position.X + padding.Left, position.Y + padding.Top, size.X - padding.Left - padding.Right, size.Y - padding.Bottom - padding.Top)
-		
+		DrawRect(position.X + padding.Left,
+			position.Y +padding.Top,
+			size.X -padding.Left - padding.Right,
+			size.Y - padding.Bottom - padding.Top)
+			
 		If HasFlag(resizeStatus, eResizeStatus.RESIZE_RIGHT)
 			SystemColors.HooverBackgroundColor.ActivateBright(Sin(Millisecs() / 2.0) * 40)
 			DrawRect(position.X + size.X - 5, position.Y, 5, size.Y)

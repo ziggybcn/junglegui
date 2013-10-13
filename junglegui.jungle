@@ -5,9 +5,4 @@
   <Project>.\junglegui.jiproj</Project>
   <Project>.\junglegui samples\particles sample.jiproj</Project>
   <Project>.\renderers\renderers.jiproj</Project>
-  <Project>..\fontmachine\sample programs\Sample1.jiproj</Project>
-  <Project>..\fontmachine\sample programs\Sample2.jiproj</Project>
-  <Project>..\fontmachine\fontmachine module.jiproj</Project>
-  <Project>..\fontmachine\sample programs\Sample3.jiproj</Project>
-  <Project>..\fontmachine\sample4\sample4.jiproj</Project>
 </JungleSolution>

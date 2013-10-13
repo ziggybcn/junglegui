@@ -70,6 +70,12 @@ Class Sample Extends App
 	
 	Method OnLoading()
 		Cls(255, 255, 255)
+		If background <> Null Then
+			'Render a background desktop image:
+			Local ScaleX:Float = Max(Float(DeviceWidth) / Float(background.Width), 1.0)
+			Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height), 1.0)
+			DrawImage(background, 0, 0, 0, ScaleX, ScaleY, 0)
+		EndIf
 		Translate(DeviceWidth / 2, DeviceHeight / 2)
 		SetColor(0, 0, 180)
 		Local baseRot = Millisecs() / 3 mod 360

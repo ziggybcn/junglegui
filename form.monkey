@@ -30,7 +30,6 @@ Class Form Extends TopLevelControl
 		Local drawPos:GuiVector2D = UnsafeRenderPosition()
 		
 		GetGui.Renderer.DrawFormBackground(Status, drawPos, Size, Padding, Text, Self)
-		
 		If ControlBox then RenderControlBox(drawPos)
 	End
 	Method RenderControlBox(FormScreenPos:GuiVector2D)

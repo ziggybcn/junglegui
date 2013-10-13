@@ -65,7 +65,7 @@ Class MyApp Extends WindowFrame
 		'''
 		list = New ListView(0, 0, Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y, Self)
 		list.BackgroundColor = SystemColors.WindowColor
-		For Local i:Int = 0 To 10
+		For Local i:Int = 0 To 100
 			Local item:= New ModuleListItem 'DefaultListViewItem("Item " + i, iconImage)
 			item.Text = "" '"Item " + i
 			item.Name = "item" + i			

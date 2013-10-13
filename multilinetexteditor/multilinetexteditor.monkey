@@ -16,6 +16,8 @@ Class MultilineTextbox Extends BaseLabel
 		
 	End
 	
+	
+	
 	Method Render:Void()
 		
 		Local i:int = 0
@@ -70,9 +72,21 @@ Class MultilineTextbox Extends BaseLabel
 			sBar.Render(sBar._pos, sBar._size)
 		'endif
 		
+		If hasborder Then
+			BorderColor.Activate()
+			DrawBox(drawpos.X, drawpos.Y, Size.X, Size.Y)
+			SetColor(255, 255, 255)
+		EndIf
+		
 	End
 
+	Method DrawBorder:Bool() Property
+		Return hasborder
+	End
 	
+	Method DrawBorder:Void(value:Bool) Property
+		hasborder = value
+	End
 	
 	Method Msg(msg:BoxedMsg)
 		Const ScrollbarVisible = True
@@ -181,7 +195,7 @@ Class MultilineTextbox Extends BaseLabel
 		#END
 		GetClientAreaSizeHere(clientAreaSize)
 		lines[y].text = text
-		lines[y].AdjustLine(Self.Font, clientAreaSize.X)
+		lines[y].AdjustLine(Self.Font, clientAreaSize.X - sBar._size.X - 5)
 	End Method
 
 		
@@ -223,6 +237,7 @@ Class MultilineTextbox Extends BaseLabel
 		Return result
 	End
 	Method Text:Void(value:String) Property
+
 		Clear()
 		linesWithWrap = 0
 		GetClientAreaSizeHere(clientAreaSize)
@@ -231,10 +246,11 @@ Class MultilineTextbox Extends BaseLabel
 			Local tl:= AppendLine()
 			'Local tl:= New TextLine
 			tl.text = s
-			tl.AdjustLine(Self.Font, clientAreaSize.X)
+			tl.AdjustLine(Self.Font, clientAreaSize.X - sBar._size.X - 5)
 			linesWithWrap += tl.Lines
 		Next
 		AdjustScrollBar
+		sBar.Value = 0
 	End
 
 	Method AppendLine:TextLine()
@@ -266,7 +282,9 @@ Class MultilineTextbox Extends BaseLabel
 	Field lines:= New TextLine[LINES_RESIZING_FACTOR]
 	Field linesCount:Int = -1
 	Field _readonly:Bool = True
-
+	Field hasborder:Bool = False
+	
+	
 	Const LINES_RESIZING_FACTOR = 1024
 	Method InitComponent()
 		Self.BackgroundColor = SystemColors.WindowColor
@@ -279,7 +297,7 @@ Class MultilineTextbox Extends BaseLabel
 		GetClientAreaSizeHere(clientAreaSize)
 		For Local i:Int = 0 Until Lines
 			Local tl:= GetLine(i)
-			tl.AdjustLine(Self.Font, clientAreaSize.X - sBar._size.X)
+			tl.AdjustLine(Self.Font, clientAreaSize.X - sBar._size.X - 5)
 			tl.Lines
 			linesWithWrap += tl.Lines
 		Next
