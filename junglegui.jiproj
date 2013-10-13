@@ -57,13 +57,6 @@
         <Y>0</Y>
       </CursorPos>
     </Document>
-    <Document Filename=".\tabcontrol\tabcontrol.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
-      <DocGUID />
-      <CursorPos>
-        <X>0</X>
-        <Y>0</Y>
-      </CursorPos>
-    </Document>
     <Document Filename=".\baselabel.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>
@@ -260,6 +253,13 @@
         <Y>0</Y>
       </CursorPos>
     </Document>
+    <Document Filename=".\tabcontrol.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
     <Document Filename=".\textfield.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>
@@ -296,5 +296,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="debug" BuildMode="run" Target="Html5_Game" />
+  <CompilerConfig Configuration="release" BuildMode="run" Target="Html5_Game" />
 </JiProj>

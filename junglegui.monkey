@@ -28,6 +28,7 @@ Import canvas
 Import reflection
 Import guiapp
 Import guiimage
+Import tabcontrol
 #REFLECTION_FILTER+="junglegui*"
 
 

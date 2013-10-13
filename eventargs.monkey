@@ -191,6 +191,12 @@ Class eMsgKinds Abstract
 	'summary: This msg indicates that a renderer is detached to a Gui instance
 	Const RENDERER_DETACHED:Int = 28
 	
+	'summary: This msg indicates that a child has been removed from a container control
+	Const CHILD_REMOVED:Int = 29
+	
+	'summary: This msg indicates that a child has been added to a container control
+	Const CHILD_ADDED:Int = 30
+	
 End
 
 #Rem

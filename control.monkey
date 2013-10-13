@@ -94,7 +94,8 @@ Class Control
 	Method Render:Void()
 		Local color:Float[] = GetColor()
 		SetColor(Self.BackgroundColor.r, Self.BackgroundColor.g, Self.BackgroundColor.b)
-		DrawRect(_gui.currentRenderPos.X, _gui.currentRenderPos.X, Size.X, Size.Y)		
+		'DrawRect(_gui.currentRenderPos.X, _gui.currentRenderPos.X, Size.X, Size.Y)		
+		DrawRect(LastRenderPosOnCanvas.X, LastRenderPosOnCanvas.Y, Size.X, Size.Y)
 		SetColor(color[0], color[1], color[2])
 	End
 	
@@ -137,18 +138,20 @@ Class Control
 		If parentControl = Null And _parentControl = Null Then Return
 		If _parentControl = parentControl Then
 			If _gui <> parentControl._gui Then _gui = parentControl._gui
-			Return
+			'Return
 		EndIf
 		If _parentControl <> Null Then
 			_parentControl.controls.RemoveEach(Self)
 			'Msg(Self,New EventArgs(eMsgKinds.PARENT_REMOVED))
 			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.PARENT_REMOVED)))
+			_parentControl.Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.CHILD_REMOVED)))
 		EndIf
 		If parentControl <> Null Then
  			_parentControl = parentControl
  			parentControl.controls.AddLast(Self)
 			'Msg(Self,New EventArgs(eMsgKinds.PARENT_SET))
  			Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.PARENT_SET)))
+			_parentControl.Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.CHILD_ADDED)))
  			_gui = parentControl._gui
 		Else
  			_gui = Null
@@ -577,11 +580,6 @@ Class Control
 		StorePos()
 	End
 	
-	Method RemoveRenderPos()
-		_gui.currentRenderPos.X -= Position.X
-		_gui.currentRenderPos.Y -= Position.Y
-	End
-	
 	Field _vp_focusChecks:ViewPort = New ViewPort
 	Field _vp_focusChecks2:ViewPort = New ViewPort
 	
@@ -622,15 +620,11 @@ Class Control
 			viewPort.SetValuesFromControl(container,container.Padding)
 			viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top(), viewPort)
 			_gui.viewPortStack.ports.Push(viewPort)
-			'container.AddPaddingPos
 			For Local c:Control = EachIn container.controls
-				'c.AddRenderPos
 				If c._outOfView = False Then c._FocusChecks()
-				'c.RemoveRenderPos
 			Next
-			'container.RemovePaddingPos
 			_gui.viewPortStack.ports.Pop()	'eliminamos el post-padding
-		endif
+		EndIf
 	
 		_gui.viewPortStack.ports.Pop()	'eliminamos el borde del control
 	
@@ -739,7 +733,7 @@ Class ContainerControl extends Control
 		'Añadimos el viewport a la cola:
 		_gui.viewPortStack.ports.Push(viewPort)
 		RenderBackground()
-
+		
 		'We set the children viewport:
 		viewPort = _vp_render2 'New ViewPort
 		viewPort.SetValuesFromControl(Self,Padding)
@@ -780,10 +774,19 @@ Class ContainerControl extends Control
 	Public
 	Method RenderChildren()
 		Local viewPort:ViewPort = _vp_renderChildren 'New ViewPort
+		
+		Local prePaddingX:Int = _gui.currentRenderPos.X
+		Local prePaddingY:Int = _gui.currentRenderPos.Y
 		AddPaddingPos
+		
 		For Local c:Control = EachIn controls
 			If c.Visible = False Then Continue
+
+			Local preRenderX:Int = _gui.currentRenderPos.X
+			Local preRenderY:Int = _gui.currentRenderPos.Y
 			c.AddRenderPos()
+
+
 			viewPort.SetValuesFromControl(c)
 			If _gui.viewPortStack.ports.IsEmpty = False Then
 				viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top, viewPort) 'Stack.Last())
@@ -798,13 +801,20 @@ Class ContainerControl extends Control
 				c._outOfView = True
 				'Print "optimized!"
 			EndIf
-			c.RemoveRenderPos()
+
+			'c.RemoveRenderPos()
+			_gui.currentRenderPos.X = preRenderX
+			_gui.currentRenderPos.Y = preRenderY
+
+
 		Next
 		if _gui.viewPortStack.ports.IsEmpty = False Then
 			Local viewPort:ViewPort = _gui.viewPortStack.ports.Top 'Stack.Last()
 			SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		EndIf
-		RemovePaddingPos
+		'RemovePaddingPos
+		_gui.currentRenderPos.X = prePaddingX
+		_gui.currentRenderPos.Y = prePaddingY
 	End
 	
 	Method AddPaddingPos()
@@ -812,31 +822,23 @@ Class ContainerControl extends Control
 		_gui.currentRenderPos.Y += Padding.Top
 	End
 	
-	Method RemovePaddingPos()
-		_gui.currentRenderPos.X -= Padding.Left
-		_gui.currentRenderPos.Y -= Padding.Top
-	End
-	
+
 	Method Update()
 		If _initialized = False Then
 			_initialized = True
 			OnInit()
 		EndIf
-		'AddPaddingPos
 		For Local c:Control = EachIn Self.controls
 			If c.HasGraphicalInterface = False Then
 				c.Update()
 			Else
 				If c.Visible = True and c._outOfView = False Then
-					'c.AddRenderPos()
 					c.Update()
-					'c.RemoveRenderPos()
 				Else
 					'We don't update invisible controls
 				EndIf
 			EndIf
 		Next
-		'RemovePaddingPos
 	End
 	'summary: This method will be called when the container control has to be initialized.
 	Method OnInit()
@@ -852,14 +854,18 @@ Class ContainerControl extends Control
 		EndIf
 	End
 	
-	Method GenerateControlsList:List<Control>()
+	Method GenerateControlsList:List<Control>(unsafe:Bool = False)
 		Local list:= New List<Control>
-		For Local control:= EachIn controls
-			list.AddLast(control)
-		Next
-		Return list
+		If unsafe Then
+			Return controls
+		Else
+			For Local control:= EachIn controls
+				list.AddLast(control)
+			Next
+			Return list
+		EndIf
 	End
-	
+		
 	Private
 
 	Method _InformGui(gui:Gui)
@@ -991,12 +997,15 @@ Class Gui
 		Local scissor:Float[] = GetScissor()
 		For Local c:Control = EachIn _components
 			If c.Visible = False Then Continue
+			Local preRenderPosX:Int = Self.currentRenderPos.X
+			Local preRenderPosY:Int = Self.currentRenderPos.Y
+			
 			c.AddRenderPos()
-			'c.StorePos()
 			c.Render()
 			SetGuiScissor(Self, scissor[0], scissor[1], scissor[2], scissor[3])
-			c.RemoveRenderPos()
+			'c.RemoveRenderPos()
 			'Print currentRenderPos.X + ", " + currentRenderPos.Y
+			currentRenderPos.SetValues(preRenderPosX, preRenderPosY)
 		Next
 		SetScissor(scissor[0], scissor[1], scissor[2], scissor[3])
 		
@@ -1066,6 +1075,7 @@ Class Gui
 	'summary: This method has to be called whenever the Gui has to be updated.
 	Private
 	Field _msg_parentResized:= New BoxedMsg(Null, New EventArgs(eMsgKinds.PARENT_RESIZED))
+	Public
 	Method Update()
 
 		if _mousePos = Null then _mousePos = New GuiVector2D
@@ -1102,10 +1112,8 @@ Class Gui
 			
 			If c.Visible Then
 				If c._gui = Null or c._outOfView Then Continue
-				'c.AddRenderPos
 				c._FocusChecks()	'update control under mouse.
 				c.Update()
-				'c.RemoveRenderPos()
 			End
 		Next
 				
