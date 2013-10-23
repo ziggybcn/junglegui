@@ -8,7 +8,6 @@ Import junglegui
 	Import "concretejungle.data\concretejunglefont_P_1.png"
 #END
 
-
 Class ConcreteJungle Extends renderer.GuiRenderer
 
 	Method InitRenderer()
@@ -72,6 +71,7 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 			If Form(context) <> Null Then
 				Local f:= Form(context)
 				If HasFlag(status, eControlStatus.HOOVER) Then resizeStatus = f.GetMouseOverReisingStatus()
+	
 			EndIf
 		EndIf
 		backcolor.Activate
