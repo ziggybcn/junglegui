@@ -1,4 +1,8 @@
-﻿Import drawingpoint
+﻿#Rem monkeydoc Module junglegui.core
+This module contains the base core components of Jungle gui
+#End
+
+Import drawingpoint
 Import eventargs
 Import guicolor
 Import viewportstack
@@ -9,13 +13,16 @@ Import econtrolstatus
 Import mojoextensions.scaledscrissor
 Private
 Import mojo
-public
-'summary: this is the base class of a JungleGui control
-
+Public
+#Rem monkeydoc 
+	this is the base class of a JungleGui control
+#End
 Class Control
 
 	Public
-	'summary: This property is meant to contain the runtime name of the control. This information can be useful when debugging the application and can also be retrieved by the usage of reflection.
+	#Rem monkeydoc 
+		This property contains the name of the control. Controls can have a Name that can be used for debugging purposes.
+	#End
 	Method Name:String() Property
 		Return _name
 	End
@@ -24,45 +31,63 @@ Class Control
 		_name = value
 	End
 	
+	#Rem monkeydoc 
+		This method the base control constructor.
+	#End
 	Method New()
 		_GuiVector2D.SetNotifyControl(Self, eMsgKinds.MOVED)
 		_drawingSize.SetNotifyControl(Self, eMsgKinds.RESIZED)
 	End
 	
-	'summary: this is the location of the control in the parent container control
+	#Rem monkeydoc 
+		This read-only property returns a GuiVector2D that contains the X and Y coordinates where the control is placed.
+		Remember that this position is relative to the control container.
+	#End
 	Method Position:ControlGuiVector2D() Property
 		Return _GuiVector2D
 	end
-	
-	Method Position:Void(value:ControlGuiVector2D) Property
-		if value<>null Then 
-			_GuiVector2D = value 
-			_GuiVector2D.SetNotifyControl(Self, eMsgKinds.MOVED)	'We want to get events
-		Else
-			
-			Throw New JungleGuiException("Null position set to a control." , Self)
-		EndIf
-	End
+
+'	It's dangerous to have 2 controls with the same position vector. It should not be allowed!	
+'	Method Position:Void(value:ControlGuiVector2D) Property
+'		if value<>null Then 
+'			_GuiVector2D = value 
+'			_GuiVector2D.SetNotifyControl(Self, eMsgKinds.MOVED)	'We want to get events
+'		Else
+'			
+'			Throw New JungleGuiException("Null position set to a control." , Self)
+'		EndIf
+'	End
 	
 	'summary: this is the location of the control in the parent container control
+	#REM monkeydoc
+		This read-only property returns a GuiVector2D that contains the X and Y size of the control.
+		The X component represents the control Width, and the Y components represents the control Height
+	#END
 	Method Size:ControlGuiVector2D() Property
 		Return _drawingSize
 	end
-	
-	Method Size:void(value:ControlGuiVector2D) Property
-		if value<>null Then 
-			_drawingSize = value 
-			_drawingSize.SetNotifyControl(Self, eMsgKinds.RESIZED)	'We want to get events
-		Else
-			Throw New JungleGuiException("Null size set to a control." , Self)
-		EndIf
-	End
+
+'	This is dangerous, as it could cause 2 controls to have the same Size vector!	
+'	Method Size:void(value:ControlGuiVector2D) Property
+'		if value<>null Then 
+'			_drawingSize = value 
+'			_drawingSize.SetNotifyControl(Self, eMsgKinds.RESIZED)	'We want to get events
+'		Else
+'			Throw New JungleGuiException("Null size set to a control." , Self)
+'		EndIf
+'	End
 
 	
-	'summary: this is the background color of the control
+	#Rem monkeydoc 
+		This property returns the Background Color of this control. It's returned in the form of a GuiColor instance.
+		Most controls have a default BackgroundColor that is defined into SystemColors, so modifying it in one control, could make the color to be modified also on any other control using the same color for rendering.
+		If you want to modify the backgroun color of a control without affecting other colors that could be using the same BackgroundColor, you can set it to a clone:
+		`myControl.BackgroundColor = myControl.BackgroundColor.Clone()`		
+	#End
 	Method BackgroundColor:GuiColor() Property 
 		Return _backgroundColor
-	end
+	End
+	
 	
 	Method BackgroundColor:GuiColor(value:GuiColor) Property
 		If value <> Null Then
@@ -73,7 +98,10 @@ Class Control
 		Return _backgroundColor 
 	End
 
-	'summary: this is the Fore color of the control
+	#Rem monkeydoc 
+	This property returns the ForeColor of this control.
+	Most controls have a default ForeColor that is defined into SystemColors, so modifying it in one control, could make the color to be modified also on any other control using the same color for rendering.
+	#End
 	Method ForeColor:GuiColor() Property 
 	#if TARGET="html5" 
 		Return _htmlforecolor  '.Clone() 'SetColor(255,255,255)
@@ -90,16 +118,21 @@ Class Control
 		Return _foreColor
 	End
 
-	'summary: This is automatically called when the control needs to be drawn on the screen.
+	#Rem monkeydoc 
+	This Render method is automatically called when the control needs to be drawn on the screen.
+	The Gui engine will determine if a control needs to be drawn or not depending of its placement on screen, device and containers visibility.
+	#End
 	Method Render:Void()
 		Local color:Float[] = GetColor()
 		SetColor(Self.BackgroundColor.r, Self.BackgroundColor.g, Self.BackgroundColor.b)
 		'DrawRect(_gui.currentRenderPos.X, _gui.currentRenderPos.X, Size.X, Size.Y)		
-		DrawRect(LastRenderPosOnCanvas.X, LastRenderPosOnCanvas.Y, Size.X, Size.Y)
+		DrawRect(UnsafeRenderPosition.X, UnsafeRenderPosition.Y, Size.X, Size.Y)
 		SetColor(color[0], color[1], color[2])
 	End
 	
-	'summary: <font color=red><b>Advanced usage only</b></font><br>This method is internally used to build and control the internal status changes messaging system of the Gui system.
+	#Rem monkeydoc 
+		<font color=red><b>Advanced usage only</b></font><br>This method is internally used to build and control the internal status changes messaging system of the Gui system.
+	#End	
 	Method Msg(msg:BoxedMsg)
 		If Not _gui Then Return
 		If _parentControl <> Null Then
@@ -110,30 +143,42 @@ Class Control
 		EndIf
 		
 	End
-	'summary: This returns the Gui engine where this control is running.
+	
+	#Rem monkeydoc
+		This returns the Gui engine where this control is running.
+	#END
 	Method GetGui:Gui()
 		Return _gui
 	End
 	
-	'summary: this returns TRUE if this control is a Top level control (a window)
+	#Rem monkeydoc
+		 This method TRUE if this control is a Top level control (a window)
+		 A Top Level Control is a control that can't be set as a child of another control. As instance, a window is a container of controls, but can't be set as a child of other controls.
+		 The most typical Top Level Controls are a [[Form]] and a [[WindowsFrame]]
+	 #END
 	Method IsTopLevelControl?()
 		Return false
 	End
 	
-	'summary: This returns TRUE if this control is a control container that can contain child controls.
+	#Rem monkeydoc
+		This returns TRUE if this control is a control container that can contain child controls. Otherwise, this method returns False.
+	#End
 	Method IsContainer?()
 		Return false
 	End
 
-	'summary: This property returns the parent control where this control is located.
-	'On top level controls (windows) this method returns NULL and can't be set to anything other than NULL 
+	#Rem monkeydoc
+		This get/set property can be used to set the container of a given control.
+		As instance, to place a button in a Form or a Panel, you need to set the Parent property of the button to the desired container.
+		Notice that any TopLevelControl will always have a null parent as those controls can't be children of other controls.
+	#End
 	Method Parent:ContainerControl() Property
 		Return _parentControl
 	End
-  
-	
-	
-	'summary: You can use this property to set the container for this control.
+  	
+	#Rem monkeydoc
+		 This get/set property can be used to set the container of a given control.
+	 #END
 	Method Parent:ContainerControl(parentControl:ContainerControl) Property
 		If parentControl = Null And _parentControl = Null Then Return
 		If _parentControl = parentControl Then
@@ -159,7 +204,9 @@ Class Control
 	End
 	
 	
-	'summary: Bring a control to the front of the Z-Order
+	#Rem monkeydoc
+		This method brings the control to the front of the Z-Order
+	 #END
 	Method BringToFront()
 		if _parentControl = null Then Return
 		_parentControl.controls.RemoveEach(Self)
@@ -167,7 +214,9 @@ Class Control
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.BRING_TO_FRONT)))
 	End
 	
-	'summary: send a control to the back of the Z-Order
+	#Rem monkeydoc
+		This method sends the control to the back of the Z-Order
+	 #END
 	Method SendToBack()
 		if _parentControl = null Then Return
 		_parentControl.controls.RemoveEach(Self)
@@ -175,6 +224,10 @@ Class Control
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.SEND_TO_BACK)))
 	End
 	
+	#Rem monkeydoc
+		This method will return the Top Level Container where this control is located.
+		Notice that this Method can be slightly slow on complex Parent/Child control's chain, so it is advised to use with caution.
+	#end
 	Method GetTopLevelContainer:TopLevelControl()
 		Local p:Control = Self
 		While p.Parent <> Null
@@ -183,7 +236,9 @@ Class Control
 		Return TopLevelControl(p)
 	End
 	
-	'summary: Clear all resources used by the control and its child controls. This is automatically called by the Gui system when the control needs to "die".
+	#Rem monkeydoc
+		This method will clear all resources used by the control and its child controls. This is automatically called by the Gui system when the control needs to "die".
+	 #END
 	Method Dispose()
 		Parent = null
 		_parentControl = null
@@ -192,22 +247,31 @@ Class Control
 		_gui = Null
 	End
 	
-	'summary: This returns the internal GuiVector2D that contains the precalculated control render position on screen.<br>While this information is useful to perform quick render operations, modifying this vector values can cause rendering artifacts.<br>To use a safe way to manipulate this vector see <b>LocationInDevice</b>
+	#Rem monkeydoc
+		This method returns the internal GuiVector2D that contains the latest known render position on screen device.
+		Calculating the exact render position of a control on screen can be a slow operation, so it's done just once per control render.
+		The results of this calculation is stored internaly, and can be inspected by using this method.
+		While this information is useful to perform quick render operations, modifying this vector values can cause rendering artifacts.<br>To use a safer way to manipulate this vector see [[LocationInDevice]]
+	 #END
 	Method UnsafeRenderPosition:GuiVector2D()
 	
 		Return _lastRenderPos '_gui.currentRenderPos
 	
-		'If _cacheRenderPosCalcuation = Null Then Return RefreshRenderPosition '.Clone()
-		'Return _cacheRenderPosCalcuation '.Clone()
 	End
 	
 		
-	'summary: This is automatically called by the Gui engine when the control needs to be updated and process its internal logic.
+	#Rem monkeydoc
+		This is automatically called by the Gui engine when the control needs to be updated and process its internal logic.
+		This method should only be overriden when designing controls that need to update or calculate its internal logic on every "OnUpdate" of the Mojo App.
+		This is considered a low level method reserved for controls design. It is advised to not use it to control program flow or logic, as its internal usage may be modified in future JungleGui versions.
+	 #END
 	Method Update()
 		
 	End
 
-	'summary:this is Get/Set property that indicates if a control is navigable using the TAB key (keyboard navigation)
+	#Rem monkeydoc
+		This is a Get/Set property that indicates if a control is navigable using the TAB key (keyboard navigation)
+	#END
 	Method TabStop:Bool() Property
 		Return _tabStop
 	End
@@ -217,7 +281,9 @@ Class Control
 		Return _tabStop
 	end
 	
-	'summary:This method will give this control the focus.
+	#Rem monkeydoc 
+		This method will bring the Gui focus to this control.
+	#END
 	Method GetFocus()
 		if Not _gui Then return
 		if _gui._focusedControl = Self Return
@@ -228,7 +294,9 @@ Class Control
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.GOT_FOCUS)))
 	End
 	
-	'summary:This method will give the focus to the next control that can take it. It has the same effect that pressing the TAB key on keyboard navigation.
+	#Rem monkeydoc 
+		This method will give the focus to the next control that can take it. It has the same effect that pressing the TAB key on keyboard navigation.
+	#END
 	Method FocusNext()
 		if Parent = null Then return	'Unparented controls can't do focus next.
 		Local currentheight = 16000000 'self.Position.Y-1
@@ -279,12 +347,18 @@ Class Control
 		EndIf
 	End
 
-	'summary: This will return True for all controls that are based on a graphical interface such as buttons, labels, etc.<br>Non graphical controls, such as Timer, return False.
+	#Rem monkeydoc 
+		This will return True for all controls that are based on a graphical interface such as buttons, labels, etc.
+		Non graphical controls, such as a Timer, return False.
+	#END
 	Method HasGraphicalInterface:Bool() property
 		Return True
 	end
 
-	'summary: This method returns the client area location on the current mojo canvas. That is, the canvas X and Y location of the control contents.
+	#Rem monkeydoc
+		This method returns the client area location on the current mojo canvas. That is, the canvas X and Y location of the control contents.
+		Notice that this information is based on latest known render location, and it will be updated on every frame.
+	 #END
 	Method GetClientAreaLocation:GuiVector2D()
 		Local location:GuiVector2D
 		location = UnsafeRenderPosition().Clone()
@@ -305,7 +379,9 @@ Class Control
 		EndIf
 	End
 
-	'summary: This method returns the client area size of the control on the current mojo canvas. That is, the canvas X and Y size of the control contents.
+	#Rem monkeydoc
+		This method returns the client area size of the control on the current mojo canvas. That is, the width and height of the control.
+	 #END
 	Method GetClientAreaSize:GuiVector2D()
 		Local size:GuiVector2D
 		size = Size.Clone()
@@ -326,46 +402,59 @@ Class Control
 		EndIf
 	End
 	
-	'summary: This method returns the control location on the current mojo device. That is, the canvas X and Y location of the control location.
+	#Rem monkeydoc
+		This method returns the control location on the current mojo device. That is, the canvas X and Y location of the control location.
+		This information is based on latest known render position of the control and it is updated once per frame.
+	 #END
 	Method LocationInDevice:GuiVector2D()
 		Return UnsafeRenderPosition.Clone()
 	End
 	
-	'summary: This method returns the control size on the current mojo device. That is, the canvas X and Y size of the control.
+	#Rem monkeydoc
+		This method returns the control size on the current mojo device. That is, the canvas X and Y size of the control.
+		While the Size property returns access to the direct Size vector, this proeprty is safer as it returns a clone of it.
+	 #END
 	Method SizeInDevice:GuiVector2D()
 		Return Size.Clone()
 	End
 
 	
-	'summary: Returs True if the control is currently the Gui focused control.
+	#Rem monkeydoc
+		Returs True if the control is currently the Gui focused control.
+	 #END
 	Method HasFocus:Bool()
 		Return _gui._focusedControl = self
 	End
 	
-	'summary: This property can be set to True or False in order to show or hide this control.
+	#Rem monkeydoc
+		This property can be set to True or False in order to show or hide this control.
+	 #END
 	Method Visible:Bool() Property
 		Return _visible
 	End
 	
-	'summary: This property can be set to True or False in order to show or hide this control.
 	Method Visible:Void(value:Bool) Property
-		if value<> _visible then
+		If value <> _visible Then
 			_visible = value
 			Msg(New BoxedMsg(Self, eMsgKinds.VISIBLE_CHANGED))
 		endif
 	End
 
-	'summary: This property alows you to set the text to be displayed as a control hint pop-up when the mouse is over the control.
+	#Rem monkeydoc
+		This property alows you to get/set the text to be displayed as a control hint pop-up when the mouse is over the control.
+	 #END
 	Method TipText:Void(value:String) Property
 		_tipText = value
 	End
 	
-	'summary: This property returns the text that will be displayed as a control hint pop-up when the mouse is over the control.
 	Method TipText:String() Property
 		Return _tipText
 	End
 		
-	'summary: This is the color used to draw the control background when the mouse is over the control. 
+	#Rem monkeydoc
+		This is the color used to draw the control background when the mouse is over the control.
+		Most controls have a default HooverColor that is defined into SystemColors, so modifying it in one control, could make the color to be modified also on any other controls using the same color instance for rendering.
+	#End
 	Method HooverColor:GuiColor() Property
 		if _hooveColor <> null Then Return _hooveColor Else Return SystemColors.HooverBackgroundColor
 	End
@@ -374,14 +463,15 @@ Class Control
 		_hooveColor = value
 	End
 
-	'summary: This is the color used to draw the control border.
+	#Rem monkeydoc
+		This property returns the color used to draw the control border (if any).
+	 #END
 	Method BorderColor:GuiColor() Property
 		if _borderColor = Null then return SystemColors.ButtonBorderColor else Return _borderColor
 	End
 
-	'summary: This is the color used to draw the control border.
 	Method BorderColor:GuiColor(value:GuiColor) Property
-		if value <> null then
+		If value <> Null Then
 			_borderColor = value
 		Else
 			Throw New JungleGuiException("Border color can't be null.", Self)
@@ -390,10 +480,11 @@ Class Control
 
 
 	
-	#Rem
-		summary: Low level method that deals with event signatures. This method is part of the internal core functionality of the control.
+	#Rem monkeydoc
+		summary: *Low level method* that deals with event signatures.
+		This method is part of the internal core functionality of the control and should not be used on regular Jungle Gui coding.
 		The Dispach method is internally used to convert low level messages to high level events. This method is automatically called by the internal Jungle Gui core engine whenever a message has been validated in all the message-parent-control chain and it hasn't been handled by any parent control.
-		For more information, read the Jungle Gui wiki at googlecode here: <a http://code.google.com/p/junglegui/wiki/WelcomePage?tm=6>Jungle Gui wiki</a>.
+		For more information, read the Jungle Gui wiki at googlecode here: [[http://code.google.com/p/junglegui/wiki/WelcomePage?tm=6|Jungle Gui wiki]].
 	 #END
 	Method Dispatch(msg:BoxedMsg)
 		if Not _gui Then return
@@ -467,55 +558,94 @@ Class Control
 		End
 	End
 	
-	'summary: This event is raised whenever the button is Clicked 
+	#Rem monkeydoc
+		monkeydoc This event is raised whenever the button is Clicked 
+	#END
 	Method Event_Click:EventHandler<MouseEventArgs>() Property; Return _eventClick; End
-	'summary: This event is raised whenever the control is set a the top of its container Z-Order
+	#rem monkeydoc
+		 This event is raised whenever the control is set a the top of its container Z-Order
+	 #END
 	Method Event_BringToFront:EventHandler<EventArgs>() Property; Return _bringToFront; end
-	'summary: This event is raised whenever the control gets the focus
+	#rem monkeydoc
+		This event is raised whenever the control gets the focus
+	#END
 	Method Event_GotFocus:EventHandler<EventArgs>() Property; Return _gotFocus; End
-	'summary: This event is raised whenever a key is pressed down and the control has the focus.
+	#rem monkeydoc
+		 This event is raised whenever a key is pressed down and the control has the focus.
+	 #END
 	Method Event_KeyDown:EventHandler<KeyEventArgs>() Property; Return _keyDown; End
-	'summary: This event is raised whenever a key stroke is completed and the control has the focus.
+	#rem monkeydoc
+		This event is raised whenever a key stroke is completed and the control has the focus.
+	 #END
 	Method Event_KeyPress:EventHandler<KeyEventArgs>() Property; Return _keyPress; End
-	'summary: This event is raised whenever a key is raised up and the control has the focus.
+	#rem monkeydoc
+		This event is raised whenever a key is raised up and the control has the focus.
+	 #END
 	Method Event_KeyUp:EventHandler<KeyEventArgs>() Property; Return _keyUp; End
-	'summary: This event is raised whenever the controls loses focus.
+	#rem monkeydoc
+		This event is raised whenever the controls loses focus.
+	 #END
 	Method Event_LostFocus:EventHandler<EventArgs>() Property; Return _lostFocus; end
-	'summary: This event is raised whenever the mouse down button is pressed down over the control.
+	#rem monkeydoc
+		This event is raised whenever the mouse down button is pressed down over the control.
+	#END
 	Method Event_MouseDown:EventHandler<MouseEventArgs>() Property; Return _mouseDown; end
-	'summary: This event is raised whenever the mouse is moved over the control.
+	#rem monkeydoc
+		This event is raised whenever the mouse is moved over the control.
+	#END
 	Method Event_MouseMove:EventHandler<MouseEventArgs>() Property; Return _mouseMove; end
-	'summary: This event is raised whenever the mouse button is unpressed over the control.
+	#rem monkeydoc
+		This event is raised whenever the mouse button is unpressed over the control.
+	#END
 	Method Event_MouseUp:EventHandler<MouseEventArgs>() Property; Return _mouseUp; end
-	'summary: This event is raised whenever the mouse pointer enters the control area.
+	#rem monkeydoc
+		This event is raised whenever the mouse pointer enters the control area.
+	#END
 	Method Event_MouseEnter:EventHandler<EventArgs>() Property; Return _mouseEnter; end
-	'summary: This event is raised whenever the mouse pointer leaves the control area.
+	#rem monkeydoc
+		This event is raised whenever the mouse pointer leaves the control area.
+	#END
 	Method Event_MouseLeave:EventHandler<EventArgs>() Property; Return _mouseLeave; end
-	'summary: This event is raised whenever the control is moved from its parent-relative location.
+	#rem monkeydoc
+		This event is raised whenever the control is moved from its parent-relative location.
+	#END
 	Method Event_Moved:EventHandler<EventArgs>() Property; Return _moved; end
-	'summary: This event is raised whenever the control padding is modified.
+	#rem monkeydoc
+		This event is raised whenever the control padding is modified.
+	#END
 	Method Event_PaddingModified:EventHandler<EventArgs>() Property; Return _paddingModified; end
-	'summary: This event is raised whenever the control parent is removed.
+	#rem monkeydoc
+		This event is raised whenever the control parent is removed.
+	#END
 	Method Event_ParentRemoved:EventHandler<EventArgs>() Property; Return _parentRemoved; end
-'summary: This event is raised whenever the control parent is resized.<br>On TopLevelControls this indicates that the whole device canvas has been resized.
+	#rem monkeydoc
+		This event is raised whenever the control parent is resized.<br>On TopLevelControls this indicates that the whole device canvas has been resized.
+	#END
 	Method Event_ParentResized:EventHandler<EventArgs>() Property; Return _parentResized; end
-	'summary: This event is raised whenever the control parent is set.
-	Method Event_ParentSet:EventHandler<EventArgs>() Property; Return _parentSet; end
-	'summary: This event is raised whenever the control is sent to the bottom of its parent the Z-Order.
+	#rem monkeydoc
+		This event is raised whenever the control parent is set.
+	#END
+	Method Event_ParentSet:EventHandler<EventArgs>() Property; Return _parentSet; End
+	#rem monkeydoc
+		This event is raised whenever the control is sent to the bottom of its parent the Z-Order.
+	#END
 	Method Event_SendToBack:EventHandler<EventArgs>() Property; Return _sendToBack; end
-	'summary: This event is raised whenever the control visible property is modified.
+	#rem monkeydoc
+		This event is raised whenever the control visible property is modified.
+	#END
 	Method Event_VisibleChanged:EventHandler<EventArgs>() Property; Return _visibleChanged; end
-	'summary: This event is raised whenever the control is resized.
+	#rem monkeydoc
+		This event is raised whenever the control is resized.
+	#END
 	Method Event_Resized:EventHandler<EventArgs>() Property; Return _resized; end
 	
-	
-	#REM
-		 summary:This method returns the current state of the control. The result is an integer that can have any of the flags defined in eControlStatus.
+	#REM monkeydoc
+		 This method returns the current state of the control. The result is an integer that can have any of the flags defined in eControlStatus.
 		 Current available values are:
-		 eControlStatus.FOCUSED
-		 eControlStatus.HOOVER
-		 eControlStatus.DISABLED
-		 eControlStatus.NONE
+*  eControlStatus.FOCUSED
+*  eControlStatus.HOOVER
+*  eControlStatus.DISABLED
+*  eControlStatus.NONE
 	 #END
 	Method Status:Int() Property
 		Local status:Int = eControlStatus.NONE
@@ -524,19 +654,17 @@ Class Control
 		Return status
 	end
 	
-	'summary: Set this property to true if the control requires virtualkeyboard to be shown on devices supporting virtual keyboards.
+	#Rem monkeydoc
+		This get/set Property indicates that this control should show the virtual keyboard when it gets focus.
+	 #END
 	Method RequiresVirtualKeyboard:Bool() Property
 		Return _requiresVirtualKeyboard
 	End
-
 
 	Method RequiresVirtualKeyboard:Void(value:Bool) Property
 		_requiresVirtualKeyboard = value
 	End
 	
-	Method LastRenderPosOnCanvas:GuiVector2D() Property
-		Return _lastRenderPos
-	End
 	
 	Private
 
@@ -654,8 +782,12 @@ Class Control
 	Field _borderColor:GuiColor = Null
 
 End
-'summary: This is the ContainerControl class, that extends the Control class.
-Class ContainerControl extends Control
+
+#Rem monkeydoc 
+	This is the ContainerControl class, that extends the Control class.
+	All controls that can contain other controls extend this class.
+#End
+Class ContainerControl Extends Control
 
 	'summary: This is a Get/Set property that is useful to set the control container internal Padding space.
 	Method Padding:Padding() Property
@@ -680,18 +812,22 @@ Class ContainerControl extends Control
 		Super.Dispose()
 	End
 	
+	'This is done like this to prevent the getter to be unaccesible by Monkey rare overriding rules.
 	Method Parent:ContainerControl() Property
-		Return Super.Parent '_parentControl
+		Return Super.Parent '_parentContro
 	End
 
-	'summary: A control'l parent container
+	
 	Method Parent:ContainerControl(parentControl:ContainerControl) Property
 		If _parentControl = parentControl Then Return
 		Super.Parent(parentControl)
+		'This is done to ensure the _gui is also updated, just in case...
 		For Local child:Control = EachIn Self.controls
 			child.Parent = Self
 		Next
+		If _initialized = False Then InitializeNow()
 	End
+
 	Private
 	Field _msg_ParentResized:= New BoxedMsg(Null, eMsgKinds.PARENT_RESIZED)
 	Public
@@ -755,23 +891,31 @@ Class ContainerControl extends Control
 			
 	End
 
-	'summary: This method is called by the Gui system when a control container has to render its background, that is, the part of the component that is drawn behind the contained controls.
+	#Rem monkeydoc
+		This method is called by the Gui system when a control container has to render its background, that is, the part of the component that is drawn behind the contained controls.
+	 #END
 	Method RenderBackground()
 		Super.Render()
 	End
 
-	'summary: This method is used to allow rendering over the the container control, and over its children. 
+	#Rem monkeydoc
+		This method is called by the Gui system when a control container has to render its foregound. That is, the part of the component that is drawn over the container control background, and over its children.
+	 #END
 	Method RenderForeground()
 		
 	End
-	'summary: This method is called by the Gui system when a control container has to render its Focus rect.
+	#Rem monkeydoc
+		This method is called by the Gui system when a control container has to render its Focus rect.
+	 #END
 	Method DrawFocus()
 		GetGui.Renderer.DrawFocusRect(Self)
 	End
-	'summary: This method renders all the contained controls, in the required order.
 	Private
 		Field _vp_renderChildren:= New ViewPort
 	Public
+	#Rem monkeydoc
+		This method will render all the controls contained into this [[ControlContainer]], in the required order.
+	 #END
 	Method RenderChildren()
 		Local viewPort:ViewPort = _vp_renderChildren 'New ViewPort
 		
@@ -817,11 +961,12 @@ Class ContainerControl extends Control
 		_gui.currentRenderPos.Y = prePaddingY
 	End
 	
+	Private
 	Method AddPaddingPos()
 		_gui.currentRenderPos.X += Padding.Left
 		_gui.currentRenderPos.Y += Padding.Top
 	End
-	
+	Public
 
 	Method Update()
 		If _initialized = False Then
@@ -840,11 +985,18 @@ Class ContainerControl extends Control
 			EndIf
 		Next
 	End
-	'summary: This method will be called when the container control has to be initialized.
+
+	#Rem monkeydoc
+		This method will be called when the container control has to be initialized.
+		When you're creating your own control container, and you need to initialize its children on your application, you can safely do this by overriding this method and writing there your component initialization routines.
+	 #END
 	Method OnInit()
 		
 	End
 	
+	#Rem monkeydoc
+		This method will force the OnInit call. You shouldn't usually call this method as controls are properly initialized by the Gui engine when required.
+	#End
 	Method InitializeNow()
 		If _initialized Then
 			Return
@@ -854,9 +1006,15 @@ Class ContainerControl extends Control
 		EndIf
 	End
 	
-	Method GenerateControlsList:List<Control>(unsafe:Bool = False)
+	#rem monkeydoc
+		This method will generate a LinkedList that contains all contained controls, ordered by the ControlContainer Z-Order.
+		When the *safe* parameter is set to False, this method will return the real internal list used by the control to handle its contained controls.
+		Take into account that modifying wrong this list could result on stability of the whole Gui system.
+		For general usage, the safe parameter should be used as "true". Doing it this way, this method will return a copy of the internal list used by the control, so its manipulation will not cause any stability issues.
+	#END
+	Method GenerateControlsList:List<Control>(safe:Bool = True)
 		Local list:= New List<Control>
-		If unsafe Then
+		If safe = False Then
 			Return controls
 		Else
 			For Local control:= EachIn controls
@@ -892,18 +1050,24 @@ Class ContainerControl extends Control
 	Field _initialized:Bool = False
 End
 
-'summary: This is the TopLevelControl class, that extends the ControlConainer class. This class represents the base of any Form control.
-Class TopLevelControl extends ContainerControl
+#REM monkeydoc
+	This is the TopLevelControl class, that extends the ControlConainer class. This class represents the base of any Form control.
+#end
+Class TopLevelControl Extends ContainerControl
  
-	'summary: This method inits the Top Level Control internals. This method has to be called BEFORE the TopLevelControl is used to actually do anything, including attaching controls to it, etc.
-	'Be sure to call it whenever a TopLevelControl has to be used. 
-	'This initialization will also cause a call to the OnInit method of the given TopLevelControl
+	#rem monkeydoc
+		This method inits the Top Level Control internals. This method has to be called BEFORE the [[TopLevelControl]] is used to actually do anything, including attaching controls to it, etc.
+		Be sure to call it whenever a TopLevelControl has to be used. 
+		This initialization will also cause a call to the OnInit method of the given [[TopLevelControl]]
+	 #END
 	Method InitForm(gui:Gui)
 		SetGui(gui)
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.INIT_FORM)))
 	End
 	
-	'summary: This method will be called whenever a TopLevelControl has been properly init and we can start attaching controls to it and sending ang getting events.
+	#rem monkeydoc
+		This method will be called whenever a TopLevelControl has been properly init and we can start attaching controls to it and sending ang getting events.
+	 #END
 	Method OnInit()
 		
 	End
@@ -920,20 +1084,22 @@ Class TopLevelControl extends ContainerControl
 	End
 	
 	
-	'summary: This method returns TRUE if the control is a top level control (a window).
 	Method IsTopLevelControl:Bool()
-		Return true
+		Return True
 	end
+
 	Method Dispose()
 		_gui._components.RemoveEach(Self)
 		Super.Dispose()
 	End
 	
-	'summary: This method can be used to modify the Gui where a top level control is being executed. Modifying this during runtime is not recommended unless you know exactly what you're doing.
+'	#Rem monkeydoc
+'		This method can be used to modify the Gui where a top level control is being executed. Modifying this during runtime is not recommended.
+'	 #END
 	Method SetGui(gui:Gui)
-		if gui = null Then
+		If gui = Null Then
 			Throw New JungleGuiException("A form can't be set to a null Gui manager", Self)
-		else
+		Else
 			If _gui <> Null Then _gui._components.RemoveEach(Self)
 			_gui = gui
 			_gui._components.AddFirst(Self)
@@ -941,7 +1107,6 @@ Class TopLevelControl extends ContainerControl
 		EndIf
 	End
 	
-	'summary: This method will bring this Top Level Control to the top of the rendering z-order.
 	Method BringToFront()
 		'Print "Called!"
 		If _gui._components.Last() = Self Then Return
@@ -950,7 +1115,6 @@ Class TopLevelControl extends ContainerControl
 		Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.BRING_TO_FRONT)))
 	End
 
-	'summary: This method will send this Top Level Control to the bottom of the rendering z-order.
 	Method SendToBack()
 		If _gui._components.First() = Self Then Return
 		_gui._components.RemoveEach(Self)
@@ -975,20 +1139,30 @@ Private
 	Field _initForm:= New EventHandler<EventArgs>
 End
 
-'summary: This is the main Gui element.
+#REM monkeydoc
+	This is the core Gui component
+#END
 Class Gui
 
-	'summary: This global contains a reference to the default system font.
+	#rem monkeydoc
+		This global contains a reference to the default system font.
+	 #END
 	Global systemFont:BitmapFont
+
+	#rem monkeydoc
+		This global contains a reference to the default Tool Tip font.
+	#END
 	Global tipFont:BitmapFont
+
 	Method New()
 		Renderer = Null	'Force default renderer
 	End
 
 	
-	'summary: This method has to be called whenever the Gui has to be rendered.
+	#Rem monkeydoc
+		This method has to be called whenever all the Gui elements have to be rendered.
+	 #END
 	Method Render()
-	'note:TODO: Modify the way render location is calculated. It should be calculated on every step, instead of stored and the recreated on every MOVE msg. This way it sohuld be faster and smaller on the mem footprint.
 		If _renderer = Null Then Renderer = Null	'Set default renderer in case it has not been set.
 		PushMatrix()
 		graphics.SetMatrix(1, 0, 0, 1, 0, 0)
@@ -1016,39 +1190,73 @@ Class Gui
 		PopMatrix()
 	End
 	
+	#Rem monkeydoc
+		This get/set property can be used to scale the X coordinates of the whole Gui rendering and calculation.
+	#END
 	Method ScaleX:Float() Property
 		Return scalex
 	End
+
+	#Rem monkeydoc
+		This get/set property can be used to scale the X coordinates of the whole Gui rendering and calculation.
+	#END
 	Method ScaleX:Void(value:Float) Property
 		scalex = value
 	End
 	
+	#Rem monkeydoc
+		This get/set property can be used to scale the Y coordinates of the whole Gui rendering and calculation.
+	#END
 	Method ScaleY:Float() Property
 		Return scaley
 	End
 	
+	#Rem monkeydoc
+		This get/set property can be used to scale the Y coordinates of the whole Gui rendering and calculation.
+	#END
 	Method ScaleY:Void(value:Float) Property
 		scaley = value
 	End
 	
+	#Rem monkeydoc
+		This method will convert phisical device X coordinate to a logical scaled X coordinate in the Gui system.
+	#END	
 	Method DeviceToGuiX:Float(x:Float)
 		Return x / scalex
 	End
+
+	#Rem monkeydoc
+		This method will convert phisical device Y coordinate to a logical scaled Y coordinate in the Gui system.
+	#END	
 	Method DeviceToGuiY:Float(y:Float)
 		Return y / scaley
 	End
 
+	#Rem monkeydoc
+		This method will convert a logical scaled X coordinate to a phisical device X.
+	#END	
 	Method GuiToDeviceX:Float(x:Float)
 		Return x * scalex
 	End
 	
+	#Rem monkeydoc
+		This method will convert a logical scaled Y coordinate to a phisical device X.
+	#END	
 	Method GuiToDeviceY:Float(y:Float)
 		Return y * scaley
 	End
 
+
+	#Rem monkeydoc
+		This property will return the current Gui skin.
+	#END	
 	Method Renderer:GuiRenderer() Property
 		Return _renderer
 	End
+
+	#Rem monkeydoc
+		This property allows you to set a new skin to the whole Gui system.
+	#END	
 	Method Renderer:Void(renderer:GuiRenderer) Property
 		If _renderer <> Null Then
 			_renderer.FreeResources()
@@ -1064,7 +1272,9 @@ Class Gui
 		_renderer.Event_GuiAttached.RaiseEvent(Self, New EventArgs(eMsgKinds.RENDERER_ATTACHED))
 	End
 
-	'summary: This method will clear all controls contained in this Gui.
+	#Rem monkeydoc
+		This method will clear and [[Dispose]] all controls contained in the Gui system
+	#END
 	Method Clear()
 		For Local form:TopLevelControl = EachIn _components
 			form.Dispose()
@@ -1072,10 +1282,15 @@ Class Gui
 		_mouseControl = null
 		_mousePointerControl = null
 	End
-	'summary: This method has to be called whenever the Gui has to be updated.
+
 	Private
 	Field _msg_parentResized:= New BoxedMsg(Null, New EventArgs(eMsgKinds.PARENT_RESIZED))
 	Public
+
+	#rem monkeydoc
+		This method has to be called whenever the Gui system has to be updated.
+		This is typically called once on the OnUpdate method of your [[mojo]] [[App]].
+	#END
 	Method Update()
 
 		if _mousePos = Null then _mousePos = New GuiVector2D
@@ -1129,7 +1344,7 @@ Class Gui
 		end
 		
 		if _mousePointerControl <> null And (_oldMousePos.X <> _mousePos.X or _oldMousePos.Y <> _mousePos.Y) and _mousePointerControl._gui <> null Then
-			Local cords:= _mousePointerControl.LastRenderPosOnCanvas.Clone() 'RefreshRenderPosition.Clone()
+			Local cords:= _mousePointerControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone()
 			cords.X = _mousePos.X - cords.X
 			cords.Y = _mousePos.Y - cords.Y
 			Local eArgs:= New MouseEventArgs(eMsgKinds.MOUSE_MOVE, cords, 0)
@@ -1140,7 +1355,7 @@ Class Gui
 			'this is a MouseDownEvent
 			if newControl <> null Then
 				'local pos:=New GuiVector2D
-				Local controlPos:= newControl.LastRenderPosOnCanvas.Clone() 'RefreshRenderPosition.Clone() 'UnsafeRenderPosition().Clone()
+				Local controlPos:= newControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone() 'UnsafeRenderPosition().Clone()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
 				if newControl._gui <> null then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.MOUSE_DOWN, controlPos, 1)))
 				_DownControl = newControl
@@ -1148,13 +1363,13 @@ Class Gui
 		ElseIf oldMouseDown = True And _mouseDown = False Then
 			'Mouse up and possible click:
 			if _DownControl <> null and _DownControl._gui <> null Then
-				Local controlPos:= _DownControl.LastRenderPosOnCanvas.Clone() 'RefreshRenderPosition.Clone()
+				Local controlPos:= _DownControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone()
 				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
 				if _DownControl._gui <> null then _DownControl.Msg(New BoxedMsg(_DownControl, New MouseEventArgs(eMsgKinds.MOUSE_UP, controlPos, 1)))
 			EndIf
 			if _DownControl = newControl And _DownControl <> null Then
 				local pos:GuiVector2D
-				pos = newControl.LastRenderPosOnCanvas.Clone() 'RefreshRenderPosition.Clone()
+				pos = newControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone()
 				pos.SetValues(_mousePos.X-pos.X,_mousePos.Y-pos.Y)
 				if newControl._gui <> null then newControl.GetFocus()
 				If newControl._gui <> Null Then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
@@ -1194,10 +1409,17 @@ Class Gui
 		EndIf
 	End
 	
+	#rem monkeydoc
+		This is *internaly used* by the Gui engine to deal with internal status changes and event dispatching. 
+		This method should not be directly used unless you're doing some serious internal debug operations. Use with caution.
+	#End
 	Method Msg(msg:BoxedMsg)
 		If _event_Msg.HasHandlers Then _event_Msg.RaiseEvent(msg.sender, msg.e)
 	End
-	'summary: This event is fired whenever a low level msg is being processed by the Gui messaging system.
+	#rem monkeydoc
+		This event is fired whenever a low level msg is being processed by the Gui messaging system.
+		This method exists to make it easier to debug internal status changes of the whole Gui system. You don't need to use this method usually.
+	 #END
 	Method Event_Msg:EventHandler<EventArgs>()
 		Return _event_Msg
 	End
@@ -1217,7 +1439,9 @@ Class Gui
 '		EndIf
 '	End
 	
-	'summary: This method returns TRUE if a given key is pressed.
+	#Rem monkeydoc
+		This method returns TRUE if a given key is pressed.
+	 #END
 	Method IsKeydown?(keyCode:Int)
 		if keyCode<_oldKeys.Length Then
 			Return _oldKeys[keyCode] > 0
@@ -1225,28 +1449,32 @@ Class Gui
 			Return false
 		EndIf
 	End
-	'summary: This method the control that is being pointed by the mouse.
+	#rem monkeydoc
+		This method the control that is being pointed by the mouse.
+	 #END
 	Method GetMousePointedControl:Control()
 		Return _mousePointerControl
 	End
-	'summary: This method returns the current Mouse position
+	#rem monkeydoc
+		This method returns the current Mouse position
+	 #END
 	Method MousePos:GuiVector2D()
 		Return _mousePos
 	End
-	'summary: This method returns the current active control. That is, the control that has the focus.
+	#rem monkeydoc
+	 This method returns the current active control. That is, the control that has the focus.
+	#End
 	Method ActiveControl:Control()
 		Return _focusedControl 
 	End
 	
-	#Rem 
-		summary: <b>(advanced)</b> This method gives access to the TopLevelControl components list currently being handled by the gui element.
+	#Rem monkeydoc
+		*(advanced)* This method gives access to the TopLevelControl components list currently being handled by the gui element.
 		About the secure parameter:
-		[list]
-		[*]TRUE: This method will return a copy if the interal list used by the gui control.
-		[*]FALSE: This parameter will give [b]direct access[/b] to the internal list being used by the gui system.
-		[/list]
+		* True: This method will return a copy if the interal list used by the gui control.
+		* False: This parameter will give *direct access* to the internal list being used by the gui system.
 		In general therms, while creating a copy of the list is usually fast, it is a bit more CPU heavy than using the internal list. However, modifying the internal list directly can leave the GUI system on an inconsistent status if it is not properly done.
-		So, all in all, it is not recommended to use an unsafe "GetComponentsList" [b]unless you know exactly what you're doing[/b].
+		So, all in all, it is not recommended to use an unsafe "GetComponentsList" *unless you know exactly what you're doing*.
 	#END
 	Method GetComponentsList:List<TopLevelControl>(secure:Bool = True)
 		If secure = False Then Return Self._components
@@ -1257,6 +1485,9 @@ Class Gui
 		Return copylist
 	End
 
+	#Rem monkeydoc
+		This method returns the currently active [[TopLevelControl]]
+	#END
 	Method ActiveTopLevelControl:TopLevelControl()
 		If _components.IsEmpty = False Then Return _components.Last() Else Return Null
 	End
