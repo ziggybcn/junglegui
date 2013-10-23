@@ -3,7 +3,7 @@
 #END
 '----------
 'Imports:
-Import junglegui.core
+Import core
 Import form
 Import panel
 Import fontmachine
@@ -33,7 +33,6 @@ Import guiapp
 Import guiimage
 Import tabcontrol
 #REFLECTION_FILTER+="junglegui*"
-
 
 #IF TARGET="html5"
 	Import "resizecanvas/resizecanvas.js"

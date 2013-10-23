@@ -1,7 +1,7 @@
 ﻿#Rem monkeydoc Module junglegui.core
 This module contains the base core components of Jungle gui
 #End
-
+'Private
 Import drawingpoint
 Import eventargs
 Import guicolor
