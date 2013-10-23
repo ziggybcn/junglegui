@@ -148,7 +148,7 @@ Class ScrollBarContainer
 	' public scrollbar appearance
 	'
 	
-	Field _orientation:Int = eOrientation.VERTICAL
+	Field _orientation:Int = eTrackBarOrientation.VERTICAL
 	Field _minFaderSize:Int = 15 ' the minimum fader size
 	Field _buttonSize:Int = 15' the width/height of an button
 	

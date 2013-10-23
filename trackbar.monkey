@@ -1,10 +1,16 @@
+#rem monkeydoc Module junglegui.trackbar
+	This is the JungleGui module.
+#END
+
 Import junglegui
 Private
 Import mojo
 Public
 Import "data/trackbar.png"
 
-'summary: Represents a standard Windows track bar.
+#rem monkeydoc
+	Represents a standard Windows track bar.
+ #END
 Class TrackBar extends Control
 
 Private
@@ -26,10 +32,10 @@ Private
 		
 		Select _orientation
 					
-			Case eOrientation.HORIZONTAL
+			Case eTrackBarOrientation.HORIZONTAL
 				Return mx >= x - FADER_WIDTH / 2 And mx < x + FADER_WIDTH / 2 and my < Size.Y
 				
-			Case eOrientation.VERTICAL
+			Case eTrackBarOrientation.VERTICAL
 				Return my >= x - FADER_WIDTH / 2 And my < x + FADER_WIDTH / 2 and mx < Size.X
 		End
 		
@@ -41,11 +47,11 @@ Private
 			
 		Select _orientation
 					
-			Case eOrientation.HORIZONTAL
+			Case eTrackBarOrientation.HORIZONTAL
 
 				return FADER_OFFSET + (m * _value - (m * _minimum)) * float(Size.X - FADER_OFFSET2)
 				
-			Case eOrientation.VERTICAL
+			Case eTrackBarOrientation.VERTICAL
 
 				return FADER_OFFSET + (m * _value - (m * _minimum)) * float(Size.Y - FADER_OFFSET2)
 		End
@@ -56,7 +62,7 @@ Private
 	
 		Select _orientation
 		
-			Case eOrientation.HORIZONTAL
+			Case eTrackBarOrientation.HORIZONTAL
 			
 				SetColor(176, 176, 176)
 				DrawRect(Int(drawpos.X + FADER_OFFSET / 2 + 1), Int(drawpos.Y + Size.Y / 2 - 8), Int(Size.X - FADER_OFFSET - 3), 1)
@@ -65,7 +71,7 @@ Private
 				SetColor(231, 233, 234)
 				DrawRect(Int(drawpos.X + FADER_OFFSET / 2 + 1), Int(drawpos.Y + Size.Y / 2 - 7), Int(Size.X - FADER_OFFSET - 3), 2)
 				
-			Case eOrientation.VERTICAL
+			Case eTrackBarOrientation.VERTICAL
 				
 				SetColor(176, 176, 176)
 				DrawRect(Int(drawpos.X + Size.X / 2 - 8), Int(drawpos.Y + FADER_OFFSET / 2 + 1), 1, Int(Size.Y - 3 - FADER_OFFSET))
@@ -85,7 +91,7 @@ Private
 		
 		Select _orientation
 		
-			Case eOrientation.HORIZONTAL
+			Case eTrackBarOrientation.HORIZONTAL
 			
 				Local stepWidth:Float = float(Size.X - FADER_OFFSET2) / float(count)
 				SetColor 176, 176, 175
@@ -95,7 +101,7 @@ Private
 					DrawRect Int(FADER_OFFSET + drawpos.X + (i + 1) * stepWidth), Int(drawpos.Y + Size.Y / 2 + 7), 1, 3
 				Next
 				
-			Case eOrientation.VERTICAL
+			Case eTrackBarOrientation.VERTICAL
 				
 				Local stepWidth:Float = float(Size.Y - FADER_OFFSET2) / float(count)
 				
@@ -114,12 +120,12 @@ Private
 	Method _RenderFader(drawpos:GuiVector2D)
 		Select _orientation
 		
-			Case eOrientation.HORIZONTAL
+			Case eTrackBarOrientation.HORIZONTAL
 			
 				SetColor 255, 255, 255
 				DrawImage(_trackBarImage, Int(drawpos.X + _ValueToPosition), Int(drawpos.Y + Size.Y / 2 - 5), _frame)
 				
-			Case eOrientation.VERTICAL
+			Case eTrackBarOrientation.VERTICAL
 				
 				SetColor 255, 255, 255
 				DrawImage(_trackBarImage,
@@ -151,13 +157,13 @@ Private
 			
 			Select _orientation
 			
-				Case eOrientation.HORIZONTAL
+				Case eTrackBarOrientation.HORIZONTAL
 
 					Local length = float(Size.X - FADER_OFFSET2) / Abs(_maximum - _minimum) / _tickFrequency / 2
 					local tx:Float = Min(1.0, Max(0.0, float(e.position.X - FADER_OFFSET + length) / float(Size.X - FADER_OFFSET2)))
 					Value = tx * float(_maximum - _minimum) + _minimum
 					
-				Case eOrientation.VERTICAL
+				Case eTrackBarOrientation.VERTICAL
 					
 					Local length = float(Size.Y - FADER_OFFSET2) / Abs(_maximum - _minimum) / _tickFrequency / 2
 					local tx:Float = Min(1.0, Max(0.0, float(e.position.Y - FADER_OFFSET + length) / float(Size.Y - FADER_OFFSET2)))
@@ -207,14 +213,18 @@ Public
 		Super.Msg(msg)
 	End
 	
-	'summary: Gets a value indicating the horizontal or vertical orientation of the track bar.
+	#rem monkeydoc
+		Gets a value indicating the horizontal or vertical orientation of the track bar.
+	 #END
 	Method Orientation:Int() Property
 		Return _orientation
 	End
 	
-	'summary: Sets a value indicating the horizontal or vertical orientation of the track bar.
+	#rem monkeydoc
+		Sets a value indicating the horizontal or vertical orientation of the track bar.
+	 #END
 	Method Orientation:Void(value:Int) Property
-		if value <> eOrientation.HORIZONTAL And value <> eOrientation.VERTICAL Then
+		if value <> eTrackBarOrientation.HORIZONTAL And value <> eTrackBarOrientation.VERTICAL Then
 			Throw New JungleGuiException("", self)
 		EndIf
 		_orientation = value
@@ -245,10 +255,12 @@ Public
 		if Not _trackBarImage Then _trackBarImage = LoadImage("trackbar.png", 10, 18, 3, Image.MidHandle)
 		BackgroundColor = SystemColors.WindowColor
 		Size.SetValues(200, 40)
-		Orientation = eOrientation.HORIZONTAL
+		Orientation = eTrackBarOrientation.HORIZONTAL
 	End
 	
-	'summary: Sets a numeric value that represents the current position of the scroll box on the track bar.
+	#rem monkeydoc
+		Sets a numeric value that represents the current position of the scroll box on the track bar.
+	 #END
 	Method Value:Void(value:Int) Property
 		If _value <> value Then
 			if value < _minimum Then value = _minimum
@@ -258,39 +270,53 @@ Public
 		End
 	End
 	
-	'summary: Gets a numeric value that represents the current position of the scroll box on the track bar.
+	#rem monkeydoc
+		Gets a numeric value that represents the current position of the scroll box on the track bar.
+	 #END
 	Method Value:Int() Property
 		Return _value
 	End
 	
-	'summary: Gets the lower limit of the range this TrackBar is working with.
+	#rem monkeydoc
+		Gets the lower limit of the range this TrackBar is working with.
+	#END
 	Method Minimum:Int() Property
 		Return _minimum 
 	End
 	
-	'summary: Getsthe lower limit of the range this TrackBar is working with.
+	#rem monkeydoc
+		Gets the lower limit of the range this TrackBar is working with.
+	#end
 	Method Minimum:Void(value:Int) Property
 		_minimum = value
 		if _value < _minimum Then _value = _minimum
 	End
 	
-	'summary: Get the upper limit of the range this TrackBar is working with.
+	#rem monkeydoc
+		Get the upper limit of the range this TrackBar is working with.
+	#END
 	Method Maximum%() Property 
 		Return _maximum 
 	End
 	
-	'summary: Set the upper limit of the range this TrackBar is working with.
+	#rem monkeydoc
+		Set the upper limit of the range this TrackBar is working with.
+	#end
 	Method Maximum:Void(value:Int) Property
 		_maximum = value
 		if _value > _maximum Then _value = _maximum
 	End
 	
-	'summary: Gets a value that specifies the delta between ticks drawn on the control.
+	#rem monkeydoc
+		Gets a value that specifies the delta between ticks drawn on the control.
+	#END
 	Method Tickfrequency%()
 		Return _tickFrequency 
 	End
 	
-	'summary: Sets a value that specifies the delta between ticks drawn on the control.
+	#rem monkeydoc
+		Sets a value that specifies the delta between ticks drawn on the control.
+	#END
 	Method Tickfrequency:Void(value:Int)
 		if value < 1 Then value = 1
 		_tickFrequency = value 
@@ -305,8 +331,13 @@ Public
 				_sliderMaximumChanged.RaiseEvent(msg.sender, msg.e)
 		End
 	End
-	
+	#rem monkeydoc
+		This event will be fired every time the Value property is modified.
+	#END
 	Method Event_ValueChanged:EventHandler<EventArgs>() Property; Return _sliderValueChanged; End
+	#rem monkeydoc
+		This event will be fired every time the Maximum property is modified.
+	#END
 	Method Event_MaximumChanged:EventHandler<EventArgs>() Property; Return _sliderMaximumChanged; End
 	
 	Private
@@ -319,12 +350,20 @@ Public
 	Field _tickFrequency:Int = 5
 	Field _minimum:Int = 0
 	Field _maximum:Int = 100
-	Field _orientation:Int = eOrientation.VERTICAL
+	Field _orientation:Int = eTrackBarOrientation.VERTICAL
 	
 End
 
-Class eOrientation Abstract
+#rem monkeydoc
+	This class contains all possible values for a [[TrackBar]] control orientation
+#END
+Class eTrackBarOrientation Abstract
+	#rem monkeydoc
+		Orientation is vertical
+	#END
 	Const VERTICAL:Int = 0
+	#rem monkeydoc
+		Orientation is horizontal
+	#END
 	Const HORIZONTAL:Int = 1
-	
 End

@@ -1,6 +1,9 @@
-﻿'-----------
+﻿#rem monkeydoc Module junglegui
+	This is the JungleGui module.
+#END
+'----------
 'Imports:
-Import control
+Import junglegui.core
 Import form
 Import panel
 Import fontmachine
