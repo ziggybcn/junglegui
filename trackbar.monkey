@@ -2,7 +2,7 @@
 	This is the JungleGui module.
 #END
 
-Import junglegui
+Import junglegui.junglegui
 Private
 Import mojo
 Public
