@@ -1,9 +1,9 @@
 #Rem monkeydoc Module junglegui.windowframe
 This module contains the base core components of Jungle gui
 #End
-
+Private
 Import junglegui.junglegui
-
+Public
 #Rem monkeydoc
 	This control is a TopLevelControl that can be used to place controls in it.
 	As oposite to what happens with a Form, this control does not have any borders or caption. It's just a plain control container.

@@ -2,8 +2,8 @@
 	This is the JungleGui module.
 #END
 
-Import junglegui.junglegui
 Private
+Import junglegui.junglegui
 Import mojo
 Public
 Import "data/trackbar.png"
