@@ -2,7 +2,7 @@
 This module contains the base core components of Jungle gui
 #End
 
-Import junglegui
+Import junglegui.junglegui
 
 #Rem monkeydoc
 	This control is a TopLevelControl that can be used to place controls in it.

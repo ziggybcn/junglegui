@@ -1,7 +1,7 @@
 #rem monkeydoc Module junglegui.timer
 	This is a Timer-like control
 #END
-Import junglegui
+Import junglegui.junglegui
 #rem monkeydoc
 	This is a frame-based Timer component, that works attached to a given ControlContainer.
 	The fact that this timer works attached (is a child of) a control container brings it some useful functionality:
