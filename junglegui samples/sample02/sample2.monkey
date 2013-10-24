@@ -84,6 +84,8 @@ Class MyForm Extends Form
 		listBox1 = New ListBox(10,10,150,250,Null)
 		listView1 = New ListView(0,80, Self.Size.X-55, Self.Size.Y -260, Self)
 		listView2 = New GameListView(0, 0, 470, 180, Self)
+		
+
 
 		tabControl = New TabControl
 		Local tabPage1:= New TabPage("Default")
@@ -164,7 +166,9 @@ Class MyForm Extends Form
 		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
 		listView1.Items.AddLast(New DefaultListViewItem("Bla", img1))
 		listView1.Items.AddLast(New DefaultListViewItem("Bla", img2))
-		listView1.Parent = tabPage1 
+		listView1.Parent = tabPage1
+		listView1.BackgroundColor = Self.BackgroundColor
+
 		listView1.Position.SetValues(10,80)
 		listView1.Size.SetValues(tabPage1.Size.X-20, tabPage1.Size.Y-85)
 		
@@ -175,6 +179,7 @@ Class MyForm Extends Form
 		Local map2:= LoadImage("map2.png")
 		Local map3:= LoadImage("map3.png")
 
+		listView2.BackgroundColor = Self.BackgroundColor
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map1))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map2))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map3))		
@@ -185,8 +190,12 @@ Class MyForm Extends Form
 		
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", img2))
 		listView2.Parent = tabPage2
+		listView2.BackgroundColor = Self.BackgroundColor
+
 		listView2.Position.SetValues(10,10)
-		listView2.Size.SetValues(tabPage2.Size.X-20, tabPage2.Size.Y-20)
+		listView2.Size.SetValues(tabPage2.Size.X - 20, tabPage2.Size.Y - 20)
+				
+		Self.BorderStyle = eFormBorder.FIXED
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)
