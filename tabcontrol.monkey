@@ -143,6 +143,11 @@ Class TabPage Extends ContainerControl
 	Method New()
 		_initControl
 	End
+	
+	Method New(caption:String)
+		_initControl
+		Text = caption
+	End
 
 	Method Text:String() Property
 		Return text

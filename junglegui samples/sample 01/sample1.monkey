@@ -195,7 +195,6 @@ Class SampleForm Extends Form
 		
 		HCenterControl(button)
 		'We add an event handler for the click event of the button:
-		'DebugStop()
 		button.Event_Click.Add(Self, "Button_Clicked")
 		
 		'''

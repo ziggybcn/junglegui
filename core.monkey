@@ -182,8 +182,11 @@ Class Control
 	Method Parent:ContainerControl(parentControl:ContainerControl) Property
 		If parentControl = Null And _parentControl = Null Then Return
 		If _parentControl = parentControl Then
-			If _gui <> parentControl._gui Then _gui = parentControl._gui
-			'Return
+			If _gui <> parentControl._gui Then
+				_gui = parentControl._gui
+			Else
+				Return
+			EndIf
 		EndIf
 		If _parentControl <> Null Then
 			_parentControl.controls.RemoveEach(Self)
@@ -821,11 +824,11 @@ Class ContainerControl Extends Control
 	Method Parent:ContainerControl(parentControl:ContainerControl) Property
 		If _parentControl = parentControl Then Return
 		Super.Parent(parentControl)
+		If _initialized = False Then InitializeNow()
 		'This is done to ensure the _gui is also updated, just in case...
 		For Local child:Control = EachIn Self.controls
 			child.Parent = Self
 		Next
-		If _initialized = False Then InitializeNow()
 	End
 
 	Private

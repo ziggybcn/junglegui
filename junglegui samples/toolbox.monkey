@@ -248,7 +248,6 @@ Class ToolBox extends form.Form
 	Method Msg(msg:BoxedMsg)
 		Super.Msg(msg)
 		If debugForm = null And GetGui <> Null Then
-			'DebugStop 
 			debugForm = New DebugForm
 			debugForm.InitForm(GetGui)
 		EndIf

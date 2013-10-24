@@ -17,7 +17,7 @@ Class Sample2 extends App
 	Field myForm:MyForm
 	Method OnCreate()
 		SetUpdateRate(60)
-		'EnableAutoSize()
+		EnableAutoSize()
 		gui = New Gui	'We create the Gui manager.
 		myForm = New MyForm
 		Try
@@ -83,11 +83,13 @@ Class MyForm Extends Form
 		local trackbar2:= New TrackBar
 		listBox1 = New ListBox(10,10,150,250,Null)
 		listView1 = New ListView(0,80, Self.Size.X-55, Self.Size.Y -260, Self)
-		listView2  = New GameListView(0,0, 470, 180, Self)
+		listView2 = New GameListView(0, 0, 470, 180, Self)
+
 		tabControl = New TabControl
-		Local tabPage1:= new TabPage("Default")
-		Local tabPage2:= new TabPage("Custom")
-		Local tabPage3:= new TabPage("ListBox")
+		Local tabPage1:= New TabPage("Default")
+		Local tabPage2:= New TabPage("Custom")
+		Local tabPage3:= New TabPage("ListBox")
+		
 		Local label:= new Label()
 		Local trackbar:= New TrackBar
 		local label2:= New Label()
@@ -97,10 +99,12 @@ Class MyForm Extends Form
 		'''
 		tabControl.Position.SetValues(10,70)
 		tabControl.Size.SetValues(Self.Size.X-40, Self.Size.Y -150)
-		tabControl.Parent = Self 
-		tabControl.TabPages.AddLast(tabPage1)
-		tabControl.TabPages.AddLast(tabPage2)
-		tabControl.TabPages.AddLast(tabPage3)
+		tabControl.Parent = Self
+
+		tabPage1.Parent = tabControl
+		tabPage2.Parent = tabControl
+		tabPage3.Parent = tabControl
+
 		tabControl.SelectedTab = tabPage3
 		
 		''
@@ -170,7 +174,7 @@ Class MyForm Extends Form
 		Local map1:= LoadImage("map1.png")
 		Local map2:= LoadImage("map2.png")
 		Local map3:= LoadImage("map3.png")
-		
+
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map1))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map2))
 		listView2.Items.AddLast(New GameListViewItem("Bla Dedicated Server", "Waiting for players", "37.59.222.194:1234", "A Path Beyond", map3))		
