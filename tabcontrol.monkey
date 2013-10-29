@@ -1,5 +1,11 @@
+#rem monkeydoc Module junglegui.tabcontrol
+	This module contains the TabControl implementation for JungleGui
+#END
 Import junglegui
-
+#rem monkeydoc
+	This Control is a Tabbed Container.
+	It works by containing [[TabPage]]s. Each tab page can have a name and some controls in it.
+#END
 Class TabControl Extends ContainerControl
 	Method New()
 		Padding.Top = 25
@@ -13,6 +19,9 @@ Class TabControl Extends ContainerControl
 		RenderHeaders()
 	End
 	
+	#rem monkeydoc
+		This method is internally called by the control whenever it needs to render the [[TabPage]] headers of the contained TabPages
+	#END
 	Method RenderHeaders()
 		Local index:Int = 0
 		For Local c:Control = EachIn Self.GenerateControlsList(True)
@@ -23,6 +32,9 @@ Class TabControl Extends ContainerControl
 		
 	End
 	
+	#rem monkeydoc
+		This method is internally called by the control whenever it needs to render one specific [[TabPage]] header.
+	#END
 	Method RenderOneHeader(tp:TabPage, index:Int)
 		Local pos:= Self.LocationInDevice()
 		Local width:Float = Size.X / Float(TabPagesCount)
@@ -96,6 +108,10 @@ Class TabControl Extends ContainerControl
 		Super.Msg(msg)
 	End
 	
+	
+	#rem monkeydoc
+		This property allows you to select a given [[TabPage]] as the currently active tab.
+	#END
 	Method SelectedTab:Void(value:TabPage) Property
 		
 		If value <> Null Then
@@ -122,6 +138,9 @@ Class TabControl Extends ContainerControl
 		Return selectedTab
 	End
 
+	#rem monkeydoc
+		This event is fired every time the selected tab changes.
+	#END
 	Method Event_SelectedTabChanged:EventHandler<EventArgs>() Property; Return _selectedTab; End
 
 	Private
@@ -138,12 +157,17 @@ Class TabControl Extends ContainerControl
 	End
 End
 
+#rem monkeydoc
+	This control is a TabPage. When a TabPage is the child of a TabControl it can be rendered in the form of a selectable multi-document tab interface.
+#END
 Class TabPage Extends ContainerControl
 
 	Method New()
 		_initControl
 	End
-
+	#rem monkeydoc
+		This property is the text of the tab caption.
+	#END
 	Method Text:String() Property
 		Return text
 	End

@@ -1,8 +1,5 @@
 Import junglegui
 Import scaledscrissor
-Private
-Import mojo
-public
 
 Function DrawBox(x:Int, y:Int, width:Int, height:Int)
 	DrawBox(float(x), float(y), float(width), float(height))

@@ -1,7 +1,5 @@
 Import junglegui
-Private 
-Import mojo
-Public
+
 'note: TODO: Horizontal scrollbar support
 Class Panel extends ContainerControl
 	Method New()

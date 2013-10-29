@@ -1,7 +1,19 @@
+#rem monkeydoc Module junglegui.slider
+	
+#END
 Import junglegui
 
+#rem monkeydoc
+	This control represents a slider bar that can be used to represent graphically a flaoting point value.
+	It's designed to be easily used with a finger and it is the float-point approach for a [[TrackBar]]. 
+	The difference is that a Slider can represent intermediate values, while a TrackBar is designed to represent whole units.
+#END
 Class Slider extends Control
 
+	#rem monkeydoc
+		This property returns the orientation of the Slider control.
+		The available orientations are defined in the [[eSliderOrientation]] class.
+	#END
 	Method Orientation(value:Int) Property
 		if value <> eSliderOrientation.HORIZONTAL And value <> eSliderOrientation.VERTICAL Then
 			Throw New JungleGuiException("Invalid orientation value for slider control. Value was " + value, Self)
@@ -86,6 +98,9 @@ Class Slider extends Control
 		endif
 	End
 	
+	#rem monkeydoc
+		This property is the maximum value that can be reached by the slider.
+	#END
 	Method Maximum:Void(value:Int) Property
 		if _value > value Then _value = value
 		if _max <> value then
@@ -98,6 +113,9 @@ Class Slider extends Control
 		Return _max
 	End
 	
+	#rem monkeydoc
+		This property is current slider value.
+	#END
 	Method Value:Int() Property
 		Return _value
 	End
@@ -110,6 +128,9 @@ Class Slider extends Control
 		endif
 	End
 	
+	#rem monkeydoc
+		This method allows you to set both Value and Maximum in a single call.
+	#END
 	Method SetValues(max:Int, value:Int)
 		Maximum = max
 		Value = value
@@ -144,7 +165,13 @@ Class Slider extends Control
 		End
 	End
 	
+	#rem monkeydoc
+		This event is fired every time the Value property is modified.
+	#END
 	Method Event_ValueChanged:EventHandler<EventArgs>() Property; Return _sliderValueChanged; End
+	#rem monkeydoc
+		This event is fired every time the Maximum property is modified.
+	#END
 	Method Event_MaximumChanged:EventHandler<EventArgs>() Property; Return _sliderMaximumChanged; End
 	Private
 	
@@ -193,7 +220,16 @@ Class Slider extends Control
 	End
 End
 
+#rem monkeydoc
+	This class contains the available slider orientations
+#END
 Class eSliderOrientation Abstract
+	#rem monkeydoc
+		This const indicates that a Slider should be rendered with a vertical orientation
+	#END
 	Const VERTICAL:Int = 0
+	#rem monkeydoc
+		This const indicates that a Slider should be rendered with a horizontal orientation
+	#END
 	Const HORIZONTAL:Int = 1
 End

@@ -1,7 +1,5 @@
 Import junglegui
-Private
-Import mojo
-Public
+
 'summary: This is the button class. This class represents a button on the JungleGui library
 Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem
 	

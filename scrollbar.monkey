@@ -1,5 +1,4 @@
 Import junglegui
-Import mojo
 
 Class VScrollBar extends Control
 
