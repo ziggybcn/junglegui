@@ -1,5 +1,4 @@
 ﻿Import junglegui
-Import mojo.input
 Import "data/close_button.png"
 
 #Rem

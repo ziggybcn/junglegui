@@ -1,19 +1,17 @@
 ﻿#Rem monkeydoc Module junglegui.core
-This module contains the base core components of Jungle gui
+	This module contains the base core components of Jungle gui
 #End
-'Private
 Import drawingpoint
 Import eventargs
 Import guicolor
-Import viewportstack
 Import mojoextensions.helperfunctions
 Import eventhandler
 Import padding
 Import econtrolstatus
+
+Import viewportstack
 Import mojoextensions.scaledscrissor
-Private
-Import mojo
-Public
+
 #Rem monkeydoc 
 	this is the base class of a JungleGui control
 #End
@@ -730,10 +728,10 @@ Class Control
 		viewPort.SetValuesFromControl(Self)
 		
 		'Los ajustamos al viewport padre:
-		If _gui.viewPortStack.ports.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top(), viewPort)
+		If _gui.viewPortStack.IsEmpty = False Then viewPort = viewPort.Calculate(_gui.viewPortStack.Top(), viewPort)
 			
 		'Añadimos el viewport a la cola:
-		_gui.viewPortStack.ports.Push(viewPort)
+		_gui.viewPortStack.Push(viewPort)
 		If _gui._mousePos = Null Then _gui._mousePos = New GuiVector2D'(0, 0)
 		If HasGraphicalInterface and _outOfView = False Then 	'And is visible
 			if _gui._mousePos.X>= viewPort.position.X And _gui._mousePos.X<= (viewPort.position.X + viewPort.size.X) Then
@@ -749,15 +747,15 @@ Class Control
 			Local container:= ContainerControl(Self)
 			viewPort = _vp_focusChecks2  'New ViewPort
 			viewPort.SetValuesFromControl(container,container.Padding)
-			viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top(), viewPort)
-			_gui.viewPortStack.ports.Push(viewPort)
+			viewPort = viewPort.Calculate(_gui.viewPortStack.Top(), viewPort)
+			_gui.viewPortStack.Push(viewPort)
 			For Local c:Control = EachIn container.controls
 				If c._outOfView = False Then c._FocusChecks()
 			Next
-			_gui.viewPortStack.ports.Pop()	'eliminamos el post-padding
+			_gui.viewPortStack.Pop()	'eliminamos el post-padding
 		EndIf
 	
-		_gui.viewPortStack.ports.Pop()	'eliminamos el borde del control
+		_gui.viewPortStack.Pop()	'eliminamos el borde del control
 	
 	End
 	
@@ -859,7 +857,7 @@ Class ContainerControl Extends Control
 		viewPort.SetValuesFromControl(Self)
 		
 		'Los ajustamos al viewport padre:
-		If _gui.viewPortStack.ports.IsEmpty = False Then viewPort.Calculate(_gui.viewPortStack.ports.Top, viewPort)
+		If _gui.viewPortStack.IsEmpty = False Then viewPort.Calculate(_gui.viewPortStack.Top, viewPort)
 		
 		If viewPort.size.X < 1 or viewPort.size.Y < 1
 			_outOfView = True
@@ -870,27 +868,27 @@ Class ContainerControl Extends Control
 			
 		
 		'Añadimos el viewport a la cola:
-		_gui.viewPortStack.ports.Push(viewPort)
+		_gui.viewPortStack.Push(viewPort)
 		RenderBackground()
 		
 		'We set the children viewport:
 		viewPort = _vp_render2 'New ViewPort
 		viewPort.SetValuesFromControl(Self,Padding)
-		viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top, viewPort) 'Stack.Last())
-		_gui.viewPortStack.ports.Push(viewPort)
+		viewPort = viewPort.Calculate(_gui.viewPortStack.Top, viewPort) 'Stack.Last())
+		_gui.viewPortStack.Push(viewPort)
 		SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		RenderChildren()
 		
 		'we remove the children viewport
-		_gui.viewPortStack.ports.Pop()	'eliminamos el post-padding
+		_gui.viewPortStack.Pop()	'eliminamos el post-padding
 		
 		'We get the regular control viewport again and set it to render the foreground component:
-		viewPort = _gui.viewPortStack.ports.Top
+		viewPort = _gui.viewPortStack.Top
 		SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		RenderForeground()
 		
 		'We now remove the control viewport from the stack
-		_gui.viewPortStack.ports.Pop()	'eliminamos el borde del control
+		_gui.viewPortStack.Pop()	'eliminamos el borde del control
 			
 	End
 
@@ -935,8 +933,8 @@ Class ContainerControl Extends Control
 
 
 			viewPort.SetValuesFromControl(c)
-			If _gui.viewPortStack.ports.IsEmpty = False Then
-				viewPort = viewPort.Calculate(_gui.viewPortStack.ports.Top, viewPort) 'Stack.Last())
+			If _gui.viewPortStack.IsEmpty = False Then
+				viewPort = viewPort.Calculate(_gui.viewPortStack.Top, viewPort) 'Stack.Last())
 			EndIf
 			If viewPort.size.X > 0 And viewPort.size.Y > 0 Then
 				SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
@@ -955,8 +953,8 @@ Class ContainerControl Extends Control
 
 
 		Next
-		if _gui.viewPortStack.ports.IsEmpty = False Then
-			Local viewPort:ViewPort = _gui.viewPortStack.ports.Top 'Stack.Last()
+		If _gui.viewPortStack.IsEmpty = False Then
+			Local viewPort:ViewPort = _gui.viewPortStack.Top 'Stack.Last()
 			SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
 		EndIf
 		'RemovePaddingPos

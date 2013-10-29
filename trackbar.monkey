@@ -2,10 +2,7 @@
 	This is the JungleGui module.
 #END
 
-Private
-Import junglegui.junglegui
-Import mojo
-Public
+Import junglegui
 Import "data/trackbar.png"
 
 #rem monkeydoc

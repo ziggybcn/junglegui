@@ -1,5 +1,4 @@
 Import junglegui
-Import mojo
 
 'summary: simple combobox for testing. 
 Class ComboBox Extends BaseLabel Implements guiinterfaces.TextualAlignItem
