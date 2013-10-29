@@ -1,4 +1,3 @@
-Import mojo
 Import junglegui
 Function SetGuiScissor(gui:Gui, x:Float, y:Float, width:Float, height:Float)
 	Local sx:= gui.ScaleX

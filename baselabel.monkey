@@ -1,7 +1,4 @@
 Import junglegui
-Private
-Import mojo
-Public
 #Rem
 	summary: This is the BaseLabel class. This class is used by controls displaying and handling Text.
 	This class is inherited by regular controls like Label or Textfield.

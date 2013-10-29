@@ -32,6 +32,7 @@ Import reflection
 Import guiapp
 Import guiimage
 Import tabcontrol
+Import mojo
 #REFLECTION_FILTER+="junglegui*"
 
 #IF TARGET="html5"
