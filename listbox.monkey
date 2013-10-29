@@ -1,5 +1,4 @@
 Import junglegui
-Import mojo
 
 Class eSelectionMode
 	Const MODE_ONE = 0
