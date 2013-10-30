@@ -144,7 +144,8 @@ Public
 		'
 		' render background
 		'
-		SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+		'SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+		BackgroundColor.Activate()
 		DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)
 
 		ForeColor.Activate()	'It is 255,255,255 on HTML5 while 0,0,0 on non HTML5
@@ -186,7 +187,8 @@ Public
 				'
 				' Draw the value
 				'
-				SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+				'SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+				BackgroundColor.Activate
 				DrawRect _leftPadding + _leftWidth + drawpos.X, 1 + y + drawpos.Y, _leftWidth, _itemHeight
 				SetColor 255, 255, 255
 				DrawRect _leftPadding + _leftWidth + drawpos.X, y + drawpos.Y + 1, _rightWidth - 1, _itemHeight - 2
@@ -215,7 +217,9 @@ Public
 			'GetGui.Renderer.DrawFocusRect(Self, True)
 		Else
 			' bottom outline could be overwritten?
-			SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+
+			'SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+			BackgroundColor.Activate
 			SetAlpha 1
 			DrawLine drawpos.X, drawpos.Y + Size.Y, drawpos.X + Size.X, drawpos.Y + Size.Y
 		End
@@ -795,7 +799,8 @@ Class GuiColor_UiTypeEditor extends UiTypeEditor
 		DrawRect pos.X + 2, pos.Y + 2, size.X - 4, size.Y - 4
 		Local color:= GuiColor(obj)
 		if color Then
-			SetColor color.r, color.g, color.b
+			'SetColor color.r, color.g, color.b
+			color.Activate()
 			DrawRect pos.X + 2, pos.Y + 2, size.X - 4, size.Y - 4
 		End
 	End

@@ -1,8 +1,11 @@
-﻿Import junglegui
+﻿#rem monkeydoc Module junglegui.form
+	This module contains the junglegui [[Form]] implementation.
+#END
+Import junglegui
 Import "data/close_button.png"
 
-#Rem
-	summary: This is the Form control
+#Rem monkeydoc
+	This is the Form control
 	A Form is a TopLevelControl, so it can be used as the parent control for any other controls. That is, a Form can contain Buttons, Labels, Listboxes, etc.
 #END
 Class Form Extends TopLevelControl
@@ -10,14 +13,9 @@ Class Form Extends TopLevelControl
 	Method New()
 		BackgroundColor = SystemColors.AppWorkspace
 		Size.SetValues(400, 400)
-		'Padding.Left = 5
-		'Padding.Top = 25
-		'Padding.Right = 5
-		'Padding.Bottom = 5
-		'Padding = GetGui.Renderer.DefaultFormPadding
 	End
-	#Rem 
-		summary: This is the method that MUST be called in order to init the Form component and attach it to the corresponding gui element.
+	#Rem monkeydoc
+		This is the method that MUST be called in order to init the Form component and attach it to the corresponding gui element.
 		It is VERY important to init the form BEFORE any other operation is done with it. Once the form is initialized, the OnInit method will be automatically called.
 	#END
 	Method InitForm(gui:Gui)
@@ -76,7 +74,9 @@ Class Form Extends TopLevelControl
 
 
 	End
-	'summary:This property can be used to set/get the Form caption
+	#rem monkeydoc
+		This property can be used to set/get the Form caption
+	#END
 	Method Text:String() Property
 		Return _text
 	End
@@ -104,7 +104,9 @@ Class Form Extends TopLevelControl
 		Super.Msg(msg)
 	End
 	
-	'summary:This property can be used to specify if the Form has a ControlBox in it.
+	#rem monkeydoc
+		This property can be used to specify if the Form has a ControlBox in it. A control box is a cross button that allows the Form to be closed.
+	#END
 	Method ControlBox:Bool() Property
 		Return _controlBox
 	End
@@ -113,12 +115,16 @@ Class Form Extends TopLevelControl
 		_controlBox = value
 	End
 	
-	'summary:This property returns the ControlBox metrics for the current Form
+	#rem monkeydoc
+		This property returns the ControlBox metrics for the current Form. That's internally used in the form rendering engine.
+	#END
 	Method ControlBoxMetrics:BoxMetrics() Property
 		Return _BoxPos
 	End
 	
-	'Summary: This property is the form border style (resizable or fixed).<br>The constants are defined as <u>eFormBorder</u>.<b>FIXED</b> and <u>eFormBorder</u>.<b>RESIZABLE</b> 
+	#rem monkeydoc
+		This property is the form border style (resizable or fixed).<br>The constants are defined as <u>[[eFormBorder]]</u>.<b>FIXED</b> and <u>[[eFormBorder]]</u>.<b>RESIZABLE</b> 
+	 #END
 	Method BorderStyle:Int() Property
 		Return borderKind
 	End
@@ -127,12 +133,16 @@ Class Form Extends TopLevelControl
 		borderKind = value
 	End
 	
-	'summary: This readonly property returns the minimum size that the user will be able to give to this form when it has a resizable border. Notice this does not affect programatical resizing of the form. It affects only interactive resizing made by the application user.
+	#rem monkeydoc
+		This readonly property returns the minimum size that the user will be able to give to this form when it has a resizable border. Notice this does not affect programatical resizing of the form. It affects only interactive resizing made by the application user.
+	 #END
 	Method MinumumSize:GuiVector2D() Property
 		Return minimumSize
 	End
 	
-	'summary: Returns the eResizeStatus const that informs on mouse-over resizing status.<br>That's useful to draw resizing interactive media on a form border.
+	#rem monkeydoc
+		Returns the eResizeStatus const that informs on mouse-over resizing status.<br>That's useful to draw resizing interactive media on a form border.
+	 #END
 	Method GetMouseOverReisingStatus:Int()
 		Return Self.mouseOverStatus
 	End
@@ -208,46 +218,68 @@ Class Form Extends TopLevelControl
 	
 End
 
-#Rem
-	summary: This class is a collection of available resize status for a Form-
+#Rem monkeydoc
+	This class is a collection of available resize status for a Form. This values are internally used to determine the rendering status of the form and should be used when implemention a custom Form skin using a [[GuiRenderer]].
 #END
 Class eResizeStatus
-	'summary: This indicates the form is not being resized.
+	#rem monkeydoc
+		This indicates the form is not being resized.
+	 #END
 	Const NONE:Int = 0
-	'summary: This indicates the form is being resized from its right edge.
+	#rem monkeydoc
+		This indicates the form is being resized from its right edge.
+	 #END
 	Const RESIZE_RIGHT:Int = 1
-	'summary: This indicates the form is being resized from its bottom edge
+	#rem monkeydoc
+		This indicates the form is being resized from its bottom edge
+	#END
 	Const RESIZE_BOTTOM:Int = 2
 End
 
-#Rem
-	summary: This class is a collection of available border styles for Forms
+#Rem monkeydoc
+	This class is a collection of available border styles for Forms
 #END
 Class eFormBorder
-	'summary: This indicates that the border of a form is not resizable
+	#rem monkeydoc
+		This indicates that the border of a form is not resizable
+	 #END
 	Const FIXED:Int = 1
-	'summary: This indicates that the border of a form is resizable
+	#rem monkeydoc
+		This indicates that the border of a form is resizable
+	#END
 	Const RESIZABLE:Int = 0
 End
 
 
-'summary: This class represents a rectngle metrics structure, used to locate the form ControlBox
+#rem monkeydoc
+	This class represents a rectangle metrics structure, used to locate the form ControlBox when a Form is rendered.
+ #END
 Class BoxMetrics
-	'summary: This is the controlbox align
+	#rem monkeydoc
+		This is the controlbox align
+	 #END
 	Field align:Int = BoxMetrics.HALIGN_RIGHT
 
-	'summary: This is indicates the control box is aligned to the right
+	#rem monkeydoc
+		This is indicates the control box is aligned to the right
+	 #END
 	Const HALIGN_RIGHT:Int = 0
 	
-	'summary: This is indicates the control box is aligned to the left
+	#rem monkeydoc
+		This is indicates the control box is aligned to the left
+	#END
 	Const HALIGN_LEFT:Int = 1
 	
-	'summary: Readonly Offset position for the ControlBox sub-component from the nearest edge (left/top or right/top depending on the align property)
+	#rem monkeydoc
+		Readonly Offset position for the ControlBox sub-component from the nearest edge (left/top or right/top depending on the align property)
+	 #END
 	Method Offset:GuiVector2D() Property
 		Return _offset
 	End
 
-	'summary: This is the Size of the controlbox visible element
+	#rem monkeydoc
+		This is the Size of the controlbox visual element on the canvas.
+	#end
 	Method Size:GuiVector2D() Property
 		Return _size
 	End

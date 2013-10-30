@@ -1,5 +1,13 @@
+#rem monkeydoc Module junglegui.guiimage
+	This module contains the implementatio of the [[GuiImage]] [[Control]].
+#END
+
 Import junglegui
 
+#Rem monkeydoc
+	This is the GuiImage control. This control renders as an image, but has all the [[Control]] functionality, such as being able to raise events, get mouse interaction, scale, etc.
+	This is like a WindowsForms PictureBox, like an "Image Container". It's useful to add some image decorations to your application Gui design.
+#END
 Class GuiImage Extends Control
 	Private
 	Field image:Image
@@ -7,11 +15,17 @@ Class GuiImage Extends Control
 	Field _imageSet:= New EventHandler<EventArgs>
 	Field colorCache:= New Float[3]
 	Public
-	
+
+	#rem monkeydoc
+		This event will be fired when a new mojo Image is set as the Image property in this control.	
+	#END
 	Method Event_ImageSet:EventHandler<EventArgs>() Property;
 		Return _imageSet
 	End
 	
+	#rem monkeydoc
+		This property is the Image that this control has to draw on the device canvas.
+	#END
 	Method Image:Image() Property
 		Return image
 	End
@@ -23,6 +37,9 @@ Class GuiImage Extends Control
 		EndIf
 	End
 	
+	#rem monkeydoc
+		This property can be set to True or False in order to make the background of this control transparent. That's useful when the contained Image has a properly designed transparent alpha channel.
+	#END
 	Method Transparent:Bool() Property
 		Return transparent
 	End
@@ -39,7 +56,7 @@ Class GuiImage Extends Control
 		GetColor(colorCache)
 	
 		If Not transparent Then
-			If colorCache[0] <> BackgroundColor.r And colorCache[1] <> BackgroundColor.g And colorCache[2] <> BackgroundColor.b Then
+			If colorCache[0] <> BackgroundColor.Red And colorCache[1] <> BackgroundColor.Green And colorCache[2] <> BackgroundColor.Blue Then
 				SetColor(255, 255, 255)
 				resetcolor = True
 			EndIf

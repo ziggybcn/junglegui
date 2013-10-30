@@ -1,13 +1,26 @@
-﻿Import junglegui
+﻿#rem monkeydoc Module junglegui.textfield
+	This control represents a TextField, that is, a single-line text component that can be used to get text from the application user.
+	That's the typical input box, or single line text box.
+	While this control is functional, there are still some areas that require improvement. Current implementation does not support clipboard, and also it does not support text selection. Other than that, current implementation is functional and can be safely used.
+#END
+Import junglegui
+
 Private 
 Const TEXTVALIDCHARS:String = "+-*/=~q!@#$%&()?[]çÇñÑáéíóúàèìòùâêîôûäëïöüÁÉÍÓÚÀÈIÒÙÄËÏÖÜÂÊÎÔÛýÝ€0123456789,.:;{}¨'`´~~|\ºª<>"
 Public
-#Rem
-	summary: This is the TextField control. This control allows keyboard input using a standard single line text box.
+
+
+#Rem monkeydoc
+	This is the TextField control. This control allows keyboard input using a standard single line text box.
+	This control is still under development. It's functional but there are some missing functionalities we're going to add soon-ish:
+  * Text selection
+  * Clipboard support	
 #END
 Class TextField extends BaseLabel
 
-	'summary: This property allows you to get/set the character position of the caret in the control.
+	#Rem monkeydoc
+		This property allows you to get/set the character position of the caret in the control.
+	 #END
 	Method CaretPos:Int() Property
 		Return _caretPos
 	End
@@ -19,7 +32,9 @@ Class TextField extends BaseLabel
 	End
 
 	
-	'summary: This property allows you to set/get the BorderColor of this control
+	#Rem monkeydoc
+		 This property allows you to set/get the BorderColor of this control
+	 #END
 	Method BorderColor:GuiColor() Property
 		Return _bordercolor
 	End
@@ -29,6 +44,10 @@ Class TextField extends BaseLabel
 	End
 
 	
+	#Rem monkeydoc
+		 This property allows you to get/set the border rendering of this control. Set it to true to make this control draw its border, otherwise set it to false.
+		 This property behavior could be overridern by the current [[GuiRenderer]] that acts like the whole [[Gui]] skin.
+	 #END
 	Method HasBorder:Bool() Property
 		Return hasBorder
 	End
@@ -138,7 +157,9 @@ Class TextField extends BaseLabel
 		Super.Msg(msg)
 	End
 	
-	'summary: This property allows you to get/set the length (in chars) of the selected text in the text box.
+	#Rem monkeydoc
+		 This property allows you to get/set the length (in chars) of the selected text in the text box. <br><b>This property is still being implemented.</b>
+	 #END
 	Method SelectionLength:Int() Property
 		return _selectionLength
 	End

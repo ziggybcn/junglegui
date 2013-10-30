@@ -261,7 +261,8 @@ Public
 		' render background
 		'
 		
-		SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+		'SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+		BackgroundColor.Activate
 		DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)
 		SetColor(255, 255, 255)
 		DrawRect(drawpos.X + 1, drawpos.Y + 1, Size.X - 2, Size.Y - 2)
