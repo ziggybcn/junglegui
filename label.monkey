@@ -7,7 +7,8 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 	Method Render:Void()
 		Local drawingPos:=UnsafeRenderPosition()
 		if Not Transparent then
-			SetColor(BackgroundColor.r,BackgroundColor.g,BackgroundColor.b)
+			'SetColor(BackgroundColor.r,BackgroundColor.g,BackgroundColor.b)
+			BackgroundColor.Activate()
 			DrawRect(drawingPos.X,drawingPos.Y,Size.X,Size.Y)
 		Endif
 		

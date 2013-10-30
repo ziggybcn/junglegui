@@ -1,16 +1,29 @@
-'summary:This class contains a list of available control status
+#rem monkeydoc Module junglegui.econtrolstatus
+	This module contains a representation of non-exclusive control status using the [[eControlStatus]] enum-like class.
+#END
+#rem monkeydoc
+	This class contains a list of available control status
+#END
 Class eControlStatus
 
-	'summary: Represents a regular control status
+	#rem monkeydoc
+		Represents a regular control status
+	 #END
 	Const NONE:Int = 0
 
-	'summary: Represents a focused status
+	#rem monkeydoc
+		Represents a focused status
+	 #END
 	Const FOCUSED:Int = 1
 
-	'summary: Represents a Focused status
+	#rem monkeydoc
+		Represents a Focused status
+	 #END
 	Const HOOVER:Int = 2
 
-	'summary: Represents a disabled status
+	#rem monkeydoc
+		Represents a disabled status
+	#END
 	Const DISABLED:Int = 4
 	
 End Class

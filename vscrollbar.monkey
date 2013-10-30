@@ -1,6 +1,13 @@
+#rem monkeydoc Module junglegui.vscrollbar
+	This module contains a verticall scrollbar control implementation.	
+#END
+
 Import junglegui
 
-Class VScrollBar extends Control
+#rem monkeydoc
+	This class is a control that represents a vertical scrollbar.
+#END
+Class VScrollBar Extends Control
 
 Private
 
@@ -18,6 +25,9 @@ Public
 		_pos = New GuiVector2D()
 	End
 	
+	#rem monkeydoc
+		This event is fired whenever the VScrollBar value is modified
+	#END
 	Method Event_ValueChanged:EventHandler<EventArgs>() Property
 		Return _valueChanged
 	End
@@ -69,7 +79,10 @@ Public
 		
 		Super.Msg(msg)
 	End
-	
+
+	#rem monkeydoc
+			This property contains the minimum value of the [[VScrollBar]]
+	#END
 	Method Minimum:Int()
 		return _scrollbar._minimum
 	End
@@ -78,6 +91,9 @@ Public
 		_scrollbar._minimum = value
 	End
 	
+	#Rem monkeydoc
+		This property contains the maximum value of the [[VScrollBar]]
+	#END
 	Method Maximum:Int()
 		Return _scrollbar._maximum
 	End
@@ -85,7 +101,9 @@ Public
 	Method Maximum:Void(value:Int) Property
 		_scrollbar._maximum = value
 	End
-	
+	#rem monkeydoc
+		This property contains the current value of the [[VScrollBar]]
+	#END
 	Method Value:Int() Property
 		Return _scrollbar.Value
 	End
@@ -104,6 +122,7 @@ Class eScrollMode
 	Const Smooth = 0
 	Const Stepwise = 1
 End
+
 Class ScrollBarContainer
 
 	Const DefaultWidth = 17
@@ -168,21 +187,25 @@ Class ScrollBarContainer
 		' draw top/bottom button only if mouse is over scrollbar
 		if _mouseOver Then
 		
-			SetColor(BorderColor.r, BorderColor.g, BorderColor.b)
+			'SetColor(BorderColor.r, BorderColor.g, BorderColor.b)
+			BorderColor.Activate()
 			DrawRect drawPos.X + 1, drawPos.Y + 1, size.X - 2, _buttonSize
 			DrawRect drawPos.X + 1, drawPos.Y + size.Y - _buttonSize - 1, size.X - 2, _buttonSize
 			
 			if _topButtonState = eButtonState.BUTTON_DOWN Then
 			
-				SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+				'SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+				HooverColor.Activate()
 				
 			Else if _topButtonState = eButtonState.BUTTON_OVER Then
 			
-				SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+				'SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+				HooverColor.Activate
 				
 			Else
 			
-				SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+				'SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+				BackgroundColor.Activate
 				
 			EndIf
 			
@@ -190,15 +213,18 @@ Class ScrollBarContainer
 			
 			if _bottomButtonState = eButtonState.BUTTON_DOWN Then
 			
-				SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+				'SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+				HooverColor.Activate
 				
 			Else if _bottomButtonState = eButtonState.BUTTON_OVER Then
 			
-				SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+				'SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+				HooverColor.Activate()
 				
 			Else
 			
-				SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+				'SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+				BackgroundColor.Activate()
 				
 			EndIf
 			
@@ -216,15 +242,19 @@ Class ScrollBarContainer
 
 		' fader
 		
-		SetColor(BorderColor.r, BorderColor.g, BorderColor.b)
+		'SetColor(BorderColor.r, BorderColor.g, BorderColor.b)
+		BorderColor.Activate()
 		DrawRect drawPos.X + 1, drawPos.Y + _faderPosition, size.X - 2, _faderSize
 		
 		if _middleButtonState = eButtonState.BUTTON_DOWN Then
-			SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+			'SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+			HooverColor.Activate()
 		Else if _middleButtonState = eButtonState.BUTTON_OVER Then
-			SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+			'SetColor(HooverColor.r, HooverColor.g, HooverColor.b)
+			HooverColor.Activate()
 		Else
-			SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+			'SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+			BackgroundColor.Activate()
 		EndIf
 			
 		DrawRect drawPos.X + 2, drawPos.Y + _faderPosition + 1, size.X - 4, _faderSize - 2

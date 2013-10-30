@@ -1,12 +1,12 @@
 #rem monkeydoc Module junglegui.trackbar
-	This is the JungleGui module.
+	This module contains the TrackBar control implementation.
 #END
 
 Import junglegui
 Import "data/trackbar.png"
 
 #rem monkeydoc
-	Represents a standard Windows track bar.
+	Represents a standard TrackBar control.
  #END
 Class TrackBar extends Control
 
@@ -231,7 +231,8 @@ Public
 
 		Local drawpos := UnsafeRenderPosition()
 
-		SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+		'SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+		BackgroundColor.Activate()
 		DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)
 		
 		_RenderLine(drawpos)

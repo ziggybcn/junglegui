@@ -20,7 +20,7 @@ Import radiobutton
 Import slider
 Import trackbar
 Import boxedmsg
-Import scrollbar
+Import vscrollbar
 Import listbox
 Import combobox
 Import propertygrid

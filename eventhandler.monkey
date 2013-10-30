@@ -1,20 +1,21 @@
-'Import junglegui
+#rem monkeydoc Module junglegui.eventhandler
+	This module conains the junglegui event system.
+#END
 Import reflection
 Import junglegui.guiexception
-'Import junglegui
 Import junglegui.eventargs
 
-#Rem
-	summary: This is the Delegate class. This class contains a reflection-based pointer to a method of a class instance with the signature: Sender:Obect, e:T, where T is a class defined generic.
+#Rem monkeydoc
+	This is the Delegate class. This class contains a reflection-based pointer to a method of a class instance with the signature: Sender:Obect, e:T, where T is a class defined generic.
 #end
 Class Delegate<T>
 	Private
 	Field _context:Object
 	Field _callInfo:MethodInfo
 	Field _methodName:String
-	
-	#Rem
-		summary: This is the Delegate constructor.
+	Public
+	#Rem monkeydoc
+		This is the Delegate constructor.
 		Context: This is the an instance for the class that contains the method that will be called.
 		methodName: This is the name of the method that will be called by the Call function of this Delegate.
 	#END
@@ -44,10 +45,10 @@ Class Delegate<T>
 		_context = context
 		_methodName = methodName
 	End
-	#Rem
-		summary: This method will execute the associated Method of the context class, with the given sender and event parameters.
+	#Rem monkeydoc
+		This method will invoke the pointed Method (using the context instance of the class). This invoke operation will be dobe with the given <i>sender</i> and <i>event</i> parameters.
 	#END
-	Method Call(sender:Object, event:T)
+	Method Invoke(sender:Object, event:T)
 		if _callInfo <> null then
 			_callInfo.Invoke(_context,[sender, event])
 		Else
@@ -57,27 +58,30 @@ Class Delegate<T>
 End
 
 
-#Rem
-	summary: This class represents an EventHandler.
+#Rem monkeydoc
+	This class represents an EventHandler. 
+	An EventHandler is a structure that contains a collection of Delegates that can be invoked when a specific action is performed.
+	That is, an EventHandler can have a list or collection of registered "Methods", and invoke them in order when we call the raise the event.
 #END
 Class EventHandler<T>
-	#Rem
-		summary: This method can be used to add a new Callback to this event handler. When the event is raised, all methods registered here are called.
+	#Rem monkeydoc
+		This method can be used to add a new [[Delegate]] to this event handler.
+		When the event is raised, all delegates registered in this EventHandler are invoked.
 	#END
 	Method Add(context:Object, methodName:String)
 		Local delegate:= New Delegate<T>(context, methodName)
 		_events.AddLast(delegate)
 	End
 	
-	#Rem
-		summary: This method returns signature description for the current Event Handler.
+	#Rem monkeydoc
+		This method returns signature description for the current Event Handler.
 	#END
 	Method SignatureDescription:String()
 		Return "(sender:Object, e:EventArgs)"
 	End
 	
-	#Rem
-		summary: This method alows a given callback to be removed from this Event Handler.
+	#Rem monkeydoc
+		This method will remove all [[Delegate]]s with a given signature (context and methodname) to be removed from this EventHandler.
 	#END
 	Method Remove:Bool(context:Object, methodName:String)
 		Local remover:= New List<Delegate<T>>
@@ -94,8 +98,9 @@ Class EventHandler<T>
 		Return result
 	End
 	
-	#Rem
-		summary: Use this method to raise the given event. When this is called, all the event callbacks are executed.
+	#Rem monkeydoc
+		Use this method to raise the given event.
+		When this method called, all the event [[Delegate]]s will invoke their associated methods in their associated class instances.
 	#END
 	Method RaiseEvent(sender:Object, e:T)
 	
@@ -105,25 +110,28 @@ Class EventHandler<T>
 		For Local del:Delegate<T> = Eachin _events 
 			'del.Call(sender, e)  
 			source.AddLast(del)
-		Next
+		Next 
 		For Local del:Delegate<T> = EachIn source
 			del.Call(sender, e)
 		Next
 		#end
 		If _events.IsEmpty Then Return
-		For Local del:= EachIn _events
-			del.Call(sender, e)
+		For Local del:Delegate<T> = EachIn _events
+			del.Invoke(sender, e)
 		Next
 	End
 	
-	#Rem
-		summary: This method removes all event callbacks from this Event Handler.
+	#Rem monkeydoc
+		summary: This method removes all [[Delegate]]s from this Event Handler.
 	#END
 	Method Clear()
 		_events.Clear()
 	End
 	
-	Method HasHandlers:Bool()
+	#rem monkeydoc
+		This method returns True is this EventHanlder has any associated [[Delegate]]s. Otherwise returns false.
+	#END
+	Method HasDelegates:Bool()
 		Return Not _events.IsEmpty
 	End
 	

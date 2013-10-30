@@ -1,7 +1,7 @@
 ﻿#Rem monkeydoc Module junglegui.core
 	This module contains the base core components of Jungle gui
 #End
-Import drawingpoint
+Import guivector2d
 Import eventargs
 Import guicolor
 Import mojoextensions.helperfunctions
@@ -122,7 +122,7 @@ Class Control
 	#End
 	Method Render:Void()
 		Local color:Float[] = GetColor()
-		SetColor(Self.BackgroundColor.r, Self.BackgroundColor.g, Self.BackgroundColor.b)
+		Self.BackgroundColor.Activate()
 		'DrawRect(_gui.currentRenderPos.X, _gui.currentRenderPos.X, Size.X, Size.Y)		
 		DrawRect(UnsafeRenderPosition.X, UnsafeRenderPosition.Y, Size.X, Size.Y)
 		SetColor(color[0], color[1], color[2])
@@ -1415,7 +1415,7 @@ Class Gui
 		This method should not be directly used unless you're doing some serious internal debug operations. Use with caution.
 	#End
 	Method Msg(msg:BoxedMsg)
-		If _event_Msg.HasHandlers Then _event_Msg.RaiseEvent(msg.sender, msg.e)
+		If _event_Msg.HasDelegates Then _event_Msg.RaiseEvent(msg.sender, msg.e)
 	End
 	#rem monkeydoc
 		This event is fired whenever a low level msg is being processed by the Gui messaging system.
