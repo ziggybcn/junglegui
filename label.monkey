@@ -40,9 +40,9 @@ Class Label extends BaseLabel implements guiinterfaces.TextualAlignItem
 	Method Transparent:Void(value:Bool) Property
 		_transparent = value
 	End
-	
+	 
 	Private
 	Field _textAlign:Int = eTextAlign.LEFT 
 	Field _border:Bool = false
 	Field _transparent:Bool = True
-end
+End

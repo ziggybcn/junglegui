@@ -1,20 +1,50 @@
+#rem monkeydoc Module junglegui.renderer
+	This module contains the implementation of the base JungleGui renderer. That is, the jungle gui skin.
+#END
+
 Import junglegui
 Import "data/sombra01.png"
 Import "data/sombra02.png"
  
+#Rem monkeydoc
+	This is the base Jungle Gui renderer class. It's used to handle all controls drwing into the graphics canvas.<br>
+	If you want to create your own skin for a JungleGui application, all you have to do is create your own renderer extending this one as the basis.<br>
+	Most of the drawing commands include this parameters:
+	
+| Parameter | Description
+| status:Int | This parameter is a construction of [[eControlStatus]] value(s) and indicates if the control being drawn has focus, has the mouse over it, etc.
+| position:[[GuiVector2D]] | This parameter indicates the position in the graphics canvas where the draw operation should be done.
+| size:[[GuiVector2D]] | This is the size of the area that needs to be rendered. It's usually the size of the control being drawn.
+| context:[[Control]] | This can be Null for generic rendering, or a control. If the context parameter is not null, elements such as BackgroundColor, Border, Text, etc... have to be token form the context control.
+
+#END
+
 Class GuiRenderer
 
+	#Rem monkeydoc
+	This is an event that is fired everytime this renderer is attached to a Gui.
+	#END
 	Method Event_GuiAttached:EventHandler<EventArgs>() Property; Return _guiAttached; End
+	#Rem monkeydoc
+	This is an event that is fired everytime this renderer is detached from a Gui.
+	#END
 	Method Event_GuiDetached:EventHandler<EventArgs>() Property; Return _guiDetached; End
 
 	Method New()
 		ResetRendererValues(Self)
 	End
 
-	Method DefaultFormPadding:Padding()
+	#Rem monkeydoc
+	This method should return the default form padding. That is, the space used to draw the caption and borders of any form control.
+	This method should not be overriden. If you want to modify the default form padding, just modify the values of the padding returned by the property
+	#END
+	Method DefaultFormPadding:Padding() Property Final
 		Return _defaultFormPadding
 	End
 	
+	#Rem monkeydoc
+		This method will draw the default background of a button-like contol.
+	#END
 	Method DrawButtonBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
 		Local backColor:GuiColor
 		If HasFlag(status, eControlStatus.HOOVER) Then
@@ -38,12 +68,17 @@ Class GuiRenderer
 		DrawRect(position.X + 1, position.Y + 1, size.X - 2, size.Y / 2)
 
 	End
-	
+	#rem monkeydoc
+		This method will be called whenever a control needs to draw its border.
+	#END
 	Method DrawControlBorder(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
 		if context then context.BorderColor.Activate() Else SystemColors.ButtonBorderColor.Activate()
 		DrawRoundBox(position, size)
 	End
 	
+	#rem monkeydoc
+		This method will be called whenever a Button needs to draw its focus rectangle.
+	#END
 	Method DrawButtonFocusRect(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
 		SystemColors.FocusColor.Activate
 		SetAlpha 0.2
@@ -51,6 +86,9 @@ Class GuiRenderer
 		SetAlpha 1
 	End
 	 
+	#rem monkeydoc
+		This method will be called whenever a Drop-down combo box needs to draw its down arrow.
+	#END
 	Method DrawComboArrow(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
 		SetColor 0,0,0
 		DrawRect position.X + size.X - 10, position.Y + size.Y / 2 - 0, 1, 1
@@ -58,6 +96,9 @@ Class GuiRenderer
 		DrawRect position.X + size.X - 10 - 2, position.Y + size.Y / 2 - 1 - 1, 5, 1
 	End
 
+	#rem monkeydoc
+		This method will be called whenever a control needs to draw its focus rectangle.
+	#END
 	Method DrawFocusRect(control:Control, round:Bool = False)
 		Local alpha:Float = GetAlpha()
 		Local oldcolor:Float[] = GetColor()
@@ -77,6 +118,9 @@ Class GuiRenderer
 	End
 	
 		
+	#rem monkeydoc
+		This method will be called whenever a control needs to draw its centered text. that's common rendering of Label controls, but also applies to Buttons and other controls.
+	#END
 	Method DrawLabelText(status:Int, position:GuiVector2D, size:GuiVector2D, text:String, align:Int, font:BitmapFont, context:Control = Null)
 		'SetColor(Self.ForeColor.r, ForeColor.g, ForeColor.b)
 			
@@ -99,6 +143,9 @@ Class GuiRenderer
 	
 	End
 	
+	#rem monkeydoc
+		This method will be called whenever a combo-box dropdown control needs to draw its text.
+	#END
 	Method DrawComboText(status:Int, position:GuiVector2D, size:GuiVector2D, text:String, align:Int, font:BitmapFont, context:Control = Null)
 		'SetColor(Self.ForeColor.r, ForeColor.g, ForeColor.b)
 			
@@ -122,6 +169,9 @@ Class GuiRenderer
 	End
 
 
+	#rem monkeydoc
+		This method will be called whenever a control needs to draw its solid background.
+	#END
 	Method DrawControlBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null)
 		If context <> Null And context.BackgroundColor <> Null Then
 			context.BackgroundColor.Activate()
@@ -131,6 +181,9 @@ Class GuiRenderer
 		DrawRect(position.X, position.Y, size.X, size.Y)
 	End
 	
+	#rem monkeydoc
+		This method will be called whenever a control needs to draw its solid background, and the control can be selected. This is typical for ListViewItems. 
+	#END
 	Method DrawHooverSelectableBackground(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, selected:Bool)
 		If selected = False And HasFlag(status, eControlStatus.HOOVER) = False Then
 			DrawControlBackground(status, position, size, context)
@@ -153,6 +206,9 @@ Class GuiRenderer
 		EndIf
 	End
 	
+	#rem monkeydoc
+		This method will be called whenever a Form needs to draw its background, including the header part, borders, shadows, etc. 
+	#END
 	Method DrawFormBackground(status:Int, position:GuiVector2D, size:GuiVector2D, padding:Padding, text:String, context:Control)
 
 		SystemColors.FormMargin.Activate()
@@ -231,7 +287,9 @@ Class GuiRenderer
 			'SetAlpha(1)
 		EndIf
 	End
- 
+ 	#rem monkeydoc
+		This method will be called whenever a control needs to draw a CheckBox mark.
+	#END
 	Method DrawCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, checked:Bool = True)
 		SystemColors.ControlFace.Activate()
 		Local yOffset:Int = size.Y / 2 - CheckBoxSize.Y / 2
@@ -256,6 +314,9 @@ Class GuiRenderer
 
 	End
 	
+ 	#rem monkeydoc
+		This method will be called whenever a control needs to draw a circular selectable RadioButton mark.
+	#END
 	Method DrawRadioCheckBox(status:Int, position:GuiVector2D, size:GuiVector2D, context:Control = Null, checked:Bool = True)
 		Local yOffset:Int = size.Y / 2 - RadioBoxSize.Y / 2
 		If HasFlag(status, eControlStatus.HOOVER) Then
@@ -274,18 +335,32 @@ Class GuiRenderer
 		EndIf
 	End
 	
+ 	#rem monkeydoc
+		This method will be called whenever a control needs to measure the size of a RadioBox mark..
+	#END
 	Method RadioBoxSize:GuiVector2D() Property
 		Return _radioBoxSize
 	End
 	
+ 	#rem monkeydoc
+		This method will be called whenever a control needs to measure the size of a CheckBox mark..
+	#END
 	Method CheckBoxSize:GuiVector2D() Property
 		Return _checkBoxSize
 	End
 	
+ 	#rem monkeydoc
+		This method will be called whenever the Renderer needs to load its resources.
+		If you're creating your own renderer, you should place any loading resources code in an overload of this method.
+	#END
 	Method InitRenderer()
 		
 	End
 	
+ 	#rem monkeydoc
+		This method will be called whenever the Renderer needs to unload its resources.
+		If you're creating your own renderer, you should place any freeing resources code in an overload of this method.
+	#END
 	Method FreeResources()
 		If shadow1 <> Null Then shadow1.Discard()
 		If shadow2 <> Null Then shadow2.Discard()
@@ -313,7 +388,9 @@ Class GuiRenderer
 	'End
 End
 
-'note: TODO: Check if object creation can be reduced
+#rem monkeydoc
+	This function is automatically called by the Gui system whenever the Gui system goes from one Renderer to another Renderer. It leaves everything on its default status in between.
+#END
 Function ResetRendererValues(renderer:GuiRenderer)
 		'Reset Renderer metrics:
 		renderer._radioBoxSize.SetValues(12, 12)
