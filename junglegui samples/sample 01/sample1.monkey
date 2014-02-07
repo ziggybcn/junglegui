@@ -36,7 +36,7 @@ Class Sample Extends App
 		If gui = Null Then gui = New Gui
 		'gui.Renderer = New RoundForms 'ConcreteJungle
 		
-		EnableAutoSize()
+		'EnableAutoSize()
 
 		'We create a SampleForm, and we attach it to the gui component:
 		MyForm = New SampleForm
@@ -120,6 +120,8 @@ Class InstructionsPanel Extends WindowFrame
 		ButDefault.Position.SetValues(5, 5)
 		ButDefault.Event_Click.Add(Self, "Button_Clicked")
 		ButDefault.TipText = "Select the default Jungle Gui skin"
+		ButDefault.PropertiesDescriptor()
+		
 				
 		ButConcrete = New Button
 		ButConcrete.Parent = Self

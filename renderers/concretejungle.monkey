@@ -185,7 +185,7 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 			SetAlpha(Abs(Sin(Millisecs() / 10.0)))
 			DrawOval(position.X + 2, position.Y + 2 + yOffset, RadioBoxSize.X - 4, RadioBoxSize.Y - 4)
 		EndIf
-		
+				
 	End
 	
 End

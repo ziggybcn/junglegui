@@ -17,6 +17,7 @@ Class DebugForm extends Form
 		msgInspector.Size.SetValues(Self.Size.X - Self.Padding.Left - Self.Padding.Right - msgInspector.Position.X + 2, Self.Size.Y - Self.Padding.Top - Self.Padding.Bottom)
 		msgInspector.Items.AddLast(New ListItem("Ready!"))
 
+		
 	End
 
 	Method ShowDebugMsg(msg:BoxedMsg)

@@ -11,13 +11,21 @@ Import econtrolstatus
 
 Import viewportstack
 Import mojoextensions.scaledscrissor
-
+Import designtimeinfo
 #Rem monkeydoc 
 	this is the base class of a JungleGui control
 #End
-Class Control
+Class Control Implements DesignTimeInfo
 
 	Public
+	
+	Method PropertiesDescriptor:List<DTProperty>()
+		Local list:= New List<DTProperty>
+		Local prop:= New DTProperty("Position", GetClass(Self.Position))
+		list.AddLast(prop)
+		prop.Validate(Self)
+	End
+	
 	#Rem monkeydoc 
 		This property contains the name of the control. Controls can have a Name that can be used for debugging purposes.
 	#End

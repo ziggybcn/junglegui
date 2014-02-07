@@ -126,7 +126,6 @@ Private
 		_itemsCount += 1
 		Local lv:= ListViewItem(obj) 
 		lv.Parent = Self 
-		'lv._owner = Self 
 		Event_ItemAdded.RaiseEvent( Self, new EventArgs())
 		UpdateScrollBar()
 	End
@@ -336,7 +335,7 @@ Public
 	Method Render:Void()
 		Local drawpos:= UnsafeRenderPosition()
 		
-		SetColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
+		SetColor(BackgroundColor.Red, BackgroundColor.Green, BackgroundColor.Blue)
 		DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)
 		SetColor(255, 255, 255)
 		DrawRect(drawpos.X + 1, drawpos.Y + 1, Size.X - 2, Size.Y - 2)
