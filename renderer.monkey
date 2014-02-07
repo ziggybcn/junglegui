@@ -18,7 +18,7 @@ Import "data/sombra02.png"
 | context:[[Control]] | This can be Null for generic rendering, or a control. If the context parameter is not null, elements such as BackgroundColor, Border, Text, etc... have to be token form the context control.
 
 #END
-
+ 
 Class GuiRenderer
 
 	#Rem monkeydoc

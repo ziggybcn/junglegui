@@ -215,6 +215,7 @@ Class MyForm Extends Form
 	
 	Method ListBox1_Click(sender:Object, e:MouseEventArgs)
 		Self.Text = "click clack!"
+
 	End
 End
 

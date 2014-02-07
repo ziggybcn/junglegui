@@ -7,7 +7,7 @@ Import junglegui
 	This is a ViewPort stack. This Stack contains a stack of viewports that can be used to calculate rendering areas on parent/child rendering clip areas.
 #END 
 Class ViewPortStack Extends Stack<ViewPort>
-
+	
 End
 
 

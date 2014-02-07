@@ -10,7 +10,7 @@ Import junglegui
 Class ScrollableControl extends ContainerControl
 	
 	Global _cachedPosition:= New GuiVector2D
-		
+ 		
 	Field _scrollbar:= new ScrollBarContainer
 	Field _scrollbarVisible:Bool = true
 	
