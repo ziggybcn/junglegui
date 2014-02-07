@@ -26,7 +26,7 @@ Class DTProperty
 				ElseIf s.ParameterTypes.Length = 0 Then
 					If s.ReturnType = valueKind Then
 						Print "Found getter!"
-						Print s.Name + "--> " + s.ParameterTypes[0].ElementType.Name()
+						Print s.Name 
 						Return True
 					EndIf
 				EndIf
