@@ -6,7 +6,7 @@ Import junglegui
 	This Control is a Tabbed Container.
 	It works by containing [[TabPage]]s. Each tab page can have a name and some controls in it.
 #END
-Class TabControl Extends ContainerControl
+Class TabControl Extends ContainerControl 
 	Method New()
 		Padding.Top = 25
 		'BackgroundColor = New GuiColor(1, 0, 0, 50)

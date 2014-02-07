@@ -201,13 +201,13 @@ Class ToolBox extends form.Form
 		If slider = null Then Return
 		Select slider
 			Case colorR
-				particlessample.ParticlesSample.emiter.particleColor.r = colorR.Value
+				particlessample.ParticlesSample.emiter.particleColor.Red = colorR.Value
 				colorR.TipText = "Red has a value of " + colorR.Value
 			Case colorG
-				particlessample.ParticlesSample.emiter.particleColor.g = colorG.Value
+				particlessample.ParticlesSample.emiter.particleColor.Green = colorG.Value
 				colorG.TipText = "Green has a value of " + colorG.Value
 			Case colorB
-				particlessample.ParticlesSample.emiter.particleColor.b = colorB.Value
+				particlessample.ParticlesSample.emiter.particleColor.Blue = colorB.Value
 				colorB.TipText = "Blue has a value of " + colorB.Value
 		End
 
