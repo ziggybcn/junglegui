@@ -91,3 +91,6 @@ Class BaseLabel Extends Control Implements TextualItem Abstract
 		TabStop = false
 	End
 End
+
+
+

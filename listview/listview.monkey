@@ -335,7 +335,8 @@ Public
 	Method Render:Void()
 		Local drawpos:= UnsafeRenderPosition()
 		
-		SetColor(BackgroundColor.Red, BackgroundColor.Green, BackgroundColor.Blue)
+		BackgroundColor.Activate()
+
 		DrawRect(drawpos.X, drawpos.Y, Size.X, Size.Y)
 		SetColor(255, 255, 255)
 		DrawRect(drawpos.X + 1, drawpos.Y + 1, Size.X - 2, Size.Y - 2)

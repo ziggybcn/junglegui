@@ -1,5 +1,5 @@
 #rem monkeydoc Module junglegui.slider
-	
+	 
 #END
 Import junglegui
 

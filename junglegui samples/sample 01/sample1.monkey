@@ -327,7 +327,7 @@ End
 Function HCenterControl(control:Control)
 	If control.IsTopLevelControl = True Then Return
 	if control.Parent = Null Then Return
-	control.Position.X = control.Parent.Size.X / 2 - control.Size.X / 2
+	control.Position.X = control.Parent.Size.X / 2 - control.Size.X / 2	
 End
 
 Class EditorForm Extends Form
