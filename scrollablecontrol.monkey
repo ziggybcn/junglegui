@@ -1,9 +1,16 @@
+#rem monkeydoc Module junglegui.scrollablecontrol
+	This module is being developed and it is far from being complete.
+#END
 Import junglegui
 
+#rem monkeydoc 
+	this class will be a control container than can auto-scroll its contents. It's a WIP and it is very fat from being complete.
+	Do not use it yet, or use at your own risk. It may disappear completely from JungleGui at some point, or get finished, or get replaced by something else.
+#END
 Class ScrollableControl extends ContainerControl
 	
 	Global _cachedPosition:= New GuiVector2D
-		
+ 		
 	Field _scrollbar:= new ScrollBarContainer
 	Field _scrollbarVisible:Bool = true
 	

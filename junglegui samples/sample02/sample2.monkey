@@ -194,7 +194,7 @@ Class MyForm Extends Form
 
 		listView2.Position.SetValues(10,10)
 		listView2.Size.SetValues(tabPage2.Size.X - 20, tabPage2.Size.Y - 20)
-				
+				 
 		Self.BorderStyle = eFormBorder.FIXED
 	End
 	
@@ -215,6 +215,7 @@ Class MyForm Extends Form
 	
 	Method ListBox1_Click(sender:Object, e:MouseEventArgs)
 		Self.Text = "click clack!"
+
 	End
 End
 

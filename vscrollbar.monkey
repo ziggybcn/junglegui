@@ -118,59 +118,157 @@ Public
 	
 End
 
-Class eScrollMode 
+#rem monkeydoc
+	This enum-like class contains the available scroll modes for any scrollbar
+#END
+Class eScrollMode
+	#rem monkeydoc
+		Smooth scrolling
+	#END
 	Const Smooth = 0
+	#rem monkeydoc
+		Stepwise scrolling
+	#END
 	Const Stepwise = 1
 End
 
+#rem monkeydoc
+	This class handles rendering of a scrollbar and interaction for any control that needs to draw a scrollbar as part of its rendering.<br>
+	This class is used as a low-level resource for controls design and should not be required for regular high-level usage of JungleGui.<br>
+	It's designed in a very open way, without almost any encapsulation as it is meant to be used on lower-level design of components.<br>
+	If you're looking for a regular high-level scrolling contol, you should be taking a look to the [[VScrollBar]] control instead.
+#END
 Class ScrollBarContainer
 
+	#rem monkeydoc
+		This is the default width of a [[ScrollBar]]
+	#END
 	Const DefaultWidth = 17
 	
 	'
 	' internal fields, used in update
 	'
+	#rem monkeydoc
+		This field is the number of items handled by the scrollbar.
+	#END
 	Field _itemsCount:int = 0
+	#rem monkeydoc
+		This field is the number of items that fit on the visible area that the scrollbar handles.
+		The relation between the _visibleItems and the_itemsCount is used to determine the grabber size.
+	#END
 	Field _visibleItems:int = 0
+	#rem monkeydoc
+		This field is the number of milliseconds that the scrollbar waits before performing a long change, when the up or down arrows are kept pressed.
+	#END	
 	Field _longDelay:Int = 750
+	#rem monkeydoc
+		This field is the number of milliseconds that the scrollbar waits before performing a small change, when the up or down arrows are kept pressed.
+	#END	
 	Field _shortDelay:Int = 35
+	#rem monkeydoc
+		This field is set to true or false when the mouse is pressing into the ScrollBarContainer draw area. It's also affected by Touch events.
+	#END	
 	field _mouseDown:Bool
+	#rem monkeydoc
+		This field is set to true or false when the ScrollBarContainer is performing a fast move (large change).
+	#END	
 	Field _fastMove:Bool
+	#rem monkeydoc
+		This field is set to true or false when the ScrollBarContainer is under the mouse or pointer focus.
+	#END	
 	Field _mouseOver:Bool
+	#rem monkeydoc
+		This field is set to the original  location of a drag operation when the grabber is being dragged and dropped to modify the ScrollBarContainer value.
+	#END	
 	Field _dragOrigin:GuiVector2D
+	#rem monkeydoc
+		This field is internally used to measure the required milliseconds delay to perform specific actions. It's usage is internal.
+	#END	
 	Field _delay:= new Countdown
+	#rem monkeydoc
+		This field is the location where the ScrollBarContainer is meant to be rendered.
+	#END	
 	Field _pos:= new GuiVector2D
+	#rem monkeydoc
+		This field is the size that is meant to be used in order to render the ScrollBarContainer.
+	#END	
 	Field _size:= new GuiVector2D
+	#rem monkeydoc
+		This field is the current grabber size.
+	#END	
 	Field _faderSize:Int = 50' the current fader size
+	#rem monkeydoc
+		This field is the current grabber position (like the visual Value of it).
+	#END	
 	Field _faderPosition:Int = DefaultWidth' the current fader position
-	Field _scrollMode:int = eScrollMode.Stepwise 
+	#rem monkeydoc
+		This field is the current scroll mode. See [[eScrollMode]] for the available options.
+	#END	
+	Field _scrollMode:int = eScrollMode.Stepwise
 	'
 	' internal fields that indicates the state of different elements
 	'
-	
+	#rem monkeydoc
+		This indicates the status of the top button (see [[eButtonState]])
+	#END
 	Field _topButtonState:Int = eButtonState.BUTTON_UP
+	
+	#rem monkeydoc
+		This indicates the status of the grabber button (see [[eButtonState]])
+	#END
 	Field _middleButtonState:Int = eButtonState.BUTTON_UP
+
+	#rem monkeydoc
+		This indicates the status of the bottom button (see [[eButtonState]])
+	#END
 	Field _bottomButtonState:Int = eButtonState.BUTTON_UP
 	
 	'
 	' public scrollbar behavior
 	'
 	
+	#rem monkeydoc
+		This indicates the number of items that are increased or decreased on a small change operation.
+	#END
 	Field _smallChange:Int = 1
+	#rem monkeydoc
+		This indicates the number of items that are increased or decreased on a large change operation.
+	#END
 	Field _bigChange:int = 2
+	#rem monkeydoc
+		This indicates the minimum value of the ScrollBarContainer.
+	#END
 	Field _minimum:Int = 0
+	#rem monkeydoc
+		This indicates the maximum value of the ScrollBarContainer.
+	#END
 	Field _maximum:int = 10
+	#rem monkeydoc
+		This indicates the actual value of the ScrollBarContainer.
+	#END
 	Field _value:Int = 0
 	
 	'
 	' public scrollbar appearance
 	'
 	
+	#rem monkeydoc
+		This indicates the orientation value of the ScrollBarContainer. See [[eTrackBarOrientation]] for available options.
+	#END
 	Field _orientation:Int = eTrackBarOrientation.VERTICAL
+	
+	#rem monkeydoc
+		This indicates the minimum grabber size when the ScrollBarContainer is rendered.
+	#END
 	Field _minFaderSize:Int = 15 ' the minimum fader size
+	#rem monkeydoc
+		This indicates the top and bottom buttons size (width or height depending on orientation).
+	#END
 	Field _buttonSize:Int = 15' the width/height of an button
 	
-	'summary: Renders the scrollbar on its position
+	#Rem monkeydoc
+		Renders the scrollbar on its position. 
+	 #END
 	Method Render(drawPos:GuiVector2D, size:GuiVector2D)
 	
 		local ForeColor:= new GuiColor(1, 0, 0, 0)
@@ -261,6 +359,10 @@ Class ScrollBarContainer
 		SetColor 255, 255, 255
 	End
 	
+	
+	#Rem monkeydoc
+		This has to be called whenever a MouseUp operation is done inside the ScrollBarContainer rendering region.
+	#END
 	Method MouseUp(e:MouseEventArgs)
 	
 		Local x:Float = e.position.X' - _pos.X
@@ -278,6 +380,9 @@ Class ScrollBarContainer
 		_mouseDown = false
 	End
 
+	#Rem monkeydoc
+		This has to be called whenever a MouseLeave operation is done inside the ScrollBarContainer rendering region.
+	#END
 	Method MouseLeave()
 		
 		_mouseOver = True
@@ -300,10 +405,16 @@ Class ScrollBarContainer
 	
 	End
 	
+	#Rem monkeydoc
+		This has to be called whenever a MouseEnter operation is done inside the ScrollBarContainer rendering region.
+	#END
 	Method MouseEnter()
 		_mouseOver = true
 	End
 	
+	#Rem monkeydoc
+		This has to be called whenever a MouseMove operation is done inside the ScrollBarContainer rendering region.
+	#END
 	Method MouseMove(e:MouseEventArgs)
 	
 		Local x:Float = e.position.X' - _pos.X
@@ -356,6 +467,9 @@ Class ScrollBarContainer
 			
 	End
 
+	#Rem monkeydoc
+		This has to be called whenever a MouseDown or TouchDown operation is done inside the ScrollBarContainer rendering region.
+	#END
 	Method MouseDown(e:MouseEventArgs)
 
 		Local x:Float = e.position.X' - _pos.X
@@ -455,6 +569,9 @@ Class ScrollBarContainer
 		_mouseDown = True
 	End
 	
+	#Rem monkeydoc
+		This property contains the current Value of the ScrollBarContainer.
+	#END
 	Method Value:Int() Property
 		Return _value
 	End
@@ -470,10 +587,16 @@ Class ScrollBarContainer
 		UpdateFaderPosition()
 	End
 	
+	#Rem monkeydoc
+		This method will update the grabber position after a value or size change on the ScrollBarContainer. It has to be called manually.
+	#END
 	Method UpdateFaderPosition()
 		UpdateFaderPosition(_size)
 	End
 	
+	#Rem monkeydoc
+		This method will update the grabber position after a value or size change on the ScrollBarContainer. It has to be called manually.
+	#END
 	Method UpdateFaderPosition(size:GuiVector2D)
 
 		if _minimum = _maximum Then
@@ -490,6 +613,9 @@ Class ScrollBarContainer
 		_faderPosition = _buttonSize + 2 + length * relVal				
 	End
 	
+	#Rem monkeydoc
+		This property returns the number of items contained in the ScrollBarContainer.
+	#END
 	Method ItemsCount:int() Property
 		return _itemsCount
 	End
@@ -505,6 +631,9 @@ Class ScrollBarContainer
 		End
 	End
 	
+	#Rem monkeydoc
+		This property returns the number of visible items contained in the rendering area of the control where the ScrollBarContainer is rendered.
+	#END
 	Method VisibleItems:int() Property
 		return _visibleItems
 	End
@@ -522,6 +651,7 @@ Class ScrollBarContainer
 	
 End
 
+Private
 Class Countdown
 private
 	Field _val%
@@ -536,11 +666,15 @@ Public
 		Return  _val - (Millisecs() - _timer)
 	End
 End
-
+Public
+#rem monkeydoc
+	This enum-like class contains the list of available states for a scrollbar button.
+#END
 Class eButtonState 
 	Const BUTTON_UP = 0
 	Const BUTTON_OVER = 1
 	Const BUTTON_DOWN = 2
 	Const BUTTON_SELECTED = 4
 End
+
 

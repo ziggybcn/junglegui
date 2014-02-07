@@ -1,6 +1,17 @@
-Import junglegui
+﻿#rem monkeydoc Module junglegui.radiobutton
+	This module contains the implementation of a [[classical RadioButton]]
+#END
 
-Class RadioButton extends CheckBox
+
+Import junglegui 
+#rem monkeydoc
+	This Control is a classical RadioButton with a radial selectable option.
+	When you place several radio buttons on a single container, they will automatically auto-toggñe selection and, when one is selected, the others won't, so a single option is selected at a time.	
+#END
+Class RadioButton Extends CheckBox
+#rem monkeydoc
+	This boolean property indicates if the [[RadioButton]] is checked or not.
+#END
 	Method Checked:Bool() Property
 		Return Super.Checked()
 	End
@@ -33,6 +44,9 @@ Class RadioButton extends CheckBox
 		drawPos.X -= offset
 	End
  	
+	#rem monkeydoc
+		This method internally handles the radio button rendering.
+	#END
 	Method RenderCheckBox(drawPos:GuiVector2D)
 		Local yOffset:Int = Size.Y / 2 - GetGui.Renderer.RadioBoxSize.Y / 2
 		if GetGui.GetMousePointedControl = Self Then
