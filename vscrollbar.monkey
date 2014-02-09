@@ -184,7 +184,7 @@ Class ScrollBarContainer
 	#rem monkeydoc
 		This field is internally used to measure the required milliseconds delay to perform specific actions. It's usage is internal.
 	#END	
-	Field _delay:= new Countdown
+	Field _delay:= New Countdown
 	#rem monkeydoc
 		This field is the location where the ScrollBarContainer is meant to be rendered.
 	#END	
@@ -222,7 +222,6 @@ Class ScrollBarContainer
 		This indicates the status of the bottom button (see [[eButtonState]])
 	#END
 	Field _bottomButtonState:Int = eButtonState.BUTTON_UP
-	
 	'
 	' public scrollbar behavior
 	'
