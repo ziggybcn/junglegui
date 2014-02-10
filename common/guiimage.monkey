@@ -3,6 +3,7 @@
 #END
 
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 #Rem monkeydoc
 	This is the GuiImage control. This control renders as an image, but has all the [[Control]] functionality, such as being able to raise events, get mouse interaction, scale, etc.

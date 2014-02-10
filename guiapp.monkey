@@ -1,4 +1,5 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 Function ExecuteApp(context:Object, initializeMethodName:String)
 

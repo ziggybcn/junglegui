@@ -1,4 +1,5 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 Class eSelectionMode
 	Const MODE_ONE = 0

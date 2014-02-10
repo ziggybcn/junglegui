@@ -5,7 +5,8 @@
 Import junglegui
 Import reflection
 Import guivector2d
-#REFLECTION_FILER+="junglegui*"
+#REFLECTION_FILTER+="${MODPATH}"
+
 #Rem monkeydoc
 	 This class contains the details of a standard event.
 #END

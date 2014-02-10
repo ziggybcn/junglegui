@@ -4,6 +4,7 @@
 
 
 Import junglegui 
+#REFLECTION_FILTER+="${MODPATH}"
 #rem monkeydoc
 	This Control is a classical RadioButton with a radial selectable option.
 	When you place several radio buttons on a single container, they will automatically auto-toggñe selection and, when one is selected, the others won't, so a single option is selected at a time.	

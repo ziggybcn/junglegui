@@ -3,6 +3,7 @@
 #END
 'Private
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 'Public
 #rem monkeydoc
 	This is a frame-based Timer component, that works attached to a given ControlContainer.

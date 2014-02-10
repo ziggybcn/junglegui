@@ -4,6 +4,7 @@
 
 Import junglegui
 Import "data/trackbar.png"
+#REFLECTION_FILTER+="${MODPATH}"
 
 #rem monkeydoc
 	Represents a standard TrackBar control.

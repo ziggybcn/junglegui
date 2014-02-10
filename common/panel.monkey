@@ -1,4 +1,5 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 'note: TODO: Horizontal scrollbar support
 Class Panel extends ContainerControl

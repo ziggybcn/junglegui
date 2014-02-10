@@ -3,6 +3,7 @@
 #END
 Import junglegui
 Import "data/close_button.png"
+#REFLECTION_FILTER+="${MODPATH}"
 
 #Rem monkeydoc
 	This is the Form control

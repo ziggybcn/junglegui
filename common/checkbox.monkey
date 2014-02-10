@@ -1,4 +1,5 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 #Rem
 	summary: This control is a checkbox. It's useful to represent a GUI element that can have a checked/unchecked status.

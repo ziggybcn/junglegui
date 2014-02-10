@@ -4,36 +4,36 @@
 '----------
 'Imports:
 Import core
-Import form
-Import panel
+Import common.form
+Import common.panel
 Import fontmachine
-Import baselabel
-Import button
-Import textfield
+Import common.baselabel
+Import common.button
+Import common.textfield
 Import guiexception
-Import progressbar
-Import timer
+Import common.progressbar
+Import common.timer
 Import guiinterfaces
-Import label
-Import checkbox
-Import radiobutton
-Import slider
-Import trackbar
+Import common.label
+Import common.checkbox
+Import common.radiobutton
+Import common.slider
+Import common.trackbar
 Import boxedmsg
 Import vscrollbar
-Import listbox
+Import common.listbox
 Import combobox
 Import propertygrid
 Import scrollablecontrol
 Import renderer
-Import windowframe
-Import canvas
+Import common.windowframe
+Import common.canvas
 Import reflection
 Import guiapp
-Import guiimage
-Import tabcontrol
+Import common.guiimage
+Import common.tabcontrol
 Import mojo
-#REFLECTION_FILTER+="junglegui*"
+'#REFLECTION_FILTER+="junglegui*"
 
 #IF TARGET="html5"
 	Import "resizecanvas/resizecanvas.js"

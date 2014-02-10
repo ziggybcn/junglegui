@@ -1,4 +1,5 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 #Rem
 	summary:This class contains all the required information to represent an internal low-level Msg that represents a status change on a control.

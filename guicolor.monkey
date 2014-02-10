@@ -2,6 +2,7 @@
 	This module contains the GuiColor implementation
 #END
 Import mojo
+#REFLECTION_FILTER+="${MODPATH}"
 
 #rem monkeydoc
 	This represents a color to be used on the Gui system

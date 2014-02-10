@@ -5,7 +5,8 @@
 Import junglegui
 Import "data/sombra01.png"
 Import "data/sombra02.png"
- 
+#REFLECTION_FILTER+="${MODPATH}"
+
 #Rem monkeydoc
 	This is the base Jungle Gui renderer class. It's used to handle all controls drwing into the graphics canvas.<br>
 	If you want to create your own skin for a JungleGui application, all you have to do is create your own renderer extending this one as the basis.<br>
