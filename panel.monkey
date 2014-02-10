@@ -20,6 +20,8 @@ Class Panel extends ContainerControl
 	End
 	Method DrawFocusRect:Void(value:Bool) Property
 		_drawFocusRect = value
+		
+		
 	End
 	
 	Private
@@ -27,7 +29,8 @@ Class Panel extends ContainerControl
 		BorderColor = SystemColors.FormBorder
 		BackgroundColor = SystemColors.ControlFace
 		Size.X = 200
-		Size.Y = 200		
+		Size.Y = 200
+		Padding.SetAll(5, 5, 5, 5)
 	End
 	Field _drawFocusRect:Bool = True
 end

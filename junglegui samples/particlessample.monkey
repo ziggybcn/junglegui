@@ -25,15 +25,18 @@ Class Sample extends App
 		toolBox = New ToolBox
 		toolBox.InitForm(gui)
 	End
+	
 	Method OnUpdate()
 		emiter.Update()
 		gui.Update()
 		toolBox.particlesCount.Text = "Particles: " + emiter.count
 	End
+	
 	Method OnRender()
 		Cls(0, 0, 55)
 		emiter.Draw()
 		SetColor(255, 255, 255)
 		gui.Render()
 	End
+	
 End

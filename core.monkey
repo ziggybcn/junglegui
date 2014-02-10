@@ -564,6 +564,9 @@ Class Control Implements DesignTimeInfo
 			
 			Case eMsgKinds.VISIBLE_CHANGED
 				_visibleChanged.RaiseEvent(msg.sender, msg.e)
+				
+			Case eMsgKinds.INTERNAL_SCROLLCHANGED	'It has to be set on a ContainerControl
+						
 		End
 	End
 	
@@ -802,7 +805,22 @@ Class ContainerControl Extends Control
 	Method Padding:Padding() Property
 		Return _padding
 	End
+	Method Dispatch(msg:BoxedMsg)
+		If Not _gui Then Return
+		Super.Dispatch(msg)
+		Select msg.e.messageSignature
+			Case eMsgKinds.INTERNAL_SCROLLCHANGED
+				_internalScrollChanged.RaiseEvent(msg.sender, msg.e)
+				'_internalScroll
+		End Select
+	End
 	
+	Method New()
+		Self.internalScroll = New ControlGuiVector2D(Self, eMsgKinds.INTERNAL_SCROLLCHANGED)
+	End
+	Method Event_InternalScrollChanged:EventHandler<EventArgs>()
+		Return _internalScrollChanged
+	End
 	Method Padding:Void(value:Padding)
 		If value <> Null Then _padding = value Else _padding = New Padding
 	End
@@ -972,11 +990,16 @@ Class ContainerControl Extends Control
 	
 	Private
 	Method AddPaddingPos()
-		_gui.currentRenderPos.X += Padding.Left
-		_gui.currentRenderPos.Y += Padding.Top
+		_gui.currentRenderPos.X += Padding.Left - InternalScroll.X
+		_gui.currentRenderPos.Y += Padding.Top - InternalScroll.Y
+		
 	End
+	
 	Public
 
+	Method InternalScroll:GuiVector2D() Property
+		Return internalScroll
+	End
 	Method Update()
 		If _initialized = False Then
 			_initialized = True
@@ -1057,6 +1080,8 @@ Class ContainerControl Extends Control
 	Field controls:List<Control> = new List<Control>
 	Field _padding:= New Padding
 	Field _initialized:Bool = False
+	Field internalScroll:ControlGuiVector2D
+	Field _internalScrollChanged:= New EventHandler<EventArgs>
 End
 
 #REM monkeydoc

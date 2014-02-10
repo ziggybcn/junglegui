@@ -71,7 +71,14 @@ End
 	This is a basic 2D vector used to store an integer 2D position.
 	This diferes from the official [[Guivector2d]] in that this one provides a callback mechanism internally used by JungleGui.
 #END
-Class ControlGuiVector2D extends GuiVector2D
+Class ControlGuiVector2D Extends GuiVector2D
+	#rem monkeydoc
+		Internal constructor used in junguigui.core.<br>This constructor calls the internal SetNotifyControl in order to let this vector notify its control "parent" of its status changes.
+		for regular usage of a GuiVector, you can ignore this constructor and use regular New()
+	#END
+	Method New(notifyControl:Control, messageSignature:Int)
+		SetNotifyControl(notifyControl, messageSignature)
+	End
 	#rem monkeydoc
 		<b>Internal method used by Control.</b><br>Don't use unless you know what you're doing.
 	#END
