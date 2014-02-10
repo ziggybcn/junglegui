@@ -1,4 +1,5 @@
 Import particlessample
+#REFLECTION_FILTER+="${MODPATH}" 
 
 Class DebugForm extends Form
 	'Field debugBox:ListBox

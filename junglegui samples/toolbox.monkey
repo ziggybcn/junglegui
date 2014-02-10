@@ -1,5 +1,6 @@
 Import particlessample
-Class ToolBox extends form.Form
+#REFLECTION_FILTER+="${MODPATH}" 
+Class ToolBox Extends form.Form
 	Field particlesCount:Label
 	Field explosionButton:Button
 	

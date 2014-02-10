@@ -1,10 +1,8 @@
 'This is a very small minimal sample
 
 Import junglegui
-Import junglegui.listview
-Import junglegui.tabcontrol 
 
-#REFLECTION_FILTER+="sample2*"
+#REFLECTION_FILTER+="${MODPATH}"
 
 Function Main()
 	New Sample2
