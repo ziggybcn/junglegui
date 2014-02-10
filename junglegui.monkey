@@ -2,39 +2,22 @@
 	This is the JungleGui module.
 #END
 '----------
+Import mojo
+Import fontmachine
+Import reflection
+
 'Imports:
 Import core
-Import common.form
-Import common.panel
-Import fontmachine
-Import common.baselabel
-Import common.button
-Import common.textfield
-Import guiexception
-Import common.progressbar
-Import common.timer
-Import guiinterfaces
-Import common.label
-Import common.checkbox
-Import common.radiobutton
-Import common.slider
-Import common.trackbar
-Import boxedmsg
-Import vscrollbar
-Import common.listbox
-Import combobox
+Import events
+Import common
+
+Import mojoextensions.helperfunctions
+
+Import wip.vscrollbar
+Import wip.combobox
+Import wip.scrollablecontrol
+
 Import propertygrid
-Import scrollablecontrol
-Import renderer
-Import common.windowframe
-Import common.canvas
-Import common.listview
-Import reflection
-Import guiapp
-Import common.guiimage
-Import common.tabcontrol
-Import mojo
-'#REFLECTION_FILTER+="junglegui*"
 
 #IF TARGET="html5"
 	Import "resizecanvas/resizecanvas.js"
@@ -48,8 +31,6 @@ Import mojo
 #print ""
 
 #If TARGET="html5"
-	'Import "data\html5font.txt"
-	'Import "data\html5font_P_1.png"
 	Import "data\html5font.txt"
 	Import "data\html5font_P_1.png"
 	Import "data\html5TipFont.txt"
