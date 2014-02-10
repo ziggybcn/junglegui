@@ -1,4 +1,6 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
+
 #Rem
 	summary: This control shows a text label. It's useful to display text.
 #END

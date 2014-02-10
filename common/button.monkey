@@ -1,4 +1,5 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 'summary: This is the button class. This class represents a button on the JungleGui library
 Class Button extends BaseLabel implements guiinterfaces.TextualAlignItem

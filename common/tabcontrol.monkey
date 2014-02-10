@@ -2,6 +2,8 @@
 	This module contains the TabControl implementation for JungleGui
 #END
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
+
 #rem monkeydoc
 	This Control is a Tabbed Container.
 	It works by containing [[TabPage]]s. Each tab page can have a name and some controls in it.

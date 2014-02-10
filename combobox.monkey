@@ -1,4 +1,5 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 'summary: simple combobox for testing. 
 Class ComboBox Extends BaseLabel Implements guiinterfaces.TextualAlignItem

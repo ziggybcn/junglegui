@@ -4,6 +4,7 @@
 Import reflection
 Import junglegui.guiexception
 Import junglegui.eventargs
+#REFLECTION_FILTER+="${MODPATH}"
 
 #Rem monkeydoc
 	This is the Delegate class. This class contains a reflection-based pointer to a method of a class instance with the signature: Sender:Obect, e:T, where T is a class defined generic.

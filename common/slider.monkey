@@ -2,6 +2,7 @@
 	 
 #END
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 #rem monkeydoc
 	This control represents a slider bar that can be used to represent graphically a flaoting point value.

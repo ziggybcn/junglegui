@@ -4,6 +4,7 @@
 	While this control is functional, there are still some areas that require improvement. Current implementation does not support clipboard, and also it does not support text selection. Other than that, current implementation is functional and can be safely used.
 #END
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 Private 
 Const TEXTVALIDCHARS:String = "+-*/=~q!@#$%&()?[]çÇñÑáéíóúàèìòùâêîôûäëïöüÁÉÍÓÚÀÈIÒÙÄËÏÖÜÂÊÎÔÛýÝ€0123456789,.:;{}¨'`´~~|\ºª<>"

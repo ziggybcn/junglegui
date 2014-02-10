@@ -2,6 +2,7 @@
 	This module is being developed and it is far from being complete.
 #END
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 #rem monkeydoc 
 	this class will be a control container than can auto-scroll its contents. It's a WIP and it is very fat from being complete.

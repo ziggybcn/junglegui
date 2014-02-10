@@ -3,6 +3,7 @@
 #END
 
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 #rem monkeydoc
 	This class is a control that represents a vertical scrollbar.
@@ -675,5 +676,3 @@ Class eButtonState
 	Const BUTTON_DOWN = 2
 	Const BUTTON_SELECTED = 4
 End
-
-

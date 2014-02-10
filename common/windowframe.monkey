@@ -3,6 +3,7 @@ This module contains the base core components of Jungle gui
 #End
 'Private
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 'Public
 #Rem monkeydoc
 	This control is a TopLevelControl that can be used to place controls in it.

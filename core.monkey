@@ -12,6 +12,8 @@ Import econtrolstatus
 Import viewportstack
 Import mojoextensions.scaledscrissor
 Import designtimeinfo
+#REFLECTION_FILTER+="${MODPATH}"
+
 #Rem monkeydoc 
 	this is the base class of a JungleGui control
 #End

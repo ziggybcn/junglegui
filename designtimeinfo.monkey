@@ -1,4 +1,5 @@
 Import reflection
+
 Interface DesignTimeInfo
 	Method PropertiesDescriptor:List<DTProperty>()
 End

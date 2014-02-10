@@ -2,6 +2,7 @@
 	This module contains the GuiVector2D implementation.
 #end
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 #rem monkeydoc
 	This is a very basic 2D integer vector used for Control metrics on JungleGui
