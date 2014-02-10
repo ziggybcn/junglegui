@@ -270,7 +270,7 @@ Class eMsgKinds Abstract
 	Const TEXT_CHANGED:Int = 24
 	
 	#rem monkeydoc
-		This msg indicates that a sliding control has changed its value.
+		This msg indicates that a sliding or a scroll control has changed its value.
 	 #END
 	Const SLIDING_VALUE_CHANGED:Int = 25
 	
@@ -298,6 +298,8 @@ Class eMsgKinds Abstract
 		This msg indicates that a child has been added to a container control
 	#END
 	Const CHILD_ADDED:Int = 30
+	
+	Const INTERNAL_SCROLLCHANGED:Int = 31
 	
 End
 

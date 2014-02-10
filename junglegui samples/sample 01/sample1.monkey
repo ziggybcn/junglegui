@@ -275,6 +275,9 @@ Class SampleForm Extends Form
 		panel.BackgroundColor = Self.BackgroundColor
 		panel.TipText = "This is a simple panel component"
 		panel.Name = "panel"
+		
+		panel.Event_KeyPress.Add(Self, "Panel_KeyPressed")
+		panel.Event_InternalScrollChanged.Add(Self, "Panel_ScrollingChanged")
 		HCenterControl(panel)
 
 		Local combo:ComboBox = New ComboBox(panel, 0, 0, 150)
@@ -299,7 +302,23 @@ Class SampleForm Extends Form
 		Next
 		 
 	End
-
+	
+	Method Panel_KeyPressed(sender:Object, e:KeyEventArgs)
+		If e.key = KEY_UP or e.key = 65574 Then
+			panel.InternalScroll.Y = panel.InternalScroll.Y - 5
+		ElseIf e.key = KEY_DOWN or e.key = 65576
+			panel.InternalScroll.Y = panel.InternalScroll.Y + 5
+		ElseIf e.key = KEY_LEFT or e.key = 65573
+			panel.InternalScroll.X = panel.InternalScroll.X - 5
+		ElseIf e.key = KEY_RIGHT or e.key = 65575
+			panel.InternalScroll.X = panel.InternalScroll.X + 5
+		EndIf
+		Print e.key + " " + KEY_LEFT + "event called! " + panel.InternalScroll.X + ", " + panel.InternalScroll.Y
+	End
+	
+	Method Panel_ScrollingChanged(sender:Object, e:EventArgs)
+		Print("Scrolling changed on Panel " + panel.InternalScroll.X + ", " + panel.InternalScroll.Y)
+	End
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)
 		Self.BackgroundColor = New GuiColor(1, Rnd(200, 255), Rnd(200, 255), Rnd(200, 255))

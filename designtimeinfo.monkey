@@ -4,28 +4,44 @@ Interface DesignTimeInfo
 End
 
 Class DTProperty
-	Method New(name:String, valueKind:ClassInfo)
+	Method New(name:String, value:Object)
 		Self.name = name
-		Self.valueKind = valueKind
+		Self.valueKind = ClassInfo(valueKind)
 		
 	End
 	
+	Method New(name:String, value:String)
+		Self.name = name
+		Self.valueKind = ClassInfo(BoxString(value))
+	End
+	
+	Method New(name:String, value:Int)
+		Self.name = name
+		Self.valueKind = ClassInfo(BoxInt(value))		
+	End
+	
+	Method New(name:String, value:Float)
+		Self.name = name
+		Self.valueKind = ClassInfo(BoxFloat(value))
+	End
+
+	Method New(name:String, value:Bool)
+		Self.name = name
+		Self.valueKind = ClassInfo(BoxBool(value))
+	End
+
+	Private
 	Method Validate:Bool(owner:DesignTimeInfo)
-		Print "Validating"
 		For Local s:MethodInfo = EachIn GetClass(owner).GetMethods(True)
-			Print "Checking " + s.Name + " = " + name
 			If name = s.Name Then
-				Print "Getting parameters for " + s.Name
 				If s.ParameterTypes.Length = 1 Then
 					
 					If s.ParameterTypes[0].ElementType() = valueKind Then
-						Print "Found setter!"
 						Print s.Name + "--> " + s.ParameterTypes[0].ElementType.Name()
 						Return True
 					EndIf
 				ElseIf s.ParameterTypes.Length = 0 Then
 					If s.ReturnType = valueKind Then
-						Print "Found getter!"
 						Print s.Name 
 						Return True
 					EndIf
