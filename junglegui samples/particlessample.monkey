@@ -4,7 +4,7 @@ Import simpleparticles
 Import debugform
 Import junglegui.renderers.concretejungle
 
-#REFLECTION_FILTER="particlessample*|toolbox*|junglegui*|debugform*" 
+#REFLECTION_FILTER+="${MODPATH}" 
 Global ParticlesSample:Sample
 
 Function Main()
