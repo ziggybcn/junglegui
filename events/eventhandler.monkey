@@ -1,9 +1,10 @@
 #rem monkeydoc Module junglegui.eventhandler
 	This module conains the junglegui event system.
 #END
-Import reflection
-Import junglegui.guiexception
-Import junglegui.eventargs
+'Import reflection
+'Import junglegui.guiexception
+'Import junglegui.eventargs
+Import junglegui
 #REFLECTION_FILTER+="${MODPATH}"
 
 #Rem monkeydoc

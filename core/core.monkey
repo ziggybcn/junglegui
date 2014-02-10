@@ -1,17 +1,21 @@
 ﻿#Rem monkeydoc Module junglegui.core
 	This module contains the base core components of Jungle gui
 #End
-Import guivector2d
-Import eventargs
-Import guicolor
-Import mojoextensions.helperfunctions
-Import eventhandler
-Import padding
-Import econtrolstatus
+Import junglegui
 
-Import viewportstack
-Import mojoextensions.scaledscrissor
 Import designtimeinfo
+Import econtrolstatus
+Import guiapp
+Import guicolor
+Import guiexception
+Import guiinterfaces
+Import guivector2d
+Import padding
+Import renderer
+Import viewportstack
+Import helperfunctions
+Import scaledscrissor
+
 #REFLECTION_FILTER+="${MODPATH}"
 
 #Rem monkeydoc 
