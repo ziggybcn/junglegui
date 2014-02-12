@@ -11,11 +11,10 @@ Import core
 Import events
 Import common
 
-Import mojoextensions.helperfunctions
-
 Import wip.vscrollbar
 Import wip.combobox
 Import wip.scrollablecontrol
+Import wip.scroller
 
 Import propertygrid
 
