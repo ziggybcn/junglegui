@@ -15,6 +15,7 @@ Import renderer
 Import viewportstack
 Import helperfunctions
 Import scaledscrissor
+Import msglistener
 
 #REFLECTION_FILTER+="${MODPATH}"
 
@@ -59,17 +60,6 @@ Class Control Implements DesignTimeInfo
 		Return _GuiVector2D
 	end
 
-'	It's dangerous to have 2 controls with the same position vector. It should not be allowed!	
-'	Method Position:Void(value:ControlGuiVector2D) Property
-'		if value<>null Then 
-'			_GuiVector2D = value 
-'			_GuiVector2D.SetNotifyControl(Self, eMsgKinds.MOVED)	'We want to get events
-'		Else
-'			
-'			Throw New JungleGuiException("Null position set to a control." , Self)
-'		EndIf
-'	End
-	
 	'summary: this is the location of the control in the parent container control
 	#REM monkeydoc
 		This read-only property returns a GuiVector2D that contains the X and Y size of the control.
@@ -78,16 +68,6 @@ Class Control Implements DesignTimeInfo
 	Method Size:ControlGuiVector2D() Property
 		Return _drawingSize
 	end
-
-'	This is dangerous, as it could cause 2 controls to have the same Size vector!	
-'	Method Size:void(value:ControlGuiVector2D) Property
-'		if value<>null Then 
-'			_drawingSize = value 
-'			_drawingSize.SetNotifyControl(Self, eMsgKinds.RESIZED)	'We want to get events
-'		Else
-'			Throw New JungleGuiException("Null size set to a control." , Self)
-'		EndIf
-'	End
 
 	
 	#Rem monkeydoc 
@@ -150,6 +130,7 @@ Class Control Implements DesignTimeInfo
 		If _parentControl <> Null Then
 			Control(_parentControl).Msg(msg)
 		EndIf
+		NotifyMsgListeners(msg)
 		If msg.sender = Self And msg.status = eMsgStatus.Sent Then
 			Dispatch(msg)
 		EndIf
@@ -683,9 +664,34 @@ Class Control Implements DesignTimeInfo
 		_requiresVirtualKeyboard = value
 	End
 	
+	'Method LowLevelMsgListeners:List<MsgListener>()
+		
+	'End
 	
+	Method RegisterMsgListener(listener:MsgListener)
+		If listeners = Null Then listeners = New List<MsgListener>
+		listeners.AddLast(listener)
+		listener.Register(Self)
+	End
+	
+	Method UnRegisterMsgListener(listener:MsgListener)
+		If listeners = Null Then Return
+		If listeners.IsEmpty Then Return
+		listeners.RemoveEach(listener)
+		If listeners.IsEmpty Then listeners = Null
+		listener.UnRegister(Self)
+	End
 	Private
 
+	Field listeners:List<MsgListener>
+	Method NotifyMsgListeners(msg:BoxedMsg)
+		If listeners = Null Then Return
+		If listeners.IsEmpty Then Return
+		For Local msgl:MsgListener = EachIn listeners
+			msgl.Msg(msg)
+		Next
+	End
+	
 'INTERNAL EVENT HANDLERS:
 	Field _eventClick:= New EventHandler<MouseEventArgs>
 	Field _bringToFront:= New EventHandler<EventArgs>

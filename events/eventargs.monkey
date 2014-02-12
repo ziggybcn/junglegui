@@ -4,7 +4,7 @@
 
 Import junglegui
 Import reflection
-Import guivector2d
+'Import guivector2d
 #REFLECTION_FILTER+="${MODPATH}"
 
 #Rem monkeydoc
@@ -28,7 +28,7 @@ Class EventArgs Implements CallInfo
 		This method uses reflection to return a string representation of the current event.
 	#END
 	Method GetEventName:String()
-		Local classInfo:= GetClass("junglegui.eventargs.eMsgKinds")
+		Local classInfo:= GetClass("junglegui.events.eventargs.eMsgKinds")
 		if classInfo = null Then Return "unknown class info. Can't get event name."
 		local constInfo:= classInfo.GetConsts(True)
 		For Local CI:ConstInfo = EachIn constInfo
