@@ -13,7 +13,10 @@ Class Panel extends ContainerControl
 		BorderColor.Activate()
 		'DrawRoundBox(position, Size)
 		GetGui.Renderer.DrawControlBorder(Status, position, Size, Self)
-		If HasFocus And _drawFocusRect Then GetGui.Renderer.DrawFocusRect(Self, True)
+	End
+	
+	Method RenderForeground()
+		If HasFocus And _drawFocusRect Then GetGui.Renderer.DrawFocusRect(Self, True)		
 	End
 	
 	Method DrawFocusRect:Bool() Property
@@ -21,8 +24,6 @@ Class Panel extends ContainerControl
 	End
 	Method DrawFocusRect:Void(value:Bool) Property
 		_drawFocusRect = value
-		
-		
 	End
 	
 	Private

@@ -168,7 +168,7 @@ Private
 					Value = tx * float(_maximum - _minimum) + _minimum
 					
 			End
-			if Self.HasFocus = False Then Self.GetFocus()
+			if Self.HasFocus = False Then Self.AssignFocus()
 		Else
 			if _MouseOverFader(e.position.X, e.position.Y) Then
 				_frame = 1

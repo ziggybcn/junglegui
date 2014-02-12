@@ -614,7 +614,7 @@ Class Default_UiTypeEditor extends UiTypeEditor
 							   
 		_tf.Size.SetValues(_selectedItem._propertyGrid._rightWidth - 1, Gui.systemFont.GetFontHeight() + 2)
 		_tf.Parent = _selectedItem._propertyGrid.Parent
-		_tf.GetFocus()
+		_tf.AssignFocus()
 		_tf.Visible = True
 		_tf.BringToFront()
 		_tf.Text = _selectedItem.TypeConverter_.ConvertToString(_selectedItem.Value)
@@ -720,7 +720,7 @@ Class List_UiTypeEditor extends UiTypeEditor
 
 		_listBox.Event_LostFocus.Add(Self, "Lost_Focus")
 		_listBox.Event_SelectedIndexChanged.Add(Self, "Combobox_IndexChanged")
-		_listBox.GetFocus()
+		_listBox.AssignFocus()
 		_listBox.Parent = item._propertyGrid.Parent
 		_listBox.Position.SetValues(item._propertyGrid.Position.X + item._propertyGrid.SelectedItemPosition.X,
 									item._propertyGrid.Position.Y +item._propertyGrid.SelectedItemPosition.Y)

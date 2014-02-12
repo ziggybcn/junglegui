@@ -201,7 +201,7 @@ Class Slider extends Control
 					if newValue < 0 Then newValue = 0
 					Value = 0.5 + newValue * Maximum / (Size.Y - FaderSize * 2)
 			End
-			if Self.HasFocus = False Then Self.GetFocus()
+			if Self.HasFocus = False Then Self.AssignFocus()
 		EndIf
 	End
 	Field _max:Int = 100

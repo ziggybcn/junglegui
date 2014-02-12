@@ -280,7 +280,7 @@ Class Control Implements DesignTimeInfo
 	#Rem monkeydoc 
 		This method will bring the Gui focus to this control.
 	#END
-	Method GetFocus()
+	Method AssignFocus()
 		if Not _gui Then return
 		if _gui._focusedControl = Self Return
 		If _gui._focusedControl <> Null Then
@@ -331,7 +331,7 @@ Class Control Implements DesignTimeInfo
 		Next
 		if focused = null Then 
 			if Parent <>null Then 
-				Parent.GetFocus()	'Era el último mohicano, volvemos al parent y escojemos el siguiente tío.
+				Parent.AssignFocus()	'Era el último mohicano, volvemos al parent y escojemos el siguiente tío.
 				Parent.FocusNext()
 			Else
 				_NavigationGotFocus()		
@@ -356,13 +356,8 @@ Class Control Implements DesignTimeInfo
 		Notice that this information is based on latest known render location, and it will be updated on every frame.
 	 #END
 	Method GetClientAreaLocation:GuiVector2D()
-		Local location:GuiVector2D
-		location = UnsafeRenderPosition().Clone()
-		If ContainerControl(Self) Then
-			Local container:= ContainerControl(Self)
-			location.X += container.Padding.Left
-			location.Y += container.Padding.Top
-		EndIf
+		Local location:= New GuiVector2D
+		GetClientAreaLocationHere(location)
 		Return location
 	End
 	
@@ -370,8 +365,8 @@ Class Control Implements DesignTimeInfo
 		UnsafeRenderPosition().CloneHere(target)
 		If ContainerControl(Self) Then
 			Local container:= ContainerControl(Self)
-			target.X += container.Padding.Left
-			target.Y += container.Padding.Top
+			target.X += container.Padding.Left + container.ControlBordersSizes.Left
+			target.Y += container.Padding.Top + container.ControlBordersSizes.Top
 		EndIf
 	End
 
@@ -379,13 +374,8 @@ Class Control Implements DesignTimeInfo
 		This method returns the client area size of the control on the current mojo canvas. That is, the width and height of the control.
 	 #END
 	Method GetClientAreaSize:GuiVector2D()
-		Local size:GuiVector2D
-		size = Size.Clone()
-		If ContainerControl(Self) Then
-			Local container:= ContainerControl(Self)
-			size.X -= container.Padding.Left + container.Padding.Right
-			size.Y -= container.Padding.Top + container.Padding.Bottom
-		EndIf
+		Local size:= New GuiVector2D
+		GetClientAreaSizeHere(size)
 		Return size
 	End
 
@@ -393,8 +383,8 @@ Class Control Implements DesignTimeInfo
 		Size.CloneHere(target)
 		If ContainerControl(Self) Then
 			Local container:= ContainerControl(Self)
-			target.X -= container.Padding.Left + container.Padding.Right
-			target.Y -= container.Padding.Top + container.Padding.Bottom
+			target.X -= container.Padding.Left + container.Padding.Right + container.ControlBordersSizes.Left + container.ControlBordersSizes.Right
+			target.Y -= container.Padding.Top + container.Padding.Bottom + container.ControlBordersSizes.Top + container.ControlBordersSizes.Bottom
 		EndIf
 	End
 	
@@ -769,7 +759,7 @@ Class Control Implements DesignTimeInfo
 		If Self.IsContainer and _outOfView = False Then
 			Local container:= ContainerControl(Self)
 			viewPort = _vp_focusChecks2  'New ViewPort
-			viewPort.SetValuesFromControl(container,container.Padding)
+			viewPort.SetValuesFromControl(container, container.Padding, container.ControlBordersSizes)
 			viewPort = viewPort.Calculate(_gui.viewPortStack.Top(), viewPort)
 			_gui.viewPortStack.Push(viewPort)
 			For Local c:Control = EachIn container.controls
@@ -787,7 +777,7 @@ Class Control Implements DesignTimeInfo
 	End
 		
 	Method _NavigationGotFocus()
-		GetFocus()
+		AssignFocus()
 		
 	End
 	
@@ -817,6 +807,11 @@ Class ContainerControl Extends Control
 	Method Padding:Padding() Property
 		Return _padding
 	End
+	
+	Method ControlBordersSizes:Padding() Property
+		Return _borderPadding
+	End
+	
 	Method Dispatch(msg:BoxedMsg)
 		If Not _gui Then Return
 		Super.Dispatch(msg)
@@ -830,7 +825,7 @@ Class ContainerControl Extends Control
 	Method New()
 		Self.internalScroll = New ControlGuiVector2D(Self, eMsgKinds.INTERNAL_SCROLLCHANGED)
 	End
-	Method Event_InternalScrollChanged:EventHandler<EventArgs>()
+	Method Event_InternalScrollChanged:EventHandler<EventArgs>() Property
 		Return _internalScrollChanged
 	End
 	Method Padding:Void(value:Padding)
@@ -911,7 +906,7 @@ Class ContainerControl Extends Control
 		
 		'We set the children viewport:
 		viewPort = _vp_render2 'New ViewPort
-		viewPort.SetValuesFromControl(Self,Padding)
+		viewPort.SetValuesFromControl(Self, Padding, ControlBordersSizes)
 		viewPort = viewPort.Calculate(_gui.viewPortStack.Top, viewPort) 'Stack.Last())
 		_gui.viewPortStack.Push(viewPort)
 		SetGuiScissor(_gui, viewPort.position.X, viewPort.position.Y, viewPort.size.X, viewPort.size.Y)
@@ -943,12 +938,7 @@ Class ContainerControl Extends Control
 	Method RenderForeground()
 		
 	End
-	#Rem monkeydoc
-		This method is called by the Gui system when a control container has to render its Focus rect.
-	 #END
-	Method DrawFocus()
-		GetGui.Renderer.DrawFocusRect(Self)
-	End
+
 	Private
 		Field _vp_renderChildren:= New ViewPort
 	Public
@@ -1002,8 +992,8 @@ Class ContainerControl Extends Control
 	
 	Private
 	Method AddPaddingPos()
-		_gui.currentRenderPos.X += Padding.Left - InternalScroll.X
-		_gui.currentRenderPos.Y += Padding.Top - InternalScroll.Y
+		_gui.currentRenderPos.X += Padding.Left + ControlBordersSizes.Left - InternalScroll.X
+		_gui.currentRenderPos.Y += Padding.Top + ControlBordersSizes.Top - InternalScroll.Y
 		
 	End
 	
@@ -1094,6 +1084,7 @@ Class ContainerControl Extends Control
 	Field _initialized:Bool = False
 	Field internalScroll:ControlGuiVector2D
 	Field _internalScrollChanged:= New EventHandler<EventArgs>
+	Field _borderPadding:= New Padding
 End
 
 #REM monkeydoc
@@ -1417,7 +1408,7 @@ Class Gui
 				local pos:GuiVector2D
 				pos = newControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone()
 				pos.SetValues(_mousePos.X-pos.X,_mousePos.Y-pos.Y)
-				if newControl._gui <> null then newControl.GetFocus()
+				if newControl._gui <> null then newControl.AssignFocus()
 				If newControl._gui <> Null Then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
 			EndIf
 		EndIf

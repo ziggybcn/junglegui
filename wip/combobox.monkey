@@ -53,7 +53,7 @@ Class ComboBox Extends BaseLabel Implements guiinterfaces.TextualAlignItem
 					if _listBox.Visible Then
 						_listBox.BringToFront()
 					End
-					if Not HasFocus Then GetFocus
+					If Not HasFocus Then AssignFocus()
 			End
 		End
 		Super.Msg(msg)

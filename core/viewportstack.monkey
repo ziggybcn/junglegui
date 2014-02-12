@@ -67,14 +67,16 @@ Class ViewPort
 	#rem monkeydoc
 		This method will fill the position and size fields using a control position, size and padding properties.
 	#END
-	Method SetValuesFromControl(control:ContainerControl, padding:Padding)
+	Method SetValuesFromControl(control:ContainerControl, padding:Padding, controlBorderSize:Padding)
 		position = control.UnsafeRenderPosition().Clone()
-		position.X+=control.Padding.Left 
-		position.Y+=control.Padding.Top 
+		position.X += control.Padding.Left + controlBorderSize.Left
+		position.Y += control.Padding.Top + controlBorderSize.Top
 		'size = New GuiVector2D
 		size.SetValues(control.Size.X,control.Size.Y)
-		size.X-= (control.Padding.Right + control.Padding.Left)
-		size.Y-= (control.Padding.Bottom + control.Padding.Top)
+		size.X -= (control.Padding.Right + controlBorderSize.Right + control.Padding.Left + controlBorderSize.Left)
+		size.Y -= (control.Padding.Bottom + controlBorderSize.Bottom + control.Padding.Top + controlBorderSize.Top)
 	End
+	
+	
 	
 End
