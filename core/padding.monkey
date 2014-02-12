@@ -44,19 +44,8 @@ Class Padding
 		Bottom = bottom
 		Right = right
 	End
-'	Method SetNotifyControl(control:Control)
-'		_notifyControl = control
-'	end
-'
-'	Private 
-'	Field _notifyControl:Control
 	
 	Private
-'	Method ValuesChanged()
-'		if _notifyControl <> null then
-'			_notifyControl.Msg(New BoxedMsg(_notifyControl, New EventArgs(eMsgKinds.PADDING_MODIFIED)))
-'		endif
-'	End
 	Field top:int
 	Field left:Int
 	Field right:Int

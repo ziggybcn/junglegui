@@ -2,11 +2,11 @@ Import junglegui
 Class Scroller Implements MsgListener
 	
 	Method Register(obj:Control)
-		
+		listening = obj
 	End
 	
 	Method UnRegister(obj:Control)
-		
+		listening = Null
 	End
 	
 	Method Msg(msg:BoxedMsg)
@@ -24,11 +24,7 @@ Class Scroller Implements MsgListener
 	Method Update()
 		
 	End
-	
-	Method SetControlListener(control:Control)
-		listening = control
-	End
-	
+		
 	Method VisibleItems:Int() Property
 		Return visibleItems
 	End
@@ -45,6 +41,10 @@ Class Scroller Implements MsgListener
 		totalItems = value
 	End
 	
+	Method ShouldBeRendered:Bool()
+		Return totalItems > visibleItems
+	End
+	
 	'summary: This is zero based.
 	Method FirstItem:Int() Property
 		Return firstItem
@@ -57,6 +57,9 @@ Class Scroller Implements MsgListener
 		firstItem = value
 	End
 	
+	Method GrabberWidth:Int()
+		Return listening.GetGui.Renderer.ScrollerGrabberWidth
+	End
 	Private
 	Field orientation:Int
 	Field listening:Control

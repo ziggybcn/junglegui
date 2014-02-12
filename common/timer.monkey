@@ -47,7 +47,7 @@ Class Timer extends Control
 		This method is inherited from [[Control]] and has no functionality on a [[Timer]]. Timers are never rendered as they do not have any graphical interface.
 	#END
 	Method Render:void()
-		'note:TODO:We should be able to get rid of this by preventing the Render to be called on any control that does not have a Graphical Interface.
+
 	End
 
 	#rem monkeydoc

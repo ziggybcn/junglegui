@@ -42,6 +42,7 @@ Class ScrollablePanel Extends Panel
 	End
 
 	Field but:Button
+	
 	Method OnInit()
 		vsb = New Scroller
 		vsb.Orientation = eScrollerOrientation.Vertical
@@ -51,6 +52,7 @@ Class ScrollablePanel Extends Panel
 		hsb.Orientation = eScrollerOrientation.Horizontal
 		RegisterMsgListener(hsb)
 		
+		'This is just for testing:
 		but = New Button
 		but.AutoAdjustSize = False
 		but.Parent = Self
@@ -62,10 +64,22 @@ Class ScrollablePanel Extends Panel
 	Method RenderForeground()
 		'Render Scrollbars here!
 		Super.RenderForeground
-		Super.GetClientAreaLocation 
+		
+	End
+	
+	Method Update()
+		Super.Update
+		Local left, top, right, bottom
+
+		'note:TODO Check for resize event!
+		If hsb.ShouldBeRendered Then right = hsb.GrabberWidth
+		If vsb.ShouldBeRendered Then bottom = vsb.GrabberWidth
+
+		ControlBordersSizes.SetAll(top, left, bottom, right)
 	End
 	
 	Private
 	Field vsb:Scroller
 	Field hsb:Scroller
 End
+
