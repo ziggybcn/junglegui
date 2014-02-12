@@ -29,8 +29,8 @@ Class WindowFrame Extends TopLevelControl
 		End
 	End
 	
-	Method DrawFocus()
-		If Not Transparent Then Super.DrawFocus()
+	Method RenderForeground()		
+		If Not Transparent Then GetGui.Renderer.DrawFocusRect(Self, True)
 	End
 
 	#rem monkeydoc

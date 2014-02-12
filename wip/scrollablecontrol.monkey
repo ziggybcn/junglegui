@@ -42,7 +42,7 @@ Class ScrollableControl extends ContainerControl
 				_scrollbar.MouseMove(New MouseEventArgs(eMsgKinds.MOUSE_MOVE, _cachedPosition, 0))
 			EndIf
 			
-			if Self.HasFocus = False Then Self.GetFocus()
+			if Self.HasFocus = False Then Self.AssignFocus()
 			
 		EndIf
 		If _scrollbarVisible Then Self.Padding.Right = _scrollbar._size.X

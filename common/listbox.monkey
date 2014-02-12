@@ -157,7 +157,7 @@ Public
 				_scrollbar.MouseMove(New MouseEventArgs(eMsgKinds.MOUSE_MOVE, _cachedPosition, 0))
 			EndIf
 			
-			if Self.HasFocus = False Then Self.GetFocus()
+			If Self.HasFocus = False Then Self.AssignFocus()
 		EndIf
 		Super.Update()
 	End
