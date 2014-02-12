@@ -35,6 +35,10 @@ Class GuiRenderer
 		ResetRendererValues(Self)
 	End
 
+	Method SrollerGrabberWidth:Int()
+		Return 17
+	End
+	
 	#Rem monkeydoc
 	This method should return the default form padding. That is, the space used to draw the caption and borders of any form control.
 	This method should not be overriden. If you want to modify the default form padding, just modify the values of the padding returned by the property
