@@ -45,6 +45,21 @@ Class Padding
 		Right = right
 	End
 	
+	
+	Method CloneHere:Void(newPadding:Padding)
+		newPadding.left = left
+		newPadding.top = top
+		newPadding.right = right
+		newPadding.bottom = bottom
+	End
+	
+	Method Add(otherPadding:Padding)
+		top += otherPadding.top
+		left += otherPadding.left
+		right += otherPadding.right
+		bottom += otherPadding.bottom
+	End
+	
 	Private
 	Field top:int
 	Field left:Int

@@ -13,26 +13,28 @@ Class Scroller Implements MsgListener
 	End
 	
 	Method Msg(msg:BoxedMsg)
-		'Print msg.e.GetEventName()
-		If msg.sender = listening And msg.e.messageSignature = eMsgKinds.MOUSE_MOVE Then
-			If Self.orientation = eScrollerOrientation.Vertical
-				Local mEventArgs:= MouseEventArgs(msg.e)
-				If mEventArgs <> Null Then
-				Print mEventArgs.position.X + ", " + mEventArgs.position.Y
-				
-				
-'					If mEventArgs.position.X > (updatedRectLocation.X + listening.LocationInDevice.X) Then
-'						If mEventArgs.position.X < (updatedRectLocation.X + listening.LocationInDevice.X) + GrabberWidth Then
-'							If mEventArgs.position.Y > (updatedRectLocation.Y + listening.LocationInDevice.Y) Then
-'								If mEventArgs.position.Y < (updatedRectLocation.Y + listening.LocationInDevice.Y) + GrabberWidth Then
-'									Print "Inside vertical!"
-'								EndIf
-'							EndIf
-'						EndIf
-'					EndIf
-				EndIf
+		If msg.sender = listening And msg.e.messageSignature = eMsgKinds.MOUSE_MOVE
+			Local mEventArgs:= MouseEventArgs(msg.e)
+			Local mx:= listening.ControlToDeviceX(mEventArgs.position.X)
+			Local my:= listening.ControlToDeviceY(mEventArgs.position.Y)
+			If mEventArgs <> Null
+				Select orientation
+					Case eScrollerOrientation.Vertical
+						If mx > updatedRectLocation.X And mx < updatedRectLocation.X + GrabberWidth Then
+							If my > updatedRectLocation.Y And my < updatedRectLocation.Y + updateRectLength Then
+								Print "V-Inside! (" + mx + ", " + my + ")"
+							EndIf
+						EndIf
+					Case eScrollerOrientation.Horizontal
+						If mx > updatedRectLocation.X And mx < updatedRectLocation.X + updateRectLength Then
+							If my > updatedRectLocation.Y And my < updatedRectLocation.Y + GrabberWidth Then
+								Print "H-Inside! (" + mx + ", " + my + ")"
+							EndIf
+						EndIf
+					
+				End
 			EndIf
-		EndIf
+		End
 		
 	End
 
