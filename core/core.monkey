@@ -80,12 +80,13 @@ Class Control Implements DesignTimeInfo
 		Return _backgroundColor
 	End
 	
+	'This has to be overriden in control containers
 	
 	Method BackgroundColor:GuiColor(value:GuiColor) Property
 		If value <> Null Then
 			_backgroundColor = value 
 		Else
-			Throw New JungleGuiException("Background color can't be set to null",Self)
+			Throw New JungleGuiException("Background color can't be set to null", Self)
 		EndIf
 		Return _backgroundColor 
 	End
@@ -157,9 +158,27 @@ Class Control Implements DesignTimeInfo
 		This returns TRUE if this control is a control container that can contain child controls. Otherwise, this method returns False.
 	#End
 	Method IsContainer?()
-		Return false
+		Return ContainerControl(Self) <> Null
 	End
 
+	
+	Method DeviceToControlX:Float(x:float)
+		Return x - UnsafeRenderPosition.X
+	End
+	
+	Method DeviceToControlY:Float(y:Float)
+		Return y - UnsafeRenderPosition.Y
+	End
+	
+	Method ControlToDeviceX:Float(x:Float)
+		Return x + UnsafeRenderPosition.X
+	End
+	
+	Method ControlToDeviceY:Float(y:Float)
+		Return y + UnsafeRenderPosition.Y
+	End
+	
+	
 	#Rem monkeydoc
 		This get/set property can be used to set the container of a given control.
 		As instance, to place a button in a Form or a Panel, you need to set the Parent property of the button to the desired container.
@@ -812,6 +831,25 @@ Class ContainerControl Extends Control
 		Return _borderPadding
 	End
 	
+	Method DeviceToControlX:Float(x:float)
+		Return x - UnsafeRenderPosition.X - Padding.Left - ControlBordersSizes.Left
+	End
+	
+	Method DeviceToControlY:Float(y:Float)
+		Return y - UnsafeRenderPosition.Y - Padding.Top - ControlBordersSizes.Top
+	End
+	
+	Method ControlToDeviceX:Float(x:Float)
+		Return x + UnsafeRenderPosition.X + Padding.Left + ControlBordersSizes.Left
+	End
+	
+	Method ControlToDeviceY:Float(y:Float)
+		Return y + UnsafeRenderPosition.Y + Padding.Top - ControlBordersSizes.Top
+	End
+
+	
+
+
 	Method Dispatch(msg:BoxedMsg)
 		If Not _gui Then Return
 		Super.Dispatch(msg)
@@ -832,11 +870,7 @@ Class ContainerControl Extends Control
 		If value <> Null Then _padding = value Else _padding = New Padding
 	End
 	
-	'summary: This method returns TRUE if the control is a container control.
-	Method IsContainer?()
-		Return true
-	end
-	
+
 	'summary: Clear all resources used by the control and its child controls
 	Method Dispose()
 		For Local c:Control = EachIn controls
@@ -1382,9 +1416,8 @@ Class Gui
 		
 		if _mousePointerControl <> null And (_oldMousePos.X <> _mousePos.X or _oldMousePos.Y <> _mousePos.Y) and _mousePointerControl._gui <> null Then
 			Local cords:= _mousePointerControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone()
-			cords.X = _mousePos.X - cords.X
-			cords.Y = _mousePos.Y - cords.Y
-			FixPadding(_mousePointerControl, cords)
+			cords.X = _mousePointerControl.DeviceToControlX(_mousePos.X) ' - cords.X
+			cords.Y = _mousePointerControl.DeviceToControlY(_mousePos.Y) ' - cords.Y
 			Local eArgs:= New MouseEventArgs(eMsgKinds.MOUSE_MOVE, cords, 0)
 			_mousePointerControl.Msg(New BoxedMsg(_mousePointerControl, eArgs))
 		EndIf
@@ -1392,29 +1425,24 @@ Class Gui
 		if oldMouseDown = False And _mouseDown = True Then
 			'this is a MouseDownEvent
 			if newControl <> null Then
-				'local pos:=New GuiVector2D
 				Local controlPos:= newControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone() 'UnsafeRenderPosition().Clone()
-				controlPos.SetValues(_mousePos.X - controlPos.X, _mousePos.Y - controlPos.Y)
-				FixPadding(newControl, controlPos)
-
-				if newControl._gui <> null then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.MOUSE_DOWN, controlPos, 1)))
+				controlPos.SetValues(newControl.DeviceToControlX(_mousePos.X), newControl.DeviceToControlY(_mousePos.Y))
+				If newControl._gui <> Null Then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.MOUSE_DOWN, controlPos, 1)))
 				_DownControl = newControl
 			EndIf
 		ElseIf oldMouseDown = True And _mouseDown = False Then
 			'Mouse up and possible click:
 			if _DownControl <> null and _DownControl._gui <> null Then
 				Local controlPos:= _DownControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone()
-				controlPos.SetValues(_mousePos.X - controlPos.X, _mousePos.Y - controlPos.Y)
-				FixPadding(_DownControl, controlPos)
+				controlPos.SetValues(_DownControl.DeviceToControlX(_mousePos.X), _DownControl.DeviceToControlY(_mousePos.Y))
 				If _DownControl._gui <> Null Then _DownControl.Msg(New BoxedMsg(_DownControl, New MouseEventArgs(eMsgKinds.MOUSE_UP, controlPos, 1)))
 			EndIf
 			if _DownControl = newControl And _DownControl <> null Then
-				local pos:GuiVector2D
-				pos = newControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone()
-				pos.SetValues(_mousePos.X-pos.X,_mousePos.Y-pos.Y)
+				Local pos:= New GuiVector2D
+				pos.SetValues(newControl.DeviceToControlX(_mousePos.X), newControl.DeviceToControlY(_mousePos.Y))
+				
 				if newControl._gui <> null then newControl.AssignFocus()
 				If newControl._gui <> Null Then
-					FixPadding(newControl, pos)
 					newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
 				EndIf
 			EndIf
@@ -1547,17 +1575,6 @@ Class Gui
 	Field scalex:Float = 1
 	Field scaley:Float = 1
 
-	Method FixPadding:Void(control:Control, cords:GuiVector2D) Final
-		If control.IsContainer Then
-			Local container:= ContainerControl(control)
-			If container <> Null Then
-				cords.X -= container.Padding.Left
-				cords.Y -= container.Padding.Top
-			EndIf
-		EndIf
-	End
-
-
 	Method RenderTip()
 		Local control:= GetMousePointedControl()
 		if control  = null or control.TipText = "" Then 
@@ -1565,7 +1582,7 @@ Class Gui
 			Return
 		endif
 		Local Width:Int = Gui.tipFont.GetTxtWidth(control.TipText)+12
-		Local Height:Int = Gui.tipFont.GetTxtHeight(control.TipText)+12
+		Local Height:Int = Gui.tipFont.GetTxtHeight(control.TipText) + 12
 		Local DrawX:Int = _mousePos.X
 		Local DrawY:Int = _mousePos.Y+10
 		If DrawX + Width > _guiSize.X Then DrawX -= DrawX + Width - _guiSize.X
