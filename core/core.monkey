@@ -1384,6 +1384,7 @@ Class Gui
 			Local cords:= _mousePointerControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone()
 			cords.X = _mousePos.X - cords.X
 			cords.Y = _mousePos.Y - cords.Y
+			FixPadding(_mousePointerControl, cords)
 			Local eArgs:= New MouseEventArgs(eMsgKinds.MOUSE_MOVE, cords, 0)
 			_mousePointerControl.Msg(New BoxedMsg(_mousePointerControl, eArgs))
 		EndIf
@@ -1393,7 +1394,9 @@ Class Gui
 			if newControl <> null Then
 				'local pos:=New GuiVector2D
 				Local controlPos:= newControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone() 'UnsafeRenderPosition().Clone()
-				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
+				controlPos.SetValues(_mousePos.X - controlPos.X, _mousePos.Y - controlPos.Y)
+				FixPadding(newControl, controlPos)
+
 				if newControl._gui <> null then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.MOUSE_DOWN, controlPos, 1)))
 				_DownControl = newControl
 			EndIf
@@ -1401,15 +1404,19 @@ Class Gui
 			'Mouse up and possible click:
 			if _DownControl <> null and _DownControl._gui <> null Then
 				Local controlPos:= _DownControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone()
-				controlPos.SetValues(_mousePos.X-controlPos.X,_mousePos.Y-controlPos.Y)
-				if _DownControl._gui <> null then _DownControl.Msg(New BoxedMsg(_DownControl, New MouseEventArgs(eMsgKinds.MOUSE_UP, controlPos, 1)))
+				controlPos.SetValues(_mousePos.X - controlPos.X, _mousePos.Y - controlPos.Y)
+				FixPadding(_DownControl, controlPos)
+				If _DownControl._gui <> Null Then _DownControl.Msg(New BoxedMsg(_DownControl, New MouseEventArgs(eMsgKinds.MOUSE_UP, controlPos, 1)))
 			EndIf
 			if _DownControl = newControl And _DownControl <> null Then
 				local pos:GuiVector2D
 				pos = newControl.UnsafeRenderPosition.Clone() 'RefreshRenderPosition.Clone()
 				pos.SetValues(_mousePos.X-pos.X,_mousePos.Y-pos.Y)
 				if newControl._gui <> null then newControl.AssignFocus()
-				If newControl._gui <> Null Then newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
+				If newControl._gui <> Null Then
+					FixPadding(newControl, pos)
+					newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
+				EndIf
 			EndIf
 		EndIf
 		
@@ -1530,12 +1537,27 @@ Class Gui
 	End
 	
 	Private
+
+
+
 	Field currentRenderPos:= New GuiVector2D
 	
 	Field _renderer:GuiRenderer '= New GuiRenderer
 	Field _renderTipAlpha:Float = 0
 	Field scalex:Float = 1
 	Field scaley:Float = 1
+
+	Method FixPadding:Void(control:Control, cords:GuiVector2D) Final
+		If control.IsContainer Then
+			Local container:= ContainerControl(control)
+			If container <> Null Then
+				cords.X -= container.Padding.Left
+				cords.Y -= container.Padding.Top
+			EndIf
+		EndIf
+	End
+
+
 	Method RenderTip()
 		Local control:= GetMousePointedControl()
 		if control  = null or control.TipText = "" Then 

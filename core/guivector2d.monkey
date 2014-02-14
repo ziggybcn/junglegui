@@ -57,6 +57,12 @@ Class GuiVector2D
 	Method CloneHere:Void(target:GuiVector2D)
 		target.SetValues(X, Y)
 	End
+	
+	Method Add(vector:GuiVector2D)
+		'Self.X += vector.X
+		'Self.Y += vector.Y
+		Self.SetValues(Self.X + vector.X, Self.Y + vector.Y)
+	End
 
 	Private
 	Field _x:Int, _y:Int

@@ -52,20 +52,20 @@ Class Form Extends TopLevelControl
 		
 		If resizeStatus = eResizeStatus.NONE
 				If mouseIsDown Then	'Añadir propiedad "resizable true or false"
-					Self.Position.X = GetGui.MousePos.X - _mouseHitPos.X
-					Self.Position.Y = GetGui.MousePos.Y - _mouseHitPos.Y
+					Self.Position.X = GetGui.MousePos.X - _mouseHitPos.X - Padding.Left - ControlBordersSizes.Left
+					Self.Position.Y = GetGui.MousePos.Y - _mouseHitPos.Y - Padding.Top - ControlBordersSizes.Top
 				EndIf
 			
 		Else
 			If HasFlag(resizeStatus, eResizeStatus.RESIZE_RIGHT)
-				Local dif:Int = mouseHitSize.X - _mouseHitPos.X
+				Local dif:Int = mouseHitSize.X - _mouseHitPos.X - Padding.Left - Self.ControlBordersSizes.Left
 				Local newSize:Int = GetGui.MousePos.X - Self.Position.X + dif
 				If newSize < minimumSize.X Then newSize = minimumSize.X
 				If newSize < 10 Then newSize = 10
 				Self.Size.X = newSize
 			End
 			If HasFlag(resizeStatus, eResizeStatus.RESIZE_BOTTOM)
-				Local dif:Int = mouseHitSize.Y - _mouseHitPos.Y
+				Local dif:Int = mouseHitSize.Y - _mouseHitPos.Y - Padding.Top - Self.ControlBordersSizes.Top
 				Local newSize:Int = GetGui.MousePos.Y - Self.Position.Y + dif
 				If newSize < minimumSize.Y Then newSize = minimumSize.Y
 				If newSize < 10 Then newSize = 10
@@ -192,8 +192,11 @@ Class Form Extends TopLevelControl
 	Method _getMouseOverResizingStatus:Int(mousee:MouseEventArgs)
 		Local status:Int = eResizeStatus.NONE
 		If borderKind = eFormBorder.RESIZABLE Then
-			If mousee.position.X > Self.Size.X - Padding.Right Then status |= eResizeStatus.RESIZE_RIGHT
-			If mousee.position.Y > Self.Size.Y - Padding.Bottom Then status |= eResizeStatus.RESIZE_BOTTOM
+			'If mousee.position.X > Self.Size.X Then status |= eResizeStatus.RESIZE_RIGHT
+			'If mousee.position.Y > Self.Size.Y Then status |= eResizeStatus.RESIZE_BOTTOM
+			If mousee.position.X > Self.GetClientAreaSize.X Then status |= eResizeStatus.RESIZE_RIGHT
+			If mousee.position.Y > Self.GetClientAreaSize.Y Then status |= eResizeStatus.RESIZE_BOTTOM
+			
 		EndIf
 		Return status
 	End

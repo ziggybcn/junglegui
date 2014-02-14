@@ -35,7 +35,7 @@ Class GuiRenderer
 		ResetRendererValues(Self)
 	End
 
-	Method SrollerGrabberWidth:Int()
+	Method ScrollerGrabberWidth:Int()
 		Return 17
 	End
 	
@@ -447,4 +447,9 @@ Function ResetRendererValues(renderer:GuiRenderer)
 		SystemColors.ItemsListSelectedBackColor.SetColor(1, 202, 225, 252)
 		SystemColors.ItemsListHooverBorderColor.SetColor(1, 184, 214, 251)
 		SystemColors.ItemsListSelectedBorderColor.SetColor(1, 125, 162, 206)
+		
+		SystemColors.ScrollerBackColor.SetColor(1, 240, 240, 240)
+		SystemColors.ScrollerGrabberColor.SetColor(1, 205, 205, 205)
+		
+
 End
