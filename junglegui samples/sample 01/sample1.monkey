@@ -278,6 +278,7 @@ Class SampleForm Extends Form
 		
 		panel.Event_KeyPress.Add(Self, "Panel_KeyPressed")
 		panel.Event_InternalScrollChanged.Add(Self, "Panel_ScrollingChanged")
+		panel.Event_Click.Add(Self, "Panel_Click")
 		HCenterControl(panel)
 
 		Local combo:ComboBox = New ComboBox(panel, 0, 0, 150)
@@ -318,6 +319,10 @@ Class SampleForm Extends Form
 	
 	Method Panel_ScrollingChanged(sender:Object, e:EventArgs)
 		Print("Scrolling changed on Panel " + panel.InternalScroll.X + ", " + panel.InternalScroll.Y)
+	End
+	
+	Method Panel_Click(sender:Object, e:MouseEventArgs)
+		Print "Panel mouse clicked " + e.position.X + ", " + e.position.Y
 	End
 	
 	Method Button_Clicked(sender:Object, e:MouseEventArgs)

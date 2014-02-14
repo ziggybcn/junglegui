@@ -15,8 +15,8 @@ Class Scroller Implements MsgListener
 	Method Msg(msg:BoxedMsg)
 		If msg.sender = listening And msg.e.messageSignature = eMsgKinds.MOUSE_MOVE
 			Local mEventArgs:= MouseEventArgs(msg.e)
-			Local mx:= listening.ControlToDeviceX(mEventArgs.position.X)
-			Local my:= listening.ControlToDeviceY(mEventArgs.position.Y)
+			Local mx:= listening.ControlToDeviceX(mEventArgs.position.X, False)
+			Local my:= listening.ControlToDeviceY(mEventArgs.position.Y, False)
 			If mEventArgs <> Null
 				Select orientation
 					Case eScrollerOrientation.Vertical

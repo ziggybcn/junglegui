@@ -197,7 +197,7 @@ Class MyForm Extends Form
 	End
 	
 	Method Trackbar1_ValueChanged(sender:Object, e:EventArgs)
-		Self.Text = "trackbar1 value changed: " + TrackBar(sender).Value
+		Self.Text = "trackbar1 value changed: " + TrackBar(sender).Value + " Padding " + listView1.Padding.Top + ", " + listView1.Padding.Left + ", " + listView1.Padding.Bottom + ", " + listView1.Padding.Right
 		listView1.SetItemSize(TrackBar(sender).Value, TrackBar(sender).Value)
 	End
 	

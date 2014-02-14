@@ -52,8 +52,10 @@ Class Form Extends TopLevelControl
 		
 		If resizeStatus = eResizeStatus.NONE
 				If mouseIsDown Then	'Añadir propiedad "resizable true or false"
+					
 					Self.Position.X = GetGui.MousePos.X - _mouseHitPos.X - Padding.Left - ControlBordersSizes.Left
 					Self.Position.Y = GetGui.MousePos.Y - _mouseHitPos.Y - Padding.Top - ControlBordersSizes.Top
+
 				EndIf
 			
 		Else

@@ -45,7 +45,7 @@ Class ScrollableControl extends ContainerControl
 			if Self.HasFocus = False Then Self.AssignFocus()
 			
 		EndIf
-		If _scrollbarVisible Then Self.Padding.Right = _scrollbar._size.X
+		If _scrollbarVisible Then Self.ControlBordersSizes.Right = _scrollbar._size.X
 		Super.Update()
 	End
 	

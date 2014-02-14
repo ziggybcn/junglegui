@@ -132,7 +132,8 @@ Private
 	
 	Method InitControl()
 		_items = New ListViewItemCollection(Self)
-		Padding.Right = ScrollBarContainer.DefaultWidth
+		'Padding.Right = ScrollBarContainer.DefaultWidth
+		ControlBordersSizes.Right = ScrollBarContainer.DefaultWidth
 		Self._spacing.SetValues(10, 10)
 		_spacing.SetNotifyControl(Self, ListView.SPACE_MODIFIED)
 	End
