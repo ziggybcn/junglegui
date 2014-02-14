@@ -162,19 +162,19 @@ Class Control Implements DesignTimeInfo
 	End
 
 	
-	Method DeviceToControlX:Float(x:float)
+	Method DeviceToControlX:Float(x:float, scrolling:Bool = True)
 		Return x - UnsafeRenderPosition.X
 	End
 	
-	Method DeviceToControlY:Float(y:Float)
+	Method DeviceToControlY:Float(y:Float, scrolling:Bool = True)
 		Return y - UnsafeRenderPosition.Y
 	End
 	
-	Method ControlToDeviceX:Float(x:Float)
+	Method ControlToDeviceX:Float(x:Float, scrolling:Bool = True)
 		Return x + UnsafeRenderPosition.X
 	End
 	
-	Method ControlToDeviceY:Float(y:Float)
+	Method ControlToDeviceY:Float(y:Float, scrolling:Bool = True)
 		Return y + UnsafeRenderPosition.Y
 	End
 	
@@ -831,23 +831,41 @@ Class ContainerControl Extends Control
 		Return _borderPadding
 	End
 	
-	Method DeviceToControlX:Float(x:float)
-		Return x - UnsafeRenderPosition.X - Padding.Left - ControlBordersSizes.Left
+	'note: TODO: Calculate scrolling here when requested
+	Method DeviceToControlX:Float(x:float, scrolling:Bool = True)
+		If scrolling Then
+			Return x - UnsafeRenderPosition.X - Padding.Left - ControlBordersSizes.Left + Self.internalScroll.X
+		Else
+			Return x - UnsafeRenderPosition.X - Padding.Left - ControlBordersSizes.Left
+		EndIf
+		
 	End
 	
-	Method DeviceToControlY:Float(y:Float)
-		Return y - UnsafeRenderPosition.Y - Padding.Top - ControlBordersSizes.Top
+	Method DeviceToControlY:Float(y:Float, scrolling:Bool = True)
+		If scrolling Then
+			Return y - UnsafeRenderPosition.Y - Padding.Top - ControlBordersSizes.Top + Self.internalScroll.Y
+		Else
+			Return y - UnsafeRenderPosition.Y - Padding.Top - ControlBordersSizes.Top
+		EndIf
 	End
 	
-	Method ControlToDeviceX:Float(x:Float)
-		Return x + UnsafeRenderPosition.X + Padding.Left + ControlBordersSizes.Left
+	Method ControlToDeviceX:Float(x:Float, scrolling:Bool = True)
+		If scrolling Then
+			Return x + UnsafeRenderPosition.X + Padding.Left + ControlBordersSizes.Left - Self.internalScroll.X
+		Else
+			Return x + UnsafeRenderPosition.X + Padding.Left + ControlBordersSizes.Left
+		EndIf
 	End
 	
-	Method ControlToDeviceY:Float(y:Float)
-		Return y + UnsafeRenderPosition.Y + Padding.Top - ControlBordersSizes.Top
+	Method ControlToDeviceY:Float(y:Float, scrolling:Bool = True)
+		If scrolling Then
+			Return y + UnsafeRenderPosition.Y + Padding.Top - ControlBordersSizes.Top - Self.internalScroll.Y
+		Else
+			Return y + UnsafeRenderPosition.Y + Padding.Top - ControlBordersSizes.Top
+		EndIf
 	End
 
-	
+		
 
 
 	Method Dispatch(msg:BoxedMsg)

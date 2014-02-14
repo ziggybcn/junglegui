@@ -66,7 +66,7 @@ Class ScrollablePanel Extends Panel
 		hsb.VisibleItems = 25
 		hsb.TotalItems = 145
 				
-		Padding.SetAll(2, 10, 2, 2)
+		Padding.SetAll(2, 2, 2, 2)
 		
 	End
 	
