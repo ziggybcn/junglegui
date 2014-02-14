@@ -77,6 +77,10 @@ Class SystemColors
 	Global ItemsListSelectedBackColor:= New GuiColor
 	Global ItemsListHooverBorderColor:= New GuiColor
 	Global ItemsListSelectedBorderColor:= New GuiColor
+	
+	Global ScrollerBackColor:= New GuiColor
+	Global ScrollerGrabberColor:= New GuiColor
+	
 
 End
 
