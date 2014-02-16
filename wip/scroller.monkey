@@ -15,8 +15,8 @@ Class Scroller Implements MsgListener
 	Method Msg(msg:BoxedMsg)
 		If msg.sender = listening And msg.e.messageSignature = eMsgKinds.MOUSE_MOVE
 			Local mEventArgs:= MouseEventArgs(msg.e)
-			Local mx:= listening.ControlToDeviceX(mEventArgs.position.X, False)
-			Local my:= listening.ControlToDeviceY(mEventArgs.position.Y, False)
+			Local mx:= listening.ControlToDeviceX(mEventArgs.position.X)
+			Local my:= listening.ControlToDeviceY(mEventArgs.position.Y)
 			If mEventArgs <> Null
 				Select orientation
 					Case eScrollerOrientation.Vertical
@@ -31,7 +31,6 @@ Class Scroller Implements MsgListener
 								Print "H-Inside! (" + mx + ", " + my + ")"
 							EndIf
 						EndIf
-					
 				End
 			EndIf
 		End
