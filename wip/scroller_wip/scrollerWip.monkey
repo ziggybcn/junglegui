@@ -74,6 +74,7 @@ Class ScrollablePanel Extends Panel
 	Field cache_cas:= New GuiVector2D
 	Public
 	Method RenderForeground()
+		UpdateScrolling()
 		'Render Scrollbars here!
 		'Super.RenderForeground
 		
@@ -89,7 +90,7 @@ Class ScrollablePanel Extends Panel
 			renders += 1
 		EndIf
 		If renders > 0 Then
-			SystemColors.WindowColor.Activate()
+			BackgroundColor.Activate()
 			DrawRect(LocationInDevice.X + Size.X - hsb.GrabberWidth, LocationInDevice.Y + Size.Y - hsb.GrabberWidth, hsb.GrabberWidth, hsb.GrabberWidth)
 		EndIf
 
@@ -131,10 +132,7 @@ Class ScrollablePanel Extends Panel
 	End
 	
 	Method RenderBackground()
-		UpdateScrolling()
 		Super.RenderBackground()
-		SetColor(255, 255, 255)
-		DrawRect(GetClientAreaLocation.X, GetClientAreaLocation.Y, GetClientAreaSize.X, GetClientAreaSize.Y)
 	End
 	Private
 	Field vsb:Scroller

@@ -89,6 +89,10 @@ Function HasFlag:Bool(value:Int, flag:Int)
 	Return( (value & flag) = flag)
 End
 
+Function RemoveFlag:Int(value:Int, flag:Int)
+	value = value & ~ flag
+End
+
 #REM
 	
 struct Rect 
@@ -121,7 +125,7 @@ overlap(const Rect &r1, const Rect &r2)
 #END
 
 Function RectsOverlap:Bool(point1:GuiVector2D,size1:GuiVector2D,point2:GuiVector2D,size2:GuiVector2D)
-   local noOverlap:Int= (point1.X > (point2.X + size2.X)) ~
+   Local noOverlap:Int = (point1.X > (point2.X + size2.X)) ~
                      (point2.X > (point1.X + size1.X)) ~ 
                      (point1.Y > (point2.Y + size2.Y)) ~ 
                      (point2.Y > (point1.Y + size1.Y))  
