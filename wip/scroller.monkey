@@ -107,8 +107,6 @@ Class Scroller Implements MsgListener
 				scroller.scrollerButton.Render(scroller.updatedRectLocation, eScrollerButtonKind.HorizontalRight)
 				scroller.updatedRectLocation.X = preLoc
 				
-				
-				
 			Case eScrollerOrientation.Vertical
 				'Render box:
 				DrawRect(scroller.updatedRectLocation.X, scroller.updatedRectLocation.Y, scroller.GrabberWidth, scroller.updateRectLength)
@@ -120,9 +118,8 @@ Class Scroller Implements MsgListener
 				Local preLoc:Int = scroller.updatedRectLocation.Y
 				scroller.updatedRectLocation.Y = scroller.updatedRectLocation.Y + scroller.updateRectLength - scroller.GrabberWidth
 				scroller.scrollerButton.Render(scroller.updatedRectLocation, eScrollerButtonKind.VerticalDown)
-				scroller.updatedRectLocation.Y = preLoc
-				
-		End		
+				scroller.updatedRectLocation.Y = preLoc				
+		End
 	End
 	
 	Method Update(anchor:GuiVector2D, length:Float)
@@ -134,6 +131,18 @@ Class Scroller Implements MsgListener
 		'Draw Scroller Background:
 		
 	End
+	
+	Method GrabberLength:Float()
+		Local maxSize:= updateRectLength - Float(GrabberWidth * 2)
+		Local size:= maxSize * (Float(visibleItems) / Float(totalItems))
+		If size < GrabberWidth Then size = GrabberWidth
+		Return size
+	End
+	
+	Method GrabberPos:Float()
+		'note: TODO grabber pos calculation
+	End
+	
 	
 	
 	Private
