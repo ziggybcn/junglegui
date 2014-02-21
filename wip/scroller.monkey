@@ -13,13 +13,15 @@ Class Scroller Implements MsgListener
 	End
 		
 	Method Msg(msg:BoxedMsg)
+		'We only listen to events of our control "container" (the listening control):
+		Print msg.e.GetEventName()
 		If msg.sender <> listening Then Return
+		'We react to several messages (mouse move, click, mouse leave, etc.)
 		Select msg.e.messageSignature
 			Case eMsgKinds.MOUSE_MOVE
 				Local mEventArgs:= MouseEventArgs(msg.e)
 				Local mx:= listening.ControlToDeviceX(mEventArgs.position.X)
 				Local my:= listening.ControlToDeviceY(mEventArgs.position.Y)
-				'Print "(" + mx + ", " + my + ")" + updatedRectLocation.X + ", " + updatedRectLocation.Y + " --> " + updateRectLength
 				If mEventArgs <> Null
 					Self.status = RemoveFlag(Self.status, ScrollBarStatus.Hoover)
 					Select orientation
@@ -41,6 +43,36 @@ Class Scroller Implements MsgListener
 				EndIf
 			Case eMsgKinds.MOUSE_LEAVE
 				Self.status = RemoveFlag(Self.status, ScrollBarStatus.Hoover)
+			Case eMsgKinds.MOUSE_DOWN
+				Print "Down!"
+				Local mEventArgs:= MouseEventArgs(msg.e)
+				Local mx:= listening.ControlToDeviceX(mEventArgs.position.X)
+				Local my:= listening.ControlToDeviceY(mEventArgs.position.Y)
+				If mEventArgs <> Null
+					Self.status = RemoveFlag(Self.status, ScrollBarStatus.Hoover)
+					Select orientation
+						Case eScrollerOrientation.Vertical
+							If mx > updatedRectLocation.X And mx < updatedRectLocation.X + GrabberWidth Then
+								If my > updatedRectLocation.Y And my < updatedRectLocation.Y + updateRectLength Then
+									If IsInsideGrabber(my) Then
+										Print "INSIDE GRABBER!"
+									EndIf
+									'Self.status = Self.status + ScrollBarStatus.Hoover
+								EndIf
+							EndIf
+						Case eScrollerOrientation.Horizontal
+							
+							If (mx > updatedRectLocation.X) And (mx < (updatedRectLocation.X + updateRectLength)) Then
+							
+								If my > (updatedRectLocation.Y) And my < (updatedRectLocation.Y + GrabberWidth) Then
+									If IsInsideGrabber(mx) Then
+										Print "INSIDE GRABBER!"
+									EndIf
+								EndIf
+							EndIf
+					End
+				EndIf
+			
 		End
 		
 	End
@@ -100,6 +132,20 @@ Class Scroller Implements MsgListener
 				SystemColors.ScrollerBackColor.ActivateDark(30)
 				DrawBox(Int(scroller.updatedRectLocation.X), Int(scroller.updatedRectLocation.Y), Int(scroller.updateRectLength), Int(scroller.GrabberWidth))
 
+				'Render grabber
+				If HasFlag(scroller.status, ScrollBarStatus.Hoover)
+					SystemColors.ScrollerGrabberColor.Activate()
+				Else
+					SystemColors.ScrollerGrabberColor.ActivateBright(15)
+				EndIf
+				Local yPos:= scroller.updatedRectLocation.Y
+				Local xPos:= scroller.updatedRectLocation.X + scroller.GrabberPos '+ scroller.GrabberWidth + scroller.GrabberPos
+				'Print scroller.totalItems + " -- " + scroller.firstItem + " -- " + scroller.GrabberPos
+				DrawRect(
+				 	xPos, yPos + 1,
+					scroller.GrabberLength(),
+					scroller.GrabberWidth -2)
+				
 				'Render buttons :
 				scroller.scrollerButton.Render(scroller.updatedRectLocation, eScrollerButtonKind.HorizontalLeft)
 				Local preLoc:Int = scroller.updatedRectLocation.X
@@ -108,17 +154,33 @@ Class Scroller Implements MsgListener
 				scroller.updatedRectLocation.X = preLoc
 				
 			Case eScrollerOrientation.Vertical
+
 				'Render box:
 				DrawRect(scroller.updatedRectLocation.X, scroller.updatedRectLocation.Y, scroller.GrabberWidth, scroller.updateRectLength)
 				SystemColors.ScrollerBackColor.ActivateDark(30)
 				DrawBox(Int(scroller.updatedRectLocation.X), Int(scroller.updatedRectLocation.Y), Int(scroller.GrabberWidth), Int(scroller.updateRectLength))
+
+				'Render grabber
+				If HasFlag(scroller.status, ScrollBarStatus.Hoover)
+					SystemColors.ScrollerGrabberColor.Activate()
+				Else
+					SystemColors.ScrollerGrabberColor.ActivateBright(15)
+				EndIf
+
+				Local xPos:= scroller.updatedRectLocation.X
+				Local yPos:= scroller.updatedRectLocation.Y + scroller.GrabberPos '+ scroller.GrabberWidth + scroller.GrabberPos
+				DrawRect(
+				 	xPos +1, yPos,
+					scroller.GrabberWidth -2,
+					scroller.GrabberLength())
 				
 				'Render buttons :
 				scroller.scrollerButton.Render(scroller.updatedRectLocation, eScrollerButtonKind.VerticalUp)
 				Local preLoc:Int = scroller.updatedRectLocation.Y
 				scroller.updatedRectLocation.Y = scroller.updatedRectLocation.Y + scroller.updateRectLength - scroller.GrabberWidth
 				scroller.scrollerButton.Render(scroller.updatedRectLocation, eScrollerButtonKind.VerticalDown)
-				scroller.updatedRectLocation.Y = preLoc				
+				scroller.updatedRectLocation.Y = preLoc
+
 		End
 	End
 	
@@ -132,6 +194,8 @@ Class Scroller Implements MsgListener
 		
 	End
 	
+	Private
+	
 	Method GrabberLength:Float()
 		Local maxSize:= updateRectLength - Float(GrabberWidth * 2)
 		Local size:= maxSize * (Float(visibleItems) / Float(totalItems))
@@ -139,29 +203,57 @@ Class Scroller Implements MsgListener
 		Return size
 	End
 	
+	'summary: Returns the position of the grabber relative to the updatedRenderLocation
 	Method GrabberPos:Float()
-		'note: TODO grabber pos calculation
+		Local items:= Float(totalItems)
+		Local area:= updateRectLength - (GrabberWidth * 2)
+		Local pos:= (Float(area) / float(items)) * firstItem + GrabberWidth
+		Return pos
 	End
 	
+	Method IsInsideGrabber:Bool(pos:Float)
 	
+		Local solvedGrabberPos:Float
+		Select orientation
+			Case eScrollerOrientation.Vertical
+				solvedGrabberPos = updatedRectLocation.Y + GrabberPos '+ GrabberWidth + GrabberPos
+
+			Case eScrollerOrientation.Horizontal
+				solvedGrabberPos = updatedRectLocation.X + GrabberPos '+ GrabberWidth + GrabberPos
+		End
 	
-	Private
+		If pos < solvedGrabberPos or pos > solvedGrabberPos + GrabberLength
+			Return False
+		Else
+			Return True
+		EndIf
+	End
+	
 	Field updatedRectLocation:= New GuiVector2D
+	
 	Field updateRectLength:Float = 0
 		
 	Field orientation:Int
+	
 	Field listening:Control
+	
 	Field status:Int
+	
 	Field visibleItems:Int
+	
 	Field totalItems:Int
+	
 	Field firstItem:Int = 0
+	
 	Field scrollerButton:ScrollerButton
+	
 End
 
 Class eScrollerOrientation
 	Const Vertical:Int = 1
 	Const Horizontal:Int = 2
 End
+
 
 Class ScrollBarStatus Final
 	Const None:Int = 0
