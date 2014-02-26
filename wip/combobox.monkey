@@ -103,6 +103,7 @@ Class ComboBox Extends BaseLabel Implements guiinterfaces.TextualAlignItem
 		if Not Self.HasFocus And Not _listBox.HasFocus Then
 			_listBox.Visible = False
 		EndIf
+		Super.Update()
 	End
 	
 	Method AdjustSize:GuiVector2D()

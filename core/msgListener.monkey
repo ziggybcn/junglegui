@@ -6,6 +6,8 @@ Interface MsgListener
 	Method Register(obj:Control)
 
 	Method UnRegister(obj:Control)
+	
+	Method Update()
 
 End
 

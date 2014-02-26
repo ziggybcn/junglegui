@@ -91,6 +91,12 @@ End
 
 Function RemoveFlag:Int(value:Int, flag:Int)
 	value = value & ~ flag
+	Return value
+End
+
+Function SetFlag(value:Int, flag:Int)
+	value = value | flag
+	Return value
 End
 
 #REM
