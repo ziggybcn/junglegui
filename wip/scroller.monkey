@@ -1,4 +1,17 @@
+#Rem monkeydoc module junglegui.wip.scroller
+What's a scroller?
+A Scroller is a class that handles rendering of scrollbars.
+This class is internally used by controls such as the ScrollablePanel
+A Scroller is not a junglegui control, but a class that allows any control to draw a scrollbar that reacts to user input.
+
+How this it work?
+
+
+#end
 Import junglegui
+
+
+
 Class Scroller Implements MsgListener
 	
 	Method New()
@@ -11,10 +24,22 @@ Class Scroller Implements MsgListener
 	Method UnRegister(obj:Control)
 		listening = Null
 	End
+	
+	Method Update()
+		If HasFlag(status, ScrollBarStatus.Grabbed)
+			Select orientation
+				Case eScrollerOrientation.Vertical
+					FirstItem = PosToGrabber(listening.GetGui.MousePos.Y - updatedRectLocation.Y - mouseDownOffset)
+				Case eScrollerOrientation.Horizontal
+					 FirstItem = PosToGrabber(listening.GetGui.MousePos.X - updatedRectLocation.X - mouseDownOffset)
+			End
+		EndIf
 		
+	End
+	
 	Method Msg(msg:BoxedMsg)
 		'We only listen to events of our control "container" (the listening control):
-		Print msg.e.GetEventName()
+		'Print msg.e.GetEventName()
 		If msg.sender <> listening Then Return
 		'We react to several messages (mouse move, click, mouse leave, etc.)
 		Select msg.e.messageSignature
@@ -28,7 +53,7 @@ Class Scroller Implements MsgListener
 						Case eScrollerOrientation.Vertical
 							If mx > updatedRectLocation.X And mx < updatedRectLocation.X + GrabberWidth Then
 								If my > updatedRectLocation.Y And my < updatedRectLocation.Y + updateRectLength Then
-									Self.status = Self.status + ScrollBarStatus.Hoover
+									Self.status = Self.status | ScrollBarStatus.Hoover
 								EndIf
 							EndIf
 						Case eScrollerOrientation.Horizontal
@@ -36,7 +61,7 @@ Class Scroller Implements MsgListener
 							If (mx > updatedRectLocation.X) And (mx < (updatedRectLocation.X + updateRectLength)) Then
 							
 								If my > (updatedRectLocation.Y) And my < (updatedRectLocation.Y + GrabberWidth) Then
-									Self.status = Self.status + ScrollBarStatus.Hoover
+									Self.status = Self.status | ScrollBarStatus.Hoover
 								EndIf
 							EndIf
 					End
@@ -44,18 +69,19 @@ Class Scroller Implements MsgListener
 			Case eMsgKinds.MOUSE_LEAVE
 				Self.status = RemoveFlag(Self.status, ScrollBarStatus.Hoover)
 			Case eMsgKinds.MOUSE_DOWN
-				Print "Down!"
 				Local mEventArgs:= MouseEventArgs(msg.e)
 				Local mx:= listening.ControlToDeviceX(mEventArgs.position.X)
 				Local my:= listening.ControlToDeviceY(mEventArgs.position.Y)
 				If mEventArgs <> Null
-					Self.status = RemoveFlag(Self.status, ScrollBarStatus.Hoover)
+					'Self.status = RemoveFlag(Self.status, ScrollBarStatus.Hoover)
 					Select orientation
 						Case eScrollerOrientation.Vertical
 							If mx > updatedRectLocation.X And mx < updatedRectLocation.X + GrabberWidth Then
 								If my > updatedRectLocation.Y And my < updatedRectLocation.Y + updateRectLength Then
 									If IsInsideGrabber(my) Then
-										Print "INSIDE GRABBER!"
+										status = status | ScrollBarStatus.Grabbed
+										mouseDownOffset = my - GrabberPos - updatedRectLocation.Y 'mEventArgs.position.Y - GrabberPos
+										'Print "INSIDE GRABBER: " + my + ", " + mouseDownOffset + ", " + GrabberPos + ", " + mEventArgs.position.Y
 									EndIf
 									'Self.status = Self.status + ScrollBarStatus.Hoover
 								EndIf
@@ -65,14 +91,14 @@ Class Scroller Implements MsgListener
 							If (mx > updatedRectLocation.X) And (mx < (updatedRectLocation.X + updateRectLength)) Then
 							
 								If my > (updatedRectLocation.Y) And my < (updatedRectLocation.Y + GrabberWidth) Then
-									If IsInsideGrabber(mx) Then
-										Print "INSIDE GRABBER!"
-									EndIf
+									status = status | ScrollBarStatus.Grabbed
+									mouseDownOffset = mx - GrabberPos - updatedRectLocation.X 'mEventArgs.position.X - GrabberPos
 								EndIf
 							EndIf
 					End
 				EndIf
-			
+			Case eMsgKinds.MOUSE_UP
+				Self.status = RemoveFlag(Self.status, ScrollBarStatus.Grabbed)
 		End
 		
 	End
@@ -158,7 +184,8 @@ Class Scroller Implements MsgListener
 				'Render box:
 				DrawRect(scroller.updatedRectLocation.X, scroller.updatedRectLocation.Y, scroller.GrabberWidth, scroller.updateRectLength)
 				SystemColors.ScrollerBackColor.ActivateDark(30)
-				DrawBox(Int(scroller.updatedRectLocation.X), Int(scroller.updatedRectLocation.Y), Int(scroller.GrabberWidth), Int(scroller.updateRectLength))
+				SetColor(255, 0, 0)
+				DrawBox(Int(scroller.updatedRectLocation.X), Int(scroller.updatedRectLocation.Y) + 1, Int(scroller.GrabberWidth) - 1, Int(scroller.updateRectLength) - 2)
 
 				'Render grabber
 				If HasFlag(scroller.status, ScrollBarStatus.Hoover)
@@ -172,7 +199,7 @@ Class Scroller Implements MsgListener
 				DrawRect(
 				 	xPos +1, yPos,
 					scroller.GrabberWidth -2,
-					scroller.GrabberLength())
+					scroller.GrabberLength() -2)
 				
 				'Render buttons :
 				scroller.scrollerButton.Render(scroller.updatedRectLocation, eScrollerButtonKind.VerticalUp)
@@ -180,14 +207,16 @@ Class Scroller Implements MsgListener
 				scroller.updatedRectLocation.Y = scroller.updatedRectLocation.Y + scroller.updateRectLength - scroller.GrabberWidth
 				scroller.scrollerButton.Render(scroller.updatedRectLocation, eScrollerButtonKind.VerticalDown)
 				scroller.updatedRectLocation.Y = preLoc
-
+				Print scroller.updateRectLength + ", " + scroller.listening.Size.Y
 		End
 	End
 	
 	Method Update(anchor:GuiVector2D, length:Float)
 		'note:TODO: Implement in renderer is pending		
-		anchor.Add(listening.LocationInDevice())
-		anchor.CloneHere(updatedRectLocation)
+		'anchor.Add(listening.LocationInDevice())
+		'anchor.CloneHere(updatedRectLocation)
+		updatedRectLocation.SetValues(anchor.X, anchor.Y)
+		updatedRectLocation.Add(listening.LocationInDevice)
 		updateRectLength = length
 		
 		'Draw Scroller Background:
@@ -195,6 +224,8 @@ Class Scroller Implements MsgListener
 	End
 	
 	Private
+	
+	Field mouseDownOffset:float = 0
 	
 	Method GrabberLength:Float()
 		Local maxSize:= updateRectLength - Float(GrabberWidth * 2)
@@ -209,6 +240,18 @@ Class Scroller Implements MsgListener
 		Local area:= updateRectLength - (GrabberWidth * 2)
 		Local pos:= (Float(area) / float(items)) * firstItem + GrabberWidth
 		Return pos
+	End
+	
+	Method PosToGrabber:Float(pos:Float)
+		'Local items:= Float(totalItems)
+		'Local area:= updateRectLength - (GrabberWidth * 2)
+		'Local pos:= (Float(area) / float(items)) * firstItem + GrabberWidth
+		'Return pos
+		Local items:= Float(totalItems)
+		Local area:= updateRectLength - (GrabberWidth * 2)
+		Local first:Float = ( (pos - GrabberWidth) * items) / area
+		'Print first
+		Return first
 	End
 	
 	Method IsInsideGrabber:Bool(pos:Float)
@@ -284,6 +327,7 @@ Class ScrollerButton
 			'DrawBox(location.X, location.Y, scroller.GrabberWidth, scroller.GrabberWidth)
 			DrawRect(location.X, location.Y, scroller.GrabberWidth, scroller.GrabberWidth)
 			SystemColors.ScrollerGrabberColor.Activate()
+			'SetColor(255, 0, 0)
 			DrawBox(location.X, location.Y, scroller.GrabberWidth, scroller.GrabberWidth)
 		EndIf
 		
@@ -298,7 +342,6 @@ Class ScrollerButton
 				Rotate(270)
 			Case eScrollerButtonKind.HorizontalRight
 				Rotate(90)
-
 		End
 		DrawPoly(triangle)
 		PopMatrix

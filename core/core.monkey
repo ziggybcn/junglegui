@@ -1,8 +1,8 @@
 ﻿#Rem monkeydoc Module junglegui.core
 	This module contains the base core components of Jungle gui
 #End
-Import junglegui
 
+Import junglegui
 Import designtimeinfo
 Import econtrolstatus
 Import guiapp
@@ -281,7 +281,12 @@ Class Control Implements DesignTimeInfo
 		This is considered a low level method reserved for controls design. It is advised to not use it to control program flow or logic, as its internal usage may be modified in future JungleGui versions.
 	 #END
 	Method Update()
-		
+		If listeners <> Null And listeners.IsEmpty = False
+			For Local listener:MsgListener = EachIn listeners
+				listener.Update()
+				
+			Next
+		EndIf
 	End
 
 	#Rem monkeydoc
@@ -1050,6 +1055,7 @@ Class ContainerControl Extends Control
 				EndIf
 			EndIf
 		Next
+		Super.Update()
 	End
 
 	#Rem monkeydoc
