@@ -191,6 +191,7 @@ Class ScrollableContainer Extends ScrollablePanel
 		Super.OnInit()
 		'Padding.SetAll(10, 10, 10, 10)
 	End
+	
 	Method Msg(msg:BoxedMsg)
 		Super.Msg(msg)
 		Local control:= Control(msg.sender)
@@ -207,6 +208,7 @@ Class ScrollableContainer Extends ScrollablePanel
 			End
 		EndIf
 	End
+	
 	Method PerformScrollingUpdate()
 		If vsb = Null Then Return
 		If hsb = Null Then Return
