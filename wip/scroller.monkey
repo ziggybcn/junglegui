@@ -184,8 +184,8 @@ Class Scroller Implements MsgListener
 				'Render box:
 				DrawRect(scroller.updatedRectLocation.X, scroller.updatedRectLocation.Y, scroller.GrabberWidth, scroller.updateRectLength)
 				SystemColors.ScrollerBackColor.ActivateDark(30)
-				SetColor(255, 0, 0)
-				DrawBox(Int(scroller.updatedRectLocation.X), Int(scroller.updatedRectLocation.Y) + 1, Int(scroller.GrabberWidth) - 1, Int(scroller.updateRectLength) - 2)
+				'SetColor(255, 0, 0)
+				DrawBox(Int(scroller.updatedRectLocation.X), Int(scroller.updatedRectLocation.Y) + 1, Int(scroller.GrabberWidth) - 1, Int(scroller.updateRectLength) - 1)
 
 				'Render grabber
 				If HasFlag(scroller.status, ScrollBarStatus.Hoover)

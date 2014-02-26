@@ -10,7 +10,6 @@
 Import junglegui
 Import junglegui.renderers.concretejungle
 Import junglegui.renderers.roundforms
-Import junglegui.multilinetexteditor
 
 'It's important to add this file to the reflection filter if we want it to be able to process event handlers
 #REFLECTION_FILTER+="${MODPATH}"

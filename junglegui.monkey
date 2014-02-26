@@ -15,6 +15,7 @@ Import wip.vscrollbar
 Import wip.combobox
 Import wip.scrollablecontrol
 Import wip.scroller
+Import wip.multilinetexteditor
 
 Import propertygrid
 

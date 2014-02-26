@@ -1,4 +1,5 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 Class MultilineTextbox Extends BaseLabel
 	Method New()
@@ -15,9 +16,7 @@ Class MultilineTextbox Extends BaseLabel
 	Method ReadOnly:Void(value:Bool)
 		
 	End
-	
-	
-	
+		
 	Method Render:Void()
 		
 		Local i:int = 0

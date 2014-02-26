@@ -274,13 +274,6 @@
         <Y>0</Y>
       </CursorPos>
     </Document>
-    <Document Filename=".\multilinetexteditor\multilinetexteditor.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
-      <DocGUID />
-      <CursorPos>
-        <X>0</X>
-        <Y>0</Y>
-      </CursorPos>
-    </Document>
     <Document Filename=".\propertygrid\propertygrid.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>
@@ -296,6 +289,13 @@
       </CursorPos>
     </Document>
     <Document Filename=".\wip\combobox.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
+    <Document Filename=".\wip\multilinetexteditor.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>
         <X>0</X>
@@ -331,5 +331,5 @@
       </CursorPos>
     </Document>
   </Files>
-  <CompilerConfig Configuration="debug" BuildMode="run" Target="Html5_Game" />
+  <CompilerConfig Configuration="release" BuildMode="run" Target="Html5_Game" />
 </JiProj>
