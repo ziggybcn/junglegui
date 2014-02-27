@@ -448,8 +448,8 @@ Function ResetRendererValues(renderer:GuiRenderer)
 		SystemColors.ItemsListHooverBorderColor.SetColor(1, 184, 214, 251)
 		SystemColors.ItemsListSelectedBorderColor.SetColor(1, 125, 162, 206)
 		
-		SystemColors.ScrollerBackColor.SetColor(1, 240, 240, 240)
-		SystemColors.ScrollerGrabberColor.SetColor(1, 205, 205, 205)
+		SystemColors.ScrollerBackColor.SetColor(1, 230, 230, 230)
+		SystemColors.ScrollerGrabberColor.SetColor(1, 220, 220, 220)
 		
 
 End

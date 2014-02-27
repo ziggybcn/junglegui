@@ -1,4 +1,4 @@
-#rem monkeydoc Module junglegui.guivector2d
+#rem monkeydoc Module junglegui.core.guivector2d
 	This module contains the GuiVector2D implementation.
 #end
 Import junglegui
@@ -33,7 +33,7 @@ Class GuiVector2D
 	End
 	
 	#rem monkeydoc
-		This method allows you to set the X and Y values of this vector in one single call
+		This method allows you to set the X and Y values of this vector in one single call.
 	 #END
 	Method SetValues:Void(x:Int, y:Int)
 		If _x = x And _y = y Then Return
@@ -43,7 +43,7 @@ Class GuiVector2D
 	End
 	
 	#Rem monkeydoc
-		This method returns a new GuiVector2D with the same X and Y values
+		This method returns a new GuiVector2D instance with the same X and Y values. 
 	 #END
 	Method Clone:GuiVector2D()
 		Local vector:= New GuiVector2D
@@ -58,9 +58,17 @@ Class GuiVector2D
 		target.SetValues(X, Y)
 	End
 	
+	#Rem monkeydoc
+		This method will get the X and Y values from the supplied GuiVector2D
+	#END
+	Method CopyFrom(source:GuiVector2D)
+		SetValues(source.X, source.Y)
+	End
+	
+	#Rem
+		This method will add the X and Y values of a given vector to the X and Y values of current vector.
+	#END
 	Method Add(vector:GuiVector2D)
-		'Self.X += vector.X
-		'Self.Y += vector.Y
 		Self.SetValues(Self.X + vector.X, Self.Y + vector.Y)
 	End
 

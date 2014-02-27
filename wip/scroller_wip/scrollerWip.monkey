@@ -20,9 +20,6 @@ Extern
 	Const GLFW_FULLSCREEN:Int       = $00010002
 #END
 
-
-
-
 Function Main()
 	#if TARGET="glfw"
     glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 8) ' AntiAliasing samples: 0 = disable AA
@@ -58,25 +55,42 @@ Class TestForm Extends Form
 	Field scrollable:ScrollableContainer
 	
 	Field button:Button
+	
+	Field list:ListBox
+	Field panel:Panel
 	Method OnInit()
+	
+		panel = New Panel
+		panel.Parent = Self
+		panel.Padding.SetAll(5, 5, 5, 5)
 		scrollable = New ScrollableContainer
 		
-		scrollable.Parent = Self
+		scrollable.Parent = panel 'Self
+		scrollable.DrawFocusRect = False
 		
 		For Local i:Int = 0 To 10
 			button = New Button
 			button.Parent = scrollable
 			button.Text = "Hello!"
 			button.Size.X = 180
-			button.Size.Y = 130
+			button.Size.Y = 40
 			button.Position.Y = 0 + i * (button.Size.Y + 10)
 		Next
-		'Self.Transparent = True
+		
+		list = New ListBox(190, 0, 300, 200, Self.scrollable)
+		For Local i:Int = 0 To 200
+			list.Items.AddLast(New ListItem("List item " + i))
+		Next
 		Self.Event_Resized.Add(Self, "Resized")
-		Self.Event_Resized.RaiseEvent(Self, Null)
+ 		Self.Event_Resized.RaiseEvent(Self, Null)
+		scrollable.BackgroundColor = SystemColors.WindowColor
+		scrollable.Padding.SetAll(5, 5, 5, 5)
+		'Self.Padding.SetAll(2, 2, 2, 2)
 	End
 	
 	Method Resized(sender:Object, e:EventArgs)
-		Self.GetClientAreaSize.CloneHere(scrollable.Size)
+		panel.Size.CopyFrom(Self.GetClientAreaSize)
+		scrollable.Size.CopyFrom(panel.GetClientAreaSize)
 	End
 End
+

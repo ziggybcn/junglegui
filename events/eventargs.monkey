@@ -300,7 +300,15 @@ Class eMsgKinds Abstract
 	#END
 	Const CHILD_ADDED:Int = 30
 	
+	#rem monkeydoc
+		This msg indicates that a control internal scrolling has been modified
+	#END
 	Const INTERNAL_SCROLLCHANGED:Int = 31
+	
+	#rem monkeydoc
+		This msg indicates that a control has been clicked for a long time and a reclick is generated.
+	#END
+	Const DELAY_CLICK:= 32
 	
 End
 

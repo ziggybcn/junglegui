@@ -1450,6 +1450,14 @@ Class Gui
 					newControl.Msg(New BoxedMsg(newControl, New MouseEventArgs(eMsgKinds.CLICK, pos, 1)))
 				EndIf
 			EndIf
+			_waitingReclickDelay = Gui.FirstReclick
+		ElseIf oldMouseDown = True And _mouseDown = True and _DownControl <> Null Then
+			Self._waitingReclickDelay += 1
+			If _waitingReclickDelay >= Gui.PerformReclick
+				_waitingReclickDelay = 0
+				_DownControl.Msg(New BoxedMsg(_DownControl, New EventArgs(eMsgKinds.DELAY_CLICK)))
+			EndIf
+			_waitingReclickDelay += 1
 		EndIf
 		
 		Local keys:Int[] = New Int[256]
@@ -1634,5 +1642,9 @@ Class Gui
 	Field _guiSize:GuiVector2D = New GuiVector2D
 	Field _waitingTipCount:Int = 0
 	Field _event_Msg:= New EventHandler<EventArgs>
+	Field _waitingReclickDelay:Int = FirstReclick
+	Const FirstReclick:= -55
+	Const PerformReclick:= 5
+	
 	'Field _renderMatrix:Float[]
 End
