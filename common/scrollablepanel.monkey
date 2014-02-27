@@ -25,7 +25,7 @@ Class ScrollablePanel Extends Panel Abstract
 	End
 	
 	Method RenderForeground()
-		UpdateScrolling()
+
 		'Render Scrollbars here!
 		'Super.RenderForeground
 		
@@ -47,7 +47,11 @@ Class ScrollablePanel Extends Panel Abstract
 		EndIf
 
 		If DrawFocusRect Then
-			GetGui.Renderer.DrawControlBorder(Status, Self.LocationInDevice, Self.Size, Self)
+			If HasFocus Then
+					GetGui.Renderer.DrawFocusRect(Self, False)
+				Else
+					GetGui.Renderer.DrawControlBorder(Status, Self.LocationInDevice, Self.Size, Self)
+			EndIf
 		EndIf
 	End
 	
@@ -57,6 +61,7 @@ Class ScrollablePanel Extends Panel Abstract
 	
 	Method Update()
 		Super.Update()
+		UpdateScrolling
 		PerformScrollingUpdate()
 	End
 	
@@ -96,9 +101,14 @@ Class ScrollablePanel Extends Panel Abstract
 			cache_cas.X = 0
 			hsb.Update(cache_cas, Size.X - offset)
 		EndIf
+		If lastRequiredRenders <> renders Then
+			Self.Msg(New BoxedMsg(Self, New EventArgs(eMsgKinds.RESIZED)))
+		EndIf
+		lastRequiredRenders = renders
 	End
 
 	Field cache_cas:= New GuiVector2D	
 	Field vsb:Scroller
 	Field hsb:Scroller
+	Field lastRequiredRenders:Int = 0
 End
