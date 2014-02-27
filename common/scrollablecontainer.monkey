@@ -39,17 +39,16 @@ Class ScrollableContainer Extends ScrollablePanel
 		Local controls:= Self.GenerateControlsList(False)
 		Local maxX:Int = 0, maxY:Int = 0
 		For Local control:Control = EachIn controls
+			If control.Visible = False Then Continue
 			maxX = Max(maxX, control.Position.X + control.Size.X)
 			maxY = Max(maxY, control.Position.Y + control.Size.Y)
 		Next
 		HorizontalScroller.TotalItems = maxX
 		HorizontalScroller.VisibleItems = Self.GetClientAreaSize.X
-		'Print HorizontalScroller.TotalItems + ", " + HorizontalScroller.FirstItem + ", " + HorizontalScroller.VisibleItems
 		If HorizontalScroller.VisibleItems + HorizontalScroller.FirstItem > HorizontalScroller.TotalItems Then HorizontalScroller.FirstItem = HorizontalScroller.TotalItems - HorizontalScroller.VisibleItems
 		VerticalScroller.TotalItems = maxY
 		VerticalScroller.VisibleItems = Self.GetClientAreaSize.Y
 		If VerticalScroller.VisibleItems + VerticalScroller.FirstItem > VerticalScroller.TotalItems Then VerticalScroller.FirstItem = VerticalScroller.TotalItems - VerticalScroller.VisibleItems
-		'Self.UpdateScrolling()
 		
 	End
 End

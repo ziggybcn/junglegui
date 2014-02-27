@@ -267,7 +267,7 @@ Class SampleForm Extends Form
 		'''
 		''' Panel
 		'''
-		panel = New Panel
+		panel = New ScrollableContainer 'Panel
 		panel.Parent = Self
 		panel.Position.SetValues(10, 160)
 		panel.Size.SetValues(280, 120)

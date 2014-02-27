@@ -9,14 +9,6 @@ Class ScrollablePanel Extends Panel Abstract
 		hsb = New Scroller
 		hsb.Orientation = eScrollerOrientation.Horizontal
 		RegisterMsgListener(hsb)
-
-		'vsb.VisibleItems = 5
-		'vsb.TotalItems = 15
-
-		'hsb.VisibleItems = 10
-		'hsb.TotalItems = 100
-		'hsb.FirstItem = 90
-
 						
 		Padding.SetAll(2, 2, 2, 2)
 		
@@ -52,7 +44,9 @@ Class ScrollablePanel Extends Panel Abstract
 			DrawRect(LocationInDevice.X + Size.X - hsb.GrabberWidth, LocationInDevice.Y + Size.Y - hsb.GrabberWidth, hsb.GrabberWidth, hsb.GrabberWidth)
 		EndIf
 
-		GetGui.Renderer.DrawControlBorder(Status, Self.LocationInDevice, Self.Size, Self)
+		If DrawFocusRect Then
+			GetGui.Renderer.DrawControlBorder(Status, Self.LocationInDevice, Self.Size, Self)
+		EndIf
 	End
 	
 	Method RenderBackground()
@@ -89,9 +83,7 @@ Class ScrollablePanel Extends Panel Abstract
 			
 			cache_cas.X -= vsb.GrabberWidth '+ 10
 			cache_cas.Y = 0
-			'Scroller.Render(vsb)
 			vsb.Update(cache_cas, Size.Y - offset)
-			'Print "Offset: " + offset
 			
 		EndIf
 
@@ -100,7 +92,6 @@ Class ScrollablePanel Extends Panel Abstract
 			
 			cache_cas.Y -= hsb.GrabberWidth '+ 10
 			cache_cas.X = 0
-			'Scroller.Render(hsb)
 			hsb.Update(cache_cas, Size.X - offset)
 		EndIf
 	End
