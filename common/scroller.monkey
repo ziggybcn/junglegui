@@ -1,4 +1,4 @@
-#Rem monkeydoc module junglegui.wip.scroller
+#Rem monkeydoc module junglegui.common.scroller
 What's a scroller?
 A Scroller is a class that handles rendering of scrollbars.
 This class is internally used by controls such as the ScrollablePanel
@@ -9,8 +9,6 @@ How this it work?
 
 #end
 Import junglegui
-
-
 
 Class Scroller Implements MsgListener
 	
