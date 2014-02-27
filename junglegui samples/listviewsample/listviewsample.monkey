@@ -1,6 +1,7 @@
 Import junglegui
 Import junglegui.listview
-#REFLECTION_FILTER+="listviewsample*"
+#REFLECTION_FILTER+="${MODPATH}"
+
 
 #GLFW_WINDOW_RESIZABLE=true
 #GLFW_WINDOW_TITLE="Jungle Gui Sample"

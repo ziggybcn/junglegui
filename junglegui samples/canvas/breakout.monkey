@@ -5,7 +5,8 @@ Import reflection
 Import monkenstein
 Import blobmonster
  
-#REFLECTION_FILTER+="breakout"
+#REFLECTION_FILTER+="${MODPATH}"
+
 #GLFW_WINDOW_RESIZABLE=true
 
 Class BrickGame Extends Canvas 'App

@@ -1,4 +1,6 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
+
 Class ScrollablePanel Extends Panel Abstract
 	
 	Method OnInit()

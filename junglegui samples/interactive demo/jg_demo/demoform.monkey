@@ -1,5 +1,4 @@
 Import junglegui
-Import junglegui.listview
 
 
 Import demos.colors
@@ -7,7 +6,8 @@ Import demos.breakout
 Import demos.debugform
 Import demos.textbox
 
-#REFLECTION_FILTER+="demoform"
+#REFLECTION_FILTER+="${MODPATH}"
+
 
 Class DemoForm Extends Form
 	

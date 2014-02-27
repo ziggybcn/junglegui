@@ -1,5 +1,6 @@
 Import junglegui
-#REFLECTION_FILTER+="demos.colors"
+#REFLECTION_FILTER+="${MODPATH}"
+
 
 Class SliderSample Extends Form
 
@@ -81,13 +82,13 @@ Class SliderSample Extends Form
 		if slider = null Then Return
 		Select slider
 			Case red
-				panel.BackgroundColor.r = red.Value
+				panel.BackgroundColor.Red = red.Value
 				red.TipText = "Red has a value of " + red.Value
 			Case green
-				panel.BackgroundColor.g = green.Value
+				panel.BackgroundColor.Green = green.Value
 				green.TipText = "Green has a value of " + green.Value
 			Case blue
-				panel.BackgroundColor.b = blue.Value
+				panel.BackgroundColor.Blue = blue.Value
 				blue.TipText = "Blue has a value of " + blue.Value
 		End
 	end

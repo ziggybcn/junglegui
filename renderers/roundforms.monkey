@@ -16,6 +16,7 @@ Class RoundForms Extends renderer.GuiRenderer
 		SystemColors.SelectedItemBackColor.SetColor(1, 51, 255, 153)
 		SystemColors.HooverBackgroundColor.SetColor(1, 255, 255, 255)
 
+		FormBordersSize.SetAll(30, 10, 10, 10)
 		
 '		#IF TARGET="html5"
 '			Gui.systemFont = New bitmapfont.BitmapFont("concretejunglefont_html5.txt")
@@ -72,11 +73,13 @@ Class RoundForms Extends renderer.GuiRenderer
 			SystemColors.WindowTextForeColor.Activate()
 		#END
 		Local f:Form = Form(context)
-		If f <> Null Then
-			Gui.systemFont.DrawText(text, position.X + size.X / 2, position.Y + f.Padding.Top / 2 - Gui.systemFont.GetFontHeight / 2, eDrawAlign.CENTER)
-		Else
-			Gui.systemFont.DrawText(text, position.X + size.X / 2, position.Y + 1 - Gui.systemFont.GetFontHeight / 2, eDrawAlign.CENTER)
-		EndIf
+		'If f <> Null Then
+			Gui.systemFont.DrawText(text, position.X + size.X / 2, position.Y + padding.Top / 2 - Gui.systemFont.GetFontHeight / 2, eDrawAlign.CENTER)
+		'Else
+		'	Gui.systemFont.DrawText(text, position.X + size.X / 2, position.Y + 1 - Gui.systemFont.GetFontHeight / 2, eDrawAlign.CENTER)
+		'EndIf
 
 	End
+	
+
 End

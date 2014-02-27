@@ -1,4 +1,5 @@
 Import listview
+#REFLECTION_FILTER+="${MODPATH}"
 
 '' summary: Represents an item in a ListView control.
 Class DefaultListViewItem extends ListViewItem 

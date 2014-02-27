@@ -1,5 +1,5 @@
 Import junglegui
-#REFLECTION_FILTER+="canvas_sample"
+#REFLECTION_FILTER+="${MODPATH}"
 
 'We start the application here
 Function Main()

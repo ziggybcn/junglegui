@@ -3,7 +3,8 @@ Import mojo
 Import junglegui
 Import reflection
  
-#REFLECTION_FILTER+="demos.breakout"
+#REFLECTION_FILTER+="${MODPATH}"
+
 #GLFW_WINDOW_RESIZABLE=true
 
 Class BrickGame Extends Canvas 'App

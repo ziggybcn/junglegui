@@ -1,4 +1,5 @@
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 Class ScrollableContainer Extends ScrollablePanel
 
