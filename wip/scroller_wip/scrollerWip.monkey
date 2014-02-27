@@ -58,16 +58,18 @@ Class TestForm Extends Form
 	Field button:Button
 	
 	Field list:ListBox
-	Field panel:Panel
+	'Field panel:Panel
 	Method OnInit()
 	
-		panel = New Panel
-		panel.Parent = Self
-		panel.Padding.SetAll(5, 5, 5, 5)
+		'panel = New Panel
+		'panel.Parent = Self
+		'panel.Padding.SetAll(0, 0, 0, 0)
 		scrollable = New ScrollableContainer
 		
-		scrollable.Parent = panel 'Self
+		scrollable.Parent = Self
 		scrollable.DrawFocusRect = False
+		'scrollable.DrawFocusRect = False
+		
 		For Local i:Int = 0 To 100
 			button = New Button
 			button.Parent = scrollable
@@ -88,8 +90,8 @@ Class TestForm Extends Form
 	End
 	
 	Method Resized(sender:Object, e:EventArgs)
-		panel.Size.CopyFrom(Self.GetClientAreaSize)
-		scrollable.Size.CopyFrom(panel.GetClientAreaSize)
+		'panel.Size.CopyFrom(Self.GetClientAreaSize)
+		scrollable.Size.CopyFrom(Self.GetClientAreaSize)
 	End
 End
 
