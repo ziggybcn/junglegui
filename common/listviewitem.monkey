@@ -1,4 +1,5 @@
 Import listview
+#REFLECTION_FILTER+="${MODPATH}"
 
 #Rem
 	summary: This is a ListViewItem control.

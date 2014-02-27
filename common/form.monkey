@@ -2,7 +2,7 @@
 	This module contains the junglegui [[Form]] implementation.
 #END
 Import junglegui
-Import "data/close_button.png"
+'Import "data/close_button.png"
 #REFLECTION_FILTER+="${MODPATH}"
 
 #Rem monkeydoc
@@ -20,18 +20,20 @@ Class Form Extends TopLevelControl
 		It is VERY important to init the form BEFORE any other operation is done with it. Once the form is initialized, the OnInit method will be automatically called.
 	#END
 	Method InitForm(gui:Gui)
-		Padding = gui.Renderer.DefaultFormPadding
+		'Padding = gui.Renderer.DefaultFormPadding
+		Padding.SetAll(2, 2, 2, 2)
+		'ControlBordersSizes.SetAll(30, 3, 3, 3)
 		Super.InitForm(gui)
 	End
 	
 	Method RenderBackground()
 		Local drawPos:GuiVector2D = UnsafeRenderPosition()
 		
-		GetGui.Renderer.DrawFormBackground(Status, drawPos, Size, Padding, Text, Self)
+		GetGui.Renderer.DrawFormBackground(Status, drawPos, Size, ControlBordersSizes, Text, Self)
 		If ControlBox then RenderControlBox(drawPos)
 	End
 	Method RenderControlBox(FormScreenPos:GuiVector2D)
-		SystemColors.ControlFace.Activate()
+		'SystemColors.ControlFace.Activate()
 		Select ControlBoxMetrics.align
 			Case BoxMetrics.HALIGN_LEFT
 				_cacheDrawPos.X = FormScreenPos.X + ControlBoxMetrics.Offset.X
@@ -40,12 +42,19 @@ Class Form Extends TopLevelControl
 				_cacheDrawPos.X = FormScreenPos.X + Self.Size.X - ControlBoxMetrics.Size.X - ControlBoxMetrics.Offset.X	
 				_cacheDrawPos.Y = FormScreenPos.Y +  ControlBoxMetrics.Offset.Y	
 		End
-		SetColor(255,255,255)
-		SetAlpha(.3)
-		DrawImage(_imageCloseButton,_cacheDrawPos.X, _cacheDrawPos.Y)
-		SetAlpha(1)
+		GetGui.Renderer.DrawFormControlBox(_cacheDrawPos, True, Self)
+		
+		'SetColor(255,255,255)
+		'SetAlpha(.3)
+		'DrawImage(_imageCloseButton, _cacheDrawPos.X, _cacheDrawPos.Y)
+		'SetAlpha(1)
 	End
 	 
+	Method ControlBordersSizes:Padding() Property
+		Return GetGui.Renderer.FormBordersSize
+		
+	End
+	
 	Method Update()
 	
 		Super.Update()
@@ -122,7 +131,7 @@ Class Form Extends TopLevelControl
 		This property returns the ControlBox metrics for the current Form. That's internally used in the form rendering engine.
 	#END
 	Method ControlBoxMetrics:BoxMetrics() Property
-		Return _BoxPos
+		Return GetGui.Renderer.FormControlBoxMetrics
 	End
 	
 	#rem monkeydoc
@@ -153,15 +162,15 @@ Class Form Extends TopLevelControl
 	Private
 	
 	Field _text:String = "Untitled form"
-	Field _BoxPos:= New BoxMetrics 
+	'Field _BoxPos:= New BoxMetrics 
 	Field _cacheDrawPos:=New GuiVector2D 
 	
 	Method _InitInternalForm()
-		_BoxPos.Offset.SetValues(5,5)
-		_BoxPos.align = BoxMetrics.HALIGN_RIGHT
+		'_BoxPos.Offset.SetValues(5,5)
+		'_BoxPos.align = BoxMetrics.HALIGN_RIGHT
 		minimumSize.SetValues(50, 50)
 		if _imageCloseButton = null then _imageCloseButton = LoadImage("close_button.png")
-		_BoxPos.Size.SetValues(_imageCloseButton.Width ,_imageCloseButton.Height)
+		'_BoxPos.Size.SetValues(_imageCloseButton.Width ,_imageCloseButton.Height)
 		BackgroundColor = SystemColors.WindowColor
 	End
 	

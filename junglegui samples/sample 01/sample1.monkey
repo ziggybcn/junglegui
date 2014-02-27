@@ -35,7 +35,7 @@ Class Sample Extends App
 		If gui = Null Then gui = New Gui
 		'gui.Renderer = New RoundForms 'ConcreteJungle
 		
-		'EnableAutoSize()
+		EnableAutoSize()
 
 		'We create a SampleForm, and we attach it to the gui component:
 		MyForm = New SampleForm

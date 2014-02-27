@@ -1,5 +1,6 @@
-#REFLECTION_FILTER+="demos.debugform"
+
 Import junglegui
+#REFLECTION_FILTER+="${MODPATH}"
 
 Class DebugForm Extends WindowFrame
 

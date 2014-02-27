@@ -2,7 +2,7 @@ Import junglegui
 Import listviewitem
 Import defaultlistviewitem
 
-#REFLECTION_FILTER+="junglegui.listview*"
+#REFLECTION_FILTER+="${MODPATH}"
 
 
 

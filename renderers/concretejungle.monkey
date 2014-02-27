@@ -26,6 +26,9 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 		#ELSE
 			Gui.systemFont = New bitmapfont.BitmapFont("concretejunglefont.txt")
 		#END
+		
+		Self.FormBordersSize.SetAll(Gui.systemFont.GetFontHeight, 1, 1, 1)
+		
 	End
 
 	Method DrawFormBackground(status:Int, position:GuiVector2D, size:GuiVector2D, padding:Padding, text:String, context:Control)
@@ -184,8 +187,7 @@ Class ConcreteJungle Extends renderer.GuiRenderer
 			SystemColors.FocusColor.Activate()
 			SetAlpha(Abs(Sin(Millisecs() / 10.0)))
 			DrawOval(position.X + 2, position.Y + 2 + yOffset, RadioBoxSize.X - 4, RadioBoxSize.Y - 4)
-		EndIf
-				
+		EndIf		
 	End
 	
 End

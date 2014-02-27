@@ -1,8 +1,9 @@
 'This file was edited with Jungle IDE
 Import junglegui
+
 Import demoform
 
-#REFLECTION_FILTER+="demo"
+#REFLECTION_FILTER+="${MODPATH}"
 #GLFW_WINDOW_RESIZABLE=true
 
 Function Main()
@@ -21,8 +22,10 @@ Class Demo
 	
 	Method Render_Background(sender:Object, e:EventArgs)
 		
+
 		Local color:= New GuiColor(1, 0, 0, 0)
-		Cls(color.r, color.g, color.b)
+				
+		Cls(color.Red, color.Green, color.Blue)
 		Const SIZE:Int = 5, MAX:Int = 600
 		For Local i:Int = 0 To MAX Step SIZE
 			color.ActivateBright( (MAX - i) / 8.0)

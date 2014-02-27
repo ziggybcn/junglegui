@@ -43,7 +43,7 @@ Class GuiRenderer
 	This method should return the default form padding. That is, the space used to draw the caption and borders of any form control.
 	This method should not be overriden. If you want to modify the default form padding, just modify the values of the padding returned by the property
 	#END
-	Method DefaultFormPadding:Padding() Property Final
+	Method FormBordersSize:Padding() Property
 		Return _defaultFormPadding
 	End
 	
@@ -217,8 +217,16 @@ Class GuiRenderer
 	Method DrawFormBackground(status:Int, position:GuiVector2D, size:GuiVector2D, padding:Padding, text:String, context:Control)
 
 		SystemColors.FormMargin.Activate()
-		DrawRect(position.X, position.Y, size.X, size.Y)
-		'SetColor(SystemColors.FormMargin.r + 10, SystemColors.FormMargin.g + 10, SystemColors.FormMargin.b + 10)
+		DrawRect(position.X, position.Y, size.X, padding.Top) 'size.Y)
+
+		If context = Null or Form(context) = Null Then
+			SystemColors.WindowColor.Activate()
+		Else
+			Local f:= Form(context)
+			f.BackgroundColor.Activate()
+		EndIf
+		DrawRect(position.X, position.Y + padding.Top, size.X, size.Y - padding.Top)
+		
 		SystemColors.FormMargin.ActivateBright(15)
 		DrawRect(position.X + 2, position.Y + 2, size.X - 4, padding.Top / 2 - 2)
 		SystemColors.WindowTextForeColor.Activate()
@@ -244,11 +252,12 @@ Class GuiRenderer
 			size.Y - padding.Bottom - padding.Top)
 			
 		If HasFlag(resizeStatus, eResizeStatus.RESIZE_RIGHT)
-			SystemColors.HooverBackgroundColor.ActivateBright(Sin(Millisecs() / 2.0) * 40)
-			DrawRect(position.X + size.X - 5, position.Y, 5, size.Y)
+			'SystemColors.HooverBackgroundColor.ActivateBright(Sin(Millisecs() / 2.0) * 40)
+			SystemColors.FormMargin.ActivateBright(Sin(Millisecs() / 2.0) * 10)
+			DrawRect(position.X + size.X - padding.Left, position.Y, padding.Left, size.Y)
 		EndIf
 		If HasFlag(resizeStatus, eResizeStatus.RESIZE_BOTTOM)
-			SystemColors.HooverBackgroundColor.ActivateBright(Sin(Millisecs() / 2.0) * 40)
+			SystemColors.FormMargin.ActivateBright(Sin(Millisecs() / 2.0) * 40)
 			DrawRect(position.X, position.Y + size.Y - 5, size.X, 5)
 		EndIf
 		
@@ -289,7 +298,7 @@ Class GuiRenderer
 				DrawImage(shadow1, position.X + size.X, position.Y + size.Y, 0, ShadowSize, ShadowSize)
 				DrawImage(shadow1, position.X + size.X, position.Y, 90, ShadowSize, ShadowSize)
 			EndIf
-			'SetAlpha(1)
+			SetAlpha(1)
 		EndIf
 	End
  	#rem monkeydoc
@@ -359,7 +368,9 @@ Class GuiRenderer
 		If you're creating your own renderer, you should place any loading resources code in an overload of this method.
 	#END
 	Method InitRenderer()
-		
+		SystemColors.FormMargin.SetColor(1, 200, 200, 200)
+		SystemColors.SelectedItemBackColor.SetColor(1, 151, 153, 145)
+
 	End
 	
  	#rem monkeydoc
@@ -371,6 +382,19 @@ Class GuiRenderer
 		If shadow2 <> Null Then shadow2.Discard()
 		shadow1 = Null
 		shadow2 = Null
+	End
+	
+	Method DrawFormControlBox(location:GuiVector2D, enabled:Bool, context:Control)
+		'DrawButtonBackground(0, location, FormControlBoxMetrics.Size, Null)
+		SetColor(255, 240, 240)
+		DrawRect(location.X + 1, location.Y + 1, FormControlBoxMetrics.Size.X - 2, FormControlBoxMetrics.Size.Y - 2)
+		DrawControlBorder(0, location, FormControlBoxMetrics.Size, Null)
+		'DrawRoundBox(location.X + 3, location.Y + 3, FormControlBoxMetrics.Size.X - 6, FormControlBoxMetrics.Size.Y - 6)
+		
+	End
+	
+	Method FormControlBoxMetrics:BoxMetrics()
+		Return _defaultBoxMetrics
 	End
 	
 	Private
@@ -388,6 +412,7 @@ Class GuiRenderer
 	Field shadow2:Image
 	
 	Global _defaultFormPadding:= New Padding
+	Global _defaultBoxMetrics:= New BoxMetrics
 	'Method ResetRendererValues()
 	'	renderer.ResetRendererValues(Self)
 	'End
@@ -418,11 +443,15 @@ Function ResetRendererValues(renderer:GuiRenderer)
 		If renderer._defaultFormPadding = Null Then
 			renderer._defaultFormPadding = New Padding
 		EndIf
-		renderer._defaultFormPadding.Left = 7 ' Gui.systemFont.
-		renderer._defaultFormPadding.Right = 7 ' Gui.systemFont.
-		renderer._defaultFormPadding.Bottom = 7 ' Gui.systemFont.
+		renderer._defaultFormPadding.Left = 5 ' Gui.systemFont.
+		renderer._defaultFormPadding.Right = 5 ' Gui.systemFont.
+		renderer._defaultFormPadding.Bottom = 5 ' Gui.systemFont.
 		renderer._defaultFormPadding.Top = Gui.systemFont.GetFontHeight + 5
 
+		renderer._defaultBoxMetrics.align = BoxMetrics.HALIGN_RIGHT
+		renderer._defaultBoxMetrics.Offset.SetValues(5, 5)
+		renderer._defaultBoxMetrics.Size.X = renderer._defaultFormPadding.Top - renderer._defaultBoxMetrics.Offset.Y * 2
+		renderer._defaultBoxMetrics.Size.Y = renderer._defaultBoxMetrics.Size.X
 		'Reset Renderer colors:
 		
 		SystemColors.ControlFace.SetColor(1, 220, 220, 220)
@@ -430,7 +459,8 @@ Function ResetRendererValues(renderer:GuiRenderer)
 		SystemColors.FocussedButtonBorderColor.SetColor(1, 69, 216, 251)
 		SystemColors.AppWorkspace.SetColor(1, 171, 171, 171)
 		SystemColors.FocusColor.SetColor(1, 60, 127, 177)
-		SystemColors.FormBorder.SetColor(1, 185, 209, 234)
+		'SystemColors.FormBorder.SetColor(1, 185, 209, 234)
+		SystemColors.FormBorder.SetColor(1, 100, 110, 135)
 		SystemColors.WindowColor.SetColor(1, 255, 255, 255)
 		SystemColors.FormMargin.SetColor(1, 174, 199, 225)
 		SystemColors.InactiveFormBorder.SetColor(1, 120, 120, 120)

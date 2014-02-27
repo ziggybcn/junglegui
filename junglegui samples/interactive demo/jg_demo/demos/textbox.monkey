@@ -1,6 +1,7 @@
 Import junglegui
 Import junglegui.multilinetexteditor
-#REFLECTION_FILTER+="demos.textbox"
+#REFLECTION_FILTER+="${MODPATH}"
+
 
 Class TextBoxForm Extends Form
 	Field textBox:MultilineTextbox

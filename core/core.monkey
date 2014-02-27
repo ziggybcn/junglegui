@@ -1052,6 +1052,7 @@ Class ContainerControl Extends Control
 					c.Update()
 				Else
 					'We don't update invisible controls
+					'Print "Optimized update"
 				EndIf
 			EndIf
 		Next

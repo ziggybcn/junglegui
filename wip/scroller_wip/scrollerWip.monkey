@@ -36,9 +36,10 @@ Class MyApp Extends App
         'glfwSetWindowSize(1280, 1024) ' resize window
 		#end
 		gui = New Gui
-		
-		Local f:= New TestForm
-		f.InitForm(gui)
+		'For Local i:Int = 0 To 10
+			Local f:= New TestForm
+			f.InitForm(gui)
+		'Next
 	End
 	
 	Method OnUpdate()
@@ -46,7 +47,7 @@ Class MyApp Extends App
 	End
 	
 	Method OnRender()
-		Cls(255, 255, 255)
+		Cls(155, 155, 155)
 		gui.Render()
 	End
 End
@@ -67,16 +68,14 @@ Class TestForm Extends Form
 		
 		scrollable.Parent = panel 'Self
 		scrollable.DrawFocusRect = False
-		
-		For Local i:Int = 0 To 10
+		For Local i:Int = 0 To 100
 			button = New Button
 			button.Parent = scrollable
-			button.Text = "Hello!"
+			button.Text = "Hello number " + i
 			button.Size.X = 180
 			button.Size.Y = 40
 			button.Position.Y = 0 + i * (button.Size.Y + 10)
 		Next
-		
 		list = New ListBox(190, 0, 300, 200, Self.scrollable)
 		For Local i:Int = 0 To 200
 			list.Items.AddLast(New ListItem("List item " + i))
