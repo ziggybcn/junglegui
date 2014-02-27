@@ -20,4 +20,5 @@ Import guiimage
 Import tabcontrol
 Import scrollablepanel
 Import scrollablecontainer
+Import scroller
 
