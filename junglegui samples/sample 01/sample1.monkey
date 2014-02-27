@@ -362,14 +362,13 @@ Class EditorForm Extends Form
 		EditBox = New MultilineTextbox
 		EditBox.Parent = Self
 		EditBox.Text = LoadString("loremipsum.txt")
-		ArrangeSize()
+		
+		Self.Event_Resized.RaiseEvent(Self, Null)
+		
 	End
 	
 	Method Form_Resized(sender:Object, e:EventArgs)
-		ArrangeSize
-	End
-	
-	Method ArrangeSize()
 		EditBox.Size.SetValues(Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y)
 	End
+	
 End
