@@ -15,8 +15,10 @@ Class DebugForm extends Form
 		msgInspector = New ListBox
 		msgInspector.Parent = Self
 		msgInspector.Position.SetValues(0, 0)
-		msgInspector.Size.SetValues(Self.Size.X - Self.Padding.Left - Self.Padding.Right - msgInspector.Position.X + 2, Self.Size.Y - Self.Padding.Top - Self.Padding.Bottom)
+		'msgInspector.Size.SetValues(Self.Size.X - Self.Padding.Left - Self.Padding.Right - msgInspector.Position.X + 2, Self.Size.Y - Self.Padding.Top - Self.Padding.Bottom)
 		msgInspector.Items.AddLast(New ListItem("Ready!"))
+
+		Self.Event_Resized.RaiseEvent(Self, Null)
 
 		
 	End
