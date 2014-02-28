@@ -241,9 +241,9 @@ Class Scroller Implements MsgListener
 				Local yPos:= scroller.updatedRectLocation.Y
 				Local xPos:= scroller.updatedRectLocation.X + scroller.GrabberPos '+ scroller.GrabberWidth + scroller.GrabberPos
 				DrawRect(
-				 	xPos, yPos + 1,
+				 	xPos, yPos,
 					scroller.GrabberLength(),
-					scroller.GrabberWidth -2)
+					scroller.GrabberWidth)
 				SystemColors.AppWorkspace.Activate()
 				DrawBox(Int(xPos), Int(yPos),
 					Int(scroller.GrabberLength()),
@@ -273,8 +273,8 @@ Class Scroller Implements MsgListener
 				Local xPos:= scroller.updatedRectLocation.X
 				Local yPos:= scroller.updatedRectLocation.Y + scroller.GrabberPos '+ scroller.GrabberWidth + scroller.GrabberPos
 				DrawRect(
-				 	xPos +1, yPos,
-					scroller.GrabberWidth -2,
+				 	xPos, yPos,
+					scroller.GrabberWidth,
 					scroller.GrabberLength())
 				SystemColors.AppWorkspace.Activate()
 				DrawBox(

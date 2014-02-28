@@ -47,7 +47,7 @@ Class MyApp Extends App
 	End
 	
 	Method OnRender()
-		Cls(155, 155, 155)
+		Cls(200, 200, 190)
 		gui.Render()
 	End
 End
