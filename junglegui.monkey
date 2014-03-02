@@ -16,6 +16,8 @@ Import wip.combobox
 Import wip.scrollablecontrol
 Import wip.multilinetexteditor
 
+
+
 Import propertygrid
 
 #IF TARGET="html5"
@@ -23,10 +25,36 @@ Import propertygrid
 #END
 
 #print ""
-#print "           ----------------------------------------------------------------------"
-#print "ATTENTION: This  JungleGui module wich is released under the BSD-2 License "
-#print "           Use at your own risk. See the source code for license details"
-#print "           ----------------------------------------------------------------------"
+#print ""
+#print "Jungle Gui license:"
+#print "-------------------"
+#print "Copyright (c) 2014, Manel Ibáñez"
+#print "All rights reserved."
+#print ""
+#print "Redistribution and use in source and binary forms, with or without"
+#print "modification, are permitted provided that the following conditions are met: "
+#print ""
+#print "1. Redistributions of source code must retain the above copyright notice, this"
+#print "   list of conditions and the following disclaimer. "
+#print "2. Redistributions in binary form must reproduce the above copyright notice,"
+#print "   this list of conditions and the following disclaimer in the documentation"
+#print "   and/or other materials provided with the distribution. "
+#print ""
+#print "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND"
+#print "ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED"
+#print "WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE"
+#print "DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR"
+#print "ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES"
+#print "(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;"
+#print "LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND"
+#print "ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT"
+#print "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS"
+#print "SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+#print ""
+#print "The views and conclusions contained in the software and documentation are those"
+#print "of the authors and should not be interpreted as representing official policies,"
+#print "either expressed or implied, of the FreeBSD Project."
+#print ""
 #print ""
 
 #If TARGET="html5"
@@ -60,14 +88,4 @@ Import propertygrid
 	End
 #END
 
-#REM
-Copyright (c) 2012, Manel Ibáñez
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#END
  
