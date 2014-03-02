@@ -1,7 +1,7 @@
 Import junglegui
 Import reflection
 #REFLECTION_FILTER+="${MODPATH}"
-
+#CANVAS_RESIZE_MODE=2
 
 #IF TARGET="glfw"
 Extern
@@ -29,6 +29,9 @@ End
 
 Class MyApp Extends App
 	Global gui:Gui
+	Field background:Image
+	Field form:TestForm
+
 	Method OnCreate()
 		SetUpdateRate(60)
 		#if TARGET="glfw"
@@ -36,10 +39,11 @@ Class MyApp Extends App
         'glfwSetWindowSize(1280, 1024) ' resize window
 		#end
 		gui = New Gui
-		'For Local i:Int = 0 To 10
-			Local f:= New TestForm
-			f.InitForm(gui)
-		'Next
+		form = New TestForm
+		form.InitForm(gui)
+		Print "requested!"
+		form.Text = "requested!"
+		background = LoadImage("background.jpg")
 	End
 	
 	Method OnUpdate()
@@ -48,6 +52,13 @@ Class MyApp Extends App
 	
 	Method OnRender()
 		Cls(200, 200, 190)
+		Scale(1, 1)
+		If background <> Null Then
+			Local ScaleX:Float = Max(Float(DeviceWidth) / Float(background.Width), 1.0)
+			Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height), 1.0)
+			
+			DrawImage(background, 0, 0, 0, ScaleX, ScaleY, 0)
+		EndIf
 		gui.Render()
 	End
 End
@@ -61,14 +72,10 @@ Class TestForm Extends Form
 	'Field panel:Panel
 	Method OnInit()
 	
-		'panel = New Panel
-		'panel.Parent = Self
-		'panel.Padding.SetAll(0, 0, 0, 0)
 		scrollable = New ScrollableContainer
 		
 		scrollable.Parent = Self
 		scrollable.DrawFocusRect = False
-		'scrollable.DrawFocusRect = False
 		
 		For Local i:Int = 0 To 100
 			button = New Button
@@ -86,7 +93,6 @@ Class TestForm Extends Form
  		Self.Event_Resized.RaiseEvent(Self, Null)
 		scrollable.BackgroundColor = SystemColors.WindowColor
 		scrollable.Padding.SetAll(5, 5, 5, 5)
-		'Self.Padding.SetAll(2, 2, 2, 2)
 	End
 	
 	Method Resized(sender:Object, e:EventArgs)
