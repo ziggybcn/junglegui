@@ -11,7 +11,7 @@ Class SpiralMatrix Extends Canvas
 		segment = New Segment(20,460,255,0,0,Null)
 		
 		Local flag := False
-		For Local count:= 0 To 25
+		For Local count:= 0 To 30
 			If flag = False
 				segment = New Segment(0,0,255,255,255,segment)
 				flag = True
@@ -68,14 +68,18 @@ Class Segment
 		SetColor(r,g,b)
 		DrawRect(x,y,30,10)
 		
-		PushMatrix()
+		'PushMatrix()
+		GetMatrix(matrix)
 		Translate(x+30,y)
 		Rotate(Segment.rotation*Self.multiplier)
 		For Local segment := Eachin children
 			segment.Render()
 		Next
-		PopMatrix()
+		'PopMatrix()
+		SetMatrix(matrix)
 	End
+	
+	Field matrix:Float[6]
 End
 
 

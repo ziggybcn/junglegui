@@ -1,7 +1,8 @@
 Import junglegui
 Import reflection
+
 #REFLECTION_FILTER+="${MODPATH}"
-#CANVAS_RESIZE_MODE=2
+'#CANVAS_RESIZE_MODE=2
 
 Import spiralmatrix
 
@@ -26,7 +27,7 @@ Function Main()
 	#if TARGET="glfw"
     glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 8) ' AntiAliasing samples: 0 = disable AA
 	#end
-	EnableAutoSize
+	'EnableAutoSize
 	New MyApp
 End
 
@@ -160,7 +161,7 @@ Class TestForm Extends Form
 		
  		'Self.Event_Resized.RaiseEvent(Self, Null)
 		
-		Self.Size.SetValues(500, 540)
+		Self.Size.SetValues(500, 440)
 
 		Self.Position.X = DeviceWidth / 2 - Self.Size.X / 2
 		Self.Position.Y = DeviceHeight / 2 - Self.Size.Y / 2
@@ -180,7 +181,7 @@ Class TestForm Extends Form
 		rest.SetValues(tabPage1.GetClientAreaSize.X, tabPage1.GetClientAreaSize.Y)
 		
 		image.Position.X = rest.X / 2 - image.Size.X / 2
-		image.Position.Y = rest.Y / 2 - image.Size.Y / 2
+		image.Position.Y = rest.Y / 2 - image.Size.Y / 2 - 20
 		
 		label.Position.X = rest.X / 2 - label.Size.X / 2
 		label.Position.Y = image.Position.Y + image.Size.Y + 5

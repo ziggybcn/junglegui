@@ -1240,7 +1240,7 @@ Class Gui
 	 #END
 	Method Render()
 		If _renderer = Null Then Renderer = Null	'Set default renderer in case it has not been set.
-		PushMatrix()
+		GetMatrix(Self._renderer_matrix_cache)
 		graphics.SetMatrix(1, 0, 0, 1, 0, 0)
 		currentRenderPos.SetValues(0, 0)
 		If scalex <> 1 or scaley <> 1 Then Scale(scalex, scaley)
@@ -1263,7 +1263,7 @@ Class Gui
 			_waitingTipCount = 10 + 1
 			RenderTip()
 		EndIf
-		PopMatrix()
+		SetMatrix(Self._renderer_matrix_cache)
 	End
 	
 	#Rem monkeydoc
@@ -1587,6 +1587,8 @@ Class Gui
 	Field _renderTipAlpha:Float = 0
 	Field scalex:Float = 1
 	Field scaley:Float = 1
+	
+	Field _renderer_matrix_cache:Float[6]
 
 	Method RenderTip()
 		Local control:= GetMousePointedControl()

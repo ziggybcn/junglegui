@@ -433,7 +433,7 @@ Class ScrollerButton
 			DrawBox(location.X, location.Y, scroller.GrabberWidth, scroller.GrabberWidth)
 		EndIf
 		
-		PushMatrix()
+		Local tmpMatrix:= GetMatrix
 		Translate(location.X + parent.GrabberWidth / 2, location.Y + parent.GrabberWidth / 2)
 		Select kind
 			Case eScrollerButtonKind.VerticalUp
@@ -446,7 +446,7 @@ Class ScrollerButton
 				Rotate(90)
 		End
 		DrawPoly(triangle)
-		PopMatrix
+		SetMatrix(tmpMatrix)
 		
 	End
 	Private
