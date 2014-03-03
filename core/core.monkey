@@ -488,8 +488,6 @@ Class Control Implements DesignTimeInfo
 		endif
 	End
 
-
-	
 	#Rem monkeydoc
 		summary: *Low level method* that deals with event signatures.
 		This method is part of the internal core functionality of the control and should not be used on regular Jungle Gui coding.

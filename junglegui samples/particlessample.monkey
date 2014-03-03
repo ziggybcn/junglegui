@@ -17,7 +17,7 @@ Class Sample extends App
 	Field emiter:Emiter
 	Global gui:Gui
 	Method OnCreate()
-		SetUpdateRate(60)
+		SetUpdateRate(0)
 		EnableAutoSize()
 		emiter = New Emiter
 		

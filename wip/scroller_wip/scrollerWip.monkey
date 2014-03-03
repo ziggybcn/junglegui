@@ -37,7 +37,7 @@ Class MyApp Extends App
 	Field form:TestForm
 
 	Method OnCreate()
-		SetUpdateRate(60)
+		SetUpdateRate(120)
 		#if TARGET="glfw"
         'glfwSetWindowPos(0, 0)        ' set window position
         'glfwSetWindowSize(1280, 1024) ' resize window
