@@ -1,6 +1,20 @@
 <?xml version="1.0"?>
 <JiProj xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryPoint=".\scrollerWip.monkey" Name="Scroller_Wip">
   <Files>
+    <Document Filename=".\scrollerWip.data\background.png" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
+    <Document Filename=".\scrollerWip.data\icon.png" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
     <Document Filename=".\scrollerWip.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
       <DocGUID />
       <CursorPos>

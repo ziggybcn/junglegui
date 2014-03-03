@@ -19,18 +19,16 @@ Class Canvas Extends Control
 		
 		'Get the scale factor:
 		'Local scalex:Float, scaley:Float
-		PushMatrix()
+		GetMatrix(_renderer_matrix_cache)
 		Local drawpos:GuiVector2D = Self.UnsafeRenderPosition()
 		Translate(drawpos.X, drawpos.Y)
 		Scale(scalex, scaley)
-		PushMatrix()
 		SetColor(255, 255, 255)
 		SetAlpha(1)
 		SetBlend AlphaBlend
 		Event_Render.RaiseEvent(Self, voidEventArgs)
 		OnRender()
-		PopMatrix()
-		PopMatrix()
+		SetMatrix(_renderer_matrix_cache)
 		SetColor(255, 255, 255)
 		SetAlpha(1)
 		SetBlend AlphaBlend
@@ -77,6 +75,7 @@ Class Canvas Extends Control
 	Method Event_Render:EventHandler<EventArgs>() Property; Return _onRender; End
 	Method Event_Update:EventHandler<EventArgs>() Property; Return _onUpdate; End
 	Private
+	Field _renderer_matrix_cache:Float[6]
 	Field _onRender:= New EventHandler<EventArgs>
 	Field _onUpdate:= New EventHandler<EventArgs>
 	Field _logicsize:= New GuiVector2D
