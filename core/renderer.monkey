@@ -446,7 +446,7 @@ Function ResetRendererValues(renderer:GuiRenderer)
 		renderer._defaultFormPadding.Left = 5 ' Gui.systemFont.
 		renderer._defaultFormPadding.Right = 5 ' Gui.systemFont.
 		renderer._defaultFormPadding.Bottom = 5 ' Gui.systemFont.
-		renderer._defaultFormPadding.Top = Gui.systemFont.GetFontHeight + 5
+		renderer._defaultFormPadding.Top = Gui.systemFont.GetFontHeight + 10
 
 		renderer._defaultBoxMetrics.align = BoxMetrics.HALIGN_RIGHT
 		renderer._defaultBoxMetrics.Offset.SetValues(5, 5)
@@ -459,13 +459,13 @@ Function ResetRendererValues(renderer:GuiRenderer)
 		SystemColors.FocussedButtonBorderColor.SetColor(1, 69, 216, 251)
 		SystemColors.AppWorkspace.SetColor(1, 171, 171, 171)
 		SystemColors.FocusColor.SetColor(1, 60, 127, 177)
-		'SystemColors.FormBorder.SetColor(1, 185, 209, 234)
 		SystemColors.FormBorder.SetColor(1, 100, 110, 135)
 		SystemColors.WindowColor.SetColor(1, 255, 255, 255)
-		SystemColors.FormMargin.SetColor(1, 174, 199, 225)
 		SystemColors.InactiveFormBorder.SetColor(1, 120, 120, 120)
-		SystemColors.SelectedItemBackColor.SetColor(1, 51, 153, 255)
 		SystemColors.HooverBackgroundColor.SetColor(1, 255, 255, 255)
+		SystemColors.FormMargin.SetColor(1, 200, 200, 200)
+		SystemColors.SelectedItemBackColor.SetColor(1, 151, 153, 145)
+
 		#IF TARGET<>"html5"
 			SystemColors.WindowTextForeColor.SetColor(1, 0, 0, 0)
 			SystemColors.SelectedItemForeColor.SetColor(1, 255, 255, 255)
@@ -480,6 +480,8 @@ Function ResetRendererValues(renderer:GuiRenderer)
 		
 		SystemColors.ScrollerBackColor.SetColor(1, 230, 230, 230)
 		SystemColors.ScrollerGrabberColor.SetColor(1, 220, 220, 220)
+		
+		
 		
 
 End

@@ -28,7 +28,8 @@ Class ScrollablePanel Extends Panel Abstract
 
 		'Render Scrollbars here!
 		'Super.RenderForeground
-		
+		UpdateScrolling
+
 		Local renders:Int = 0
 		
 		'We will render now the vertical scrollbar:

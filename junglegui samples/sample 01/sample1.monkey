@@ -14,7 +14,6 @@ Import junglegui.renderers.roundforms
 'It's important to add this file to the reflection filter if we want it to be able to process event handlers
 #REFLECTION_FILTER+="${MODPATH}"
 
-
 #GLFW_WINDOW_RESIZABLE=True
 #GLFW_WINDOW_TITTLE="Jungle Gui Sample"
 
