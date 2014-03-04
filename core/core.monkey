@@ -379,13 +379,13 @@ Class Control Implements DesignTimeInfo
 		This method returns the client area location on the current mojo canvas. That is, the canvas X and Y location of the control contents.
 		Notice that this information is based on latest known render location, and it will be updated on every frame.
 	 #END
-	Method GetClientAreaLocation:GuiVector2D()
+	Method ClientLocation:GuiVector2D()
 		Local location:= New GuiVector2D
-		GetClientAreaLocationHere(location)
+		ClientLocation(location)
 		Return location
 	End
 	
-	Method GetClientAreaLocationHere:Void(target:GuiVector2D)
+	Method ClientLocation:Void(target:GuiVector2D)
 		UnsafeRenderPosition().CloneHere(target)
 		If ContainerControl(Self) Then
 			Local container:= ContainerControl(Self)
@@ -397,13 +397,13 @@ Class Control Implements DesignTimeInfo
 	#Rem monkeydoc
 		This method returns the client area size of the control on the current mojo canvas. That is, the width and height of the control.
 	 #END
-	Method GetClientAreaSize:GuiVector2D()
+	Method ClientSize:GuiVector2D()
 		Local size:= New GuiVector2D
-		GetClientAreaSizeHere(size)
+		ClientSize(size)
 		Return size
 	End
 
-	Method GetClientAreaSizeHere(target:GuiVector2D)
+	Method ClientSize(target:GuiVector2D)
 		Size.CloneHere(target)
 		If ContainerControl(Self) Then
 			Local container:= ContainerControl(Self)

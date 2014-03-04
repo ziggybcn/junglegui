@@ -61,7 +61,7 @@ Class DebugForm Extends WindowFrame
 	End
 	
 	Method Form_Resized(sender:Object, e:EventArgs)
-		Self.msgInspector.Size.SetValues(Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y)
+		Self.msgInspector.Size.SetValues(Self.ClientSize.X, Self.ClientSize.Y)
 	End
 	
 	Method Parent_Resized(sender:Object, e:EventArgs)

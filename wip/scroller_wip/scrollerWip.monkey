@@ -1,6 +1,6 @@
 Import junglegui
 Import reflection
-
+Import dom
 #REFLECTION_FILTER+="${MODPATH}"
 '#CANVAS_RESIZE_MODE=2
 
@@ -46,7 +46,14 @@ Class MyApp Extends App
 		gui = New Gui
 		form = New TestForm
 		form.InitForm(gui)
+		Local elem:= document.getElementById("GameCanvas")
 		
+		If elem <> Null Then
+			Print "not null!"
+			' elem.setAttribute("style.cursor", "n-resize")
+			'document.execCommand("GameCanvas.style.cursor=~qn-resize~q");
+			document.body.setAttribute("style.cursor", "~qn-resize~q");
+		End
 	End
 	
 	Method OnUpdate()
@@ -139,6 +146,12 @@ Class TestForm Extends Form
 			list.Items.AddLast(New ListItem("List item " + i))
 		Next
 		
+		Local tb:= New MultilineTextbox
+		tb.Parent = scrollable
+		tb.Text = "This is a very long text that is rendering on a multiline textbox that is not *yet* editable, but will be soon.~n~nLet's have a bit more of text here, so we get some additional scrolling on the text area. Isn't it interesting?~nWhat do you think about long lines of text, is it worth it to have them on a scrollable widget like this one?"
+		tb.Size.SetValues(300, 100)
+		tb.Position.CopyFrom(list.Position)
+		tb.Position.Y += list.Size.Y + 10
 		
 		scrollable.BackgroundColor = SystemColors.WindowColor
 		scrollable.Padding.SetAll(5, 5, 5, 5)
@@ -168,17 +181,17 @@ Class TestForm Extends Form
 	End
 	
 	Method Resized(sender:Object, e:EventArgs)
-		tabs.Size.CopyFrom(Self.GetClientAreaSize)
+		tabs.Size.CopyFrom(Self.ClientSize)
 	End
 	
 	Method Tab_Resized(sender:Object, e:EventArgs)
-		scrollable.Size.CopyFrom(tabPage2.GetClientAreaSize)
-		canv.Size.CopyFrom(tabPage3.GetClientAreaSize)
+		scrollable.Size.CopyFrom(tabPage2.ClientSize)
+		canv.Size.CopyFrom(tabPage3.ClientSize)
 	End
 	Method TabPage1_Resized(sender:Object, e:EventArgs)
 	
 		Local rest:= New GuiVector2D
-		rest.SetValues(tabPage1.GetClientAreaSize.X, tabPage1.GetClientAreaSize.Y)
+		rest.SetValues(tabPage1.ClientSize.X, tabPage1.ClientSize.Y)
 		
 		image.Position.X = rest.X / 2 - image.Size.X / 2
 		image.Position.Y = rest.Y / 2 - image.Size.Y / 2 - 20

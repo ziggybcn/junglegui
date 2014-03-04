@@ -7,6 +7,7 @@ Import demoform
 #GLFW_WINDOW_RESIZABLE=true
 
 Function Main()
+	'EnableAutoSize()
 	Local demo:= New Demo
 	ExecuteApp(demo, "Launch_Demo")
 	JungleApp.Event_RenderBackground.Add(demo, "Render_Background")
@@ -14,7 +15,6 @@ End
 
 Class Demo
 	Method Launch_Demo(sender:Object, e:InitializeAppEvent)
-		EnableAutoSize()
 		JungleGuiApplication.gui.ScaleX = 1
 		JungleGuiApplication.gui.ScaleY = 1
 		e.mainForm = New DemoForm

@@ -268,7 +268,7 @@ Class BlobForm Extends Form
 		Form_Resized(Self, New EventArgs)
 	End
 	Method Form_Resized(sender:Object, e:EventArgs)
-		Local clientSize:= Self.GetClientAreaSize
+		Local clientSize:= Self.ClientSize
 		game.Size.SetValues(clientSize.X, clientSize.Y)
 	End
 End
