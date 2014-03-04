@@ -39,8 +39,8 @@ Class DemoForm Extends Form
 	
 	Method Layout()
 		list.Position.SetValues(0, 0)
-		list.Size.SetValues(Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y)
-		list.ItemWidth = list.GetClientAreaSize.X - list.ItemSpacing.X * 2
+		list.Size.SetValues(Self.ClientSize.X, Self.ClientSize.Y)
+		list.ItemWidth = list.ClientSize.X - list.ItemSpacing.X * 2
 		list.ItemHeight = 30
 	End
 	

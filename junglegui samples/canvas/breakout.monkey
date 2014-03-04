@@ -4,6 +4,8 @@ Import junglegui
 Import reflection
 Import monkenstein
 Import blobmonster
+
+Import dom
  
 #REFLECTION_FILTER+="${MODPATH}"
 
@@ -867,7 +869,7 @@ Class SampleForm Extends Form
 		If Self.Size.X <> 640 or Self.Size.Y <> 480 Then
 			Self.Size.SetValues(640, 480)
 		EndIf
-		Local clientSize:= Self.GetClientAreaSize
+		Local clientSize:= Self.ClientSize
 		game.Size.SetValues(clientSize.X, clientSize.Y)
 	End
 End
@@ -897,7 +899,13 @@ Class Sample Extends App
 		
 
 		background = LoadImage("background.jpg")
-		EnableAutoSize
+		'EnableAutoSize
+	
+		Local element:= document.getElementById("GameCanvas")
+		element.setAttribute("width", "window.innerWidth");
+		Print document.getElementById("window").toString
+		'Print win.getAttribute("innerWidth")
+				
 	End
 	
 	Method OnUpdate()

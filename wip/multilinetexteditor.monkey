@@ -192,7 +192,7 @@ Class MultilineTextbox Extends BaseLabel
 			If (y < 0) Error("SetLine with less than a 0 index.") 'Return;
 			If (y >= Lines) Error("SetLine out of bounds") 'Return;
 		#END
-		GetClientAreaSizeHere(clientAreaSize)
+		ClientSize(clientAreaSize)
 		lines[y].text = text
 		lines[y].AdjustLine(Self.Font, clientAreaSize.X - sBar._size.X - 5)
 	End Method
@@ -239,7 +239,7 @@ Class MultilineTextbox Extends BaseLabel
 
 		Clear()
 		linesWithWrap = 0
-		GetClientAreaSizeHere(clientAreaSize)
+		ClientSize(clientAreaSize)
 		Local Stringlines:= value.Split(CR)
 		For Local s:String = EachIn Stringlines
 			Local tl:= AppendLine()
@@ -293,7 +293,7 @@ Class MultilineTextbox Extends BaseLabel
 	
 	Method AdjustWrap()
 		linesWithWrap = 0
-		GetClientAreaSizeHere(clientAreaSize)
+		ClientSize(clientAreaSize)
 		For Local i:Int = 0 Until Lines
 			Local tl:= GetLine(i)
 			tl.AdjustLine(Self.Font, clientAreaSize.X - sBar._size.X - 5)

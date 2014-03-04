@@ -23,7 +23,7 @@ Class TextBoxForm Extends Form
 	End
 	
 	Method DoLayout()
-		textBox.Size.SetValues(GetClientAreaSize.X, GetClientAreaSize.Y)
+		textBox.Size.SetValues(ClientSize.X, ClientSize.Y)
 	End
 
 End

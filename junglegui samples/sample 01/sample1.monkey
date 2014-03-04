@@ -367,7 +367,7 @@ Class EditorForm Extends Form
 	End
 	
 	Method Form_Resized(sender:Object, e:EventArgs)
-		EditBox.Size.SetValues(Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y)
+		EditBox.Size.SetValues(Self.ClientSize.X, Self.ClientSize.Y)
 	End
 	
 End

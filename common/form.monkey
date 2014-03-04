@@ -205,8 +205,8 @@ Class Form Extends TopLevelControl
 		If borderKind = eFormBorder.RESIZABLE Then
 			'If mousee.position.X > Self.Size.X Then status |= eResizeStatus.RESIZE_RIGHT
 			'If mousee.position.Y > Self.Size.Y Then status |= eResizeStatus.RESIZE_BOTTOM
-			If mousee.position.X > Self.GetClientAreaSize.X Then status |= eResizeStatus.RESIZE_RIGHT
-			If mousee.position.Y > Self.GetClientAreaSize.Y Then status |= eResizeStatus.RESIZE_BOTTOM
+			If mousee.position.X > Self.ClientSize.X Then status |= eResizeStatus.RESIZE_RIGHT
+			If mousee.position.Y > Self.ClientSize.Y Then status |= eResizeStatus.RESIZE_BOTTOM
 			
 		EndIf
 		Return status

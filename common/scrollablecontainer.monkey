@@ -45,10 +45,10 @@ Class ScrollableContainer Extends ScrollablePanel
 			maxY = Max(maxY, control.Position.Y + control.Size.Y)
 		Next
 		HorizontalScroller.TotalItems = maxX
-		HorizontalScroller.VisibleItems = Self.GetClientAreaSize.X
+		HorizontalScroller.VisibleItems = Self.ClientSize.X
 		If HorizontalScroller.VisibleItems + HorizontalScroller.FirstItem > HorizontalScroller.TotalItems Then HorizontalScroller.FirstItem = HorizontalScroller.TotalItems - HorizontalScroller.VisibleItems
 		VerticalScroller.TotalItems = maxY
-		VerticalScroller.VisibleItems = Self.GetClientAreaSize.Y
+		VerticalScroller.VisibleItems = Self.ClientSize.Y
 		If VerticalScroller.VisibleItems + VerticalScroller.FirstItem > VerticalScroller.TotalItems Then VerticalScroller.FirstItem = VerticalScroller.TotalItems - VerticalScroller.VisibleItems
 		
 	End

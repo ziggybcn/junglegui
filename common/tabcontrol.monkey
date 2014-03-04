@@ -70,7 +70,7 @@ Class TabControl Extends ContainerControl
 				'Print("Added control to the TAB container")
 				TabPagesCount += 1
 				control.Position.SetValues(0, 0)
-				control.Size.SetValues(GetClientAreaSize.X, GetClientAreaSize.Y)
+				control.Size.SetValues(ClientSize.X, ClientSize.Y)
 				If TabPage(control) Then SelectedTab = TabPage(control)
 			EndIf
 		ElseIf msg.e.messageSignature = eMsgKinds.CHILD_REMOVED
@@ -83,7 +83,7 @@ Class TabControl Extends ContainerControl
 			Select msg.e.messageSignature
 				Case eMsgKinds.RESIZED
 					For Local c:Control = EachIn Self.GenerateControlsList(True)
-						GetClientAreaSize.CloneHere(c.Size)
+						ClientSize.CloneHere(c.Size)
 					Next
 				Case eMsgKinds.MOUSE_MOVE
 					Local mousee:= MouseEventArgs(msg.e)

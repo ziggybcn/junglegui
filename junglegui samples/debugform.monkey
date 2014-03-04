@@ -44,6 +44,6 @@ Class DebugForm extends Form
 	End
 	
 	Method Form_Resized(sender:Object, e:EventArgs)
-		Self.msgInspector.Size.SetValues(Self.GetClientAreaSize.X, Self.GetClientAreaSize.Y)
+		Self.msgInspector.Size.SetValues(Self.ClientSize.X, Self.ClientSize.Y)
 	End
 End

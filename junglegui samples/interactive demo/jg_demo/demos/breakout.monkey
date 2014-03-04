@@ -867,7 +867,7 @@ Class BrickSample Extends Form
 		If Self.Size.X <> 640 or Self.Size.Y <> 480 Then
 			Self.Size.SetValues(640, 480)
 		EndIf
-		Local clientSize:= Self.GetClientAreaSize
+		Local clientSize:= Self.ClientSize
 		game.Size.SetValues(clientSize.X, clientSize.Y)
 	End
 End

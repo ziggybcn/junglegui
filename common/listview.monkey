@@ -278,7 +278,7 @@ Public
 		Local _countX:Int
 		'Local _countY:Float	'Prevent rounding errors
 		
-		Self.GetClientAreaSizeHere(_clientAreaSize)
+		Self.ClientSize(_clientAreaSize)
 		if Items And Items.Count > 0 Then 
 		
 			_countX = Max(1, _clientAreaSize.X / (_itemWidth + _spacing.X))
