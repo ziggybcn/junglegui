@@ -47,7 +47,7 @@ Class MyApp Extends App
 		form = New TestForm
 		form.InitForm(gui)
 		Next
-		background = LoadImage("background.jpg")
+		background = LoadImage("background.png")
 		Local elem:= document.getElementById("GameCanvas")
 		EnableAutoSize
 		
@@ -67,6 +67,8 @@ Class MyApp Extends App
 			Local ScaleX:Float = Max(Float(DeviceWidth) / Float(background.Width), 1.0)
 			Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height), 1.0)			
 			DrawImage(background, 0, 0, 0, ScaleX, ScaleY, 0)
+		Else
+			Print "background is null!"
 		EndIf
 		gui.Render()
 	End
@@ -187,6 +189,7 @@ Class TestForm Extends Form
 		scrollable.Size.CopyFrom(tabPage2.ClientSize)
 		canv.Size.CopyFrom(tabPage3.ClientSize)
 	End
+	
 	Method TabPage1_Resized(sender:Object, e:EventArgs)
 	
 		Local rest:= New GuiVector2D
@@ -197,7 +200,7 @@ Class TestForm Extends Form
 		
 		label.Position.X = rest.X / 2 - label.Size.X / 2
 		label.Position.Y = image.Position.Y + image.Size.Y + 5
+		
 	End
 
 End
-
