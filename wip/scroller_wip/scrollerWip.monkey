@@ -1,7 +1,7 @@
 Import junglegui
 Import reflection
-Import dom
-#REFLECTION_FILTER+="${MODPATH}"
+'Import dom
+#REFLECTION_FILTER+="${MODPATH}" 
 '#CANVAS_RESIZE_MODE=2
 
 Import spiralmatrix
@@ -27,7 +27,6 @@ Function Main()
 	#if TARGET="glfw"
     glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 8) ' AntiAliasing samples: 0 = disable AA
 	#end
-	'EnableAutoSize
 	New MyApp
 End
 
@@ -47,19 +46,14 @@ Class MyApp Extends App
 		For Local i:Int = 0 To 10
 		form = New TestForm
 		form.InitForm(gui)
-<<<<<<< local
 		Next
 		background = LoadImage("background.jpg")
-=======
 		Local elem:= document.getElementById("GameCanvas")
+		EnableAutoSize
 		
 		If elem <> Null Then
-			Print "not null!"
-			' elem.setAttribute("style.cursor", "n-resize")
-			'document.execCommand("GameCanvas.style.cursor=~qn-resize~q");
-			document.body.setAttribute("style.cursor", "~qn-resize~q");
+			elem.setAttribute("style", "cursor:n-resize;");
 		End
->>>>>>> other
 	End
 	
 	Method OnUpdate()

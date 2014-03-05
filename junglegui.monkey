@@ -6,6 +6,10 @@ Import mojo
 Import fontmachine
 Import reflection
 
+#If TARGET="html5"
+Import dom
+#End
+
 'Imports:
 Import core
 Import events
@@ -19,10 +23,6 @@ Import wip.multilinetexteditor
 
 
 Import propertygrid
-
-#IF TARGET="html5"
-	Import "resizecanvas/resizecanvas.js"
-#END
 
 #print ""
 #print ""
@@ -57,7 +57,7 @@ Import propertygrid
 #print ""
 #print ""
 
-#If TARGET="html5"
+#If TARGET="html5" 
 	Import "data\html5font.txt"
 	Import "data\html5font_P_1.png"
 	Import "data\html5TipFont.txt"
@@ -69,23 +69,64 @@ Import propertygrid
 	Import "data\TipFont_P_1.png"
 #END
 
+#IF TARGET="html5"
+	Extern Private
+		Global win:windowExtended = "window"
+		Class windowExtended Extends Window = "Window"
+			Field innerWidth
+			Field innerHeight
+		End
+	Public
+#END
+
 '--------
 'Functions:
 
-#IF TARGET="html5"
-	Extern
-	Function ResizeCanvasFull:Void()
-	Function EnableAutoSize:Void()
-	Function DisableAutoSize:Void()
-	Public
-	
-#ELSE
-	Function ResizeCanvasFull:Void()
-	End
-	Function EnableAutoSize:Void()
-	End
-	Function DisableAutoSize:Void()
-	End
-#END
+Function EnableAutoSize:Void(canvasName:String = "GameCanvas")
+	#If TARGET="html5"
+		
+		Local console:= document.getElementById("GameConsole")
+		If console <> Null Then
+			console.setAttribute("height", "0");
+			'console.parentNode.removeChild(console);
+		EndIf
 
+
+		Local splitter:= document.getElementById("Splitter")
+		If splitter <> Null Then
+			splitter.setAttribute("style", "height: 8px;")
+			'splitter.setAttribute("clientHeight", "0")
+			
+			'splitter.parentNode.removeChild(splitter)
+		EndIf
+
+		'document.execCommand("window.onresize=null;");
+		
+		Local elem:= document.getElementById(canvasName)
+		Print elem.getAttribute("width") + ", " + elem.getAttribute("height")
+		If elem <> Null Then
+			elem.setAttribute("width", win.innerWidth)
+			elem.setAttribute("height", win.innerHeight)
+			elem.setAttribute("style", "")
+		EndIf
+	#End
+End
+
+
+'#IF TARGET="html5"
+'	Extern
+'	Function ResizeCanvasFull:Void()
+'	Function EnableAutoSize:Void()
+'	Function DisableAutoSize:Void()
+'	Public
+'	
+'#ELSE
+'	Function ResizeCanvasFull:Void()
+'	End
+'	Function EnableAutoSize:Void()
+'	End
+'	Function DisableAutoSize:Void()
+'	End
+'#END
+'
  
