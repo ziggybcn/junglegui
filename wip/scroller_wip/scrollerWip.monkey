@@ -44,8 +44,13 @@ Class MyApp Extends App
 		#end
 		background = LoadImage("background.png")
 		gui = New Gui
+		For Local i:Int = 0 To 10
 		form = New TestForm
 		form.InitForm(gui)
+<<<<<<< local
+		Next
+		background = LoadImage("background.jpg")
+=======
 		Local elem:= document.getElementById("GameCanvas")
 		
 		If elem <> Null Then
@@ -54,6 +59,7 @@ Class MyApp Extends App
 			'document.execCommand("GameCanvas.style.cursor=~qn-resize~q");
 			document.body.setAttribute("style.cursor", "~qn-resize~q");
 		End
+>>>>>>> other
 	End
 	
 	Method OnUpdate()
@@ -65,8 +71,7 @@ Class MyApp Extends App
 		Scale(1, 1)
 		If background <> Null Then
 			Local ScaleX:Float = Max(Float(DeviceWidth) / Float(background.Width), 1.0)
-			Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height), 1.0)
-			
+			Local ScaleY:Float = Max(Float(DeviceHeight) / Float(background.Height), 1.0)			
 			DrawImage(background, 0, 0, 0, ScaleX, ScaleY, 0)
 		EndIf
 		gui.Render()
