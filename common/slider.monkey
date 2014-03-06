@@ -140,6 +140,7 @@ Class Slider extends Control
 	Method New()
 		Size.SetValues(250, 20)
 		BackgroundColor = SystemColors.WindowColor
+		Pointer = eMouse.E_Resize
 	End
 	
 	Method Msg(msg:BoxedMsg)

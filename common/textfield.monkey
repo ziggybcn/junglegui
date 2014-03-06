@@ -184,6 +184,7 @@ Class TextField extends BaseLabel
 		TabStop = true
 		ForeColor.SetColor(1, 0, 0, 0)
 		RequiresVirtualKeyboard = True
+		Pointer = eMouse.Text
 	End
 	'note: OPTIMIZE: Revisit this later. It works slowly, but it works
 	Method _controlClicked(e:MouseEventArgs)

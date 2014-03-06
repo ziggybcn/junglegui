@@ -51,9 +51,9 @@ Class MyApp Extends App
 		Local elem:= document.getElementById("GameCanvas")
 		EnableAutoSize
 		
-		If elem <> Null Then
-			elem.setAttribute("style", "cursor:n-resize;");
-		End
+'		If elem <> Null Then
+'			elem.setAttribute("style", "cursor:n-resize;");
+'		End
 	End
 	
 	Method OnUpdate()

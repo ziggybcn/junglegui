@@ -75,6 +75,7 @@ Import propertygrid
 		Class windowExtended Extends Window = "Window"
 			Field innerWidth
 			Field innerHeight
+			Method eval:Object(parameter:String) = "eval"
 		End
 	Public
 #END
@@ -84,31 +85,15 @@ Import propertygrid
 
 Function EnableAutoSize:Void(canvasName:String = "GameCanvas")
 	#If TARGET="html5"
-		
-		Local console:= document.getElementById("GameConsole")
-		If console <> Null Then
-			console.setAttribute("height", "0");
-			'console.parentNode.removeChild(console);
-		EndIf
-
-
-		Local splitter:= document.getElementById("Splitter")
-		If splitter <> Null Then
-			splitter.setAttribute("style", "height: 8px;")
-			'splitter.setAttribute("clientHeight", "0")
-			
-			'splitter.parentNode.removeChild(splitter)
-		EndIf
-
-		'document.execCommand("window.onresize=null;");
-		
+		Print "Working on Enable Auto size"
 		Local elem:= document.getElementById(canvasName)
-		Print elem.getAttribute("width") + ", " + elem.getAttribute("height")
 		If elem <> Null Then
-			elem.setAttribute("width", win.innerWidth)
-			elem.setAttribute("height", win.innerHeight)
-			elem.setAttribute("style", "")
+			elem.setAttribute("style", "");
 		EndIf
+		win.eval("var canvas=document.getElementById( '" + canvasName + "' );canvas.onresize=null;");
+		win.eval("window.onresize=function (e) {var canvas=document.getElementById( '" + canvasName + "' ); canvas.width = window.innerWidth; canvas.height = window.innerHeight; canvas.style='';} ;")		
+		win.eval("window.onresize()")
+		
 	#End
 End
 
