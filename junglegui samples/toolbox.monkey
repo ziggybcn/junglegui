@@ -23,7 +23,7 @@ Class ToolBox Extends form.Form
 		'SELF:
 		Self.Text = "Toolbox"
 		Self.Size.X = 200
-		Self.Size.Y = 400
+		Self.Size.Y = 440
 		Self.Position.X = DeviceWidth - Self.Size.X - 20
 		Self.TipText = "This is jsut a sample toolbar"
 		Self.Event_ParentResized.Add(Self, "Canvas_Resized")
@@ -138,7 +138,7 @@ Class ToolBox Extends form.Form
 		word.Parent = Self
 		word.Position.Y = tmpLabel.Position.Y
 		word.Position.X = tmpLabel.Position.X + tmpLabel.Size.X + 10
-		word.Size.X = Self.Size.X - Self.Padding.Left - Self.Padding.Right - tmpLabel.Size.X - tmpLabel.Position.X * 2
+		word.Size.X = Self.ClientSize.X - tmpLabel.Size.X - tmpLabel.Position.X * 2  'Self.Size.X - Self.Padding.Left - Self.Padding.Right - tmpLabel.Size.X - tmpLabel.Position.X * 2
 		word.AutoAdjustSize = false
 		word.Size.Y = tmpLabel.Size.Y
 		word.Name = "Word"
@@ -157,7 +157,7 @@ Class ToolBox Extends form.Form
 		'''
 		''' Form size:
 		'''
-		Self.Size.Y = height + Padding.Top + Padding.Bottom
+		Self.Size.Y = height + Padding.Top + Padding.Bottom + ControlBordersSizes.Top + ControlBordersSizes.Bottom
 	End
 	
 	

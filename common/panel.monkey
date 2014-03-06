@@ -20,7 +20,7 @@ Class Panel extends ContainerControl
 			If HasFocus Then
 				GetGui.Renderer.DrawFocusRect(Self, True)
 			Else
-				GetGui.Renderer.DrawControlBorder(Status, Position, Size, Self)
+				GetGui.Renderer.DrawControlBorder(Status, UnsafeRenderPosition, Size, Self)
 			EndIf
 			
 		EndIf

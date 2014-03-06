@@ -279,12 +279,12 @@ Class SampleForm Extends Form
 		panel.Event_Click.Add(Self, "Panel_Click")
 		HCenterControl(panel)
 
-		Local combo:ComboBox = New ComboBox(panel, 0, 0, 150)
-		Local li:ListItem
-		li = New ListItem("Item 1"); combo.Items.AddLast(li)
-		li = New ListItem("Item 2"); combo.Items.AddLast(li)
-		li = New ListItem("Item 3"); combo.Items.AddLast(li)
-		combo.SelectedIndex = 0
+'		Local combo:ComboBox = New ComboBox(panel, 0, 0, 150)
+'		Local li:ListItem
+'		li = New ListItem("Item 1"); combo.Items.AddLast(li)
+'		li = New ListItem("Item 2"); combo.Items.AddLast(li)
+'		li = New ListItem("Item 3"); combo.Items.AddLast(li)
+'		combo.SelectedIndex = 0
 				
 		
 		'''

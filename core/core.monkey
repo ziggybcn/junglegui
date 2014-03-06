@@ -16,6 +16,7 @@ Import viewportstack
 Import helperfunctions
 Import scaledscrissor
 Import msglistener
+Import mousepointer
 
 #REFLECTION_FILTER+="${MODPATH}"
 
@@ -663,7 +664,15 @@ Class Control Implements DesignTimeInfo
 		if _gui.ActiveControl = Self Then status = status | eControlStatus.FOCUSED
 		if _gui.GetMousePointedControl = Self Then status = status | eControlStatus.HOOVER
 		Return status
-	end
+	End
+	
+	Method Pointer:Void(mousePointer:Int) Property
+		_pointer = mousePointer
+	End
+	
+	Method Pointer:Int() Property
+		Return _pointer
+	End
 	
 	#Rem monkeydoc
 		This get/set Property indicates that this control should show the virtual keyboard when it gets focus.
@@ -770,10 +779,10 @@ Class Control Implements DesignTimeInfo
 		If _gui._mousePos = Null Then _gui._mousePos = New GuiVector2D'(0, 0)
 		If HasGraphicalInterface and _outOfView = False Then 	'And is visible
 			if _gui._mousePos.X>= viewPort.position.X And _gui._mousePos.X<= (viewPort.position.X + viewPort.size.X) Then
-				if _gui._mousePos.Y>=viewPort.position.Y And _gui._mousePos.Y<=(viewPort.position.Y + viewPort.size.Y) then
-					If _gui._mouseControl <> Self Then
-						_gui._mouseControl = Self
-					EndIf
+				If _gui._mousePos.Y >= viewPort.position.Y And _gui._mousePos.Y <= (viewPort.position.Y + viewPort.size.Y) Then
+					
+					If _gui._mouseControl <> Self Then _gui._mouseControl = Self
+					If Self.Pointer <> eMouse.Auto Then _gui._pointer = Self.Pointer
 				End
 			End
 		endif
@@ -816,7 +825,9 @@ Class Control Implements DesignTimeInfo
 	'Field _cacheRenderPosCalcuation:GuiVector2D
 	Field _hooveColor:GuiColor = Null
 	Field _borderColor:GuiColor = Null
-
+	
+	Field _pointer:Int = eMouse.Auto
+	
 End
 
 #Rem monkeydoc 
@@ -1262,6 +1273,7 @@ Class Gui
 			RenderTip()
 		EndIf
 		SetMatrix(Self._renderer_matrix_cache)
+		MousePointer.PerformSystemInteraction
 	End
 	
 	#Rem monkeydoc
@@ -1393,6 +1405,7 @@ Class Gui
 		
 		Local oldMouseDown = _mouseDown
 		_mouseDown = MouseDown()
+		_pointer = eMouse.Arrow
 		For Local c:Control = EachIn _components
 			_msg_parentResized.sender = c
 			_msg_parentResized.status = eMsgStatus.Sent
@@ -1490,6 +1503,8 @@ Class Gui
 			
 			_waitingTipCount+=1
 		EndIf
+		
+		MousePointer.Pointer = _pointer
 	End
 	
 	#rem monkeydoc
@@ -1646,6 +1661,6 @@ Class Gui
 	Field _waitingReclickDelay:Int = FirstReclick
 	Const FirstReclick:= -55
 	Const PerformReclick:= 5
-	
+	Field _pointer:Int = eMouse.Arrow
 	'Field _renderMatrix:Float[]
 End

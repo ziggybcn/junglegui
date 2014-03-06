@@ -111,6 +111,8 @@ Class Form Extends TopLevelControl
 					Self.BringToFront()
 				Case eMsgKinds.MOUSE_MOVE
 					_CheckMouseMove(msg.sender, msg.e)
+				Case eMsgKinds.MOUSE_LEAVE
+					If Self.resizeStatus = eResizeStatus.NONE Then Self.mouseOverStatus = eResizeStatus.NONE
 			End
 		endif
 		Super.Msg(msg)
@@ -157,6 +159,24 @@ Class Form Extends TopLevelControl
 	 #END
 	Method GetMouseOverReisingStatus:Int()
 		Return Self.mouseOverStatus
+	End
+	
+	Method Pointer:Int() Property
+		Select Self.mouseOverStatus
+			Case eResizeStatus.NONE
+				Return eMouse.Arrow 'Super.Pointer
+			Case eResizeStatus.RESIZE_BOTTOM
+				Return eMouse.S_Resize
+			Case eResizeStatus.RESIZE_RIGHT
+				Return eMouse.E_Resize
+			Case eResizeStatus.RESIZE_BOTTOM + eResizeStatus.RESIZE_RIGHT
+				Return eMouse.SE_Resize
+		End
+	
+	End
+	
+	Method Pointer:Void(value:Int) Property
+		Super.Pointer(value)
 	End
 	
 	Private
