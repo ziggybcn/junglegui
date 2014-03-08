@@ -49,7 +49,7 @@ Class MyApp Extends App
 		Next
 		background = LoadImage("background.png")
 		Local elem:= document.getElementById("GameCanvas")
-		EnableAutoSize
+		EnableAutoSize();
 		
 '		If elem <> Null Then
 '			elem.setAttribute("style", "cursor:n-resize;");
