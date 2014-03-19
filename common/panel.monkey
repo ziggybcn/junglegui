@@ -9,8 +9,10 @@ Class Panel extends ContainerControl
 	Method RenderBackground()
 		BackgroundColor.Activate()
 		Local position:=self.UnsafeRenderPosition()
-		DrawRect(position.X + 1, position.Y + 1, Size.X - 2, Size.Y - 2)
-		BorderColor.Activate()
+		'DrawRect(position.X + 1, position.Y + 1, Size.X - 2, Size.Y - 2)
+		DrawRect(position.X, position.Y, Size.X, Size.Y)
+		
+		'BorderColor.Activate()
 		'DrawRoundBox(position, Size)
 		'GetGui.Renderer.DrawControlBorder(Status, position, Size, Self)
 	End
@@ -22,7 +24,6 @@ Class Panel extends ContainerControl
 			Else
 				GetGui.Renderer.DrawControlBorder(Status, UnsafeRenderPosition, Size, Self)
 			EndIf
-			
 		EndIf
 	End
 	

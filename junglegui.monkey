@@ -94,42 +94,6 @@ Function EnableAutoSize:Void(canvasName:String = "GameCanvas")
 		win.eval("window.onresize=function (e) {var canvas=document.getElementById( '" + canvasName + "' ); canvas.width = window.innerWidth; canvas.height = window.innerHeight; canvas.style='';} ;")		
 		win.eval("window.onresize()")
 		
-<<<<<<< local
-		Local console:= document.getElementById("GameConsole")
-		If console <> Null Then
-			console.setAttribute("height", "0");
-			'console.parentNode.removeChild(console);
-		EndIf
-
-
-		Local splitter:= document.getElementById("Splitter")
-		If splitter <> Null Then
-			splitter.setAttribute("style", "height: 8px;")
-			'splitter.setAttribute("clientHeight", "0")
-			
-			'splitter.parentNode.removeChild(splitter)
-		EndIf
-
-		document.execCommand("eval('window.onresize=null;');");
-		Local el:= New EventListener
-		
-		
-		
-		Local elem:= document.getElementById(canvasName)
-		Print elem.getAttribute("width") + ", " + elem.getAttribute("height")
-		If elem <> Null Then
-			Local nodesList:= elem.childNodes
-			Print "Items + " nodesList.length
-			For Local i:Int = 0 Until elem.childNodes.length
-				Local nod:dom.Node = elem.childNodes.item(i)
-				Print nod.toString
-			Next
-			elem.setAttribute("width", win.innerWidth)
-			elem.setAttribute("height", win.innerHeight)
-			elem.setAttribute("style", "")
-		EndIf
-=======
->>>>>>> other
 	#End
 End
 

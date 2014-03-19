@@ -12,10 +12,14 @@ Function Main()
 	ParticlesSample = New Sample
 End
 
-Class Sample extends App
+Class Sample Extends App
+
 	Field toolBox:ToolBox
+	
 	Field emiter:Emiter
+	
 	Global gui:Gui
+	
 	Method OnCreate()
 		SetUpdateRate(0)
 		EnableAutoSize()
