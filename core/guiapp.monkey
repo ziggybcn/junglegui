@@ -7,6 +7,7 @@ Function ExecuteApp(context:Object, initializeMethodName:String)
 	JungleGuiApp._event_Instantiate.Add(context, initializeMethodName)
 End
 
+
 Global JungleApp:JungleGuiApplication
 
 
@@ -71,3 +72,20 @@ Class JungleGuiApplication Extends App
 	Field transparent:Bool = False
 End
 
+Function ExecuteApp(mainAppContainer:TopLevelControl)
+	 
+	Local context:= New AppLauncher(mainAppContainer)
+	
+	Local JungleGuiApp:= New JungleGuiApplication
+	JungleGuiApp._event_Instantiate.Add(context, "LaunchApp")
+End
+Private
+Class AppLauncher Final
+	Field mainContainer:TopLevelControl
+	Method New(mainContainer:TopLevelControl)
+		Self.mainContainer = mainContainer
+	End
+	Method LaunchApp(sender:Object, e:eventargs.InitializeAppEvent)
+		e.mainForm = mainContainer
+	End
+End
