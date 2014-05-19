@@ -1,10 +1,11 @@
 Import junglegui
 #REFLECTION_FILTER+="${MODPATH}"
 
-Function ExecuteApp(context:Object, initializeMethodName:String)
+Function ExecuteApp:JungleGuiApplication(context:Object, initializeMethodName:String)
 
 	Local JungleGuiApp:= New JungleGuiApplication
 	JungleGuiApp._event_Instantiate.Add(context, initializeMethodName)
+	Return JungleGuiApp
 End
 
 
@@ -67,17 +68,17 @@ Class JungleGuiApplication Extends App
 	Private
 	Field _event_Instantiate:= New EventHandler<InitializeAppEvent>
 	Field _event_RenderBack:= New EventHandler<EventArgs>
+	
 	Field mainForm:TopLevelControl
 	Field emptyEventArgs:= New EventArgs
 	Field transparent:Bool = False
 End
 
-Function ExecuteApp(mainAppContainer:TopLevelControl)
+Function ExecuteApp:JungleGuiApplication(mainAppContainer:TopLevelControl)
 	 
 	Local context:= New AppLauncher(mainAppContainer)
+	Return ExecuteApp(context, "LaunchApp")
 	
-	Local JungleGuiApp:= New JungleGuiApplication
-	JungleGuiApp._event_Instantiate.Add(context, "LaunchApp")
 End
 Private
 Class AppLauncher Final
