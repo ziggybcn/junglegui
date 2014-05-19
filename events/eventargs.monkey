@@ -110,6 +110,13 @@ Class InitializeAppEvent Extends EventArgs
 End
 
 
+Class CancelableEvent Extends EventArgs
+	Field cancel:Bool = False
+	Method SignatureDescription:String()
+		Return "(sender: Object, e:CancelableEvent)"
+	End
+End
+
 #rem monkeydoc
 	This class represents a Key event arguments structure.
  #END

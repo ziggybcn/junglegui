@@ -40,6 +40,7 @@ Class JungleGuiApplication Extends App
 
 		'If the mainform is closed, we end the app:
 		If mainForm.GetGui = Null Then Error("")
+		_event_MojoOnUpdate.RaiseEvent(Self, emptyEventArgs)
 	End
 	
 	Method OnRender()
@@ -65,9 +66,67 @@ Class JungleGuiApplication Extends App
 	Method Event_RenderBackground:EventHandler<EventArgs>() Property
 		Return _event_RenderBack
 	End
+	Method Event_MojoOnUpdate:EventHandler<EventArgs>() Property
+		Return _event_MojoOnUpdate
+	End
+	Method Event_MojoOnSuspend:EventHandler<EventArgs>() Property
+		Return _event_MojoOnSuspend
+	End
+	
+	Method Event_MojoOnResume:EventHandler<EventArgs>() Property
+		Return _event_MojoOnResume
+	End
+	
+	Method Event_MojoOnBack:EventHandler<CancelableEvent>() Property
+		Return _event_MojoOnBack
+	End
+
+	Method Event_MojoOnClose:EventHandler<CancelableEvent>() Property
+		Return _event_MojoOnClose
+	End
+	Method OnSuspend()
+		 _event_MojoOnSuspend.RaiseEvent(Self, emptyEventArgs)
+	End
+	
+	Method OnResume()
+		_event_MojoOnResume.RaiseEvent(Self, emptyEventArgs)
+	End
+	
+	Method OnBack()
+		Local ce:= New CancelableEvent
+		ce.cancel = False
+		_event_MojoOnBack.RaiseEvent(Self, ce)
+		If ce.cancel = False Then
+			Return Super.OnBack()
+		Else
+			Return 0
+		EndIf
+	End
+	
+	Method OnClose()
+		Local ce:= New CancelableEvent
+		ce.cancel = False
+		_event_MojoOnClose.RaiseEvent(Self, ce)
+		If ce.cancel = False Then
+			Return Super.OnClose()
+		Else
+			Return 0
+		EndIf
+		
+	End
+	
 	Private
 	Field _event_Instantiate:= New EventHandler<InitializeAppEvent>
 	Field _event_RenderBack:= New EventHandler<EventArgs>
+	
+	Field _event_MojoOnUpdate:= New EventHandler<EventArgs>
+	Field _event_MojoOnLoading:= New EventHandler<EventArgs>
+	Field _event_MojoOnSuspend:= New EventHandler<EventArgs>
+	Field _event_MojoOnResume:= New EventHandler<EventArgs>
+	Field _event_MojoOnBack:= New EventHandler<CancelableEvent>
+	Field _event_MojoOnClose:= New EventHandler<CancelableEvent>
+	
+	
 	
 	Field mainForm:TopLevelControl
 	Field emptyEventArgs:= New EventArgs
