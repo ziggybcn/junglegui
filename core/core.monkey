@@ -1241,6 +1241,7 @@ Class Gui
 
 	Method New()
 		Renderer = Null	'Force default renderer
+		If JungleGuiApplication.gui = Null Then JungleGuiApplication.gui = Self
 	End
 
 	

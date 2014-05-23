@@ -7,14 +7,11 @@ Class Panel extends ContainerControl
 		_InitComponent
 	End
 	Method RenderBackground()
-		BackgroundColor.Activate()
-		Local position:=self.UnsafeRenderPosition()
-		'DrawRect(position.X + 1, position.Y + 1, Size.X - 2, Size.Y - 2)
-		DrawRect(position.X, position.Y, Size.X, Size.Y)
-		
-		'BorderColor.Activate()
-		'DrawRoundBox(position, Size)
-		'GetGui.Renderer.DrawControlBorder(Status, position, Size, Self)
+		If Not transparent
+			BackgroundColor.Activate()
+			Local position:=self.UnsafeRenderPosition()
+			DrawRect(position.X, position.Y, Size.X, Size.Y)
+		EndIf
 	End
 	
 	Method RenderForeground()
@@ -34,6 +31,14 @@ Class Panel extends ContainerControl
 		_drawFocusRect = value
 	End
 	
+	Method Transparent:Bool() Property
+		Return transparent
+	End
+	
+	Method Transparent:Void(value:Bool) Property
+		transparent = value
+	End
+	
 	Private
 	Method _InitComponent()
 		BorderColor = SystemColors.ButtonBorderColor 'FormBorder
@@ -43,4 +48,5 @@ Class Panel extends ContainerControl
 		Padding.SetAll(5, 5, 5, 5)
 	End
 	Field _drawFocusRect:Bool = True
+	Field transparent:Bool = False
 end
