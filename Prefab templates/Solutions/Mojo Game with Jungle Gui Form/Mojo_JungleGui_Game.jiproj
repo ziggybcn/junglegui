@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<JiProj xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EntryPoint=".\mojo_junglegui_game.monkey" Name="Mojo_JungleGui_Game">
+  <Files>
+    <Document Filename=".\gui_elements\myform.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
+    <Document Filename=".\mojo_junglegui_game.monkey" Open="false" SplitView="false" SplitIsVertical="false" SplitSize="150">
+      <DocGUID />
+      <CursorPos>
+        <X>0</X>
+        <Y>0</Y>
+      </CursorPos>
+    </Document>
+  </Files>
+  <CompilerConfig Configuration="debug" BuildMode="run" Target="Html5_Game" />
+</JiProj>
