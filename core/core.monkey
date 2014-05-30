@@ -283,6 +283,7 @@ Class Control Implements DesignTimeInfo
 	 #END
 	Method Update()
 		If listeners <> Null And listeners.IsEmpty = False
+		
 			For Local listener:MsgListener = EachIn listeners
 				listener.Update()
 				

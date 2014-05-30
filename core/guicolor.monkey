@@ -27,12 +27,7 @@ Class GuiColor
 		If you set a value greater than 1, this property will be set to a 1, in the same way, if you set a value smoller than 0, this property will be set to 0.
 	#END
 	Method Alpha:Void(value:Float) Property
-		a = value
-		If a > 1 Then
-			a = 1
-		ElseIf a < 0
-			a = 0
-		EndIf
+		a = Clamp(value, 0.0, 1.0)
 	End
 	
 	#Rem monkeydoc
@@ -71,12 +66,7 @@ Class GuiColor
 		If you set a value greater than 255, this property will be set to 255. Also, if you set a value smaller than 0, this property will be set to 0.
 	#END
 	Method Green:Void(value:Int) Property
-		g = value
-		If g < 0 Then
-			g = 0
-		ElseIf g > 255
-			g = 255
-		EndIf
+		g = Clamp(value, 0, 255)
 	End
 	
 	#Rem monkeydoc
@@ -93,12 +83,7 @@ Class GuiColor
 		If you set a value greater than 255, this property will be set to 255. Also, if you set a value smaller than 0, this property will be set to 0.
 	#END
 	Method Blue:Void(value:Int) Property
-		b = value
-		If b < 0 Then
-			b = 0
-		ElseIf b > 255
-			b = 255
-		EndIf
+		b = Clamp(value, 0, 255)
 	End
 
 	
@@ -107,11 +92,6 @@ Class GuiColor
 		This method allows you to set all color values at once.
 	 #END
 	Method SetColor(a:Float, r:Int, g:Int, b:Int)
-		#IF CONFIG="debug" 
-			If a > 1 or a < 0 or r > 255 or r < 0 or g > 255 or g < 0 or b > 255 or b < 0 Then
-				Error("Color values are not valid.")
-			EndIf
-		#END
 		Red = r
 		Green = g
 		Blue = b
@@ -147,9 +127,9 @@ Class GuiColor
 	#END
 	Method ActivateBright(brightness:Int = 15)
 		graphics.SetColor(
-			Max(Min(r + brightness, 255), 0),
-			Max(Min(g + brightness, 255), 0),
-			Max(Min(b + brightness, 255), 0))
+			Clamp(r + brightness, 0, 255),
+			Clamp(g + brightness, 0, 255),
+			Clamp(b + brightness, 0, 255))
 	End
 	
 	#rem monkeydoc 
