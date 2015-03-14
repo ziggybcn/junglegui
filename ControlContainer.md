@@ -1,0 +1,1 @@
+This is the base class that should be extended by any control that can contain any (whatever) other controls. As instance, the Panel class extends this control, as it is a typical control container. This controls interaction is done by using Msg calls.

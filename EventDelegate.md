@@ -1,0 +1,1 @@
+This class is used in event handling. See EventDelegates
